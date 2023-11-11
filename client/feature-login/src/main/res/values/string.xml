@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_page_title">Добро\nпожаловать\nв TechnoStore</string>
+    <string name="welcome_page_subtitle">Открой мир Технологий!</string>
+    <string name="welcome_page_next_button">Продолжить</string>
+</resources>
