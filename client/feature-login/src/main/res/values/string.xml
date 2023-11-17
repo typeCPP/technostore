@@ -3,4 +3,22 @@
     <string name="welcome_page_title">Добро\nпожаловать\nв TechnoStore</string>
     <string name="welcome_page_subtitle">Открой мир Технологий!</string>
     <string name="welcome_page_next_button">Продолжить</string>
+    <string name="blue_circle">Blue Circle</string>
+    <string name="registration">Регистрация</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Введите email</string>
+    <string name="password">Пароль</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="next">Далее</string>
+    <string name="sign_in_no_caps">Войти</string>
+    <string name="have_an_account">Есть аккаунт?</string>
+    <string name="skip">Пропустить</string>
+    <string name="photo">Фото</string>
+    <string name="first_name_user">Имя</string>
+    <string name="enter_your_first_name">Введите ваше имя</string>
+    <string name="last_name_user">Фамилия</string>
+    <string name="enter_your_last_name">Введите вашу фамилию</string>
+    <string name="congratulations">Поздравляем!</string>
+    <string name="congratulation_description">Вы успешно зарегистрированы. Вы будете перенаправлены на главную страницу через несколько секунд.</string>
 </resources>
