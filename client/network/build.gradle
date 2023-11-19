@@ -9,7 +9,7 @@ apply from: rootProject.file('gradle/versions.gradle')
 
 android {
     namespace 'com.technostore.network'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 29

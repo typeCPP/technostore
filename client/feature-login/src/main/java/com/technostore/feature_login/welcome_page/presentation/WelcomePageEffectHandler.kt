@@ -1,12 +1,14 @@
 package com.technostore.feature_login.welcome_page.presentation
 
-import android.util.Log
+import com.technostore.app_store.store.AppStore
 import com.technostore.arch.mvi.EffectHandler
 import com.technostore.arch.mvi.State
 import com.technostore.arch.mvi.Store
+import com.technostore.feature_login.welcome_page.presentation.WelcomePageNews.OpenLoginPage
 
 
-class WelcomePageEffectHandler : EffectHandler<State, WelcomePageEvent> {
+class WelcomePageEffectHandler(private val appStore: AppStore) :
+    EffectHandler<State, WelcomePageEvent> {
 
     override suspend fun process(
         event: WelcomePageEvent,
@@ -14,7 +16,10 @@ class WelcomePageEffectHandler : EffectHandler<State, WelcomePageEvent> {
         store: Store<State, WelcomePageEvent>,
     ) {
         when (event) {
-            WelcomePageEvent.OnNextClicked -> Log.wtf("WelcomePageEffectHandler", "NextClicked")
+            WelcomePageEvent.OnNextClicked -> {
+                appStore.isOnboardingShown = true
+                store.acceptNews(OpenLoginPage)
+            }
         }
     }
 }

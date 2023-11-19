@@ -6,6 +6,7 @@ interface AppStore {
     var email: String?
     var id: String?
     var isActive: Boolean
+    var isOnboardingShown: Boolean
 
     fun refresh(
         refreshToken: String,
