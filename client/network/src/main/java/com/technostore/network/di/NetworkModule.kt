@@ -1,5 +1,6 @@
 package com.technostore.network.di
 
+import com.technostore.network.interceptor.ConnectionInterceptor
 import com.technostore.network.service.LoginService
 import com.technostore.network.utils.URL
 import dagger.Module
@@ -18,14 +19,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
+    @Provides
+    fun provideConnectionInterceptor(): ConnectionInterceptor {
+        return ConnectionInterceptor()
+    }
+
     @UnregisteredOkHttpClient
     @Provides
     fun provideOkHttpClient(
+        connectionInterceptor: ConnectionInterceptor
     ): OkHttpClient =
         OkHttpClient().newBuilder()
             .addInterceptor(
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY),
             )
+            .addInterceptor(connectionInterceptor)
             .connectTimeout(5, TimeUnit.MINUTES)
             .readTimeout(5, TimeUnit.MINUTES)
             .build()
