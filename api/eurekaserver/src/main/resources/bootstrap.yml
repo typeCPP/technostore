@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: eureka-service
+  profiles:
+    active: default
+  cloud:
+    config:
+      uri: ${CONFIG_URI}
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+      maxThreadsForPeerReplication: 0
