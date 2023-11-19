@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Welcome Page -->
     <string name="welcome_page_title">Добро\nпожаловать\nв TechnoStore</string>
     <string name="welcome_page_subtitle">Открой мир Технологий!</string>
     <string name="welcome_page_next_button">Продолжить</string>
-    <string name="blue_circle">Blue Circle</string>
+
+    <!--Sign in-->
+    <string name="sign_in_title">Вход</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="sign_in">ВОЙТИ</string>
+    <string name="sign_in_register_button">Зарегистрироваться</string>
+    <string name="sign_in_no_account">Нет аккаунта?</string>
+    <string name="sign_in_invalid_email">Пользователя с таким email не существует</string>
+    <string name="sign_in_invalid_password">Неправильный пароль</string>
+
+    <!--Registration-->
     <string name="registration">Регистрация</string>
     <string name="email">Email</string>
     <string name="enter_email">Введите email</string>
@@ -21,4 +32,7 @@
     <string name="enter_your_last_name">Введите вашу фамилию</string>
     <string name="congratulations">Поздравляем!</string>
     <string name="congratulation_description">Вы успешно зарегистрированы. Вы будете перенаправлены на главную страницу через несколько секунд.</string>
+
+    <!--Login-->
+    <string name="login_empty_field">Введите данные</string>
 </resources>

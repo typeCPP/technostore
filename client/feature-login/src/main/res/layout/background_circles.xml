@@ -10,7 +10,6 @@
         android:layout_height="450dp"
         android:layout_marginStart="-150dp"
         android:layout_marginBottom="-100dp"
-        android:contentDescription="@string/blue_circle"
         android:src="@drawable/blue_circle_30_per"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -20,7 +19,6 @@
         android:layout_height="550dp"
         android:layout_marginStart="-200dp"
         android:layout_marginTop="-100dp"
-        android:contentDescription="@string/blue_circle"
         android:src="@drawable/blue_circle_40_per"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +29,6 @@
         android:layout_height="550dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="10dp"
-        android:contentDescription="@string/blue_circle"
         android:src="@drawable/blue_circle_65_per"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

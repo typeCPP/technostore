@@ -1,6 +1,5 @@
 package com.technostore.arch.mvi
 
-import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -32,7 +31,6 @@ open class Store<S : State, A : Event>(
     }
 
     fun acceptNews(news: News) {
-        Log.wtf("Store", "Store")
         baseViewModel?.posNews(news)
     }
 }
