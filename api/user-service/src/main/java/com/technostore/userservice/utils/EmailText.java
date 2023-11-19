@@ -83,7 +83,7 @@ public class EmailText {
             "                        padding-bottom: 20px;\">\n" +
             "                        <a target=\"_blank\" style=\"text-decoration: none;\">\n" +
             "                            <img border=\"0\" vspace=\"0\" hspace=\"0\"\n" +
-            "                                 src=\"https://imgur.com/xpwvzMG.png\"\n" +
+            "                                 src=\"https://i.imgur.com/wjGsKyb.png\"\n" +
             "                                 width=\"60\" height=\"60\"\n" +
             "                                 alt=\"Logo\" title=\"Logo\" style=\"\n" +
             "                           color: #FFFFFF;font-size: 10px; margin: 0; padding: 0;\n" +
