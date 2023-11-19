@@ -135,6 +135,13 @@ public class UserController {
         }
     }
 
+    @RequestMapping(path = "/check-email-exists", method = RequestMethod.GET)
+    public ResponseEntity<?> checkEmailExists(@RequestParam("email") String email) {
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("exists", userService.isEmailExist(email));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     private Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
         String newAccessToken = jwtService.accessTokenFor(user.getEmail(), ACCESS_TOKEN_EXPIRATION_TIME_MINUTES);
         userTokenService.addAccessToken(user, newAccessToken);

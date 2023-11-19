@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/check-email-exists").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling();
     }
