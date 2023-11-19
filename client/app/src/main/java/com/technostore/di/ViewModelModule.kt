@@ -4,6 +4,10 @@ import com.technostore.arch.mvi.InitialState
 import com.technostore.base.presentation.BaseEffectHandler
 import com.technostore.base.presentation.BaseReducer
 import com.technostore.base.presentation.BaseViewModel
+import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
+import com.technostore.feature_login.registration.presentation.RegistrationReducer
+import com.technostore.feature_login.registration.presentation.RegistrationState
+import com.technostore.feature_login.registration.presentation.RegistrationViewModel
 import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
 import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.sign_in.presentation.SignInState
@@ -51,6 +55,18 @@ class ViewModelModule {
     ): SignInViewModel {
         return SignInViewModel(
             initialState = SignInState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideRegistrationViewModel(
+        reducer: RegistrationReducer,
+        effectHandler: RegistrationEffectHandler
+    ): RegistrationViewModel {
+        return RegistrationViewModel(
+            initialState = RegistrationState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

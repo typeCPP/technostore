@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
 import com.technostore.core.R as CoreR
@@ -95,8 +96,8 @@ class SignInFragment : Fragment() {
         }
         when (state.passwordValidation) {
             Validation.SUCCESS -> binding.tilPassword.error = ""
-            Validation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
-            Validation.ERROR -> binding.tilEmail.error =
+            Validation.EMPTY -> binding.tilPassword.error = getString(R.string.login_empty_field)
+            Validation.ERROR -> binding.tilPassword.error =
                 getString(R.string.sign_in_invalid_password)
         }
     }
@@ -112,7 +113,9 @@ class SignInFragment : Fragment() {
 
             is SignInNews.OpenMainPage -> TODO("перейти на главное флоу")
             is SignInNews.OpenPasswordRecoveryPage -> TODO("перейти на восстановление пароля")
-            is SignInNews.OpenRegistrationPage -> TODO("перейти на экран регистрации")
+            is SignInNews.OpenRegistrationPage -> findNavController().navigate(
+                SignInFragmentDirections.actionSignInFragmentToRegistrationFragment()
+            )
         }
     }
 }

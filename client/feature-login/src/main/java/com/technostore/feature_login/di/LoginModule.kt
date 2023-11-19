@@ -3,6 +3,8 @@ package com.technostore.feature_login.di
 import com.technostore.app_store.store.AppStore
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
+import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
+import com.technostore.feature_login.registration.presentation.RegistrationReducer
 import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
 import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
@@ -43,6 +45,17 @@ class LoginModule {
     @Provides
     fun provideSignInReducer(): SignInReducer {
         return SignInReducer()
+    }
+
+    /* Registration */
+    @Provides
+    fun provideRegistrationEffectHandler(loginRepository: LoginRepository): RegistrationEffectHandler {
+        return RegistrationEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun provideRegistrationReducer(): RegistrationReducer {
+        return RegistrationReducer()
     }
 
 }
