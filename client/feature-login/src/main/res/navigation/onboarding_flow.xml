@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/onboarding_flow"
+    app:startDestination="@id/welcomePageFragment">
+    <fragment
+        android:id="@+id/welcomePageFragment"
+        android:name="com.technostore.feature_login.welcome_page.WelcomePageFragment">
+        <action
+            android:id="@+id/action_welcomePageFragment_to_loginFragment"
+            app:destination="@id/signInFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.technostore.feature_login.sign_in.SignInFragment" />
+</navigation>

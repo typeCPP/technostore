@@ -1,34 +1,31 @@
 package com.technostore.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Window.FEATURE_NO_TITLE
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.technostore.R
-import com.technostore.databinding.AcitvityMainBinding
 import com.technostore.di.App
-import com.technostore.feature_login.sign_in.SignInFragment
-import com.technostore.feature_login.welcome_page.WelcomePageFragment
+import com.technostore.navigation.NavigationFlow
+import com.technostore.navigation.Navigator
+import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToFlowNavigatable {
 
-    private lateinit var binding: AcitvityMainBinding
+    private val navigator: Navigator = Navigator()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = AcitvityMainBinding.inflate(layoutInflater)
         (applicationContext as App).appComponent.inject(this)
-        requestWindowFeature(FEATURE_NO_TITLE)
         setContentView(R.layout.acitvity_main)
-        replaceFragment(SignInFragment())
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        navigator.navController = navHostFragment.findNavController()
     }
 
-    @SuppressLint("CommitTransaction")
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
-            .addToBackStack(null).commit()
+    override fun navigateToFlow(flow: NavigationFlow) {
+        navigator.navigateToFlow(flow)
     }
 }

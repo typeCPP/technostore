@@ -24,8 +24,8 @@ class LoginModule {
 
     /* Welcome page */
     @Provides
-    fun provideWelcomePageEffectHandler(): WelcomePageEffectHandler {
-        return WelcomePageEffectHandler()
+    fun provideWelcomePageEffectHandler(appStore: AppStore): WelcomePageEffectHandler {
+        return WelcomePageEffectHandler(appStore)
     }
 
     @Provides

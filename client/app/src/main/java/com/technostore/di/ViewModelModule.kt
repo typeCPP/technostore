@@ -1,6 +1,9 @@
 package com.technostore.di
 
 import com.technostore.arch.mvi.InitialState
+import com.technostore.base.presentation.BaseEffectHandler
+import com.technostore.base.presentation.BaseReducer
+import com.technostore.base.presentation.BaseViewModel
 import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
 import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.sign_in.presentation.SignInState
@@ -16,6 +19,19 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 class ViewModelModule {
+
+    @Provides
+    fun provideBaseViewModel(
+        reducer: BaseReducer,
+        effectHandler: BaseEffectHandler
+    ): BaseViewModel {
+        return BaseViewModel(
+            initialState = InitialState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
     @Provides
     fun provideWelcomePageViewModel(
         reducer: WelcomePageReducer,

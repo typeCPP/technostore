@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.technostore.arch.mvi.News
 import com.technostore.arch.mvi.State
 import com.technostore.feature_login.databinding.WelcomePageFragmentBinding
+import com.technostore.feature_login.welcome_page.presentation.WelcomePageNews
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +34,11 @@ class WelcomePageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.newsQueue.collect(::showNews)
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect(::checkState)
@@ -43,6 +50,12 @@ class WelcomePageFragment : Fragment() {
     private fun setOnClickListener() {
         binding.nextButton.setOnClickListener {
             viewModel.nextClicked()
+        }
+    }
+
+    private fun showNews(news: News) {
+        if (news is WelcomePageNews.OpenLoginPage) {
+            findNavController().navigate(WelcomePageFragmentDirections.actionWelcomePageFragmentToLoginFragment())
         }
     }
 
