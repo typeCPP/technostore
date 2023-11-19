@@ -61,4 +61,20 @@ public class UserServiceImpl implements UserService {
         }
         throw new EntityNotFoundException("User not found.");
     }
+
+    @Override
+    public boolean isCorrectPassword(User user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        List<User> users = userRepository.findUsersByEmail(email);
+        for (User u : users) {
+            if (u.isEnabled()) {
+                return u;
+            }
+        }
+        throw new EntityNotFoundException("User not found.");
+    }
 }

@@ -13,4 +13,8 @@ public interface UserService {
     void setLinkPhoto(String linkPhoto, Long userId);
 
     User getUserById(Long id);
+
+    User findUserByEmail(String email);
+
+    boolean isCorrectPassword(User user, String password);
 }

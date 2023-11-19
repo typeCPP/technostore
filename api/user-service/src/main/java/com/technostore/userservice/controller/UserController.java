@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.persistence.EntityNotFoundException;
 
+import com.technostore.userservice.dto.LoginBean;
 import com.technostore.userservice.dto.RegisterBean;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.security.jwt.JwtService;
@@ -20,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -100,6 +99,34 @@ public class UserController {
 
         try {
             Map<String, String> map = generateMapWithInfoAboutTokens(user);
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } catch (IOException | URISyntaxException e) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error generation token!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> login(@RequestBody LoginBean loginBean) {
+        User user;
+        try {
+            user = userService.findUserByEmail(loginBean.getEmail());
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "The user with such email does not exist."), HttpStatus.NOT_FOUND);
+        }
+
+        if (!userService.isCorrectPassword(user, loginBean.getPassword())) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "Wrong password!"), HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            Map<String, String> map =
+                    generateMapWithInfoAboutTokens(user);
             return new ResponseEntity<>(map, HttpStatus.OK);
         } catch (IOException | URISyntaxException e) {
             return new ResponseEntity<>(
