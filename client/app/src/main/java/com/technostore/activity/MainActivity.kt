@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.technostore.R
 import com.technostore.databinding.AcitvityMainBinding
 import com.technostore.di.App
+import com.technostore.feature_login.sign_in.SignInFragment
 import com.technostore.feature_login.welcome_page.WelcomePageFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         (applicationContext as App).appComponent.inject(this)
         requestWindowFeature(FEATURE_NO_TITLE)
         setContentView(R.layout.acitvity_main)
-        replaceFragment(WelcomePageFragment())
+        replaceFragment(SignInFragment())
     }
 
     @SuppressLint("CommitTransaction")
