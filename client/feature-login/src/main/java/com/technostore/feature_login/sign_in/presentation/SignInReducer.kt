@@ -1,41 +1,59 @@
 package com.technostore.feature_login.sign_in.presentation
 
 import com.technostore.arch.mvi.Reducer
+import com.technostore.feature_login.common_ui.EmailValidation
+import com.technostore.feature_login.common_ui.PasswordValidation
 
 class SignInReducer : Reducer<SignInState, SignInEvent> {
     override fun reduce(currentState: SignInState, event: SignInEvent): SignInState {
         return when (event) {
             is SignInEvent.EmailIsEmpty -> currentState.copy(
                 isLoading = false,
-                emailValidation = Validation.EMPTY
+                emailValidation = EmailValidation.EMPTY
+            )
+
+            is SignInEvent.EmailMaxLength -> currentState.copy(
+                isLoading = false,
+                emailValidation = EmailValidation.ERROR_MAX_LENGTH
+            )
+
+            is SignInEvent.EmailIsInvalid -> currentState.copy(
+                isLoading = false,
+                emailValidation = EmailValidation.ERROR
+            )
+
+            is SignInEvent.EmailNotExists -> currentState.copy(
+                isLoading = false,
+                emailValidation = EmailValidation.NOT_EXISTS
             )
 
             is SignInEvent.PasswordIsEmpty -> currentState.copy(
                 isLoading = false,
-                passwordValidation = Validation.EMPTY
-            )
-
-            is SignInEvent.EmailInvalid -> currentState.copy(
-                isLoading = false,
-                emailValidation = Validation.ERROR
+                passwordValidation = PasswordValidation.EMPTY
             )
 
             is SignInEvent.PasswordInvalid -> currentState.copy(
                 isLoading = false,
-                passwordValidation = Validation.ERROR
+                passwordValidation = PasswordValidation.INCORRECT_PASSWORD
+            )
+
+            is SignInEvent.PasswordErrorMaxLength -> currentState.copy(
+                isLoading = false,
+                passwordValidation = PasswordValidation.ERROR_MAX_LENGTH
             )
 
             is SignInEvent.EmailIsValid -> currentState.copy(
-                emailValidation = Validation.SUCCESS
+                emailValidation = EmailValidation.SUCCESS
             )
 
             is SignInEvent.PasswordIsValid -> currentState.copy(
-                passwordValidation = Validation.SUCCESS
+                passwordValidation = PasswordValidation.SUCCESS
             )
 
             is SignInEvent.StartLoading -> currentState.copy(
                 isLoading = true
             )
+
             is SignInEvent.EndLoading -> currentState.copy(
                 isLoading = false
             )

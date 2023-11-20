@@ -5,6 +5,7 @@ import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.sign_in.error.SignInError
+import com.technostore.feature_login.common_ui.EMAIL_REGEX
 
 class SignInEffectHandler(
     private val loginRepository: LoginRepository
@@ -16,21 +17,34 @@ class SignInEffectHandler(
     ) {
         when (event) {
             is SignInUiEvent.OnSignInClicked -> {
-                if (event.email == null || event.email.trim().isEmpty()) {
+                val emailTrim = event.email?.trim()
+                if (emailTrim.isNullOrEmpty()) {
                     store.dispatch(SignInEvent.EmailIsEmpty)
                     return
-                } else {
-                    store.dispatch(SignInEvent.EmailIsValid)
                 }
-                if (event.password == null || event.password.trim().isEmpty()) {
+                if (emailTrim.length > 255) {
+                    store.dispatch(SignInEvent.EmailMaxLength)
+                    return
+                }
+                if (!EMAIL_REGEX.toRegex().matches(emailTrim)) {
+                    store.dispatch(SignInEvent.EmailIsInvalid)
+                    return
+                }
+                store.dispatch(SignInEvent.EmailIsValid)
+
+                val passwordTrim = event.password?.trim()
+                if (passwordTrim.isNullOrEmpty()) {
                     store.dispatch(SignInEvent.PasswordIsEmpty)
                     return
-                } else {
-                    store.dispatch(SignInEvent.PasswordIsValid)
                 }
+                if (passwordTrim.length > 255) {
+                    store.dispatch(SignInEvent.PasswordErrorMaxLength)
+                }
+                store.dispatch(SignInEvent.PasswordIsValid)
+
                 store.dispatch(SignInEvent.StartLoading)
                 val result = loginRepository.signIn(
-                    email = event.email,
+                    email = emailTrim,
                     password = event.password
                 )
                 if (result is Result.Success) {
@@ -38,7 +52,7 @@ class SignInEffectHandler(
                 }
                 if (result is Result.Error) {
                     when (result.error) {
-                        SignInError.ErrorEmail -> store.dispatch(SignInEvent.EmailInvalid)
+                        SignInError.ErrorEmail -> store.dispatch(SignInEvent.EmailNotExists)
                         SignInError.ErrorPassword -> store.dispatch(SignInEvent.PasswordInvalid)
                         else -> {
                             store.dispatch(SignInEvent.EndLoading)

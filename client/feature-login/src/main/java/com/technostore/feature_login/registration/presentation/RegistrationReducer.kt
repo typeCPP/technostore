@@ -1,6 +1,8 @@
 package com.technostore.feature_login.registration.presentation
 
 import com.technostore.arch.mvi.Reducer
+import com.technostore.feature_login.common_ui.EmailValidation
+import com.technostore.feature_login.common_ui.PasswordValidation
 
 class RegistrationReducer : Reducer<RegistrationState, RegistrationEvent> {
     override fun reduce(

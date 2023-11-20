@@ -15,10 +15,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
+import com.technostore.feature_login.common_ui.EmailValidation
+import com.technostore.feature_login.common_ui.PasswordValidation
 import com.technostore.feature_login.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.RegistrationPageFragmentBinding
-import com.technostore.feature_login.registration.presentation.EmailValidation
-import com.technostore.feature_login.registration.presentation.PasswordValidation
 import com.technostore.feature_login.registration.presentation.RegistrationNews
 import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.registration.presentation.RegistrationViewModel
@@ -92,10 +92,12 @@ class RegistrationFragment : Fragment() {
                 getString(R.string.sign_in_email_is_exists)
 
             EmailValidation.ERROR -> binding.tilEmail.error =
-                getString(R.string.sign_in_email_error)
+                getString(R.string.login_email_error)
 
             EmailValidation.EXISTS -> binding.tilEmail.error =
                 getString(R.string.registration_email_exists)
+
+            else -> {}
         }
         when (state.firstPasswordValidation) {
             PasswordValidation.SUCCESS -> binding.tilPassword.error = ""
@@ -129,6 +131,8 @@ class RegistrationFragment : Fragment() {
 
             PasswordValidation.DIFFERENT -> binding.tilPassword2.error =
                 getString(R.string.registration_passwords_are_broken)
+
+            else -> {}
         }
     }
 
