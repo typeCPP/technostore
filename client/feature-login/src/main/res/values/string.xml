@@ -24,6 +24,11 @@
     <string name="registration_enter_your_first_name">Введите ваше имя</string>
     <string name="registration_last_name_user">Фамилия</string>
     <string name="registration_enter_your_last_name">Введите вашу фамилию</string>
+    <string name="registration_email_exists">Пользователь с таким email уже существует</string>
+    <string name="registration_password_error_symbols">Используйте только латинские буквы и цифры</string>
+    <string name="registration_password_error_min_length">Пароль должен состоять не менее, чем из 6 символов</string>
+    <string name="registration_password_error_max_length">Пароль должен состоять не болee, чем из 255 символов</string>
+    <string name="registration_passwords_are_broken">Пароли должны совпадать</string>
 
     <!--Login-->
     <string name="login_empty_field">Введите данные</string>

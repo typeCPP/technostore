@@ -6,8 +6,9 @@ import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.sign_in.error.SignInError
 
-class SignInEffectHandler(private val loginRepository: LoginRepository) :
-    EffectHandler<SignInState, SignInEvent> {
+class SignInEffectHandler(
+    private val loginRepository: LoginRepository
+) : EffectHandler<SignInState, SignInEvent> {
     override suspend fun process(
         event: SignInEvent,
         currentState: SignInState,

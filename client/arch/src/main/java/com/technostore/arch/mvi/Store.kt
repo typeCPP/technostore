@@ -22,8 +22,8 @@ open class Store<S : State, A : Event>(
     }
 
     suspend fun dispatch(action: A) {
-        effectHandlers.forEach { middleware ->
-            middleware.process(action, currentState, this)
+        effectHandlers.forEach { effectHandler ->
+            effectHandler.process(action, currentState, this)
         }
 
         val newState = reducer.reduce(currentState, action)

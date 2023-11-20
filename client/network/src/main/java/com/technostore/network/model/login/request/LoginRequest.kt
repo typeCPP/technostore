@@ -1,9 +1,9 @@
-package com.technostore.network.model.response
+package com.technostore.network.model.login.request
 
 import com.google.gson.annotations.SerializedName
 
 @kotlinx.serialization.Serializable
-class LoginResponse(
+class LoginRequest(
     @SerializedName("email")
     val email: String,
     @SerializedName("password")
