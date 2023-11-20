@@ -1,8 +1,8 @@
 package com.technostore.app_store.store
 
 interface AppStore {
-    var refreshToken: Long
-    var accessToken: Long
+    var refreshToken: String?
+    var accessToken: String?
     var email: String?
     var id: String?
     var isActive: Boolean

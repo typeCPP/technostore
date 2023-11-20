@@ -8,6 +8,10 @@ import com.technostore.feature_login.registration.presentation.RegistrationEffec
 import com.technostore.feature_login.registration.presentation.RegistrationReducer
 import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.registration.presentation.RegistrationViewModel
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoReducer
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoViewModel
 import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
 import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.sign_in.presentation.SignInState
@@ -67,6 +71,18 @@ class ViewModelModule {
     ): RegistrationViewModel {
         return RegistrationViewModel(
             initialState = RegistrationState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideRegistrationUserInfoViewModel(
+        reducer: RegistrationUserInfoReducer,
+        effectHandler: RegistrationUserInfoEffectHandler
+    ): RegistrationUserInfoViewModel {
+        return RegistrationUserInfoViewModel(
+            initialState = RegistrationUserInfoState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

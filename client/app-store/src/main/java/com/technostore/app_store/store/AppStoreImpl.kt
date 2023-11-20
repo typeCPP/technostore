@@ -20,8 +20,8 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
         const val IS_ONBOARDING_SHOWN = "isOnboardingShown"
     }
 
-    override var refreshToken by sharedPreferences.longPref(REFRESH_TOKEN)
-    override var accessToken by sharedPreferences.longPref(ACCESS_TOKEN)
+    override var refreshToken by sharedPreferences.stringNullablePref(REFRESH_TOKEN)
+    override var accessToken by sharedPreferences.stringNullablePref(ACCESS_TOKEN)
     override var email by sharedPreferences.stringNullablePref(EMAIL)
     override var id by sharedPreferences.stringNullablePref(ID)
     override var isActive by sharedPreferences.booleanPref(IS_ACTIVE)
@@ -37,8 +37,8 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
         id: String,
         email: String
     ) {
-        this.refreshToken = refreshToken.toLong()
-        this.accessToken = accessToken.toLong()
+        this.refreshToken = refreshToken
+        this.accessToken = accessToken
         this.expireTimeRefreshToken = expireTimeRefreshToken.toLong()
         this.expireTimeAccessToken = expireTimeAccessToken.toLong()
         this.id = id

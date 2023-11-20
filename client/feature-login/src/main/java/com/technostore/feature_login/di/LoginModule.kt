@@ -5,6 +5,8 @@ import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
 import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
 import com.technostore.feature_login.registration.presentation.RegistrationReducer
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoReducer
 import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
 import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
@@ -58,4 +60,14 @@ class LoginModule {
         return RegistrationReducer()
     }
 
+    /* Registration User Info */
+    @Provides
+    fun provideRegistrationUserInfoEffectHandler(loginRepository: LoginRepository): RegistrationUserInfoEffectHandler {
+        return RegistrationUserInfoEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun provideRegistrationUserInfoReducer(): RegistrationUserInfoReducer {
+        return RegistrationUserInfoReducer()
+    }
 }

@@ -3,13 +3,13 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'androidx.navigation.safeargs'
 }
 apply from: rootProject.file('gradle/versions.gradle')
 
 android {
     namespace 'com.technostore.base'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 29

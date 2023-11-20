@@ -11,4 +11,6 @@ ext {
     okhttpVersion = '4.9.0'
     kotlinSerializationVersion = '1.0.1'
     convecterGsonVersion = '2.1.0'
+    imageCropperVersion = '4.5.0'
+    glideVersion = '4.14.2'
 }
