@@ -10,6 +10,11 @@ import com.technostore.feature_login.business.sign_in.error.SignInError
 import com.technostore.network.model.login.request.LoginRequest
 import com.technostore.network.model.login.response.LoginResponse
 import com.technostore.network.service.LoginService
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 class LoginRepositoryImpl(
     private val loginService: LoginService,
@@ -51,6 +56,41 @@ class LoginRepositoryImpl(
         }
         return Result.Error(ErrorType())
     }
+
+    override suspend fun signUp(
+        name: String,
+        lastName: String,
+        email: String,
+        password: String,
+        byteArray: ByteArray?
+    ): Result<Unit> {
+        val data = JSONObject(
+            mapOf(
+                "name" to name,
+                "lastName" to lastName,
+                "email" to email,
+                "password" to password
+            )
+        ).toString()
+
+        val dataMultipart = data.toRequestBody("text/plain".toMediaTypeOrNull())
+        var part: MultipartBody.Part? = null
+        if (byteArray != null) {
+            val fileMultipart = RequestBody.create(
+                "image/*".toMediaTypeOrNull(),
+                byteArray
+            )
+            part = MultipartBody.Part.createFormData("file", "data", fileMultipart)
+        }
+        val response = loginService.signUp(dataMultipart, part)
+        if (response.isSuccessful) {
+            val body = response.body()!!
+            refreshData(body)
+            return Result.Success()
+        }
+        return Result.Error()
+    }
+
 
     private fun refreshData(body: LoginResponse) {
         appStore.refresh(

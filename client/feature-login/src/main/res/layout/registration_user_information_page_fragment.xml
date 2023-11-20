@@ -141,7 +141,7 @@
             app:layout_constraintTop_toTopOf="@id/til_enter_name" />
 
         <TextView
-            android:id="@+id/tv_nickname"
+            android:id="@+id/tv_lastname"
             style="@style/black_style_roboto_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             app:layout_constraintTop_toBottomOf="@id/v_empty_view_near_name" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_nickname"
+            android:id="@+id/til_lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_2x"
@@ -168,11 +168,11 @@
             android:textColorHint="@color/color_accent"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+            app:layout_constraintTop_toBottomOf="@id/tv_lastname"
             app:prefixTextColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_nickname"
+                android:id="@+id/et_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/edit_text_background"
@@ -192,8 +192,8 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_nickname"
-            app:layout_constraintTop_toTopOf="@id/til_nickname" />
+            app:layout_constraintEnd_toStartOf="@id/tv_lastname"
+            app:layout_constraintTop_toTopOf="@id/til_lastname" />
 
         <TextView
             android:id="@+id/tv_button_next"

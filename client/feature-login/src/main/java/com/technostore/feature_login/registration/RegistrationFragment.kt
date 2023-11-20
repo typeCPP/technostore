@@ -106,7 +106,7 @@ class RegistrationFragment : Fragment() {
                 getString(R.string.registration_password_error_min_length)
 
             PasswordValidation.ERROR_MAX_LENGTH -> binding.tilPassword.error =
-                getString(R.string.registration_password_error_max_length)
+                getString(R.string.login_error_max_length)
 
             else -> {}
         }
@@ -122,7 +122,7 @@ class RegistrationFragment : Fragment() {
                 getString(R.string.registration_password_error_min_length)
 
             PasswordValidation.ERROR_MAX_LENGTH -> binding.tilPassword2.error =
-                getString(R.string.registration_password_error_max_length)
+                getString(R.string.login_error_max_length)
 
             PasswordValidation.DIFFERENT -> binding.tilPassword2.error =
                 getString(R.string.registration_passwords_are_broken)
@@ -142,7 +142,13 @@ class RegistrationFragment : Fragment() {
                 RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
             )
 
-            is RegistrationNews.OpenRegistrationDataPage -> TODO("перейти на экран ввода данных")
+            is RegistrationNews.OpenRegistrationDataPage -> {
+                val action =
+                    RegistrationFragmentDirections.actionRegistrationFragmentToRegistrationUserInfoFramgent()
+                action.email = news.email
+                action.password = news.password
+                findNavController().navigate(action)
+            }
         }
     }
 }

@@ -6,4 +6,11 @@ interface LoginRepository {
 
     suspend fun signIn(email: String, password: String): Result<Unit>
     suspend fun checkEmailExists(email: String): Result<Boolean>
+    suspend fun signUp(
+        name: String,
+        lastName: String,
+        email: String,
+        password: String,
+        byteArray: ByteArray?
+    ): Result<Unit>
 }

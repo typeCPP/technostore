@@ -4,11 +4,15 @@ import com.technostore.network.model.login.response.EmailExistsResponse
 import com.technostore.network.model.login.response.LoginResponse
 import com.technostore.network.model.login.request.LoginRequest
 import com.technostore.network.utils.URL
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface LoginService {
@@ -20,4 +24,11 @@ interface LoginService {
     suspend fun checkEmailExists(
         @Query("email", encoded = true) email: String
     ): Response<EmailExistsResponse>
+
+    @Multipart
+    @POST("${URL.USER_SERVICE_BASE_URL}/user/registration")
+    suspend fun signUp(
+        @Part("registerBeanString") data: RequestBody,
+        @Part file: MultipartBody.Part?
+    ): Response<LoginResponse>
 }

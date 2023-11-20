@@ -27,7 +27,6 @@
     <string name="registration_email_exists">Пользователь с таким email уже существует</string>
     <string name="registration_password_error_symbols">Используйте только латинские буквы и цифры</string>
     <string name="registration_password_error_min_length">Пароль должен состоять не менее, чем из 6 символов</string>
-    <string name="registration_password_error_max_length">Пароль должен состоять не болee, чем из 255 символов</string>
     <string name="registration_passwords_are_broken">Пароли должны совпадать</string>
 
     <!--Login-->
@@ -38,6 +37,7 @@
     <string name="login_password">Пароль</string>
     <string name="login_enter_email">Введите email</string>
     <string name="login_next">Далее</string>
+    <string name="login_error_max_length">Пароль должен состоять не болee, чем из 255 символов</string>
 
     <!--Confirm code-->
     <string name="confirm_code_enter_code">Введите код, который Вам\n пришел на почту</string>

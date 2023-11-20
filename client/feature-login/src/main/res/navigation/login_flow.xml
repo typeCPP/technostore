@@ -27,5 +27,35 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/main_nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_registrationFragment_to_registrationUserInfoFramgent"
+            app:destination="@id/registrationUserInfoFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="password"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/registrationUserInfoFragment"
+        android:name="com.technostore.feature_login.registration_user_info.RegistrationUserInfoFragment">
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="password"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 </navigation>
