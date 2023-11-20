@@ -11,11 +11,9 @@
     <color name="light_button_not_selected">#66C8C8C8</color>
     <color name="light_color_text">#B8000000</color>
     <color name="icon_nav_not_selected">#948F8F</color>
-    <color name="transparent">#00000000</color>
     <color name="negative_rating">#FF5454</color>
     <color name="tv_hint">#CC505050</color>
     <color name="color_accent">#000000</color>
-    <color name="add_image_color">#B8000000</color>
     <color name="background_blackout_cong_color">#80000000</color>
     <color name="text_cong_color">#CC505050</color>
     <color name="background_cong_color">#EFEAEA</color>
