@@ -16,23 +16,30 @@
 
     <!--Registration-->
     <string name="registration">Регистрация</string>
-    <string name="email">Email</string>
-    <string name="enter_email">Введите email</string>
-    <string name="password">Пароль</string>
-    <string name="enter_password">Введите пароль</string>
-    <string name="repeat_password">Повторите пароль</string>
-    <string name="next">Далее</string>
-    <string name="sign_in_no_caps">Войти</string>
-    <string name="have_an_account">Есть аккаунт?</string>
-    <string name="skip">Пропустить</string>
-    <string name="photo">Фото</string>
-    <string name="first_name_user">Имя</string>
-    <string name="enter_your_first_name">Введите ваше имя</string>
-    <string name="last_name_user">Фамилия</string>
-    <string name="enter_your_last_name">Введите вашу фамилию</string>
-    <string name="congratulations">Поздравляем!</string>
-    <string name="congratulation_description">Вы успешно зарегистрированы. Вы будете перенаправлены на главную страницу через несколько секунд.</string>
+    <string name="registration_password">Пароль</string>
+    <string name="registration_sign_in">Войти</string>
+    <string name="registration_have_an_account">Есть аккаунт?</string>
+    <string name="registration_photo">Фото</string>
+    <string name="registration_first_name_user">Имя</string>
+    <string name="registration_enter_your_first_name">Введите ваше имя</string>
+    <string name="registration_last_name_user">Фамилия</string>
+    <string name="registration_enter_your_last_name">Введите вашу фамилию</string>
 
     <!--Login-->
     <string name="login_empty_field">Введите данные</string>
+    <string name="login_email">Email</string>
+    <string name="login_enter_password">Введите пароль</string>
+    <string name="login_repeat_password">Повторите пароль</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_enter_email">Введите email</string>
+    <string name="login_next">Далее</string>
+
+    <!--Confirm code-->
+    <string name="confirm_code_enter_code">Введите код, который Вам\n пришел на почту</string>
+
+    <!--Password recovery-->
+    <string name="password_recovery">Восстановление пароля</string>
+    <string name="password_recovery_enter_new_password">Введите новый пароль.</string>
+    <string name="password_recovery_confirm">Подтвердить</string>
+    <string name="password_recovery_instruction">Для восстановления доступа на ваш Email будет выслан код для подтверждения.</string>
 </resources>
