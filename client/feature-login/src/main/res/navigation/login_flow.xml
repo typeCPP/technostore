@@ -15,7 +15,15 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/main_nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_registrationFragment_to_passwordRecoveryEmailFramgent"
+            app:destination="@id/passwordRecoveryEmailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
+
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.technostore.feature_login.registration.RegistrationFragment">
@@ -46,6 +54,7 @@
                 app:nullable="false" />
         </action>
     </fragment>
+
     <fragment
         android:id="@+id/registrationUserInfoFragment"
         android:name="com.technostore.feature_login.registration_user_info.RegistrationUserInfoFragment">
@@ -78,5 +87,49 @@
             android:name="email"
             android:defaultValue=""
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordRecoveryEmailFragment"
+        android:name="com.technostore.feature_login.password_recovery_email.PasswordRecoveryEmailFragment">
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_passwordRecoveryCodeFragment"
+            app:destination="@id/passwordRecoveryCodeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out">
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordRecoveryCodeFragment"
+        android:name="com.technostore.feature_login.password_recovery_code.PasswordRecoveryCodeFragment">
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_passwordRecoveryCodeFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="com.technostore.feature_login.password_recovery.PasswordRecoveryFragment">
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_loginFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

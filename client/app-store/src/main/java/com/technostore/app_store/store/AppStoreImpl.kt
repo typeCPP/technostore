@@ -18,6 +18,8 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
         const val EMAIL = "email"
         const val IS_ACTIVE = "isActive"
         const val IS_ONBOARDING_SHOWN = "isOnboardingShown"
+        const val CURRENT_DATE_ACCESS_TOKEN = "currentDateAccessToken"
+        const val CURRENT_DATE_REFRESH_TOKEN = "currentDateRefreshToken"
     }
 
     override var refreshToken by sharedPreferences.stringNullablePref(REFRESH_TOKEN)
@@ -28,6 +30,8 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
     override var isOnboardingShown by sharedPreferences.booleanPref(IS_ONBOARDING_SHOWN)
     private var expireTimeRefreshToken by sharedPreferences.longPref(EXPIRE_TIME_REFRESH_TOKEN)
     private var expireTimeAccessToken by sharedPreferences.longPref(EXPIRE_TIME_ACCESS_TOKEN)
+    private var currentDateRefreshToken by sharedPreferences.longPref(CURRENT_DATE_REFRESH_TOKEN)
+    private var currentDateAccessToken by sharedPreferences.longPref(CURRENT_DATE_ACCESS_TOKEN)
 
     override fun refresh(
         refreshToken: String,
@@ -41,7 +45,30 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
         this.accessToken = accessToken
         this.expireTimeRefreshToken = expireTimeRefreshToken.toLong()
         this.expireTimeAccessToken = expireTimeAccessToken.toLong()
+        this.currentDateAccessToken = System.currentTimeMillis()
+        this.currentDateRefreshToken = System.currentTimeMillis()
         this.id = id
         this.email = email
     }
+
+    override fun accessTokenIsValid(): Boolean {
+        return currentDateAccessToken + expireTimeAccessToken >= System.currentTimeMillis()
+    }
+
+    override fun refreshTokenIsValid(): Boolean {
+        return currentDateRefreshToken + expireTimeRefreshToken >= System.currentTimeMillis()
+    }
+
+    override fun refreshAccessToken(accessToken: String, expireTimeAccessToken: String) {
+        this.accessToken = accessToken
+        this.expireTimeAccessToken = expireTimeAccessToken.toLong()
+        this.currentDateAccessToken = System.currentTimeMillis()
+    }
+
+    override fun refreshRefreshToken(refreshToken: String, expireTimeRefreshToken: String) {
+        this.refreshToken = refreshToken
+        this.expireTimeRefreshToken = expireTimeRefreshToken.toLong()
+        this.currentDateRefreshToken = System.currentTimeMillis()
+    }
+
 }

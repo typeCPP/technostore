@@ -15,6 +15,12 @@ interface LoginRepository {
     ): Result<Unit>
 
     suspend fun checkRecoveryCodeForAccountConfirmations(
-        code: String, email: String
+        code: String,
+        email: String
     ): Result<Boolean>
+
+    suspend fun changePassword(newPassword: String): Result<Unit>
+    suspend fun sendCodeForRecoveryPassword(email: String): Result<Unit>
+    suspend fun checkRecoveryCode(code: String, email: String): Result<Boolean>
+    suspend fun sendCodeForAccountConfirmations(): Result<Boolean>
 }

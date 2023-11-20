@@ -16,4 +16,16 @@ interface AppStore {
         id: String,
         email: String
     )
+
+    fun accessTokenIsValid(): Boolean
+    fun refreshTokenIsValid(): Boolean
+    fun refreshAccessToken(
+        accessToken: String,
+        expireTimeAccessToken: String
+    )
+
+    fun refreshRefreshToken(
+        refreshToken: String,
+        expireTimeRefreshToken: String
+    )
 }
