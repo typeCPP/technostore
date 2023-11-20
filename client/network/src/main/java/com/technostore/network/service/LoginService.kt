@@ -31,4 +31,11 @@ interface LoginService {
         @Part("registerBeanString") data: RequestBody,
         @Part file: MultipartBody.Part?
     ): Response<LoginResponse>
+
+    @GET("${URL.USER_SERVICE_BASE_URL}/user/confirm-account")
+    suspend fun checkRecoveryCodeForAccountConfirmations(
+        @Query("confirmationCode") code: String,
+        @Query("email", encoded = true) email: String
+    ): Response<Unit>
+
 }

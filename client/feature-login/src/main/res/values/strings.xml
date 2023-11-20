@@ -11,7 +11,8 @@
     <string name="sign_in">ВОЙТИ</string>
     <string name="sign_in_register_button">Зарегистрироваться</string>
     <string name="sign_in_no_account">Нет аккаунта?</string>
-    <string name="sign_in_invalid_email">Пользователя с таким email не существует</string>
+    <string name="sign_in_email_is_exists">Пользователя с таким email не существует</string>
+    <string name="sign_in_email_error">Введите корректный email</string>
     <string name="sign_in_invalid_password">Неправильный пароль</string>
 
     <!--Registration-->
@@ -41,6 +42,7 @@
 
     <!--Confirm code-->
     <string name="confirm_code_enter_code">Введите код, который Вам\n пришел на почту</string>
+    <string name="confirm_code_error">Код неверный</string>
 
     <!--Password recovery-->
     <string name="password_recovery">Восстановление пароля</string>

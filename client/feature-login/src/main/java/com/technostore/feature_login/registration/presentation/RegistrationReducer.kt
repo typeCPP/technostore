@@ -13,7 +13,12 @@ class RegistrationReducer : Reducer<RegistrationState, RegistrationEvent> {
                 emailValidation = EmailValidation.EMPTY
             )
 
-            is RegistrationEvent.EmailInvalid -> currentState.copy(
+            is RegistrationEvent.EmailMaxLength -> currentState.copy(
+                isLoading = false,
+                emailValidation = EmailValidation.ERROR_MAX_LENGTH
+            )
+
+            is RegistrationEvent.EmailIsInvalid -> currentState.copy(
                 isLoading = false,
                 emailValidation = EmailValidation.ERROR
             )

@@ -11,6 +11,7 @@ data class RegistrationState(
 
 enum class EmailValidation {
     SUCCESS,
+    ERROR_MAX_LENGTH,
     ERROR,
     EMPTY,
     EXISTS

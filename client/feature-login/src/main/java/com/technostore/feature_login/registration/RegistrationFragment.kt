@@ -88,8 +88,11 @@ class RegistrationFragment : Fragment() {
 
             EmailValidation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
 
+            EmailValidation.ERROR_MAX_LENGTH -> binding.tilEmail.error =
+                getString(R.string.sign_in_email_is_exists)
+
             EmailValidation.ERROR -> binding.tilEmail.error =
-                getString(R.string.sign_in_invalid_email)
+                getString(R.string.sign_in_email_error)
 
             EmailValidation.EXISTS -> binding.tilEmail.error =
                 getString(R.string.registration_email_exists)

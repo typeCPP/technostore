@@ -7,6 +7,8 @@ import com.technostore.feature_login.business.LoginRepository
 
 
 private const val PASSWORD_REGEX = "^((?=.*[A-Za-z\\d]))[A-Za-z\\d]{1,}\$"
+private const val EMAIL_REGEX =
+    "(^|\\(|:)[a-zA-Z]+([-|\\.]?[a-zA-Z0-9])*@[a-zA-Z0-9]+([-|\\.]?[a-zA-Z0-9])*\\.[a-zA-Z]+(\\s|\\b|$|\\,|\\?)"
 
 class RegistrationEffectHandler(
     private val loginRepository: LoginRepository
@@ -24,7 +26,11 @@ class RegistrationEffectHandler(
                     return
                 }
                 if (emailTrim.length > 255) {
-                    store.dispatch(RegistrationEvent.EmailInvalid)
+                    store.dispatch(RegistrationEvent.EmailMaxLength)
+                    return
+                }
+                if(!EMAIL_REGEX.toRegex().matches(emailTrim)){
+                    store.dispatch(RegistrationEvent.EmailIsInvalid)
                     return
                 }
                 store.dispatch(RegistrationEvent.EmailIsValid)
