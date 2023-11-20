@@ -15,13 +15,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
+import com.technostore.feature_login.common_ui.EmailValidation
+import com.technostore.feature_login.common_ui.PasswordValidation
 import com.technostore.core.R as CoreR
 import com.technostore.feature_login.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.SignInFragmentBinding
 import com.technostore.feature_login.sign_in.presentation.SignInNews
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import com.technostore.feature_login.sign_in.presentation.SignInViewModel
-import com.technostore.feature_login.sign_in.presentation.Validation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -90,15 +91,26 @@ class SignInFragment : Fragment() {
     private fun render(state: SignInState) {
         bindingLoading.clLoadingPage.isVisible = state.isLoading
         when (state.emailValidation) {
-            Validation.SUCCESS -> binding.tilEmail.error = ""
-            Validation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
-            Validation.ERROR -> binding.tilEmail.error = getString(R.string.sign_in_email_is_exists)
+            EmailValidation.SUCCESS -> binding.tilEmail.error = ""
+            EmailValidation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
+            EmailValidation.NOT_EXISTS -> getString(R.string.sign_in_email_is_exists)
+            EmailValidation.ERROR -> binding.tilEmail.error =
+                getString(R.string.login_email_error)
+
+            else -> {}
         }
         when (state.passwordValidation) {
-            Validation.SUCCESS -> binding.tilPassword.error = ""
-            Validation.EMPTY -> binding.tilPassword.error = getString(R.string.login_empty_field)
-            Validation.ERROR -> binding.tilPassword.error =
+            PasswordValidation.SUCCESS -> binding.tilPassword.error = ""
+            PasswordValidation.EMPTY -> binding.tilPassword.error =
+                getString(R.string.login_empty_field)
+
+            PasswordValidation.INCORRECT_PASSWORD -> binding.tilPassword.error =
                 getString(R.string.sign_in_invalid_password)
+
+            PasswordValidation.ERROR_MAX_LENGTH -> binding.tilPassword.error =
+                getString(R.string.login_error_max_length)
+
+            else -> {}
         }
     }
 

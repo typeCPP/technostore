@@ -4,8 +4,12 @@ import com.technostore.arch.mvi.Event
 
 sealed class SignInEvent : Event {
     data object EmailIsEmpty : SignInEvent()
+    data object EmailMaxLength : SignInEvent()
+    data object EmailIsInvalid : SignInEvent()
+    data object EmailNotExists : SignInEvent()
+
     data object PasswordIsEmpty : SignInEvent()
-    data object EmailInvalid : SignInEvent()
+    data object PasswordErrorMaxLength : SignInEvent()
     data object PasswordInvalid : SignInEvent()
     data object StartLoading : SignInEvent()
     data object EndLoading : SignInEvent()

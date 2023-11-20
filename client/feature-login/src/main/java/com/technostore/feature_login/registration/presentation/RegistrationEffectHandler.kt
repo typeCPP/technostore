@@ -4,11 +4,9 @@ import com.technostore.arch.mvi.EffectHandler
 import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
+import com.technostore.feature_login.common_ui.EMAIL_REGEX
+import com.technostore.feature_login.common_ui.PASSWORD_REGEX
 
-
-private const val PASSWORD_REGEX = "^((?=.*[A-Za-z\\d]))[A-Za-z\\d]{1,}\$"
-private const val EMAIL_REGEX =
-    "(^|\\(|:)[a-zA-Z]+([-|\\.]?[a-zA-Z0-9])*@[a-zA-Z0-9]+([-|\\.]?[a-zA-Z0-9])*\\.[a-zA-Z]+(\\s|\\b|$|\\,|\\?)"
 
 class RegistrationEffectHandler(
     private val loginRepository: LoginRepository

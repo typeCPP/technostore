@@ -1,6 +1,8 @@
 package com.technostore.feature_login.registration.presentation
 
 import com.technostore.arch.mvi.State
+import com.technostore.feature_login.common_ui.EmailValidation
+import com.technostore.feature_login.common_ui.PasswordValidation
 
 data class RegistrationState(
     val isLoading: Boolean = false,
@@ -8,20 +10,3 @@ data class RegistrationState(
     val firstPasswordValidation: PasswordValidation = PasswordValidation.SUCCESS,
     val secondPasswordValidation: PasswordValidation = PasswordValidation.SUCCESS
 ) : State
-
-enum class EmailValidation {
-    SUCCESS,
-    ERROR_MAX_LENGTH,
-    ERROR,
-    EMPTY,
-    EXISTS
-}
-
-enum class PasswordValidation {
-    SUCCESS,
-    ERROR_SYMBOL,
-    ERROR_MIN_LENGTH,
-    ERROR_MAX_LENGTH,
-    EMPTY,
-    DIFFERENT
-}
