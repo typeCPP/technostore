@@ -3,6 +3,8 @@ package com.technostore.feature_login.di
 import com.technostore.app_store.store.AppStore
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEffectHandler
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
 import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
 import com.technostore.feature_login.registration.presentation.RegistrationReducer
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
@@ -69,5 +71,16 @@ class LoginModule {
     @Provides
     fun provideRegistrationUserInfoReducer(): RegistrationUserInfoReducer {
         return RegistrationUserInfoReducer()
+    }
+
+    /* Confirmation code */
+    @Provides
+    fun provideConfirmationCodeEffectHandler(loginRepository: LoginRepository): ConfirmationCodeEffectHandler {
+        return ConfirmationCodeEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun provideConfirmationCodeReducer(): ConfirmationCodeReducer {
+        return ConfirmationCodeReducer()
     }
 }

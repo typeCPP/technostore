@@ -57,5 +57,26 @@
             android:name="password"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            android:id="@+id/action_registrationUserInfoFragment_to_confirmationCodeFragment"
+            app:destination="@id/confirmationCodeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationCodeFragment"
+        android:name="com.technostore.feature_login.confirm_code.ConfirmationCodeFragment">
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 </navigation>

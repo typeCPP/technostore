@@ -4,7 +4,8 @@ import com.technostore.arch.mvi.Event
 
 sealed class RegistrationEvent : Event {
     data object EmailIsEmpty : RegistrationEvent()
-    data object EmailInvalid : RegistrationEvent()
+    data object EmailMaxLength : RegistrationEvent()
+    data object EmailIsInvalid : RegistrationEvent()
     data object EmailExists : RegistrationEvent()
     data object EmailIsValid : RegistrationEvent()
 

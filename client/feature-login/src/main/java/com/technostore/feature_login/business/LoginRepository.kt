@@ -13,4 +13,8 @@ interface LoginRepository {
         password: String,
         byteArray: ByteArray?
     ): Result<Unit>
+
+    suspend fun checkRecoveryCodeForAccountConfirmations(
+        code: String, email: String
+    ): Result<Boolean>
 }

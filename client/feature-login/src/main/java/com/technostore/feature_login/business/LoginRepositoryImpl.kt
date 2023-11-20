@@ -30,6 +30,7 @@ class LoginRepositoryImpl(
             if (loginResult.body() != null) {
                 val body = loginResult.body()!!
                 refreshData(body)
+                appStore.isActive = true
             }
             return Result.Success()
         } else {
@@ -91,6 +92,20 @@ class LoginRepositoryImpl(
         return Result.Error()
     }
 
+    override suspend fun checkRecoveryCodeForAccountConfirmations(
+        code: String,
+        email: String
+    ): Result<Boolean> {
+        val response = loginService.checkRecoveryCodeForAccountConfirmations(code, email)
+        if (response.isSuccessful) {
+            appStore.isActive = true
+            return Result.Success(true)
+        }
+        if (response.code() == 404) {
+            return Result.Success(false)
+        }
+        return Result.Error(ErrorType())
+    }
 
     private fun refreshData(body: LoginResponse) {
         appStore.refresh(

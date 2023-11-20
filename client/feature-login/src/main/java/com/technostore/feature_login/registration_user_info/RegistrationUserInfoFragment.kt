@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContractOptions
@@ -188,7 +189,12 @@ class RegistrationUserInfoFragment : Fragment() {
             ).show()
 
             is RegistrationUserInfoNews.ChangeImage -> setImage(news.uri)
-            is RegistrationUserInfoNews.OpenCodePage -> TODO("перейти на экран ввода кода")
+            is RegistrationUserInfoNews.OpenCodePage -> {
+                val action =
+                    RegistrationUserInfoFragmentDirections.actionRegistrationUserInfoFragmentToConfirmationCodeFragment()
+                action.email = ars.email
+                findNavController().navigate(action)
+            }
         }
     }
 }
