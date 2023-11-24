@@ -165,6 +165,39 @@ public class UserController {
         }
     }
 
+    @RequestMapping(path = "/password-recovery", method = RequestMethod.GET)
+    public ResponseEntity<?> recoverPassword(@RequestParam String email, @RequestParam String code) {
+        User user;
+        try {
+            user = userService.findUserByEmail(email);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "User with email" + email + "does not exist."), HttpStatus.NOT_FOUND);
+        }
+        try {
+            if (!verifyCodeService.findVerifyCodeByUser(user).getCode().equals(code)) {
+                return new ResponseEntity<>(
+                        new AppError(HttpStatus.NOT_FOUND.value(),
+                                "Invalid code for user with email " + email), HttpStatus.NOT_FOUND);
+            }
+            verifyCodeService.deleteVerifyCodeByUser(user);
+            try {
+                Map<String, String> map =
+                        generateMapWithInfoAboutTokens(user);
+                return new ResponseEntity<>(map, HttpStatus.OK);
+            } catch (IOException | URISyntaxException e) {
+                return new ResponseEntity<>(
+                        new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                "Error generation token!"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "Code for user with " + email + " does not exist."), HttpStatus.NOT_FOUND);
+        }
+    }
+
     private Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
         String newAccessToken = jwtService.accessTokenFor(user.getEmail(), ACCESS_TOKEN_EXPIRATION_TIME_MINUTES);
         userTokenService.addAccessToken(user, newAccessToken);
