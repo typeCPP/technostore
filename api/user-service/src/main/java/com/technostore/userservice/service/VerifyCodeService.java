@@ -7,4 +7,6 @@ public interface VerifyCodeService {
     void deleteVerifyCodeByUser(User user);
 
     void saveCode(VerifyCode verifyCode);
+
+    VerifyCode findVerifyCodeByUserAndCode(String email, String code);
 }

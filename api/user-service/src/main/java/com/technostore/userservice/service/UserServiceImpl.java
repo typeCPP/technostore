@@ -77,4 +77,16 @@ public class UserServiceImpl implements UserService {
         }
         throw new EntityNotFoundException("User not found.");
     }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteAllUsersExceptVerified(String email) {
+        userRepository.deleteAllUsersExceptVerified(email);
+    }
+
+
 }
