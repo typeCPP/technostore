@@ -3,6 +3,8 @@ package com.technostore.userservice.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.persistence.EntityNotFoundException;
@@ -79,6 +81,18 @@ public class AuthUserController {
                             "This access token does not exist."), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/check-password", method = RequestMethod.GET)
+    public ResponseEntity<?> checkPassword(@RequestParam String password, HttpServletRequest request) {
+        ResponseEntity<?> responseEntity = getUserByRequest(request);
+        if (!responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            return responseEntity;
+        }
+        User user = (User) responseEntity.getBody();
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("isCorrectPassword", userService.isCorrectPassword(user, password));
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/change-password", method = RequestMethod.GET)
