@@ -10,4 +10,6 @@ public interface UserTokenService {
     boolean isCorrectAccessToken(User user, String token);
 
     Long getExpirationTime();
+
+    void deleteAllAccessTokensByUser(User user);
 }

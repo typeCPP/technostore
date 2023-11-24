@@ -24,4 +24,6 @@ public interface UserService {
     void deleteAllUsersExceptVerified(String email);
 
     UserProfile getInfoForProfile(User user);
+
+    void changePassword(String password, User user);
 }

@@ -11,4 +11,5 @@ public interface RefreshTokenService {
 
     Long getExpirationTime();
 
+    void deleteAllRefreshTokensByUser(User user);
 }
