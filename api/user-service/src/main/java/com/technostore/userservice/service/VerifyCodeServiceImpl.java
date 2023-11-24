@@ -9,12 +9,23 @@ import com.technostore.userservice.repository.VerifyCodeRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     @Autowired
     VerifyCodeRepository verifyCodeRepository;
+
+    @Override
+    public VerifyCode findVerifyCodeByUser(User user) {
+        Optional<VerifyCode> passwordRecoveryCodeOptional =
+                verifyCodeRepository.findVerifyCodeByUser(user);
+        if (passwordRecoveryCodeOptional.isPresent()) {
+            return passwordRecoveryCodeOptional.get();
+        }
+        throw new EntityNotFoundException("Code for this user does not exist.");
+    }
 
     @Override
     public void deleteVerifyCodeByUser(User user) {

@@ -19,5 +19,7 @@ public interface VerifyCodeRepository extends JpaRepository<VerifyCode, Long> {
     @Transactional
     void deleteVerifyCodeByUser(Long userId);
 
+    Optional<VerifyCode> findVerifyCodeByUser(User user);
+
     List<VerifyCode> findVerifyCodesByCode(String code);
 }
