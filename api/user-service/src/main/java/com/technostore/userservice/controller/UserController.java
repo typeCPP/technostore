@@ -1,7 +1,9 @@
 package com.technostore.userservice.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +17,11 @@ import com.technostore.userservice.model.User;
 import com.technostore.userservice.security.jwt.JwtService;
 import com.technostore.userservice.service.*;
 import com.technostore.userservice.utils.AppError;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -195,6 +200,29 @@ public class UserController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
                             "Code for user with " + email + " does not exist."), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(path = "/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> getUserImage(@RequestParam Long id) {
+        User user;
+        try {
+            user = userService.getUserById(id);
+        } catch (EntityNotFoundException exception) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "User with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
+        }
+        try {
+            String path = new File("").getAbsolutePath();
+            File file = new File(path + user.getLinkPhoto());
+            InputStream input = new FileInputStream(file);
+            return new ResponseEntity<>(IOUtils.toByteArray(input), HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
