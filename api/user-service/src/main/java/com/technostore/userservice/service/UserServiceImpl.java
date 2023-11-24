@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.technostore.userservice.dto.EditUserBean;
 import com.technostore.userservice.dto.RegisterBean;
 import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
@@ -81,6 +82,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void update(User user, EditUserBean editUserBean) {
+        user.setName(editUserBean.getName());
+        user.setLastName(editUserBean.getLastname());
         userRepository.save(user);
     }
 
