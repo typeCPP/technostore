@@ -35,4 +35,20 @@ public class MailController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/send-code-for-recovery-password", method = RequestMethod.GET)
+    public ResponseEntity<?> sendPasswordRecoveryCode(@RequestParam String email) {
+        try {
+            mailService.sendPasswordRecoveryCode(email);
+        } catch (MessagingException e) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error sending code."), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "User with email " + email + " does not exist."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
