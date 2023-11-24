@@ -63,6 +63,11 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
+    public void deleteAccessToken(User user, String token) {
+        userTokenRepository.deleteUserTokensByTokenAndUser(token, user.getId());
+    }
+
+    @Override
     public void deleteAllAccessTokensByUser(User user) {
         userTokenRepository.deleteAllUserTokensByUser(user.getId());
     }
