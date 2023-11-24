@@ -40,6 +40,22 @@ public class MailServiceImpl implements MailService {
         sendCode(user.getEmail(), text, "Подтверждение аккаунта!");
     }
 
+    @Override
+    public void sendPasswordRecoveryCode(String email) throws MessagingException {
+        User user = userService.findUserByEmail(email);
+        verifyCodeService.deleteVerifyCodeByUser(user);
+        VerifyCode passwordRecoveryCode = new VerifyCode(user);
+        verifyCodeService.saveCode(passwordRecoveryCode);
+        String text = EmailText.firstPartEmailText +
+                "Восстановление пароля" +
+                EmailText.secondPаrtEmailText +
+                "Добрый день, " + user.getName() + "! Чтобы восстановить пароль, пожалуйста, введите в приложение данный код" +
+                EmailText.thirdPаrtEmailText +
+                passwordRecoveryCode.getCode() +
+                EmailText.fourthPartEmailText;
+        sendCode(email, text, "Восстановление пароля!");
+    }
+
     private void sendCode(String email, String text, String subject) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
