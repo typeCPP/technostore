@@ -1,6 +1,8 @@
 package com.technostore.userservice.service;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,37 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
+    public boolean isCorrectAccessToken(User user, String token) {
+        List<UserToken> list = userTokenRepository.findAllByUser(user);
+        for (UserToken userToken : list) {
+            if (userToken.getToken().equals(token)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public Long getExpirationTime() {
         Calendar today = Calendar.getInstance();
         Calendar sixMonthsAhead = Calendar.getInstance();
         sixMonthsAhead.add(Calendar.MINUTE, ACCESS_TOKEN_EXPIRATION_TIME_MINUTES);
         return sixMonthsAhead.getTimeInMillis() - today.getTimeInMillis() - 30000;
+    }
+
+    @Override
+    public boolean updateAccessToken(User user, String newToken, String oldToken) {
+        Set<UserToken> tokenSet = user.getUserTokens();
+        for (UserToken userToken : tokenSet) {
+            if (userToken.getToken().equals(oldToken)) {
+                UserToken newUserToken = new UserToken();
+                newUserToken.setToken(newToken);
+                newUserToken.setUser(user);
+                userTokenRepository.deleteUserTokensByTokenAndUser(oldToken, user.getId());
+                userTokenRepository.save(newUserToken);
+                return true;
+            }
+        }
+        return false;
     }
 }
