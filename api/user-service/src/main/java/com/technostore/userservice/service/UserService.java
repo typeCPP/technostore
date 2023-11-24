@@ -1,6 +1,7 @@
 package com.technostore.userservice.service;
 
 import com.technostore.userservice.dto.RegisterBean;
+import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 
 public interface UserService {
@@ -21,4 +22,6 @@ public interface UserService {
     void save(User user);
 
     void deleteAllUsersExceptVerified(String email);
+
+    UserProfile getInfoForProfile(User user);
 }

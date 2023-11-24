@@ -1,16 +1,17 @@
 package com.technostore.userservice.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityNotFoundException;
 
 import com.technostore.userservice.dto.RegisterBean;
+import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -88,5 +89,10 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteAllUsersExceptVerified(email);
     }
 
-
+    @Override
+    public UserProfile getInfoForProfile(User user) {
+        UserProfile userProfile = new UserProfile(user);
+        userProfile.setImage("/user/image?id=" + user.getId());
+        return userProfile;
+    }
 }
