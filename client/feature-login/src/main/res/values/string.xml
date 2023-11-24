@@ -42,4 +42,8 @@
     <string name="password_recovery_enter_new_password">Введите новый пароль.</string>
     <string name="password_recovery_confirm">Подтвердить</string>
     <string name="password_recovery_instruction">Для восстановления доступа на ваш Email будет выслан код для подтверждения.</string>
+    <string name="password_recovery_code">Код</string>
+    <string name="password_recovery_code_instruction">Проверьте почту.\n\n Введите код подтверждения.</string>
+    <string name="password_recovery_enter_code">Введите код</string>
+    <string name="password_recovery_send_code_again">Отправить код повторно</string>
 </resources>
