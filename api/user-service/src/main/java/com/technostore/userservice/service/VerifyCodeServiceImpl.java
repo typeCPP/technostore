@@ -7,6 +7,9 @@ import com.technostore.userservice.model.User;
 import com.technostore.userservice.model.VerifyCode;
 import com.technostore.userservice.repository.VerifyCodeRepository;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
 @Service
 public class VerifyCodeServiceImpl implements VerifyCodeService {
 
@@ -21,5 +24,16 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Override
     public void saveCode(VerifyCode verifyCode) {
         verifyCodeRepository.save(verifyCode);
+    }
+
+    @Override
+    public VerifyCode findVerifyCodeByUserAndCode(String email, String code) {
+        List<VerifyCode> list = verifyCodeRepository.findVerifyCodesByCode(code);
+        for (VerifyCode verifyCode : list) {
+            if (verifyCode.getUser().getEmail().equals(email)) {
+                return verifyCode;
+            }
+        }
+        throw new EntityNotFoundException("Such code does not exist.");
     }
 }

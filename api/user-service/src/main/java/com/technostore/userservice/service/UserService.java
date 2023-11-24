@@ -17,4 +17,8 @@ public interface UserService {
     User findUserByEmail(String email);
 
     boolean isCorrectPassword(User user, String password);
+
+    void save(User user);
+
+    void deleteAllUsersExceptVerified(String email);
 }

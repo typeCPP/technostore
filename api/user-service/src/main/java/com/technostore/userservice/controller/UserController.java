@@ -13,10 +13,7 @@ import com.technostore.userservice.dto.LoginBean;
 import com.technostore.userservice.dto.RegisterBean;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.security.jwt.JwtService;
-import com.technostore.userservice.service.MailService;
-import com.technostore.userservice.service.RefreshTokenService;
-import com.technostore.userservice.service.UserService;
-import com.technostore.userservice.service.UserTokenService;
+import com.technostore.userservice.service.*;
 import com.technostore.userservice.utils.AppError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +50,9 @@ public class UserController {
 
     @Autowired
     private RefreshTokenService refreshTokenService;
+
+    @Autowired
+    private VerifyCodeService verifyCodeService;
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces = "application/json")
     public ResponseEntity<?> register(@RequestPart String registerBeanString, @RequestPart(value = "file", required = false) MultipartFile file) {
@@ -140,6 +140,29 @@ public class UserController {
         Map<String, Boolean> map = new HashMap<>();
         map.put("exists", userService.isEmailExist(email));
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
+    public ResponseEntity<?> confirmUserAccount(@RequestParam("confirmationCode") String confirmationCode,
+                                                @RequestParam("email") String email) {
+        if (userService.isEmailExist(email)) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.CONFLICT.value(),
+                            "This email is already in use"), HttpStatus.CONFLICT);
+        }
+
+        try {
+            User user = verifyCodeService.findVerifyCodeByUserAndCode(email, confirmationCode).getUser();
+            user.setEnabled(true);
+            userService.save(user);
+            userService.deleteAllUsersExceptVerified(user.getEmail());
+            verifyCodeService.deleteVerifyCodeByUser(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "Code " + confirmationCode + " for user with " + email + " does not exist."), HttpStatus.NOT_FOUND);
+        }
     }
 
     private Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
