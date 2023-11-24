@@ -95,4 +95,10 @@ public class UserServiceImpl implements UserService {
         userProfile.setImage("/user/image?id=" + user.getId());
         return userProfile;
     }
+
+    @Override
+    public void changePassword(String password, User user) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }
