@@ -11,5 +11,7 @@ public interface UserTokenService {
 
     Long getExpirationTime();
 
+    void deleteAccessToken(User user, String newToken);
+
     void deleteAllAccessTokensByUser(User user);
 }

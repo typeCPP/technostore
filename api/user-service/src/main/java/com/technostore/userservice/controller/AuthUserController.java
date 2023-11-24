@@ -178,6 +178,19 @@ public class AuthUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<?> logout(@RequestParam String refreshToken,
+                                    HttpServletRequest request) {
+        ResponseEntity<?> responseEntity = getUserByRequest(request);
+        if (!responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            return responseEntity;
+        }
+        User user = (User) responseEntity.getBody();
+        userTokenService.deleteAccessToken(user, resolveToken(request));
+        refreshTokenService.deleteRefreshToken(user, refreshToken);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
