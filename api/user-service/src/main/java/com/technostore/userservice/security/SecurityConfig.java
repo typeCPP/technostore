@@ -39,7 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/login").permitAll()
-                .antMatchers("/user/check-email-exists").permitAll()
+                .antMatchers("/user/check-email-exists*").permitAll()
+                .antMatchers("/refresh-tokens*").permitAll()
+                .antMatchers("/user/password-recovery*").permitAll()
+                .antMatchers("/user/confirm-account*").permitAll()
+                .antMatchers("/send-code-for-recovery-password*").permitAll()
+                .antMatchers("/send-code-for-confirmation-account*").permitAll()
+                .antMatchers("/user/image*").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling();
     }
