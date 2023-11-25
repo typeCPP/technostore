@@ -18,11 +18,11 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     VerifyCodeRepository verifyCodeRepository;
 
     @Override
-    public VerifyCode findVerifyCodeByUser(User user) {
-        Optional<VerifyCode> passwordRecoveryCodeOptional =
-                verifyCodeRepository.findVerifyCodeByUser(user);
-        if (passwordRecoveryCodeOptional.isPresent()) {
-            return passwordRecoveryCodeOptional.get();
+    public String findVerifyCodeByUser(User user) {
+        String passwordRecoveryCode =
+                verifyCodeRepository.findVerifyCodeByUser(user.getId());
+        if (passwordRecoveryCode != null) {
+            return passwordRecoveryCode;
         }
         throw new EntityNotFoundException("Code for this user does not exist.");
     }

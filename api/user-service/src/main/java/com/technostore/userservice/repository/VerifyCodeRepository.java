@@ -19,7 +19,8 @@ public interface VerifyCodeRepository extends JpaRepository<VerifyCode, Long> {
     @Transactional
     void deleteVerifyCodeByUser(Long userId);
 
-    Optional<VerifyCode> findVerifyCodeByUser(User user);
+    @Query(value = "SELECT v.code FROM VerifyCode v WHERE v.user.id=:userId")
+    String findVerifyCodeByUser(Long userId);
 
     List<VerifyCode> findVerifyCodesByCode(String code);
 }

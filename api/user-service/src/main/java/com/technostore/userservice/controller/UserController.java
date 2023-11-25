@@ -181,7 +181,7 @@ public class UserController {
                             "User with email" + email + "does not exist."), HttpStatus.NOT_FOUND);
         }
         try {
-            if (!verifyCodeService.findVerifyCodeByUser(user).getCode().equals(code)) {
+            if (!verifyCodeService.findVerifyCodeByUser(user).equals(code)) {
                 return new ResponseEntity<>(
                         new AppError(HttpStatus.NOT_FOUND.value(),
                                 "Invalid code for user with email " + email), HttpStatus.NOT_FOUND);
