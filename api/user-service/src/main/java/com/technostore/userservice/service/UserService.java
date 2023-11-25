@@ -2,6 +2,7 @@ package com.technostore.userservice.service;
 
 import com.technostore.userservice.dto.EditUserBean;
 import com.technostore.userservice.dto.RegisterBean;
+import com.technostore.userservice.dto.UserPageWithoutEmail;
 import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 
@@ -29,4 +30,6 @@ public interface UserService {
     UserProfile getInfoForProfile(User user);
 
     void changePassword(String password, User user);
+
+    UserPageWithoutEmail getInfoForUserPageWithoutEmail(User user);
 }

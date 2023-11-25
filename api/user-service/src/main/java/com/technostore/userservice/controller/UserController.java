@@ -226,6 +226,22 @@ public class UserController {
         }
     }
 
+    @RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        User user;
+        try {
+            user = userService.getUserById(id);
+        } catch (EntityNotFoundException exception) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "User with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userService.getInfoForUserPageWithoutEmail(user), HttpStatus.OK);
+    }
+
     private Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
         String newAccessToken = jwtService.accessTokenFor(user.getEmail(), ACCESS_TOKEN_EXPIRATION_TIME_MINUTES);
         userTokenService.addAccessToken(user, newAccessToken);
