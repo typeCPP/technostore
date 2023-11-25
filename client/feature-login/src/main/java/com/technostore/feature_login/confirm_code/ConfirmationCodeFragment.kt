@@ -24,6 +24,7 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeS
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
 import com.technostore.feature_login.databinding.ConfirmCodePageFragmentBinding
 import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -138,7 +139,10 @@ class ConfirmationCodeFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            ConfirmationCodeNews.OpenMainPage -> TODO("перейти на главное флоу")
+            ConfirmationCodeNews.OpenMainPage -> {
+                val activity = (activity as ToFlowNavigatable)
+                activity.navigateToAnotherActivity()
+            }
         }
     }
 

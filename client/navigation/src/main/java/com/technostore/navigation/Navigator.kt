@@ -7,11 +7,15 @@ class Navigator {
 
     fun navigateToFlow(navigationFlow: NavigationFlow) = when (navigationFlow) {
         NavigationFlow.LoginFlow -> {
-            navController.navigate(MainNavGraphDirections.actionGlobalLoginFlow())
+            navController.navigate(LoginNavGraphDirections.actionGlobalLoginFlow())
         }
 
         NavigationFlow.OnboardingFlow -> {
-            navController.navigate(MainNavGraphDirections.actionGlobalOnboardingFlow())
+            navController.navigate(LoginNavGraphDirections.actionGlobalOnboardingFlow())
+        }
+
+        NavigationFlow.MainActivityFlow -> {
+            navController.navigate(LoginNavGraphDirections.actionGlobalMainFlow())
         }
     }
 }

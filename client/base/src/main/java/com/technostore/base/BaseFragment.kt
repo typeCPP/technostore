@@ -2,7 +2,6 @@ package com.technostore.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,13 +49,15 @@ class BaseFragment : Fragment() {
         val activity = (activity as ToFlowNavigatable)
         when (news) {
             is BaseNews.OpenLogin -> {
-                Log.wtf("BaseNews.OpenLogin", "BaseNews.OpenLogin")
                 activity.navigateToFlow(NavigationFlow.LoginFlow)
             }
 
             is BaseNews.OpenOnboarding -> {
-                Log.wtf("BaseNews.OpenOnboarding", "BaseNews.OpenOnboarding ")
                 activity.navigateToFlow(NavigationFlow.OnboardingFlow)
+            }
+
+            is BaseNews.OpenMainPage -> {
+                activity.navigateToAnotherActivity()
             }
         }
     }
