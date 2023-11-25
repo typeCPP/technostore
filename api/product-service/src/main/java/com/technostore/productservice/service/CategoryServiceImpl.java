@@ -15,6 +15,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
     @Override
     public List<Category> getPopularCategories() {
         Set<String> categoriesToFind = Set.of("Ноутбуки", "Планшеты", "Фототехника");
