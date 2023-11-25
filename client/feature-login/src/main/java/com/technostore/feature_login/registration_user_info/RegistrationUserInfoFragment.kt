@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -109,6 +110,7 @@ class RegistrationUserInfoFragment : Fragment() {
 
         setOnClickListenerForImage()
         setOnClickListenerForNextButton()
+        setTextChangedListeners()
     }
 
     private fun setOnClickListenerForImage() {
@@ -141,6 +143,15 @@ class RegistrationUserInfoFragment : Fragment() {
                 lastName = binding.etLastname.text.toString()
             )
         }
+    }
+
+    private fun setTextChangedListeners() {
+        binding.etName.addTextChangedListener(afterTextChanged = {
+            binding.tilEnterName.error = ""
+        })
+        binding.etLastname.addTextChangedListener(afterTextChanged = {
+            binding.tilLastname.error = ""
+        })
     }
 
     private fun setImage(uri: Uri?) {
