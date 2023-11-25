@@ -1,4 +1,4 @@
-package com.technostore.productservice.service;
+package com.technostore.productservice.service.client;
 
 import javax.servlet.http.HttpServletRequest;
 
