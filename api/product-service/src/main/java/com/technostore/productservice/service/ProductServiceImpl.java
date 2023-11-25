@@ -1,14 +1,22 @@
 package com.technostore.productservice.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import com.technostore.productservice.dto.ProductDto;
+import com.technostore.productservice.dto.SearchProductDto;
+import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.model.Product;
 import com.technostore.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,5 +41,23 @@ public class ProductServiceImpl implements ProductService {
                 .rating(0.0)
                 .reviews(List.of())
                 .build();
+    }
+
+    @Override
+    public Page<SearchProductDto> searchProducts(int numberPage, int sizePage, SortType sort, String word,
+                                                 Integer minRating, Integer maxRating, Integer minPrice,
+                                                 Integer maxPrice, List<Long> categories, Long userId) {
+        Page<SearchProductDto> page;
+        if (sort == SortType.NOTHING) {
+            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
+                    categories.size(), PageRequest.of(numberPage, sizePage));
+        } else if (sort == SortType.BY_RATING) {
+            // добавить логику сортировки по рейтингу
+            page = null;
+        } else {
+            // добавить логику сортировки по популярности
+            page = null;
+        }
+        return page;
     }
 }
