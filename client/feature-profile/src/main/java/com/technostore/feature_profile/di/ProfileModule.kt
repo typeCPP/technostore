@@ -5,6 +5,8 @@ import com.technostore.feature_profile.business.ProfileRepository
 import com.technostore.feature_profile.business.ProfileRepositoryImpl
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordEffectHandler
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.network.service.SessionService
@@ -46,5 +48,16 @@ class ProfileModule {
     @Provides
     fun provideChangePasswordPageReducer(): ChangePasswordReducer {
         return ChangePasswordReducer()
+    }
+
+    /* Edit profile */
+    @Provides
+    fun provideEditProfileEffectHandler(profileRepository: ProfileRepository): EditProfileEffectHandler {
+        return EditProfileEffectHandler(profileRepository)
+    }
+
+    @Provides
+    fun provideEditProfiledPageReducer(): EditProfileReducer {
+        return EditProfileReducer()
     }
 }

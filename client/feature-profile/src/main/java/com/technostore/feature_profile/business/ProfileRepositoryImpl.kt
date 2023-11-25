@@ -9,6 +9,11 @@ import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 class ProfileRepositoryImpl(
     private val userService: UserService,
@@ -73,4 +78,32 @@ class ProfileRepositoryImpl(
             }
             return@withContext Result.Error()
         }
+
+    override suspend fun editProfile(
+        name: String,
+        lastName: String,
+        byteArray: ByteArray?
+    ): Result<Unit> = withContext(Dispatchers.IO) {
+        val data = JSONObject(
+            mapOf(
+                "name" to name,
+                "lastName" to lastName
+            )
+        ).toString()
+
+        val dataMultipart = data.toRequestBody("text/plain".toMediaTypeOrNull())
+        var part: MultipartBody.Part? = null
+        if (byteArray != null) {
+            val fileMultipart = RequestBody.create(
+                "image/*".toMediaTypeOrNull(),
+                byteArray
+            )
+            part = MultipartBody.Part.createFormData("file", "data", fileMultipart)
+        }
+        val response = userService.editProfile(dataMultipart, part)
+        if (response.isSuccessful) {
+            return@withContext Result.Success()
+        }
+        return@withContext Result.Error()
+    }
 }
