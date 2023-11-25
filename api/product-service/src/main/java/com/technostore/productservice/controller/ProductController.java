@@ -1,5 +1,9 @@
 package com.technostore.productservice.controller;
 
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+
+import com.technostore.productservice.service.CategoryService;
 import com.technostore.productservice.service.ProductService;
 import com.technostore.productservice.utils.AppError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     ResponseEntity<?> getProductById(@PathVariable Long id, HttpServletRequest request) {
@@ -29,5 +33,10 @@ public class ProductController {
                     new AppError(HttpStatus.NOT_FOUND.value(),
                             "No product with id: " + id), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(path = "/popular-categories", method = RequestMethod.GET)
+    ResponseEntity<?> getProductById() {
+        return new ResponseEntity<>(categoryService.getPopularCategories(), HttpStatus.OK);
     }
 }
