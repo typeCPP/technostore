@@ -191,6 +191,15 @@ public class AuthUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/get-user-id", method = RequestMethod.GET)
+    public ResponseEntity<?> getUserId(HttpServletRequest request) {
+        ResponseEntity<?> responseEntity = getUserByRequest(request);
+        if (!responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            return responseEntity;
+        }
+        return new ResponseEntity<>(((User) responseEntity.getBody()).getId(), HttpStatus.OK);
+    }
+
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
