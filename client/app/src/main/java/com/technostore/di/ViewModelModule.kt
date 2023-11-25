@@ -39,6 +39,10 @@ import com.technostore.feature_profile.change_password.presentation.ChangePasswo
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordViewModel
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
 import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileState
@@ -180,6 +184,18 @@ class ViewModelModule {
     ): ChangePasswordViewModel {
         return ChangePasswordViewModel(
             initialState = ChangePasswordState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideEditProfileViewModel(
+        reducer: EditProfileReducer,
+        effectHandler: EditProfileEffectHandler
+    ): EditProfileViewModel {
+        return EditProfileViewModel(
+            initialState = EditProfileState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
