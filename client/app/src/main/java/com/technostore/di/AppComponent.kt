@@ -1,6 +1,5 @@
 package com.technostore.di
 
-import com.technostore.activity.MainActivity
 import com.technostore.app_store.di.AppStoreModule
 import com.technostore.arch.di.ArchModule
 import com.technostore.base.di.BaseModule
@@ -20,6 +19,4 @@ import javax.inject.Singleton
         LoginModule::class
     ]
 )
-interface AppComponent {
-    fun inject(mainActivity: MainActivity)
-}
+interface AppComponent

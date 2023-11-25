@@ -13,7 +13,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/main_nav_graph"
+            app:popUpTo="@+id/login_nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_registrationFragment_to_passwordRecoveryEmailFramgent"
@@ -33,7 +33,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/main_nav_graph"
+            app:popUpTo="@+id/login_nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_registrationFragment_to_registrationUserInfoFramgent"
@@ -129,7 +129,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/main_nav_graph"
+            app:popUpTo="@+id/login_nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

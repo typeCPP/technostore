@@ -24,6 +24,7 @@ import com.technostore.feature_login.databinding.SignInFragmentBinding
 import com.technostore.feature_login.sign_in.presentation.SignInNews
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import com.technostore.feature_login.sign_in.presentation.SignInViewModel
+import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -134,7 +135,11 @@ class SignInFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            is SignInNews.OpenMainPage -> TODO("перейти на главное флоу")
+            is SignInNews.OpenMainPage -> {
+                val activity = (activity as ToFlowNavigatable)
+                activity.navigateToAnotherActivity()
+            }
+
             is SignInNews.OpenPasswordRecoveryPage -> findNavController().navigate(
                 SignInFragmentDirections.actionRegistrationFragmentToPasswordRecoveryEmailFramgent()
             )

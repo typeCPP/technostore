@@ -14,6 +14,10 @@ class BaseEffectHandler(private val appStore: AppStore) :
     ) {
         when (event) {
             is BaseEvent.Init -> {
+                if (appStore.isActive) {
+                    store.acceptNews(BaseNews.OpenMainPage)
+                    return
+                }
                 if (appStore.isOnboardingShown) {
                     store.acceptNews(BaseNews.OpenLogin)
                 } else {
