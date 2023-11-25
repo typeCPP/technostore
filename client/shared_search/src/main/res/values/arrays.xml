@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="filer_rating_range_slider_values">
+        <item>1</item>
+        <item>10</item>
+    </array>
+    <array name="filer_cost_range_slider_values">
+        <item>1</item>
+        <item>1000000</item>
+    </array>
+</resources>

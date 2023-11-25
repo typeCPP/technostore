@@ -18,4 +18,5 @@
     <color name="text_cong_color">#CC505050</color>
     <color name="background_cong_color">#EFEAEA</color>
     <color name="nav_bar_stroke">#C1BFBF</color>
+    <color name="light_gray">#706F6F</color>
 </resources>

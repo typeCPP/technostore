@@ -6,6 +6,7 @@ import com.technostore.base.di.BaseModule
 import com.technostore.feature_login.di.LoginModule
 import com.technostore.feature_profile.di.ProfileModule
 import com.technostore.network.di.NetworkModule
+import com.technostore.shared_search.di.SharedSearchModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,7 +19,8 @@ import javax.inject.Singleton
         ViewModelModule::class,
         BaseModule::class,
         LoginModule::class,
-        ProfileModule::class
+        ProfileModule::class,
+        SharedSearchModule::class
     ]
 )
 interface AppComponent
