@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: review-service
+  profiles:
+    active: ${ACTIVE_PROFILE}
+  cloud:
+    config:
+      uri: ${CONFIG_URI}
