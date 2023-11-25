@@ -1,5 +1,6 @@
 package com.technostore.network.service
 
+import com.technostore.network.model.user.response.UserProfileResponse
 import com.technostore.network.utils.URL
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,4 +13,7 @@ interface UserService {
         @Query("oldPassword") oldPassword: String?,
         @Query("refreshToken", encoded = true) refreshToken: String
     ): Response<Unit>
+
+    @GET("${URL.USER_SERVICE_BASE_URL}/user/profile")
+    suspend fun getProfile(): Response<UserProfileResponse>
 }
