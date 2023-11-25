@@ -4,7 +4,7 @@ import com.technostore.userservice.model.User;
 import com.technostore.userservice.model.VerifyCode;
 
 public interface VerifyCodeService {
-    VerifyCode findVerifyCodeByUser(User user);
+    String findVerifyCodeByUser(User user);
 
     void deleteVerifyCodeByUser(User user);
 
