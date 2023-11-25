@@ -38,4 +38,17 @@ interface LoginService {
         @Query("email", encoded = true) email: String
     ): Response<Unit>
 
+    @GET("${URL.USER_SERVICE_BASE_URL}/user/password-recovery")
+    suspend fun checkRecoveryCode(
+        @Query("code") code: String,
+        @Query("email", encoded = true) email: String
+    ): Response<LoginResponse>
+
+    @GET("${URL.USER_SERVICE_BASE_URL}/send-code-for-recovery-password")
+    suspend fun sendCodeForRecoveryPassword(
+        @Query("email", encoded = true) email: String
+    ): Response<Unit>
+
+    @GET("${URL.USER_SERVICE_BASE_URL}/send-code-for-confirmation-account")
+    suspend fun sendCodeForAccountConfirmations(@Query("userId") userId: Long): Response<Unit>
 }

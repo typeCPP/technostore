@@ -1,4 +1,4 @@
-package com.technostore.feature_login.registration
+package com.technostore.feature_login.password_recovery
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,29 +13,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
+import com.technostore.core.R as CoreR
 import com.technostore.feature_login.R
-import com.technostore.feature_login.common_ui.EmailValidation
 import com.technostore.feature_login.common_ui.PasswordValidation
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
-import com.technostore.feature_login.databinding.RegistrationPageFragmentBinding
-import com.technostore.feature_login.registration.presentation.RegistrationNews
-import com.technostore.feature_login.registration.presentation.RegistrationState
-import com.technostore.feature_login.registration.presentation.RegistrationViewModel
+import com.technostore.feature_login.databinding.PasswordRecoveryPageFragmentBinding
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryNews
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryState
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryViewModel
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeNews
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RegistrationFragment : Fragment() {
-    private val viewModel by viewModels<RegistrationViewModel>()
-    private lateinit var binding: RegistrationPageFragmentBinding
-    private lateinit var bindingLoading: LoadingFragmentBinding
+class PasswordRecoveryFragment : Fragment() {
+    private val viewModel by viewModels<PasswordRecoveryViewModel>()
+    private lateinit var binding: PasswordRecoveryPageFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.binding = RegistrationPageFragmentBinding.inflate(inflater)
-        this.bindingLoading = binding.loginLoading
+        this.binding = PasswordRecoveryPageFragmentBinding.inflate(inflater)
         return binding.root
     }
 
@@ -58,47 +55,21 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun initViews() {
-        binding.tilEmail.errorIconDrawable = null
         binding.tilPassword.errorIconDrawable = null
         binding.tilPassword2.errorIconDrawable = null
         setOnClickListenerForNextButton()
-        setonClickListenerForSignInButton()
     }
 
     private fun setOnClickListenerForNextButton() {
-        binding.tvButtonNext.setOnClickListener {
-            viewModel.registrationClicked(
-                email = binding.etEmail.text.toString(),
+        binding.tvButtonConfirm.setOnClickListener {
+            viewModel.nextClicked(
                 firstPassword = binding.etPassword.text.toString(),
                 secondPassword = binding.etPassword2.text.toString()
             )
         }
     }
 
-    private fun setonClickListenerForSignInButton() {
-        binding.tvSignin.setOnClickListener {
-            viewModel.loginClicked()
-        }
-    }
-
-    private fun render(state: RegistrationState) {
-        bindingLoading.clLoadingPage.isVisible = state.isLoading
-        when (state.emailValidation) {
-            EmailValidation.SUCCESS -> binding.tilEmail.error = ""
-
-            EmailValidation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
-
-            EmailValidation.ERROR_MAX_LENGTH -> binding.tilEmail.error =
-                getString(R.string.login_email_error_length)
-
-            EmailValidation.ERROR -> binding.tilEmail.error =
-                getString(R.string.login_email_error)
-
-            EmailValidation.EXISTS -> binding.tilEmail.error =
-                getString(R.string.registration_email_exists)
-
-            else -> {}
-        }
+    private fun render(state: PasswordRecoveryState) {
         when (state.firstPasswordValidation) {
             PasswordValidation.SUCCESS -> binding.tilPassword.error = ""
             PasswordValidation.EMPTY -> binding.tilPassword.error =
@@ -117,7 +88,7 @@ class RegistrationFragment : Fragment() {
         }
         when (state.secondPasswordValidation) {
             PasswordValidation.SUCCESS -> binding.tilPassword2.error = ""
-            PasswordValidation.EMPTY -> binding.tilEmail.error =
+            PasswordValidation.EMPTY -> binding.tilPassword2.error =
                 getString(R.string.login_empty_field)
 
             PasswordValidation.ERROR_SYMBOL -> binding.tilPassword2.error =
@@ -139,23 +110,15 @@ class RegistrationFragment : Fragment() {
     @SuppressLint("ShowToast")
     private fun showNews(news: News) {
         when (news) {
-            RegistrationNews.ShowErrorToast -> Toast.makeText(
-                context,
-                com.technostore.core.R.string.error_toast,
-                Toast.LENGTH_SHORT
-            ).show()
-
-            RegistrationNews.OpenSignInPage -> findNavController().navigate(
-                RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
+            is PasswordRecoveryNews.OpenLoginPage -> findNavController().navigate(
+                PasswordRecoveryFragmentDirections.actionPasswordRecoveryFragmentToLoginFragment()
             )
 
-            is RegistrationNews.OpenRegistrationDataPage -> {
-                val action =
-                    RegistrationFragmentDirections.actionRegistrationFragmentToRegistrationUserInfoFramgent()
-                action.email = news.email
-                action.password = news.password
-                findNavController().navigate(action)
-            }
+            PasswordRecoveryCodeNews.ShowErrorToast -> Toast.makeText(
+                context,
+                CoreR.string.error_toast,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

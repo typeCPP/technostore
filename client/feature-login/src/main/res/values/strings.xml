@@ -11,7 +11,6 @@
     <string name="sign_in">ВОЙТИ</string>
     <string name="sign_in_register_button">Зарегистрироваться</string>
     <string name="sign_in_no_account">Нет аккаунта?</string>
-    <string name="sign_in_email_is_exists">Пользователя с таким email не существует</string>
     <string name="sign_in_invalid_password">Неправильный пароль</string>
 
     <!--Registration-->
@@ -25,9 +24,6 @@
     <string name="registration_last_name_user">Фамилия</string>
     <string name="registration_enter_your_last_name">Введите вашу фамилию</string>
     <string name="registration_email_exists">Пользователь с таким email уже существует</string>
-    <string name="registration_password_error_symbols">Используйте только латинские буквы и цифры</string>
-    <string name="registration_password_error_min_length">Пароль должен состоять не менее, чем из 6 символов</string>
-    <string name="registration_passwords_are_broken">Пароли должны совпадать</string>
 
     <!--Login-->
     <string name="login_empty_field">Введите данные</string>
@@ -39,6 +35,11 @@
     <string name="login_next">Далее</string>
     <string name="login_error_max_length">Пароль должен состоять не болee, чем из 255 символов</string>
     <string name="login_email_error">Введите корректный email</string>
+    <string name="login_password_error_symbols">Используйте только латинские буквы и цифры</string>
+    <string name="login_password_error_min_length">Пароль должен состоять не менее, чем из 6 символов</string>
+    <string name="login_passwords_are_broken">Пароли должны совпадать</string>
+    <string name="login_email_is_not_exists">Пользователя с таким email не существует</string>
+    <string name="login_email_error_length">Почта должна состоять не болee, чем из 255 символов</string>
 
     <!--Confirm code-->
     <string name="confirm_code_enter_code">Введите код, который Вам\n пришел на почту</string>
@@ -53,4 +54,5 @@
     <string name="password_recovery_code_instruction">Проверьте почту.\n\n Введите код подтверждения.</string>
     <string name="password_recovery_enter_code">Введите код</string>
     <string name="password_recovery_send_code_again">Отправить код повторно</string>
+    <string name="password_recovery_code_error_length">Пароль слишком длинный</string>
 </resources>

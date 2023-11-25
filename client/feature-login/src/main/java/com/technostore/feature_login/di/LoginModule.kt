@@ -5,6 +5,8 @@ import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEffectHandler
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
+import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
+import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
 import com.technostore.feature_login.registration.presentation.RegistrationReducer
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
@@ -14,6 +16,12 @@ import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
 import com.technostore.network.service.LoginService
+import com.technostore.network.service.SessionService
+import com.technostore.network.service.UserService
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryEffectHandler
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryReducer
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEffectHandler
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,8 +32,18 @@ import dagger.hilt.components.SingletonComponent
 class LoginModule {
 
     @Provides
-    fun provideLoginRepository(loginService: LoginService, appStore: AppStore): LoginRepository {
-        return LoginRepositoryImpl(loginService, appStore)
+    fun provideLoginRepository(
+        loginService: LoginService,
+        sessionService: SessionService,
+        userService: UserService,
+        appStore: AppStore
+    ): LoginRepository {
+        return LoginRepositoryImpl(
+            loginService,
+            appStore,
+            sessionService,
+            userService
+        )
     }
 
     /* Welcome page */
@@ -82,5 +100,38 @@ class LoginModule {
     @Provides
     fun provideConfirmationCodeReducer(): ConfirmationCodeReducer {
         return ConfirmationCodeReducer()
+    }
+
+    /* Password recovery email */
+    @Provides
+    fun providePasswordRecoveryEmailEffectHandler(loginRepository: LoginRepository): PasswordRecoveryEmailEffectHandler {
+        return PasswordRecoveryEmailEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun providePasswordRecoveryEmailReducer(): PasswordRecoveryEmailReducer {
+        return PasswordRecoveryEmailReducer()
+    }
+
+    /* Password recovery code */
+    @Provides
+    fun providePasswordRecoveryCodeEffectHandler(loginRepository: LoginRepository): PasswordRecoveryCodeEffectHandler {
+        return PasswordRecoveryCodeEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun providePasswordRecoveryCodeReducer(): PasswordRecoveryCodeReducer {
+        return PasswordRecoveryCodeReducer()
+    }
+
+    /* Password recovery */
+    @Provides
+    fun providePasswordRecoveryEffectHandler(loginRepository: LoginRepository): PasswordRecoveryEffectHandler {
+        return PasswordRecoveryEffectHandler(loginRepository)
+    }
+
+    @Provides
+    fun providePasswordRecoveryReducer(): PasswordRecoveryReducer {
+        return PasswordRecoveryReducer()
     }
 }
