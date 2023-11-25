@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -63,6 +64,19 @@ class RegistrationFragment : Fragment() {
         binding.tilPassword2.errorIconDrawable = null
         setOnClickListenerForNextButton()
         setonClickListenerForSignInButton()
+        setTextChangedListeners()
+    }
+
+    private fun setTextChangedListeners() {
+        binding.etEmail.addTextChangedListener(afterTextChanged = {
+            binding.tilEmail.error = ""
+        })
+        binding.etPassword.addTextChangedListener(afterTextChanged = {
+            binding.tilPassword.error = ""
+        })
+        binding.etPassword2.addTextChangedListener(afterTextChanged = {
+            binding.tilPassword2.error = ""
+        })
     }
 
     private fun setOnClickListenerForNextButton() {

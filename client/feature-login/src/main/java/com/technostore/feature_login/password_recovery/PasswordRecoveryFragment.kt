@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -58,6 +59,7 @@ class PasswordRecoveryFragment : Fragment() {
         binding.tilPassword.errorIconDrawable = null
         binding.tilPassword2.errorIconDrawable = null
         setOnClickListenerForNextButton()
+        setTextChangedListeners()
     }
 
     private fun setOnClickListenerForNextButton() {
@@ -68,6 +70,16 @@ class PasswordRecoveryFragment : Fragment() {
             )
         }
     }
+
+    private fun setTextChangedListeners() {
+        binding.etPassword.addTextChangedListener(afterTextChanged = {
+            binding.tilPassword.error = ""
+        })
+        binding.etPassword2.addTextChangedListener(afterTextChanged = {
+            binding.tilPassword2.error = ""
+        })
+    }
+
 
     private fun render(state: PasswordRecoveryState) {
         when (state.firstPasswordValidation) {

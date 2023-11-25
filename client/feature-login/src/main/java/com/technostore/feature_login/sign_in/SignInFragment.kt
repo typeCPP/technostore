@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -65,6 +66,7 @@ class SignInFragment : Fragment() {
         setOnClickListenerForSignInButton()
         setOnClickListenerForForgotPasswordButton()
         setonClickListenerForRegisterButton()
+        setTextChangedListeners()
     }
 
     private fun setOnClickListenerForSignInButton() {
@@ -74,6 +76,15 @@ class SignInFragment : Fragment() {
                 password = binding.etPassword.text.toString()
             )
         }
+    }
+
+    private fun setTextChangedListeners() {
+        binding.etEmail.addTextChangedListener(afterTextChanged = {
+            binding.tilEmail.error = ""
+        })
+        binding.etPassword.addTextChangedListener(afterTextChanged = {
+            binding.tilPassword.error = ""
+        })
     }
 
     private fun setOnClickListenerForForgotPasswordButton() {
@@ -127,6 +138,7 @@ class SignInFragment : Fragment() {
             is SignInNews.OpenPasswordRecoveryPage -> findNavController().navigate(
                 SignInFragmentDirections.actionRegistrationFragmentToPasswordRecoveryEmailFramgent()
             )
+
             is SignInNews.OpenRegistrationPage -> findNavController().navigate(
                 SignInFragmentDirections.actionSignInFragmentToRegistrationFragment()
             )
