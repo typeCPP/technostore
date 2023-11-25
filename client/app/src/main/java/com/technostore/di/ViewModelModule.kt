@@ -35,6 +35,10 @@ import com.technostore.feature_login.password_recovery_code.presentation.Passwor
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
+import com.technostore.feature_profile.profile.presentation.ProfileReducer
+import com.technostore.feature_profile.profile.presentation.ProfileState
+import com.technostore.feature_profile.profile.presentation.ProfileViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -148,6 +152,18 @@ class ViewModelModule {
     ): PasswordRecoveryViewModel {
         return PasswordRecoveryViewModel(
             initialState = PasswordRecoveryState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideProfileViewModel(
+        reducer: ProfileReducer,
+        effectHandler: ProfileEffectHandler
+    ): ProfileViewModel {
+        return ProfileViewModel(
+            initialState = ProfileState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
