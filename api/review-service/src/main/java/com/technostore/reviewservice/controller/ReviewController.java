@@ -22,7 +22,7 @@ public class ReviewController {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     ResponseEntity<?> getReviewById(@PathVariable Long id, HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(reviewService.getReviewById(id), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.getReviewById(id, request), HttpStatus.OK);
         } catch (EntityNotFoundException exception) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
