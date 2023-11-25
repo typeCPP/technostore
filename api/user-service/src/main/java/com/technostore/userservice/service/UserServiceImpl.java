@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 
 import com.technostore.userservice.dto.EditUserBean;
 import com.technostore.userservice.dto.RegisterBean;
+import com.technostore.userservice.dto.UserPageWithoutEmail;
 import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
@@ -108,5 +109,13 @@ public class UserServiceImpl implements UserService {
     public void changePassword(String password, User user) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    @Override
+    public UserPageWithoutEmail getInfoForUserPageWithoutEmail(User user) {
+        UserPageWithoutEmail userPageWithoutEmail = new UserPageWithoutEmail(user);
+        userPageWithoutEmail.setImage("/user/image?id=" + user.getId());
+
+        return userPageWithoutEmail;
     }
 }
