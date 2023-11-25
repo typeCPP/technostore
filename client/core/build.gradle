@@ -36,4 +36,5 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutversion"
+    api "com.facebook.shimmer:shimmer:$shimmerVersion"
 }

@@ -42,9 +42,9 @@
         <activity
             android:name=".base.activity.MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
 
-<!--        android:parentActivityName=".base.activity.LoginActivity"-->
     </application>
 
 </manifest>

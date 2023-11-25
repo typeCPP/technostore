@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filter_title">Фильтры</string>
+    <string name="filter_sort">Сортировать</string>
+    <string name="filter_cost">Цена</string>
+    <string name="filter_rating">Рейтинг</string>
+    <string name="filter_by_rating">По рейтингу</string>
+    <string name="filter_by_popular">По популярности</string>
+    <string name="filter_category">Категории</string>
+    <string name="filter_find">Искать</string>
+</resources>

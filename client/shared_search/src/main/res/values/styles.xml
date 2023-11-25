@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="slider_style" parent="@style/Widget.MaterialComponents.Slider">
+        <item name="labelStyle">@style/tooltip_style</item>
+    </style>
+
+    <style name="tooltip_style" parent="Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+</resources>

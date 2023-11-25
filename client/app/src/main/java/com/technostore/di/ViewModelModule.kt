@@ -47,6 +47,10 @@ import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
+import com.technostore.shared_search.filter.presentation.FilterEffectHandler
+import com.technostore.shared_search.filter.presentation.FilterReducer
+import com.technostore.shared_search.filter.presentation.FilterState
+import com.technostore.shared_search.filter.presentation.FilterViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -196,6 +200,18 @@ class ViewModelModule {
     ): EditProfileViewModel {
         return EditProfileViewModel(
             initialState = EditProfileState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideFilterViewModel(
+        reducer: FilterReducer,
+        effectHandler: FilterEffectHandler
+    ): FilterViewModel {
+        return FilterViewModel(
+            initialState = FilterState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

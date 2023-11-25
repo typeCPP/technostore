@@ -17,5 +17,9 @@ class Navigator {
         NavigationFlow.MainActivityFlow -> {
             navController.navigate(LoginNavGraphDirections.actionGlobalMainFlow())
         }
+
+        NavigationFlow.FilterFlow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalFilterFlow())
+        }
     }
 }
