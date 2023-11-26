@@ -1,4 +1,4 @@
-package com.technostore.feature_login.registration_user_info
+package com.technostore.feature_profile.edit_profile
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -16,45 +16,39 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.technostore.arch.mvi.News
-import com.technostore.feature_login.R
-import com.technostore.core.R as CoreR
-import com.technostore.core.databinding.LoadingFragmentBinding
-import com.technostore.feature_login.databinding.RegistrationUserInformationPageFragmentBinding
-import com.technostore.core.ui.crop.CropContract
-import com.technostore.feature_login.registration_user_info.presentation.NameValidation
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoNews
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
-import com.technostore.feature_login.registration_user_info.presentation.ui.PrepareChangeImageUiEvent
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoViewModel
 import com.technostore.core.ui.PhotoCompression
+import com.technostore.core.ui.crop.CropContract
+import com.technostore.core.R as CoreR
+import com.technostore.feature_profile.databinding.EditProfilePageFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
+import com.technostore.feature_profile.R
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileNews
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
+import com.technostore.feature_profile.edit_profile.ui.PrepareChangeImageUiEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RegistrationUserInfoFragment : Fragment() {
-
-    private val viewModel by viewModels<RegistrationUserInfoViewModel>()
-    private lateinit var binding: RegistrationUserInformationPageFragmentBinding
+class EditProfileFragment : Fragment() {
+    private val viewModel by viewModels<EditProfileViewModel>()
+    private lateinit var binding: EditProfilePageFragmentBinding
     private lateinit var bindingLoading: LoadingFragmentBinding
-    private var uri: Uri? = null
 
+    private var uri: Uri? = null
     private var cropImageLauncher: ActivityResultLauncher<CropImageContractOptions>? = null
     private val onChangeImageRelay = MutableSharedFlow<Uri?>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    private val ars: RegistrationUserInfoFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         cropImageLauncher = registerForActivityResult(CropContract()) { result ->
@@ -70,17 +64,13 @@ class RegistrationUserInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        this.binding = RegistrationUserInformationPageFragmentBinding.inflate(inflater)
+        this.binding = EditProfilePageFragmentBinding.inflate(inflater)
         this.bindingLoading = binding.loading
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PrepareChangeImageUiEvent(
-            onImageChange = onChangeImageRelay,
-            acceptUri = viewModel::imageChanged,
-        ).bind(viewLifecycleOwner)
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -94,27 +84,22 @@ class RegistrationUserInfoFragment : Fragment() {
             }
         }
         initViews()
-        onChangeImageRelay.map {
-            setImage(uri)
-        }
     }
 
     private fun initViews() {
+        binding.tilEnterName.errorIconDrawable = null
+        binding.tilNickname.errorIconDrawable = null
         PrepareChangeImageUiEvent(
             onImageChange = onChangeImageRelay,
             acceptUri = viewModel::imageChanged,
         ).bind(viewLifecycleOwner)
-
-        binding.tilLastname.errorIconDrawable = null
-        binding.tilEnterName.errorIconDrawable = null
-
-        setOnClickListenerForImage()
-        setOnClickListenerForNextButton()
+        setOnClickListenerForPictureImage()
+        setOnClickListenerForChangeButton()
         setTextChangedListeners()
     }
 
-    private fun setOnClickListenerForImage() {
-        binding.cdAddPicture.setOnClickListener {
+    private fun setOnClickListenerForPictureImage() {
+        binding.ivPicture.setOnClickListener {
             val cropImageContractOptions = CropImageContractOptions(
                 uri,
                 CropImageOptions(
@@ -131,16 +116,14 @@ class RegistrationUserInfoFragment : Fragment() {
         }
     }
 
-    private fun setOnClickListenerForNextButton() {
+    private fun setOnClickListenerForChangeButton() {
         binding.tvButtonNext.setOnClickListener {
             val uriTemp = uri
             val byteArray = PhotoCompression.compress(requireContext(), uriTemp)
-            viewModel.registrationClicked(
+            viewModel.changedClicked(
                 byteArray = byteArray,
-                email = ars.email,
-                password = ars.password,
                 name = binding.etName.text.toString(),
-                lastName = binding.etLastname.text.toString()
+                lastName = binding.etNickname.text.toString()
             )
         }
     }
@@ -149,19 +132,23 @@ class RegistrationUserInfoFragment : Fragment() {
         binding.etName.addTextChangedListener(afterTextChanged = {
             binding.tilEnterName.error = ""
         })
-        binding.etLastname.addTextChangedListener(afterTextChanged = {
-            binding.tilLastname.error = ""
+        binding.etNickname.addTextChangedListener(afterTextChanged = {
+            binding.tilNickname.error = ""
         })
+    }
+
+    private fun render(state: EditProfileState) {
+        bindingLoading.clLoadingPage.isVisible = state.isLoading
     }
 
     private fun setImage(uri: Uri?) {
         if (uri != null) {
-            binding.ivAddFriends.setPadding(0, 0, 0, 0)
+            binding.ivPicture.setPadding(0, 0, 0, 0)
             Glide.with(this)
                 .load(uri)
-                .into(binding.ivAddFriends)
+                .into(binding.ivPicture)
         } else {
-            binding.ivAddFriends.setImageDrawable(
+            binding.ivPicture.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     CoreR.drawable.add_picture_image
@@ -170,42 +157,24 @@ class RegistrationUserInfoFragment : Fragment() {
         }
     }
 
-    private fun render(state: RegistrationUserInfoState) {
-        bindingLoading.clLoadingPage.isVisible = state.isLoading
-        when (state.firstNameValidation) {
-            NameValidation.SUCCESS -> binding.tilEnterName.error = ""
-            NameValidation.EMPTY -> binding.tilEnterName.error =
-                getString(R.string.login_empty_field)
-
-            NameValidation.ERROR -> binding.tilEnterName.error =
-                getString(R.string.login_error_max_length)
-        }
-        when (state.lastNameValidation) {
-            NameValidation.SUCCESS -> binding.tilLastname.error = ""
-            NameValidation.EMPTY -> binding.tilLastname.error =
-                getString(R.string.login_empty_field)
-
-            NameValidation.ERROR -> binding.tilLastname.error =
-                getString(R.string.login_error_max_length)
-        }
-    }
 
     @SuppressLint("ShowToast")
     private fun showNews(news: News) {
         when (news) {
-            RegistrationUserInfoNews.ShowErrorToast -> Toast.makeText(
-                context,
-                CoreR.string.error_toast,
-                Toast.LENGTH_SHORT
-            ).show()
-
-            is RegistrationUserInfoNews.ChangeImage -> setImage(news.uri)
-            is RegistrationUserInfoNews.OpenCodePage -> {
-                val action =
-                    RegistrationUserInfoFragmentDirections.actionRegistrationUserInfoFragmentToConfirmationCodeFragment()
-                action.email = ars.email
-                findNavController().navigate(action)
+            EditProfileNews.ShowErrorToast -> {
+                Toast.makeText(context, CoreR.string.error_toast, Toast.LENGTH_SHORT).show()
             }
+
+            EditProfileNews.OpenPreviousPage -> {}
+            EditProfileNews.NameIsEmpty -> {
+                binding.tilEnterName.error = getString(R.string.profile_empty_field)
+            }
+
+            EditProfileNews.LastNameIsEmpty -> {
+                binding.tilNickname.error = getString(R.string.profile_empty_field)
+            }
+
+            is EditProfileNews.ChangeImage -> setImage(news.uri)
         }
     }
 }

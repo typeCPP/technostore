@@ -45,6 +45,10 @@ class EditProfileEffectHandler(
                 store.acceptNews(EditProfileNews.OpenPreviousPage)
             }
 
+            is EditProfileUiEvent.OnImageChanged -> store.acceptNews(
+                EditProfileNews.ChangeImage(event.uri)
+            )
+
             else -> {}
         }
     }

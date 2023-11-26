@@ -6,15 +6,15 @@ class FilterReducer : Reducer<FilterState, FilterEvent> {
     override fun reduce(currentState: FilterState, event: FilterEvent): FilterState {
         return when (event) {
 
-             FilterEvent.StartLoading -> currentState.copy(
+            FilterEvent.StartLoading -> currentState.copy(
                 isLoading = true
             )
 
-             FilterEvent.EndLoading -> currentState.copy(
+            FilterEvent.EndLoading -> currentState.copy(
                 isLoading = false
             )
 
-            is FilterEvent.DataLoaded->currentState.copy(
+            is FilterEvent.DataLoaded -> currentState.copy(
                 categories = event.categories
             )
 

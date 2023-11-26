@@ -17,4 +17,6 @@
     <string name="change_password_enter_old_password">Введите старый пароль</string>
     <string name="change_password_enter_new_password">Введите новый пароль</string>
     <string name="change_password_enter_new_password_again">Повторите новый пароль</string>
+
+    <string name="profile_empty_field">Введите данные</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.technostore.feature_profile.edit_profile.presentation
 
+import android.net.Uri
 import com.technostore.arch.mvi.Event
 
 sealed class EditProfileEvent : Event {
@@ -10,11 +11,11 @@ sealed class EditProfileEvent : Event {
 sealed class EditProfileUiEvent : EditProfileEvent() {
     data class OnChangeProfileClicked(
         val byteArray: ByteArray?,
-        val email: String,
-        val password: String,
         val name: String,
         val lastName: String,
     ) : EditProfileUiEvent()
 
     data object OnBackButtonClicked : EditProfileUiEvent()
+
+    class OnImageChanged(val uri: Uri?) : EditProfileUiEvent()
 }

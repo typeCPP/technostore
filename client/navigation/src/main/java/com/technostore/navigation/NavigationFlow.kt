@@ -5,4 +5,5 @@ sealed class NavigationFlow {
     data object LoginFlow : NavigationFlow()
     data object MainActivityFlow : NavigationFlow()
     data object FilterFlow : NavigationFlow()
+    data object ProfileFlow : NavigationFlow()
 }

@@ -1,5 +1,6 @@
 package com.technostore.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 
 class Navigator {
@@ -20,6 +21,11 @@ class Navigator {
 
         NavigationFlow.FilterFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalFilterFlow())
+        }
+
+        NavigationFlow.ProfileFlow -> {
+            Log.wtf("Navigator","Navigator")
+            navController.navigate(MainNavGraphDirections.actionGlobalProfileFlow())
         }
     }
 }
