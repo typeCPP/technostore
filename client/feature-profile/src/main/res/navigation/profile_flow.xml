@@ -7,5 +7,7 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.technostore.feature_profile.edit_profile.EditProfileFragment" />
-
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.technostore.feature_profile.change_password.ChangePasswordFragment" />
 </navigation>
