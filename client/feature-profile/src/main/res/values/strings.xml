@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Edit profile page -->
+    <string name="edit_profile">Редактировать\nпрофиль</string>
+    <string name="edit_profile_photo">Фото</string>
+    <string name="edit_profile_name_user">Имя</string>
+    <string name="edit_profile_enter_your_name">Введите ваше имя</string>
+    <string name="edit_profile_last_name">Фамилия</string>
+    <string name="edit_profile_сome_up_last_name">Введите вашу фамилию</string>
+    <string name="edit_profile_save">Сохранить</string>
+
+    <!-- Change password page -->
+    <string name="change_password">Сменить пароль</string>
+    <string name="change_password_old_password">Старый пароль</string>
+    <string name="change_password_new_password">Новый пароль</string>
+    <string name="change_password_repeat_new_password">Повторите новый пароль</string>
+    <string name="change_password_enter_old_password">Введите старый пароль</string>
+    <string name="change_password_enter_new_password">Введите новый пароль</string>
+    <string name="change_password_enter_new_password_again">Повторите новый пароль</string>
+</resources>

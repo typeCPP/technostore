@@ -19,4 +19,6 @@
     <color name="background_cong_color">#EFEAEA</color>
     <color name="nav_bar_stroke">#C1BFBF</color>
     <color name="light_gray">#706F6F</color>
+    <color name="pencil_color">#000000</color>
+    <color name="pencil_background_color">#E9E9E9</color>
 </resources>
