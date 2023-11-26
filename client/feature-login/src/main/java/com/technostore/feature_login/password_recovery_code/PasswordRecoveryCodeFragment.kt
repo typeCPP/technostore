@@ -16,7 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
 import com.technostore.core.R as CoreR
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.PasswordRecoveryCodePageFragmentBinding
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeNews
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState

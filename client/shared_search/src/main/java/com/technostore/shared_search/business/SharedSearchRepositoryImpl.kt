@@ -27,7 +27,7 @@ class SharedSearchRepositoryImpl(
     private var maxCost: Float = 1000000f
 
     @Volatile
-    private var minRating: Float = 1f
+    private var minRating: Float = 0f
 
     @Volatile
     private var maxRating: Float = 10f

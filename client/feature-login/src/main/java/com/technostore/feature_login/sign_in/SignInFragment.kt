@@ -19,7 +19,7 @@ import com.technostore.feature_login.R
 import com.technostore.feature_login.common_ui.EmailValidation
 import com.technostore.feature_login.common_ui.PasswordValidation
 import com.technostore.core.R as CoreR
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.SignInFragmentBinding
 import com.technostore.feature_login.sign_in.presentation.SignInNews
 import com.technostore.feature_login.sign_in.presentation.SignInState

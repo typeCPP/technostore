@@ -23,7 +23,7 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeN
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
 import com.technostore.feature_login.databinding.ConfirmCodePageFragmentBinding
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
