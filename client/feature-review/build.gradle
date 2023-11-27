@@ -1,24 +1,22 @@
 plugins {
-    id 'com.android.application'
-    id 'com.google.dagger.hilt.android'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
+
 apply from: rootProject.file('gradle/versions.gradle')
 
 android {
-    namespace 'com.technostore'
+    namespace 'com.technostore.feature_review'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.techstore"
         minSdk 29
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -40,15 +38,10 @@ android {
 }
 
 dependencies {
+    implementation project(':core')
     implementation project(':arch')
-    implementation project(':feature-login')
-    implementation project(':feature-profile')
-    implementation project(':shared_search')
-    implementation project(':network')
-    implementation project(':app-store')
     implementation project(':navigation')
-    implementation project(':base')
-    implementation project(':feature-review')
+    implementation project(':network')
 
     implementation "androidx.core:core-ktx:$coreVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -56,6 +49,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutversion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 }
