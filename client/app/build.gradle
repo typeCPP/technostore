@@ -43,6 +43,7 @@ dependencies {
     implementation project(':arch')
     implementation project(':feature-login')
     implementation project(':feature-profile')
+    implementation project(':feature-product')
     implementation project(':shared_search')
     implementation project(':network')
     implementation project(':app-store')

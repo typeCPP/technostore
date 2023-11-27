@@ -35,6 +35,10 @@ import com.technostore.feature_login.password_recovery_code.presentation.Passwor
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_product.product.presentation.ProductEffectHandler
+import com.technostore.feature_product.product.presentation.ProductReducer
+import com.technostore.feature_product.product.presentation.ProductState
+import com.technostore.feature_product.product.presentation.ProductViewModel
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordEffectHandler
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
@@ -212,6 +216,18 @@ class ViewModelModule {
     ): FilterViewModel {
         return FilterViewModel(
             initialState = FilterState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideProductViewModel(
+        reducer: ProductReducer,
+        effectHandler: ProductEffectHandler
+    ): ProductViewModel {
+        return ProductViewModel(
+            initialState = ProductState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
