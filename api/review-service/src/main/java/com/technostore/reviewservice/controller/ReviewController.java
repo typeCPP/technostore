@@ -29,4 +29,9 @@ public class ReviewController {
                             "No review with id: " + id), HttpStatus.NOT_FOUND);
         }
     }
+
+    @RequestMapping(path = "/all-by-product-id/{id}", method = RequestMethod.GET)
+    ResponseEntity<?> getAllReviewsByProductId(@PathVariable Long id, HttpServletRequest request) {
+        return new ResponseEntity<>(reviewService.getAllReviewsByProductId(id, request), HttpStatus.OK);
+    }
 }
