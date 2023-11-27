@@ -1,5 +1,7 @@
 package com.technostore.reviewservice.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,5 +40,25 @@ public class ReviewServiceImpl implements ReviewService {
                 .userName(userDto.getName() + " " + userDto.getLastname())
                 .photoLink(userDto.getImage())
                 .build();
+    }
+
+    @Override
+    public List<ReviewDto> getAllReviewsByProductId(Long productId, HttpServletRequest request) {
+        List<Review> reviews = reviewRepository.findAllByProductId(productId);
+        List<ReviewDto> result = new ArrayList<>();
+
+        for (Review review : reviews) {
+            UserDto userDto = userRestTemplateClient.getUserById(review.getUserId(), request);
+            result.add(ReviewDto.builder()
+                    .id(review.getId())
+                    .date(review.getDate().toEpochMilli())
+                    .productId(review.getProductId())
+                    .rate(review.getRate())
+                    .text(review.getText())
+                    .userName(userDto.getName() + " " + userDto.getLastname())
+                    .photoLink(userDto.getImage())
+                    .build());
+        }
+        return result;
     }
 }
