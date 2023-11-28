@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/product_flow"
+    app:startDestination="@id/productDescriptionFragment">
+    <fragment
+        android:id="@+id/productDescriptionFragment"
+        android:name="com.technostore.feature_product.product_description.ProductDescriptionFragment">
+        <argument
+            android:name="product_name"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="product_description"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+</navigation>
