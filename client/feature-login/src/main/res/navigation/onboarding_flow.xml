@@ -12,7 +12,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/main_nav_graph"
+            app:popUpTo="@+id/login_nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>
