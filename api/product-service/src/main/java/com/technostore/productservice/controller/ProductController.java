@@ -40,7 +40,7 @@ public class ProductController {
     @GetMapping(path = "/{id}")
     ResponseEntity<?> getProductById(@PathVariable Long id, HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+            return new ResponseEntity<>(productService.getProductById(id, request), HttpStatus.OK);
         } catch (EntityNotFoundException exception) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
