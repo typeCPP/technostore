@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name="com.technostore.core.ui.crop.CropActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
 </manifest>

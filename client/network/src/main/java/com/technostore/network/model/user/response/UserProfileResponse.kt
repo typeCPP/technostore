@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 @kotlinx.serialization.Serializable
 class UserProfileResponse(
-    @SerializedName("firstName")
+    @SerializedName("name")
     val firstName: String,
     @SerializedName("lastName")
     val lastName: String,

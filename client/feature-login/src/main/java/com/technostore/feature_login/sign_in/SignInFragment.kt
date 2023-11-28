@@ -105,7 +105,7 @@ class SignInFragment : Fragment() {
         when (state.emailValidation) {
             EmailValidation.SUCCESS -> binding.tilEmail.error = ""
             EmailValidation.EMPTY -> binding.tilEmail.error = getString(R.string.login_empty_field)
-            EmailValidation.NOT_EXISTS -> getString(R.string.login_email_is_not_exists)
+            EmailValidation.NOT_EXISTS -> binding.tilEmail.error = getString(R.string.login_email_is_not_exists)
             EmailValidation.ERROR -> binding.tilEmail.error =
                 getString(R.string.login_email_error)
 

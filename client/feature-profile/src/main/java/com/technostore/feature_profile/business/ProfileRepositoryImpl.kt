@@ -9,6 +9,8 @@ import com.technostore.network.model.session.request.RefreshTokenRequest
 import com.technostore.network.service.OrderService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
+import com.technostore.network.utils.URL.BASE_URL
+import com.technostore.network.utils.URL.USER_SERVICE_BASE_URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -32,7 +34,7 @@ class ProfileRepositoryImpl(
                     val profile = ProfileModel(
                         firstName = body.firstName,
                         lastName = body.lastName,
-                        image = body.image,
+                        image = "$BASE_URL$USER_SERVICE_BASE_URL${body.image}",
                         email = body.email
                     )
                     return@withContext Result.Success(profile)
@@ -70,7 +72,7 @@ class ProfileRepositoryImpl(
             }
             val response = userService.changePassword(
                 refreshToken = appStore.refreshToken.orEmpty(),
-                oldPassword = null,
+                oldPassword = oldPassword,
                 newPassword = newPassword
             )
             if (response.isSuccessful) {
@@ -90,7 +92,7 @@ class ProfileRepositoryImpl(
         val data = JSONObject(
             mapOf(
                 "name" to name,
-                "lastName" to lastName
+                "lastname" to lastName
             )
         ).toString()
 
@@ -116,5 +118,10 @@ class ProfileRepositoryImpl(
             return@withContext Result.Success(orderResponse.body())
         }
         return@withContext Result.Error()
+    }
+
+    override suspend fun logout() {
+        appStore.clear()
+        userService.logout(appStore.refreshToken.orEmpty())
     }
 }

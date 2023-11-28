@@ -17,6 +17,8 @@ interface AppStore {
         email: String
     )
 
+    fun clear()
+
     fun accessTokenIsValid(): Boolean
     fun refreshTokenIsValid(): Boolean
     fun refreshAccessToken(

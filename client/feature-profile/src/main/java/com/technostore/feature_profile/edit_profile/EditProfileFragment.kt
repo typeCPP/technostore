@@ -16,7 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
@@ -49,6 +52,7 @@ class EditProfileFragment : Fragment() {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
+    private val ars: EditProfileFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         cropImageLauncher = registerForActivityResult(CropContract()) { result ->
@@ -93,6 +97,9 @@ class EditProfileFragment : Fragment() {
             onImageChange = onChangeImageRelay,
             acceptUri = viewModel::imageChanged,
         ).bind(viewLifecycleOwner)
+        setImage(ars.photoUrl)
+        binding.etNickname.setText(ars.lastName)
+        binding.etName.setText(ars.name)
         setOnClickListenerForPictureImage()
         setOnClickListenerForChangeButton()
         setTextChangedListeners()
@@ -141,11 +148,13 @@ class EditProfileFragment : Fragment() {
         bindingLoading.clLoadingPage.isVisible = state.isLoading
     }
 
-    private fun setImage(uri: Uri?) {
+    private fun setImageUri(uri: Uri?) {
         if (uri != null) {
             binding.ivPicture.setPadding(0, 0, 0, 0)
             Glide.with(this)
                 .load(uri)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(binding.ivPicture)
         } else {
             binding.ivPicture.setImageDrawable(
@@ -157,6 +166,21 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    private fun setImage(url: String) {
+        binding.ivPicture.setPadding(0, 0, 0, 0)
+        Glide.with(this)
+            .load(url)
+            .placeholder(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    CoreR.drawable.add_picture_image
+                )
+            )
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(binding.ivPicture)
+    }
+
 
     @SuppressLint("ShowToast")
     private fun showNews(news: News) {
@@ -165,7 +189,10 @@ class EditProfileFragment : Fragment() {
                 Toast.makeText(context, CoreR.string.error_toast, Toast.LENGTH_SHORT).show()
             }
 
-            EditProfileNews.OpenPreviousPage -> {}
+            EditProfileNews.OpenPreviousPage -> {
+                findNavController().popBackStack()
+            }
+
             EditProfileNews.NameIsEmpty -> {
                 binding.tilEnterName.error = getString(R.string.profile_empty_field)
             }
@@ -174,7 +201,7 @@ class EditProfileFragment : Fragment() {
                 binding.tilNickname.error = getString(R.string.profile_empty_field)
             }
 
-            is EditProfileNews.ChangeImage -> setImage(news.uri)
+            is EditProfileNews.ChangeImage -> setImageUri(news.uri)
         }
     }
 }
