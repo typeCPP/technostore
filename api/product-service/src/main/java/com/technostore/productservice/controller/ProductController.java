@@ -1,5 +1,9 @@
 package com.technostore.productservice.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,15 +11,15 @@ import java.util.Scanner;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.technostore.productservice.dto.ProductDto;
+import com.technostore.productservice.model.Product;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.technostore.productservice.service.CategoryService;
@@ -93,5 +97,28 @@ public class ProductController {
     @RequestMapping(path = "/popular-categories", method = RequestMethod.GET)
     ResponseEntity<?> getProductById() {
         return new ResponseEntity<>(categoryService.getPopularCategories(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> getUserImage(@RequestParam Long id) {
+        ProductDto product;
+        try {
+            product = productService.getProductById(id);
+        } catch (EntityNotFoundException exception) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "Product with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
+        }
+        try {
+            String path = new File("").getAbsolutePath();
+            File file = new File(path + product.getLinkPhoto());
+            InputStream input = new FileInputStream(file);
+            return new ResponseEntity<>(IOUtils.toByteArray(input), HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
