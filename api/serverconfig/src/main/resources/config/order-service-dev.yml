@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://database:3306/orders
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: strongpassword
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: create
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_HOST:http://eurekaserver:8080/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    instance-id: order-instance
+    preferIpAddress: true
