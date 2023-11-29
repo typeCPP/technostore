@@ -71,4 +71,15 @@ class AppStoreImpl @Inject constructor(sharedPreferences: SharedPreferences) :
         this.currentDateRefreshToken = System.currentTimeMillis()
     }
 
+    override fun clear() {
+        this.refreshToken = null
+        this.accessToken = null
+        this.expireTimeRefreshToken = 0
+        this.expireTimeAccessToken = 0
+        this.currentDateAccessToken = 0
+        this.currentDateRefreshToken = 0
+        this.id = null
+        this.email = null
+        this.isActive = false
+    }
 }

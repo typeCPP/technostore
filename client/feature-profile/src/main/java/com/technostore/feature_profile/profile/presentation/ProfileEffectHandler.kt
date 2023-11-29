@@ -5,8 +5,9 @@ import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_profile.business.ProfileRepository
 
-class ProfileEffectHandler(private val profileRepository: ProfileRepository) :
-    EffectHandler<ProfileState, ProfileEvent> {
+class ProfileEffectHandler(
+    private val profileRepository: ProfileRepository
+) : EffectHandler<ProfileState, ProfileEvent> {
     override suspend fun process(
         event: ProfileEvent,
         currentState: ProfileState,
@@ -35,8 +36,21 @@ class ProfileEffectHandler(private val profileRepository: ProfileRepository) :
                 }
             }
 
-            ProfileUiEvent.OnLogoutClicked -> store.acceptNews(ProfileNews.Logout)
-            ProfileUiEvent.OnChangeProfileClicked -> store.acceptNews(ProfileNews.OpenChangeProfilePage)
+            ProfileUiEvent.OnLogoutClicked -> {
+                profileRepository.logout()
+                store.acceptNews(ProfileNews.Logout)
+            }
+
+            ProfileUiEvent.OnChangeProfileClicked -> {
+                store.acceptNews(
+                    ProfileNews.OpenChangeProfilePage(
+                        name = currentState.name,
+                        lastName = currentState.lastName,
+                        photoUrl = currentState.image
+                    )
+                )
+            }
+
             ProfileUiEvent.OnChangePasswordClicked -> store.acceptNews(ProfileNews.OpenChangePasswordPage)
             ProfileUiEvent.OnOrderHistoryClicked -> store.acceptNews(ProfileNews.OpenOrderHistoryPage)
             else -> {}

@@ -2,11 +2,68 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/profile_flow"
-    app:startDestination="@id/ordersFragment">
+    app:startDestination="@id/profileFragment">
 
     <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.technostore.feature_profile.profile.ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="name"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="lastName"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="photoUrl"
+                android:defaultValue="null"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_profileFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.technostore.feature_profile.edit_profile.EditProfileFragment" />
+        android:name="com.technostore.feature_profile.edit_profile.EditProfileFragment">
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="lastName"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="photoUrl"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.technostore.feature_profile.change_password.ChangePasswordFragment" />

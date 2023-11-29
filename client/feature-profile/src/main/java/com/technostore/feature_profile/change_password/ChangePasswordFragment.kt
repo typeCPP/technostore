@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
 import com.technostore.core.R
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordNews
@@ -106,7 +107,9 @@ class ChangePasswordFragment : Fragment() {
                 Toast.makeText(context, R.string.error_toast, Toast.LENGTH_SHORT).show()
             }
 
-            ChangePasswordNews.OpenPreviousPage -> {}
+            ChangePasswordNews.OpenPreviousPage -> {
+                findNavController().popBackStack()
+            }
 
             ChangePasswordNews.OldPasswordIsEmpty,
             ChangePasswordNews.NewPasswordIsEmpty,

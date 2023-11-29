@@ -44,8 +44,8 @@ class ProfileModule {
     }
 
     @Provides
-    fun provideProfilePageReducer(): ProfileReducer {
-        return ProfileReducer()
+    fun provideProfilePageReducer(appStore: AppStore): ProfileReducer {
+        return ProfileReducer(appStore)
     }
 
     /* Change password */

@@ -28,4 +28,9 @@ interface UserService {
         @Part("editUserBeanString") data: RequestBody,
         @Part file: MultipartBody.Part?
     ): Response<Unit>
+
+    @GET("${URL.USER_SERVICE_BASE_URL}/user/logout")
+    suspend fun logout(
+        @Query("refreshToken", encoded = true) refreshToken: String
+    ): Response<Unit>
 }
