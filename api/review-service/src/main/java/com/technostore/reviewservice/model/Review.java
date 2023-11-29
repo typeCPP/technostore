@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.Instant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +28,5 @@ public class Review {
 
     private int rate;
 
-    private Instant date;
+    private long date;
 }
