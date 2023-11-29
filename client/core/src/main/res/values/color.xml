@@ -25,4 +25,5 @@
     <color name="orders_card_background">#F4F4F4</color>
     <color name="black_70_per">#B3000000</color>
     <color name="block">#EFEAEA</color>
+    <color name="product_card_background">#4DD9D9D9</color>
 </resources>

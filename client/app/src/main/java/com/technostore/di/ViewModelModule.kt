@@ -50,6 +50,10 @@ import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffe
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
+import com.technostore.feature_profile.order_detail.presentation.OrderDetailEffectHandler
+import com.technostore.feature_profile.order_detail.presentation.OrderDetailReducer
+import com.technostore.feature_profile.order_detail.presentation.OrderDetailState
+import com.technostore.feature_profile.order_detail.presentation.OrderDetailViewModel
 import com.technostore.feature_profile.orders.presentation.OrdersEffectHandler
 import com.technostore.feature_profile.orders.presentation.OrdersReducer
 import com.technostore.feature_profile.orders.presentation.OrdersState
@@ -259,6 +263,18 @@ class ViewModelModule {
     ): OrdersViewModel {
         return OrdersViewModel(
             initialState = OrdersState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideOrderDetailViewModel(
+        reducer: OrderDetailReducer,
+        effectHandler: OrderDetailEffectHandler
+    ): OrderDetailViewModel {
+        return OrderDetailViewModel(
+            initialState = OrderDetailState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

@@ -3,7 +3,9 @@ package com.technostore.feature_profile.business
 import com.technostore.app_store.store.AppStore
 import com.technostore.arch.result.Result
 import com.technostore.feature_profile.business.error.ChangePasswordError
+import com.technostore.feature_profile.business.model.OrderDetailModel
 import com.technostore.feature_profile.business.model.ProfileModel
+import com.technostore.feature_profile.business.model.mapper.OrderDetailMapper
 import com.technostore.network.model.order.response.Order
 import com.technostore.network.model.session.request.RefreshTokenRequest
 import com.technostore.network.service.OrderService
@@ -22,7 +24,8 @@ import org.json.JSONObject
 class ProfileRepositoryImpl(
     private val userService: UserService,
     private val sessionService: SessionService,
-    private val orderSerivce: OrderService,
+    private val orderService: OrderService,
+    private val orderDetailMapper: OrderDetailMapper,
     private val appStore: AppStore
 ) : ProfileRepository {
     override suspend fun getProfile(): Result<ProfileModel> = withContext(Dispatchers.IO) {
@@ -113,7 +116,7 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun getCompletedOrders(): Result<List<Order>> = withContext(Dispatchers.IO) {
-        val orderResponse = orderSerivce.getCompletedOrders()
+        val orderResponse = orderService.getCompletedOrders()
         if (orderResponse.isSuccessful && orderResponse.body() != null) {
             return@withContext Result.Success(orderResponse.body())
         }
@@ -124,4 +127,17 @@ class ProfileRepositoryImpl(
         appStore.clear()
         userService.logout(appStore.refreshToken.orEmpty())
     }
+
+    override suspend fun getCompletedOrderById(id: Long): Result<OrderDetailModel> =
+        withContext(Dispatchers.IO) {
+            val orderResponse = orderService.getCompletedOrderById(id)
+            if (orderResponse.isSuccessful && orderResponse.body() != null) {
+                return@withContext Result.Success(
+                    orderDetailMapper.mapFromResponseToModel(
+                        orderResponse.body()!!
+                    )
+                )
+            }
+            return@withContext Result.Error()
+        }
 }

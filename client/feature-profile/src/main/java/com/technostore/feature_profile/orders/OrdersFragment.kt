@@ -117,7 +117,9 @@ class OrdersFragment : Fragment() {
             }
 
             is OrdersNews.OpenOrderDetail -> {
-                TODO()
+                val action =
+                    OrdersFragmentDirections.actionOrdersFragmentToOrderDetailFragment(news.id)
+                findNavController().navigate(action)
             }
         }
     }

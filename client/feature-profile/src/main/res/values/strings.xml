@@ -34,4 +34,7 @@
     <string name="orders_history_empty_title">История пустая</string>
     <string name="orders_history_empty_subtitle">Совершите свой первый заказ!</string>
     <string name="orders_history_empty_button">В каталог</string>
+
+    <!-- Order detail -->
+    <string name="orders_detail_title">Заказ №%s</string>
 </resources>

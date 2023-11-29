@@ -69,5 +69,26 @@
         android:name="com.technostore.feature_profile.change_password.ChangePasswordFragment" />
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="com.technostore.feature_profile.orders.OrdersFragment" />
+        android:name="com.technostore.feature_profile.orders.OrdersFragment">
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="orderId"
+                app:argType="long"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.technostore.feature_profile.order_detail.OrderDetailFragment">
+        <argument
+            android:name="orderId"
+            app:argType="long"
+            app:nullable="false" />
+    </fragment>
 </navigation>
