@@ -48,7 +48,7 @@ public class ReviewController {
     }
 
     @RequestMapping(path = "/newReview", method = RequestMethod.POST)
-    public ResponseEntity<?> setReview(@RequestParam String text,
+    public ResponseEntity<?> setReview(@RequestParam(required = false) String text,
                                        @RequestParam int rate,
                                        @RequestParam long productId,
                                        HttpServletRequest request) {

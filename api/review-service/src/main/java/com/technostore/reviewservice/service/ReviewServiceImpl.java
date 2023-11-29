@@ -28,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewDto getReviewById(Long id, HttpServletRequest request) {
         Optional<Review> reviewOptional = reviewRepository.findById(id);
-        if (reviewOptional.isEmpty()) {
+        if (reviewOptional.isEmpty() || reviewOptional.get().getText() == null) {
             throw new EntityNotFoundException("No review with id: " + id);
         }
         Review review = reviewOptional.get();
@@ -46,7 +46,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDto> getAllReviewsByProductId(Long productId, HttpServletRequest request) {
-        List<Review> reviews = reviewRepository.findAllByProductId(productId);
+        List<Review> reviews = reviewRepository.findAllByProductId(productId).stream()
+                .filter(review -> review.getText() != null)
+                .toList();
         List<ReviewDto> result = new ArrayList<>();
 
         for (Review review : reviews) {
