@@ -53,12 +53,12 @@
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_activity"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sl_shimmer_main_activity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_7x"
-        android:background="@drawable/profile_card_background"
+        android:background="@drawable/shimmer_rectangle"
         android:paddingHorizontal="@dimen/space_5x"
         android:paddingVertical="@dimen/space_4x"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
@@ -79,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginTop="@dimen/space_4x"
             android:text="@string/profile_page_name_last_name"
             android:textColor="@color/light_color_text"
             android:textStyle="bold"
@@ -92,7 +93,7 @@
             android:layout_marginStart="@dimen/space_5x"
             android:text="@string/profile_page_email"
             android:textColor="@color/light_color_text"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_main_photo"
             app:layout_constraintStart_toEndOf="@id/iv_main_photo"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
@@ -101,27 +102,27 @@
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_marginEnd="@dimen/space_3x"
-            android:layout_marginLeft="180dp"
+            android:layout_marginLeft="300dp"
             android:src="@drawable/pencil_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tint="@color/color_accent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/history_order"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sl_shimmer_history_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_7x"
-        android:background="@drawable/profile_card_background"
+        android:background="@drawable/shimmer_rectangle"
         android:paddingHorizontal="@dimen/space_5x"
         android:paddingVertical="@dimen/space_4x"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/main_activity">
+        app:layout_constraintTop_toBottomOf="@id/sl_shimmer_main_activity">
 
         <ImageView
             android:id="@+id/iv_history_order"
@@ -136,27 +137,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginStart="@dimen/space_10x"
             android:text="@string/profile_page_order_history"
             android:textColor="@color/light_color_text"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/iv_history_order"
             app:layout_constraintStart_toEndOf="@id/iv_history_order"
             app:layout_constraintTop_toTopOf="@id/iv_history_order" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_change_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_7x"
-        android:background="@drawable/profile_card_background"
-        android:paddingHorizontal="@dimen/space_5x"
-        android:paddingVertical="@dimen/space_4x"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/history_order">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sl_shimmer_change_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_7x"
+            android:background="@drawable/shimmer_rectangle"
+            android:paddingHorizontal="@dimen/space_5x"
+            android:paddingVertical="@dimen/space_4x"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/sl_shimmer_history_order">
 
         <ImageView
             android:id="@+id/iv_lock"
@@ -170,26 +171,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_7x"
+            android:layout_marginStart="40dp"
             android:text="@string/profile_page_change_password"
             android:textColor="@color/light_color_text"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/iv_lock"
             app:layout_constraintStart_toEndOf="@id/iv_lock"
             app:layout_constraintTop_toTopOf="@id/iv_lock" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_log_out"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sl_shimmer_log_out"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_7x"
-        android:background="@drawable/profile_card_background"
+        android:background="@drawable/shimmer_rectangle"
         android:paddingHorizontal="@dimen/space_5x"
         android:paddingVertical="@dimen/space_4x"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/cl_change_password">
+        app:layout_constraintTop_toBottomOf="@id/sl_shimmer_change_password">
 
         <ImageView
             android:id="@+id/iv_log_out_door"
@@ -205,14 +206,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_6x"
+            android:layout_marginStart="@dimen/space_9x"
             android:text="@string/profile_page_log_out"
             android:textColor="@color/light_color_text"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/iv_log_out_door"
             app:layout_constraintStart_toEndOf="@id/iv_log_out_door"
             app:layout_constraintTop_toTopOf="@id/iv_log_out_door" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <include
         android:id="@+id/loading"
         layout="@layout/loading_fragment"
