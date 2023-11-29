@@ -24,4 +24,5 @@
     <color name="error_number">#E2ECFB</color>
     <color name="orders_card_background">#F4F4F4</color>
     <color name="black_70_per">#B3000000</color>
+    <color name="block">#EFEAEA</color>
 </resources>

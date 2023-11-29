@@ -91,14 +91,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/iv_book"
+        android:id="@+id/iv_pencil"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="@dimen/space_3x"
         android:layout_marginEnd="@dimen/space_3x"
         android:background="@drawable/edit_profile_pencil_background"
         android:padding="7dp"
-        android:src="@drawable/pencil"
+        android:src="@drawable/pencil_image"
         app:layout_constraintBottom_toBottomOf="@id/cl_edit_picture"
         app:layout_constraintEnd_toEndOf="@id/cl_edit_picture" />
 
