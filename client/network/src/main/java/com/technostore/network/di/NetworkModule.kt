@@ -2,6 +2,7 @@ package com.technostore.network.di
 
 import com.technostore.network.interceptor.ConnectionInterceptor
 import com.technostore.network.service.LoginService
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
@@ -89,5 +90,11 @@ class NetworkModule {
     @Provides
     fun provideProductService(@RegisteredRetrofit retrofit: Retrofit): ProductService {
         return retrofit.create(ProductService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideOrderService(@RegisteredRetrofit retrofit: Retrofit): OrderService {
+        return retrofit.create(OrderService::class.java)
     }
 }

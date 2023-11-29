@@ -6,10 +6,25 @@
 
     <include app:graph="@navigation/main_flow" />
     <include app:graph="@navigation/filter_flow" />
+    <include app:graph="@navigation/profile_flow" />
+    <include app:graph="@navigation/product_flow" />
 
     <action
         android:id="@+id/action_global_filter_flow"
         app:destination="@id/filter_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+
+
+    <action
+        android:id="@+id/action_global_profile_flow"
+        app:destination="@id/profile_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_product_flow"
+        app:destination="@id/profile_flow"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 </navigation>

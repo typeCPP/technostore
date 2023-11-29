@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: ${ACTIVE_PROFILE}
+  cloud:
+    config:
+      uri: ${CONFIG_URI}

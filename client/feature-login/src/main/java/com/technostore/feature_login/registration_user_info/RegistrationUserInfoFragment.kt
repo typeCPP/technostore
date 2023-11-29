@@ -25,9 +25,9 @@ import com.canhub.cropper.CropImageView
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
 import com.technostore.core.R as CoreR
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.RegistrationUserInformationPageFragmentBinding
-import com.technostore.feature_login.registration_user_info.crop.CropContract
+import com.technostore.core.ui.crop.CropContract
 import com.technostore.feature_login.registration_user_info.presentation.NameValidation
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoNews
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
@@ -164,7 +164,7 @@ class RegistrationUserInfoFragment : Fragment() {
             binding.ivAddFriends.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.add_picture_image
+                    CoreR.drawable.add_picture_image
                 )
             )
         }

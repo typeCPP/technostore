@@ -1,4 +1,4 @@
-package com.technostore.feature_login.registration_user_info.crop
+package com.technostore.core.ui.crop
 
 import android.app.Activity
 import android.content.Context

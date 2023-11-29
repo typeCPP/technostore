@@ -7,8 +7,11 @@ import com.technostore.feature_profile.change_password.presentation.ChangePasswo
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
+import com.technostore.feature_profile.orders.presentation.OrdersEffectHandler
+import com.technostore.feature_profile.orders.presentation.OrdersReducer
 import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import dagger.Module
@@ -23,9 +26,15 @@ class ProfileModule {
     fun provideProfileRepository(
         userService: UserService,
         sessionService: SessionService,
+        orderService: OrderService,
         appStore: AppStore
     ): ProfileRepository {
-        return ProfileRepositoryImpl(userService, sessionService, appStore)
+        return ProfileRepositoryImpl(
+            userService,
+            sessionService,
+            orderService,
+            appStore
+        )
     }
 
     /* Profile */
@@ -59,5 +68,16 @@ class ProfileModule {
     @Provides
     fun provideEditProfiledPageReducer(): EditProfileReducer {
         return EditProfileReducer()
+    }
+
+    /* Orders list */
+    @Provides
+    fun provideOrdersEffectHandler(profileRepository: ProfileRepository): OrdersEffectHandler {
+        return OrdersEffectHandler(profileRepository)
+    }
+
+    @Provides
+    fun provideOrdersReducer(): OrdersReducer {
+        return OrdersReducer()
     }
 }
