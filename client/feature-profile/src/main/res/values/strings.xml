@@ -17,12 +17,21 @@
     <string name="change_password_enter_old_password">Введите старый пароль</string>
     <string name="change_password_enter_new_password">Введите новый пароль</string>
     <string name="change_password_enter_new_password_again">Повторите новый пароль</string>
+    <string name="change_password_passwords_are_broken">Пароли должны совпадать</string>
+    <string name="change_password_wrong_old_password">Старый пароль введен неверно</string>
 
-    <!-- Profile page -->
+    <!-- Profile -->
+    <string name="profile_empty_field">Заполните все поля</string>
     <string name="profile_page_order_history">История заказов</string>
     <string name="profile_page_change_password">Изменить пароль</string>
     <string name="profile_page_log_out">Выйти из аккаунта</string>
     <string name="profile_page_name_last_name">Андрей Усанов</string>
     <string name="profile_page_email">taverna201@gmail.com</string>
 
+    <!-- Orders -->
+    <string name="orders_title">История заказов</string>
+    <string name="orders_item_title">Заказ №%s</string>
+    <string name="orders_history_empty_title">История пустая</string>
+    <string name="orders_history_empty_subtitle">Совершите свой первый заказ!</string>
+    <string name="orders_history_empty_button">В каталог</string>
 </resources>
