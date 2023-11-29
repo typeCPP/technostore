@@ -32,12 +32,11 @@ class SignInEffectHandler(
                 }
                 store.dispatch(SignInEvent.EmailIsValid)
 
-                val passwordTrim = event.password?.trim()
-                if (passwordTrim.isNullOrEmpty()) {
+                if (event.password.isNullOrEmpty()) {
                     store.dispatch(SignInEvent.PasswordIsEmpty)
                     return
                 }
-                if (passwordTrim.length > 255) {
+                if (event.password.length > 255) {
                     store.dispatch(SignInEvent.PasswordErrorMaxLength)
                 }
                 store.dispatch(SignInEvent.PasswordIsValid)

@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
 import com.technostore.feature_login.common_ui.EmailValidation
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.PasswordRecoveryEmailPageFragmentBinding
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailNews
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState

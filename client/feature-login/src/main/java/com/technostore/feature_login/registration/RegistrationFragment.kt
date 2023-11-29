@@ -18,7 +18,7 @@ import com.technostore.arch.mvi.News
 import com.technostore.feature_login.R
 import com.technostore.feature_login.common_ui.EmailValidation
 import com.technostore.feature_login.common_ui.PasswordValidation
-import com.technostore.feature_login.databinding.LoadingFragmentBinding
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_login.databinding.RegistrationPageFragmentBinding
 import com.technostore.feature_login.registration.presentation.RegistrationNews
 import com.technostore.feature_login.registration.presentation.RegistrationState

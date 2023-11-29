@@ -4,7 +4,9 @@ import com.technostore.app_store.store.AppStore
 import com.technostore.arch.result.Result
 import com.technostore.feature_profile.business.error.ChangePasswordError
 import com.technostore.feature_profile.business.model.ProfileModel
+import com.technostore.network.model.order.response.Order
 import com.technostore.network.model.session.request.RefreshTokenRequest
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ import org.json.JSONObject
 class ProfileRepositoryImpl(
     private val userService: UserService,
     private val sessionService: SessionService,
+    private val orderSerivce: OrderService,
     private val appStore: AppStore
 ) : ProfileRepository {
     override suspend fun getProfile(): Result<ProfileModel> = withContext(Dispatchers.IO) {
@@ -103,6 +106,14 @@ class ProfileRepositoryImpl(
         val response = userService.editProfile(dataMultipart, part)
         if (response.isSuccessful) {
             return@withContext Result.Success()
+        }
+        return@withContext Result.Error()
+    }
+
+    override suspend fun getCompletedOrders(): Result<List<Order>> = withContext(Dispatchers.IO) {
+        val orderResponse = orderSerivce.getCompletedOrders()
+        if (orderResponse.isSuccessful && orderResponse.body() != null) {
+            return@withContext Result.Success(orderResponse.body())
         }
         return@withContext Result.Error()
     }

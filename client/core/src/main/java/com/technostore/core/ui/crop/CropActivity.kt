@@ -1,9 +1,9 @@
-package com.technostore.feature_login.registration_user_info.crop
+package com.technostore.core.ui.crop
 
 import android.os.Bundle
 import android.view.View
 import com.canhub.cropper.CropImageActivity
-import com.technostore.feature_login.databinding.ActivityCropBinding
+import com.technostore.core.databinding.ActivityCropBinding
 
 class CropActivity : CropImageActivity() {
 

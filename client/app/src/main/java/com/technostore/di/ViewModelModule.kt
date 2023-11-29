@@ -35,6 +35,13 @@ import com.technostore.feature_login.password_recovery_code.presentation.Passwor
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_product.product.presentation.ProductEffectHandler
+import com.technostore.feature_product.product.presentation.ProductReducer
+import com.technostore.feature_product.product.presentation.ProductState
+import com.technostore.feature_product.product.presentation.ProductViewModel
+import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
+import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
+import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordEffectHandler
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
@@ -43,6 +50,10 @@ import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffe
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
+import com.technostore.feature_profile.orders.presentation.OrdersEffectHandler
+import com.technostore.feature_profile.orders.presentation.OrdersReducer
+import com.technostore.feature_profile.orders.presentation.OrdersState
+import com.technostore.feature_profile.orders.presentation.OrdersViewModel
 import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileState
@@ -212,6 +223,42 @@ class ViewModelModule {
     ): FilterViewModel {
         return FilterViewModel(
             initialState = FilterState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideProductViewModel(
+        reducer: ProductReducer,
+        effectHandler: ProductEffectHandler
+    ): ProductViewModel {
+        return ProductViewModel(
+            initialState = ProductState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideProductDescriptionViewModel(
+        reducer: ProductDescriptionReducer,
+        effectHandler: ProductDescriptionEffectHandler
+    ): ProductDescriptionViewModel {
+        return ProductDescriptionViewModel(
+            initialState = InitialState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideOrdersViewModel(
+        reducer: OrdersReducer,
+        effectHandler: OrdersEffectHandler
+    ): OrdersViewModel {
+        return OrdersViewModel(
+            initialState = OrdersState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

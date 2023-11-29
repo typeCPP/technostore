@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -37,4 +40,5 @@ dependencies {
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutversion"
     api "com.facebook.shimmer:shimmer:$shimmerVersion"
+    implementation "com.vanniktech:android-image-cropper:$imageCropperVersion"
 }

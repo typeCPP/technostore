@@ -21,5 +21,9 @@ class Navigator {
         NavigationFlow.FilterFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalFilterFlow())
         }
+
+        NavigationFlow.ProfileFlow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalProfileFlow())
+        }
     }
 }

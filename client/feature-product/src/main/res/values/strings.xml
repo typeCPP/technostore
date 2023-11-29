@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Product description -->
+    <string name="product_description_title">Описание</string>
+</resources>

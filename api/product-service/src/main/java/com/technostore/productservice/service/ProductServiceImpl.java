@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 
 import com.technostore.productservice.dto.ProductDto;
+import com.technostore.productservice.dto.ReviewDto;
 import com.technostore.productservice.dto.SearchProductDto;
 import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.model.Product;
 import com.technostore.productservice.repository.ProductRepository;
+import com.technostore.productservice.service.client.ReviewRestTemplateClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,13 +23,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ReviewRestTemplateClient reviewRestTemplateClient;
     @Override
-    public ProductDto getProductById(Long id) {
+    public ProductDto getProductById(Long id, HttpServletRequest request) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             throw new EntityNotFoundException("No product with such id");
         }
         Product product = productOptional.get();
+        List<ReviewDto> reviews = reviewRestTemplateClient.getAllReviews(id, request);
         return ProductDto.builder()
                 .id(product.getId())
                 .price(product.getPrice())
@@ -39,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
                 .linkPhoto(product.getLinkPhoto())
                 .userRating(0.0)
                 .rating(0.0)
-                .reviews(List.of())
+                .reviews(reviews)
                 .build();
     }
 
