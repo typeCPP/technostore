@@ -72,4 +72,15 @@ public class ReviewController {
         reviewService.setReview(userId, productId, rate, text);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/product-rating/{id}", method = RequestMethod.GET)
+    ResponseEntity<?> getReviewById(@PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(reviewService.getProductRatingById(id), HttpStatus.OK);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(),
+                            "No product with id: " + id), HttpStatus.NOT_FOUND);
+        }
+    }
 }

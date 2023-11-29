@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +75,19 @@ public class ReviewServiceImpl implements ReviewService {
         }
         throw new EntityNotFoundException(
                 "Review by user with id" + userId + " for product with id " + productId + " not found");
+    }
+
+    @Override
+    public Double getProductRatingById(Long productId) {
+        List<Review> reviews = reviewRepository.findAllByProductId(productId);
+        if (reviews.isEmpty()) {
+            throw new EntityNotFoundException("No product with id: " + productId);
+        }
+        OptionalDouble avgRating = reviews
+                .stream()
+                .mapToDouble(Review::getRate)
+                .average();
+        return avgRating.isPresent() ? avgRating.getAsDouble() : 0.0;
     }
 
     @Override

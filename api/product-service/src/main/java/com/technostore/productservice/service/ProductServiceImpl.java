@@ -34,6 +34,8 @@ public class ProductServiceImpl implements ProductService {
         }
         Product product = productOptional.get();
         List<ReviewDto> reviews = reviewRestTemplateClient.getAllReviews(id, request);
+        double productRating = reviewRestTemplateClient.getProductRating(id, request);
+
         return ProductDto.builder()
                 .id(product.getId())
                 .price(product.getPrice())
@@ -42,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .linkPhoto(product.getLinkPhoto())
                 .userRating(0.0)
-                .rating(0.0)
+                .rating(productRating)
                 .reviews(reviews)
                 .build();
     }

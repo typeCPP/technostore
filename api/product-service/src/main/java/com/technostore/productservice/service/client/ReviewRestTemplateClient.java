@@ -28,4 +28,16 @@ public class ReviewRestTemplateClient {
                 entity, List.class);
         return (List<ReviewDto>) responseEntity.getBody();
     }
+
+    public double getProductRating(Long productId, HttpServletRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", request.getHeader("Authorization"));
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity;
+        responseEntity = restTemplate.exchange(
+                "http://review-service/review/product-rating/" + productId,
+                HttpMethod.GET,
+                entity, Double.class);
+        return ((Double) responseEntity.getBody()).doubleValue();
+    }
 }
