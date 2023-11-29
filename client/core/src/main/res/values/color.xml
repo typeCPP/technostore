@@ -21,4 +21,7 @@
     <color name="light_gray">#706F6F</color>
     <color name="pencil_color">#000000</color>
     <color name="pencil_background_color">#E9E9E9</color>
+    <color name="error_number">#E2ECFB</color>
+    <color name="orders_card_background">#F4F4F4</color>
+    <color name="black_70_per">#B3000000</color>
 </resources>

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/profile_flow"
-    app:startDestination="@id/editProfileFragment">
+    app:startDestination="@id/ordersFragment">
 
     <fragment
         android:id="@+id/editProfileFragment"
@@ -10,4 +10,7 @@
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.technostore.feature_profile.change_password.ChangePasswordFragment" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.technostore.feature_profile.orders.OrdersFragment" />
 </navigation>
