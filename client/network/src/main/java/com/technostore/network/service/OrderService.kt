@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface OrderService {
     @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-orders")
-    suspend fun getCompletedOrders(): Response<Order>
+    suspend fun getCompletedOrders(): Response<List<Order>>
 }
