@@ -1,6 +1,9 @@
 package com.technostore.productservice.service.client;
 
-import com.technostore.productservice.dto.ReviewDto;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import com.technostore.productservice.dto.ReviewDto;
 
 @Component
 public class ReviewRestTemplateClient {
@@ -39,5 +41,17 @@ public class ReviewRestTemplateClient {
                 HttpMethod.GET,
                 entity, Double.class);
         return ((Double) responseEntity.getBody()).doubleValue();
+    }
+
+    public ReviewDto getReviewByUserIdAndProductId(Long productId, HttpServletRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", request.getHeader("Authorization"));
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity;
+        responseEntity = restTemplate.exchange(
+                "http://review-service/by-product-id/" + productId,
+                HttpMethod.GET,
+                entity, ReviewDto.class);
+        return (ReviewDto) responseEntity.getBody();
     }
 }

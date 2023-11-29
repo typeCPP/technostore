@@ -106,7 +106,7 @@ public class ProductController {
 
     @RequestMapping(path = "/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public ResponseEntity<?> getUserImage(@RequestParam Long id, HttpServletRequest request) {
+    public ResponseEntity<?> getProductImage(@RequestParam Long id, HttpServletRequest request) {
         ProductDto product;
         try {
             product = productService.getProductById(id, request);
