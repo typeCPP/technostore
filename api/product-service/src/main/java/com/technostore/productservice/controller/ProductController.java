@@ -106,10 +106,10 @@ public class ProductController {
 
     @RequestMapping(path = "/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public ResponseEntity<?> getUserImage(@RequestParam Long id) {
+    public ResponseEntity<?> getUserImage(@RequestParam Long id, HttpServletRequest request) {
         ProductDto product;
         try {
-            product = productService.getProductById(id);
+            product = productService.getProductById(id, request);
         } catch (EntityNotFoundException exception) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
