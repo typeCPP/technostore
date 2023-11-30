@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shopping cart -->
+    <string name="shopping_cart_set_an_order">Оформить заказ</string>
+    <string name="shopping_cart_order_has_been_placed">Заказ оформлен!</string>
+    <string name="shopping_cart_empty">Корзина пуста</string>
+    <string name="shopping_cart_start_shopping">Совершите свой первый заказ!</string>
+    <string name="shopping_cart_empty_button">В каталог</string>
+</resources>

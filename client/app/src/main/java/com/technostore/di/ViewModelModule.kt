@@ -62,6 +62,10 @@ import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEffectHandler
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartReducer
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartViewModel
 import com.technostore.shared_search.filter.presentation.FilterEffectHandler
 import com.technostore.shared_search.filter.presentation.FilterReducer
 import com.technostore.shared_search.filter.presentation.FilterState
@@ -275,6 +279,18 @@ class ViewModelModule {
     ): OrderDetailViewModel {
         return OrderDetailViewModel(
             initialState = OrderDetailState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideShoppingCartViewModel(
+        reducer: ShoppingCartReducer,
+        effectHandler: ShoppingCartEffectHandler
+    ): ShoppingCartViewModel {
+        return ShoppingCartViewModel(
+            initialState = ShoppingCartState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

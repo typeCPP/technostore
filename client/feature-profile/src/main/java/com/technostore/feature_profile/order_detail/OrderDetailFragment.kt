@@ -83,7 +83,7 @@ class OrderDetailFragment : Fragment() {
 
     private fun render(state: OrderDetailState) {
         with(binding) {
-            slShimmer.isVisible = state.isLoading
+            layoutShimmer.slShimmer.isVisible = state.isLoading
             productsList.isVisible = !state.isLoading
             val adapter = binding.productsList.adapter as OrderDetailAdapter
             adapter.submitList(state.orderDetail?.products.orEmpty())

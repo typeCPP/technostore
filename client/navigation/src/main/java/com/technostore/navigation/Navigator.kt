@@ -25,5 +25,9 @@ class Navigator {
         NavigationFlow.ProfileFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalProfileFlow())
         }
+
+        NavigationFlow.ShoppingCartFlow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalShoppingCartFlow())
+        }
     }
 }
