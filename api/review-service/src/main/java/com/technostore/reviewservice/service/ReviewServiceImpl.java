@@ -68,7 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review getReviewByUseridAndBookId(Long userId, Long productId) {
+    public Review getReviewByUserIdAndProductId(Long userId, Long productId) {
         Optional<Review> reviewOptional = reviewRepository.findByProductIdAndUserId(productId, userId);
         if (reviewOptional.isPresent()) {
             return reviewOptional.get();
@@ -94,7 +94,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void setReview(Long userId, Long productId, int rate, String text) {
         Review review;
         try {
-            review = getReviewByUseridAndBookId(userId, productId);
+            review = getReviewByUserIdAndProductId(userId, productId);
         } catch (EntityNotFoundException exception) {
             review = new Review();
         }

@@ -6,6 +6,11 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.technostore.productservice.dto.ProductDto;
 import com.technostore.productservice.dto.ReviewDto;
 import com.technostore.productservice.dto.SearchProductDto;
@@ -13,10 +18,6 @@ import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.model.Product;
 import com.technostore.productservice.repository.ProductRepository;
 import com.technostore.productservice.service.client.ReviewRestTemplateClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -34,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
         }
         Product product = productOptional.get();
         List<ReviewDto> reviews = reviewRestTemplateClient.getAllReviews(id, request);
+        double userRating = reviewRestTemplateClient.getReviewByUserIdAndProductId(id, request).getRate();
         double productRating = reviewRestTemplateClient.getProductRating(id, request);
 
         return ProductDto.builder()
@@ -43,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .name(product.getName())
                 .linkPhoto(product.getLinkPhoto())
-                .userRating(0.0)
+                .userRating(userRating)
                 .rating(productRating)
                 .reviews(reviews)
                 .build();

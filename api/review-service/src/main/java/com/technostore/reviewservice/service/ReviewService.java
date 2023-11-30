@@ -14,7 +14,7 @@ public interface ReviewService {
 
     void setReview(Long userId, Long bookId, int rate, String text);
 
-    Review getReviewByUseridAndBookId(Long userId, Long productId);
+    Review getReviewByUserIdAndProductId(Long userId, Long productId);
 
     Double getProductRatingById(Long productId);
 }
