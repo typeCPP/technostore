@@ -12,7 +12,7 @@ public interface ReviewService {
 
     List<ReviewDto> getAllReviewsByProductId(Long productId, HttpServletRequest request);
 
-    void setReview(Long userId, Long bookId, int rate, String text);
+    void setReview(Long userId, Long productId, int rate, String text);
 
     Review getReviewByUserIdAndProductId(Long userId, Long productId);
 
