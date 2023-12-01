@@ -12,7 +12,7 @@ sealed class ReviewListEvent : Event {
 sealed class ReviewListUiEvent : ReviewListEvent() {
     data class Init(val productId: Long) : ReviewListUiEvent()
     data object OnBackClicked : ReviewListUiEvent()
-    data class OnReviewClicked(val reviewId: Long) : ReviewListUiEvent()
+    data class OnReviewClicked(val review: ReviewModel) : ReviewListUiEvent()
     data object OnAllReviewsClicked : ReviewListUiEvent()
     data object OnNegativeReviewsClicked : ReviewListUiEvent()
     data object OnNeutralReviewsClicked : ReviewListUiEvent()
