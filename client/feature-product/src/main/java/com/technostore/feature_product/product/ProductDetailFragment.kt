@@ -111,17 +111,18 @@ class ProductDetailFragment : Fragment() {
         with(binding) {
             layoutShimmer.slShimmerProduct.isVisible =
                 state.isLoading || state.productDetail == null
+            setVisibilityForMainContent(!(state.isLoading || state.productDetail == null))
             if (state.productDetail != null) {
                 initReview(state)
-                binding.category.text = state.productDetail.category.name
-                binding.tvDescription.text = state.productDetail.description
-                binding.price.text =
+                category.text = state.productDetail.category.name
+                tvDescription.text = state.productDetail.description
+                price.text =
                     requireContext().getString(
                         CoreR.string.price,
                         state.productDetail.price.toString()
                     )
-                binding.productName.text = state.productDetail.name
-                Glide.with(binding.productImage)
+                productName.text = state.productDetail.name
+                Glide.with(productImage)
                     .load(state.productDetail.photoLink)
                     .centerCrop()
                     .placeholder(
@@ -130,8 +131,24 @@ class ProductDetailFragment : Fragment() {
                             com.technostore.core.R.drawable.icon_default_product
                         )
                     )
-                    .into(binding.productImage)
+                    .into(productImage)
+                if (state.productDetail.rating != 0.0) {
+                    ratingTitle.text = getString(R.string.product_rating)
+                } else {
+                    ratingTitle.text = getString(R.string.product_repeat_rating)
+                }
             }
+        }
+    }
+
+    private fun setVisibilityForMainContent(isLoading: Boolean) {
+        with(binding) {
+            productImage.isVisible = !isLoading
+            productName.isVisible = !isLoading
+            price.isVisible = !isLoading
+            binding.clBuy.isVisible = !isLoading
+            binding.clRating.isVisible = !isLoading
+            binding.bottomSheet.isVisible = !isLoading
         }
     }
 
