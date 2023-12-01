@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="review_list_title">Отзывы</string>
+    <string name="review_list_all_reviews">Все, %1$s</string>
+</resources>

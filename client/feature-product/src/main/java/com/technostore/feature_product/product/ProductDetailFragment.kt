@@ -26,6 +26,8 @@ import com.technostore.feature_product.product.presentation.ProductNews
 import com.technostore.feature_product.product.presentation.ProductState
 import com.technostore.feature_product.product.presentation.ProductViewModel
 import com.technostore.feature_product.product.ui.ReviewAdapter
+import com.technostore.navigation.NavigationFlow
+import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -111,7 +113,7 @@ class ProductDetailFragment : Fragment() {
         with(binding) {
             layoutShimmer.slShimmerProduct.isVisible =
                 state.isLoading || state.productDetail == null
-            setVisibilityForMainContent(!(state.isLoading || state.productDetail == null))
+            setVisibilityForMainContent(state.isLoading || state.productDetail == null)
             if (state.productDetail != null) {
                 initReview(state)
                 category.text = state.productDetail.category.name
@@ -199,7 +201,7 @@ class ProductDetailFragment : Fragment() {
             }
 
             is ProductNews.OpenReviewsListPage -> {
-                TODO()
+                (activity as ToFlowNavigatable).navigateToFlow(NavigationFlow.ReviewListFlow(news.productId))
             }
         }
     }

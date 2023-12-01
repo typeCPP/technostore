@@ -9,6 +9,7 @@
     <include app:graph="@navigation/profile_flow" />
     <include app:graph="@navigation/product_flow" />
     <include app:graph="@navigation/shopping_cart_flow" />
+    <include app:graph="@navigation/review_flow" />
 
     <action
         android:id="@+id/action_global_filter_flow"
@@ -30,6 +31,20 @@
         app:destination="@id/product_flow"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim">
+        <argument
+            android:name="productId"
+            android:defaultValue="0L"
+            app:argType="long"
+            app:nullable="false" />
+    </action>
+
+    <action
+        android:id="@+id/action_global_review_flow"
+        app:destination="@id/review_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out">
         <argument
             android:name="productId"
             android:defaultValue="0L"

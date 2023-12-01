@@ -23,7 +23,8 @@ import javax.inject.Singleton
         ProfileModule::class,
         SharedSearchModule::class,
         ProfileModule::class,
-        ShoppingCartModule::class
+        ShoppingCartModule::class,
+        ReviewModule::class
     ]
 )
 interface AppComponent
