@@ -62,4 +62,10 @@ class ProductViewModel @Inject constructor(
             store.dispatch(ProductUiEvent.OnBackClicked)
         }
     }
+
+    fun setReview(rating: Int, text: String?) {
+        viewModelScope.launch {
+            store.dispatch(ProductUiEvent.SetReview(rating, text))
+        }
+    }
 }

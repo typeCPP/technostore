@@ -12,4 +12,10 @@
     <string name="product_category_title">Категория</string>
     <string name="product_rating">Оценить</string>
     <string name="product_repeat_rating">Оценить снова</string>
+
+    <!-- Product dialog -->
+    <string name="product_dialog_make_review">Оценить</string>
+    <string name="product_dialog_review_title">Оцените товар</string>
+    <string name="product_dialog_write_your_review_here">Напишите отзыв</string>
+    <string name="product_dialog_error">Поставьте оценку</string>
 </resources>

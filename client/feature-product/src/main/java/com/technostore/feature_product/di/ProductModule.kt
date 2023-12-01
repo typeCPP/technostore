@@ -10,6 +10,7 @@ import com.technostore.feature_product.product.presentation.ProductReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.network.service.ProductService
+import com.technostore.network.service.ReviewService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,10 +41,12 @@ class ProductModule {
     @Provides
     fun provideProductRepository(
         productService: ProductService,
+        reviewService: ReviewService,
         productDetailMapper: ProductDetailMapper
     ): ProductRepository {
         return ProductRepositoryImpl(
             productService,
+            reviewService,
             productDetailMapper
         )
     }

@@ -9,8 +9,15 @@ class ProductReducer : Reducer<ProductState, ProductEvent> {
             ProductEvent.EndLoading -> currentState.copy(isLoading = false)
             is ProductEvent.OnDataLoaded -> {
                 currentState.copy(
-                    productDetail = event.productDetail
+                    productDetail = event.productDetail,
+                    userRating = event.productDetail.userRating
                 )
+            }
+
+            is ProductEvent.UpdateRating -> {
+                val productDetail = currentState.productDetail!!
+                productDetail.userRating = event.newRating
+                currentState.copy(productDetail = productDetail, userRating = event.newRating)
             }
 
             else -> currentState

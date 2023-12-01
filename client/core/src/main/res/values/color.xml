@@ -30,4 +30,5 @@
     <color name="positive_rating">#4DD15A</color>
     <color name="price_color">#575757</color>
     <color name="block_night_white">#EFEAEA</color>
+    <color name="snackbar_background">#80D9D9D9</color>
 </resources>

@@ -2,6 +2,7 @@ package com.technostore.feature_product.product
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,17 +20,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.technostore.arch.mvi.News
-import com.technostore.core.R as CoreR
 import com.technostore.feature_product.R
 import com.technostore.feature_product.databinding.ProductFragmentBinding
 import com.technostore.feature_product.product.presentation.ProductNews
 import com.technostore.feature_product.product.presentation.ProductState
 import com.technostore.feature_product.product.presentation.ProductViewModel
+import com.technostore.feature_product.product.ui.RateProductDialog
 import com.technostore.feature_product.product.ui.ReviewAdapter
 import com.technostore.navigation.NavigationFlow
 import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.technostore.core.R as CoreR
+
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -134,7 +137,7 @@ class ProductDetailFragment : Fragment() {
                         )
                     )
                     .into(productImage)
-                if (state.productDetail.rating != 0.0) {
+                if (state.productDetail.userRating == 0) {
                     ratingTitle.text = getString(R.string.product_rating)
                 } else {
                     ratingTitle.text = getString(R.string.product_repeat_rating)
@@ -172,6 +175,19 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
+    private fun setOnClickListenerForRateDialog(rating: Int, text: String?) {
+        viewModel.setReview(rating, text)
+    }
+
+    private fun rateDialogShowError() {
+        val toast = Toast(requireContext())
+        val toastView: View =
+            LayoutInflater.from(context).inflate(R.layout.toast_layout, null)
+        toast.view = toastView
+        toast.setGravity(Gravity.TOP, 0, 0)
+        toast.show()
+    }
+
     @SuppressLint("ShowToast")
     private fun showNews(news: News) {
         when (news) {
@@ -197,7 +213,11 @@ class ProductDetailFragment : Fragment() {
             }
 
             is ProductNews.OpenRateDialog -> {
-                TODO()
+                val dialog = RateProductDialog(
+                    { rating, text -> setOnClickListenerForRateDialog(rating, text) },
+                    { rateDialogShowError() }
+                )
+                dialog.show(parentFragmentManager, "rate")
             }
 
             is ProductNews.OpenReviewsListPage -> {
