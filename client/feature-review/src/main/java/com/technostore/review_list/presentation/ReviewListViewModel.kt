@@ -3,6 +3,7 @@ package com.technostore.review_list.presentation
 import androidx.lifecycle.viewModelScope
 import com.technostore.arch.mvi.BaseViewModel
 import com.technostore.arch.mvi.Store
+import com.technostore.business.model.ReviewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -39,9 +40,9 @@ class ReviewListViewModel @Inject constructor(
         }
     }
 
-    fun onReviewClicked(reviewId: Long) {
+    fun onReviewClicked(reviewModel: ReviewModel) {
         viewModelScope.launch {
-            store.dispatch(ReviewListUiEvent.OnReviewClicked(reviewId))
+            store.dispatch(ReviewListUiEvent.OnReviewClicked(reviewModel))
         }
     }
 

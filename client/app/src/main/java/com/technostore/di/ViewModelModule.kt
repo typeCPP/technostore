@@ -66,6 +66,10 @@ import com.technostore.feature_shopping_cart.shopping_cart.presentation.Shopping
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartReducer
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartViewModel
+import com.technostore.review.presentation.ReviewEffectHandler
+import com.technostore.review.presentation.ReviewReducer
+import com.technostore.review.presentation.ReviewState
+import com.technostore.review.presentation.ReviewViewModel
 import com.technostore.review_list.presentation.ReviewListEffectHandler
 import com.technostore.review_list.presentation.ReviewListReducer
 import com.technostore.review_list.presentation.ReviewListState
@@ -307,6 +311,18 @@ class ViewModelModule {
     ): ReviewListViewModel {
         return ReviewListViewModel(
             initialState = ReviewListState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideReviewViewModel(
+        reducer: ReviewReducer,
+        effectHandler: ReviewEffectHandler
+    ): ReviewViewModel {
+        return ReviewViewModel(
+            initialState = ReviewState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

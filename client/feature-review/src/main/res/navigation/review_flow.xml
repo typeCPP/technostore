@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/review_flow"
     app:startDestination="@id/reviewListFragment">
+
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.technostore.review_list.ReviewListFragment">
@@ -10,5 +11,67 @@
             android:name="productId"
             android:defaultValue="0L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_reviewListFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="userName"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="photoLink"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="date"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="rating"
+                android:defaultValue="1"
+                app:argType="integer"
+                app:nullable="false" />
+            <argument
+                android:name="text"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+        </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.technostore.review.ReviewFragment">
+        <argument
+            android:name="userName"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="photoLink"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="date"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="rating"
+            app:argType="integer" />
+        <argument
+            android:name="text"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
 </navigation>

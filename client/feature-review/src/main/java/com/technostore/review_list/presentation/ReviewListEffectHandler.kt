@@ -38,7 +38,7 @@ class ReviewListEffectHandler(
             }
 
             is ReviewListUiEvent.OnReviewClicked -> {
-                store.acceptNews(ReviewListNews.OpenReviewPage(event.reviewId))
+                store.acceptNews(ReviewListNews.OpenReviewPage(event.review))
             }
 
             ReviewListUiEvent.OnAllReviewsClicked -> {

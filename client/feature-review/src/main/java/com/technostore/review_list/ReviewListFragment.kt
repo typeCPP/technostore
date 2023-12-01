@@ -82,7 +82,7 @@ class ReviewListFragment : Fragment() {
     }
 
     private fun onClickReview(review: ReviewModel) {
-        viewModel.onReviewClicked(reviewId = review.id)
+        viewModel.onReviewClicked(review)
     }
 
     private fun setOnClickListenerForAllReviews() {
@@ -147,7 +147,13 @@ class ReviewListFragment : Fragment() {
             }
 
             is ReviewListNews.OpenReviewPage -> {
-                TODO()
+                val action = ReviewListFragmentDirections.actionReviewListFragmentToReviewFragment()
+                action.userName = news.review.userName
+                action.photoLink = news.review.photoLink
+                action.date = news.review.date
+                action.rating = news.review.rate
+                action.text = news.review.text
+                findNavController().navigate(action)
             }
 
             ReviewListNews.OpenPreviousPage -> {

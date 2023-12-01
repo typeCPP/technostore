@@ -5,7 +5,7 @@ import com.technostore.business.model.ReviewModel
 
 sealed class ReviewListNews : News() {
     data object ShowErrorToast : ReviewListNews()
-    data class OpenReviewPage(val reviewId: Long) : ReviewListNews()
+    data class OpenReviewPage(val review: ReviewModel) : ReviewListNews()
     data object OpenPreviousPage : ReviewListNews()
     data class ShowReviews(val reviews: List<ReviewModel>) : ReviewListNews()
 }
