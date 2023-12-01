@@ -6,7 +6,8 @@ import com.technostore.feature_product.business.model.ProductDetailModel
 sealed class ProductEvent : Event {
     data object StartLoading : ProductEvent()
     data object EndLoading : ProductEvent()
-    class OnDataLoaded(val productDetail: ProductDetailModel) : ProductEvent()
+    data class OnDataLoaded(val productDetail: ProductDetailModel) : ProductEvent()
+    data class UpdateRating(val newRating: Int) : ProductEvent()
 }
 
 sealed class ProductUiEvent : ProductEvent() {
@@ -16,4 +17,6 @@ sealed class ProductUiEvent : ProductEvent() {
     data object OnMoreDescriptionClicked : ProductUiEvent()
     class OnMoreReviewClicked(val productId: Long) : ProductUiEvent()
     data object OnBackClicked : ProductUiEvent()
+
+    class SetReview(val rating: Int, val text: String?) : ProductUiEvent()
 }

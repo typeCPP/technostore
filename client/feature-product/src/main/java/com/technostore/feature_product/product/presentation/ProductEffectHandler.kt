@@ -58,6 +58,26 @@ class ProductEffectHandler(
                 store.acceptNews(ProductNews.OpenPreviousPage)
             }
 
+            is ProductUiEvent.SetReview -> {
+                val result = productRepository.setReview(
+                    currentState.productDetail?.id!!,
+                    event.rating,
+                    event.text
+                )
+                when (result) {
+                    is Result.Success -> {
+                        if (result.data != null) {
+                            store.dispatch(ProductEvent.UpdateRating(event.rating))
+                        } else {
+                            store.acceptNews(ProductNews.ShowErrorToast)
+                        }
+                    }
+                    is Result.Error -> {
+                        store.acceptNews(ProductNews.ShowErrorToast)
+                    }
+                }
+            }
+
             else -> {}
         }
     }

@@ -10,7 +10,7 @@ class ProductDetailResponse(
     @SerializedName("name") val name: String,
     @SerializedName("price") val price: Double,
     @SerializedName("rating") val rating: Double,
-    @SerializedName("userRating") val userRating: Double,
+    @SerializedName("userRating") val userRating: Int,
     @SerializedName("description") val description: String,
     @SerializedName("category") val category: CategoryResponse,
     @SerializedName("reviews") val reviews: List<ReviewResponse>

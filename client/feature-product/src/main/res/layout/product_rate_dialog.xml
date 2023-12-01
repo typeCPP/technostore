@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/space_3x"
+    android:background="@drawable/product_review_dialog_background"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/space_6x">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/space_7.5x" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/space_5x" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/space_5x" />
+
+    <ImageView
+        android:id="@+id/iv_prev"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:src="@drawable/icon_arrow"
+        app:flow_horizontalBias="0.0"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toEndOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/gl_top"
+        app:tint="@color/color_accent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        style="@style/basic_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/product_dialog_review_title"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/gl_end"
+        app:layout_constraintStart_toEndOf="@id/gl_start"
+        app:layout_constraintTop_toTopOf="@id/gl_top" />
+
+    <EditText
+        android:id="@+id/et_review_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_5x"
+        android:autofillHints=""
+        android:background="@drawable/product_review_edit_text_background"
+        android:gravity="start"
+        android:hint="@string/product_dialog_write_your_review_here"
+        android:inputType=""
+        android:lines="24"
+        android:padding="@dimen/space_4x"
+        android:scrollbars="vertical"
+        android:textColor="@color/color_accent"
+        android:textColorHint="@color/tv_hint"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/ml_set_mark"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rate_book_central_mark_size"
+        android:layout_marginTop="@dimen/space_5x"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:visibility="visible"
+        app:layoutDescription="@xml/product_rate_dialog_scene"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_review_text">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button0"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/neutral_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button1"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/negative_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star1"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_1"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_1"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button2"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/negative_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star2"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_2"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_2"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button3"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/negative_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star3"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_3"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_3"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button4"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/negative_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star4"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_4"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_4"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button5"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/neutral_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star5"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_5"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_5"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button6"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/neutral_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_6"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star6"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_6"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_6"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button7"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/positive_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_7"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star7"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_7"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_7"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button8"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/positive_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star8"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_8"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_8"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button9"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/positive_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_9"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="9"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="21sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star9"
+                app:layout_constraintHorizontal_weight="1.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_9"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_9"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button10"
+            android:layout_width="@dimen/rate_book_central_mark_size"
+            android:layout_height="@dimen/rate_book_central_mark_size"
+            android:layout_marginTop="@dimen/space_10x"
+            android:background="@drawable/positive_rating_picker"
+            android:padding="@dimen/space_1x">
+
+            <TextView
+                android:id="@+id/tv_number_button_10"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="55sp"
+                app:autoSizeMinTextSize="19sp"
+                app:autoSizeStepGranularity="1dp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/star10"
+                app:layout_constraintHorizontal_weight="1.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/star10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_number_button_10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight="0dp"
+                app:layout_constraintHeight_min="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_number_button_10"
+                app:layout_constraintTop_toTopOf="@id/tv_number_button_10"
+                app:layout_constraintWidth="0dp"
+                app:layout_constraintWidth_min="13dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <TextView
+        android:id="@+id/rate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_5x"
+        android:background="@drawable/save_review_btn_background"
+        android:paddingHorizontal="56dp"
+        android:paddingVertical="@dimen/space_4x"
+        android:text="@string/product_dialog_make_review"
+        android:textColor="@color/light_color_text"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintTop_toBottomOf="@id/ml_set_mark" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

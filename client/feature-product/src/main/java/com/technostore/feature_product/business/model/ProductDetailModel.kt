@@ -7,7 +7,7 @@ data class ProductDetailModel(
     val name: String,
     val price: Double,
     val rating: Double,
-    val userRating: Double,
+    var userRating: Int,
     val description: String,
     val category: CategoryModel,
     val reviews: List<ReviewModel>
