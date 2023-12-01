@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 @kotlinx.serialization.Serializable
 class ReviewResponse (
     @SerializedName("id") val id: Long,
-    @SerializedName("productId") val productId: String,
+    @SerializedName("productId") val productId: Long,
     @SerializedName("text") val text: String,
     @SerializedName("rate") val rate: Double,
     @SerializedName("date") val date: Double,

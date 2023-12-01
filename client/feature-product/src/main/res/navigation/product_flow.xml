@@ -2,7 +2,35 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/product_flow"
-    app:startDestination="@id/productDescriptionFragment">
+    app:startDestination="@id/productDetailFragment">
+
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.technostore.feature_product.product.ProductDetailFragment">
+        <argument
+            android:name="productId"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="product_name"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+            <argument
+                android:name="product_description"
+                android:defaultValue=""
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+    </fragment>
+
     <fragment
         android:id="@+id/productDescriptionFragment"
         android:name="com.technostore.feature_product.product_description.ProductDescriptionFragment">

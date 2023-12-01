@@ -29,5 +29,11 @@ class Navigator {
         NavigationFlow.ShoppingCartFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalShoppingCartFlow())
         }
+
+        is NavigationFlow.ProductFlow -> {
+            val action = MainNavGraphDirections.actionGlobalProductFlow()
+            action.productId = navigationFlow.productId
+            navController.navigate(action)
+        }
     }
 }

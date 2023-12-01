@@ -2,4 +2,14 @@
 <resources>
     <!-- Product description -->
     <string name="product_description_title">Описание</string>
+
+    <!-- Product detail -->
+    <string name="product_description">Описание</string>
+    <string name="product_more_details">Подробее</string>
+    <string name="product_review_title">Отзывы (%d)</string>
+    <string name="product_review_view_all">Посмотреть все</string>
+    <string name="product_shopping_cart">Добавить в корзину</string>
+    <string name="product_category_title">Категория</string>
+    <string name="product_rating">Оценить</string>
+    <string name="product_repeat_rating">Оценить снова</string>
 </resources>

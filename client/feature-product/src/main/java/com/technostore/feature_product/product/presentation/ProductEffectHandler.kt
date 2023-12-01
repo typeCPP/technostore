@@ -16,10 +16,11 @@ class ProductEffectHandler(
         when (event) {
             is ProductUiEvent.Init -> {
                 store.dispatch(ProductEvent.StartLoading)
-                when (val result = productRepository.getProductById(event.productId)) {
+                val result = productRepository.getProductById(event.productId)
+                when (result) {
                     is Result.Success -> {
                         if (result.data != null) {
-                            store.dispatch(ProductEvent.StartLoading)
+                            store.dispatch(ProductEvent.EndLoading)
                             store.dispatch(ProductEvent.OnDataLoaded(result.data!!))
                         } else {
                             store.acceptNews(ProductNews.ShowErrorToast)
@@ -41,11 +42,20 @@ class ProductEffectHandler(
             }
 
             ProductUiEvent.OnMoreDescriptionClicked -> {
-                store.acceptNews(ProductNews.OpenDescription)
+                store.acceptNews(
+                    ProductNews.OpenDescription(
+                        productName = currentState.productDetail?.name!!,
+                        description = currentState.productDetail.description
+                    )
+                )
             }
 
             is ProductUiEvent.OnMoreReviewClicked -> {
                 store.acceptNews(ProductNews.OpenReviewsListPage(event.productId))
+            }
+
+            is ProductUiEvent.OnBackClicked -> {
+                store.acceptNews(ProductNews.OpenPreviousPage)
             }
 
             else -> {}

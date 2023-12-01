@@ -2,6 +2,9 @@ package com.technostore.feature_product.di
 
 import com.technostore.feature_product.business.ProductRepository
 import com.technostore.feature_product.business.ProductRepositoryImpl
+import com.technostore.feature_product.business.model.mapper.CategoryMapper
+import com.technostore.feature_product.business.model.mapper.ProductDetailMapper
+import com.technostore.feature_product.business.model.mapper.ReviewMapper
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
 import com.technostore.feature_product.product.presentation.ProductReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
@@ -17,11 +20,31 @@ import dagger.hilt.components.SingletonComponent
 class ProductModule {
 
     @Provides
+    fun provideCategoryMapper(): CategoryMapper {
+        return CategoryMapper()
+    }
+
+    @Provides
+    fun provideReviewMapper(): ReviewMapper {
+        return ReviewMapper()
+    }
+
+    @Provides
+    fun provideProductDetailMapper(
+        categoryMapper: CategoryMapper,
+        reviewMapper: ReviewMapper
+    ): ProductDetailMapper {
+        return ProductDetailMapper(categoryMapper, reviewMapper)
+    }
+
+    @Provides
     fun provideProductRepository(
-        productService: ProductService
+        productService: ProductService,
+        productDetailMapper: ProductDetailMapper
     ): ProductRepository {
         return ProductRepositoryImpl(
-            productService
+            productService,
+            productDetailMapper
         )
     }
 
