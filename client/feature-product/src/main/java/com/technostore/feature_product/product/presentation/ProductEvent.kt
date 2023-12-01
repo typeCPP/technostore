@@ -1,12 +1,12 @@
 package com.technostore.feature_product.product.presentation
 
 import com.technostore.arch.mvi.Event
-import com.technostore.network.model.product.response.ProductDetail
+import com.technostore.feature_product.business.model.ProductDetailModel
 
 sealed class ProductEvent : Event {
     data object StartLoading : ProductEvent()
     data object EndLoading : ProductEvent()
-    class OnDataLoaded(val productDetail: ProductDetail) : ProductEvent()
+    class OnDataLoaded(val productDetail: ProductDetailModel) : ProductEvent()
 }
 
 sealed class ProductUiEvent : ProductEvent() {
@@ -15,4 +15,5 @@ sealed class ProductUiEvent : ProductEvent() {
     class OnBuyClicked(val productId: Long) : ProductUiEvent()
     data object OnMoreDescriptionClicked : ProductUiEvent()
     class OnMoreReviewClicked(val productId: Long) : ProductUiEvent()
+    data object OnBackClicked : ProductUiEvent()
 }

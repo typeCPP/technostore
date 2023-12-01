@@ -5,6 +5,11 @@ import com.technostore.arch.mvi.News
 sealed class ProductNews : News() {
     data object ShowErrorToast : ProductNews()
     data object OpenRateDialog : ProductNews()
-    data object OpenDescription : ProductNews()
+    data class OpenDescription(
+        val productName: String,
+        val description: String
+    ) : ProductNews()
+
     class OpenReviewsListPage(val productId: Long) : ProductNews()
+    data object OpenPreviousPage : ProductNews()
 }

@@ -56,4 +56,10 @@ class ProductViewModel @Inject constructor(
             store.dispatch(ProductUiEvent.OnMoreReviewClicked(productId))
         }
     }
+
+    fun onClickBack() {
+        viewModelScope.launch {
+            store.dispatch(ProductUiEvent.OnBackClicked)
+        }
+    }
 }

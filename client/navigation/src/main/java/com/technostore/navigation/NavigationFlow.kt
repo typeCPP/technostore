@@ -7,4 +7,5 @@ sealed class NavigationFlow {
     data object FilterFlow : NavigationFlow()
     data object ProfileFlow : NavigationFlow()
     data object ShoppingCartFlow : NavigationFlow()
+    data class ProductFlow(val productId: Long) : NavigationFlow()
 }
