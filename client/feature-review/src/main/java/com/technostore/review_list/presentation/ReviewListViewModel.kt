@@ -1,0 +1,71 @@
+package com.technostore.review_list.presentation
+
+import androidx.lifecycle.viewModelScope
+import com.technostore.arch.mvi.BaseViewModel
+import com.technostore.arch.mvi.Store
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class ReviewListViewModel @Inject constructor(
+    initialState: ReviewListState,
+    reducer: ReviewListReducer,
+    effectHandler: ReviewListEffectHandler
+) : BaseViewModel() {
+
+    private val store = Store(
+        initialState = initialState,
+        reducer = reducer,
+        effectHandlers = listOf(effectHandler)
+    )
+
+    init {
+        store.setViewModel(this)
+    }
+
+    val viewState: StateFlow<ReviewListState> = store.state
+
+    fun init(productId: Long) {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.Init(productId))
+        }
+    }
+
+    fun onClickBack() {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnBackClicked)
+        }
+    }
+
+    fun onReviewClicked(reviewId: Long) {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnReviewClicked(reviewId))
+        }
+    }
+
+    fun onAllReviewsClicked() {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnAllReviewsClicked)
+        }
+    }
+
+    fun onPositiveReviewsClicked() {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnPositiveReviewsClicked)
+        }
+    }
+
+    fun onNegativeReviewsClicked() {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnNegativeReviewsClicked)
+        }
+    }
+
+    fun onNeutralReviewsClicked() {
+        viewModelScope.launch {
+            store.dispatch(ReviewListUiEvent.OnNeutralReviewsClicked)
+        }
+    }
+}

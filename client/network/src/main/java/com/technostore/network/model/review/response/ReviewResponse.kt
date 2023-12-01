@@ -7,8 +7,8 @@ class ReviewResponse (
     @SerializedName("id") val id: Long,
     @SerializedName("productId") val productId: Long,
     @SerializedName("text") val text: String,
-    @SerializedName("rate") val rate: Double,
-    @SerializedName("date") val date: Double,
+    @SerializedName("rate") val rate: Int,
+    @SerializedName("date") val date: Long,
     @SerializedName("userName") val userName: String,
     @SerializedName("photoLink") val photoLink: String,
 )

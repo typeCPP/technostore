@@ -4,6 +4,7 @@ import com.technostore.network.interceptor.ConnectionInterceptor
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
+import com.technostore.network.service.ReviewService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import com.technostore.network.utils.URL
@@ -96,5 +97,11 @@ class NetworkModule {
     @Provides
     fun provideOrderService(@RegisteredRetrofit retrofit: Retrofit): OrderService {
         return retrofit.create(OrderService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReviewService(@RegisteredRetrofit retrofit: Retrofit): ReviewService {
+        return retrofit.create(ReviewService::class.java)
     }
 }
