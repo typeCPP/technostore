@@ -81,7 +81,7 @@ services:
       configserver:
         condition: service_started
     ports:
-      - "8085:8085"
+      - "8082:8082"
     networks:
       - backend
   reviewservice:
