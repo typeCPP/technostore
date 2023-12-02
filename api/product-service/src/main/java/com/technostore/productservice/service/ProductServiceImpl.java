@@ -62,14 +62,12 @@ public class ProductServiceImpl implements ProductService {
             List<ReviewStatisticDto> reviewStatisticDtoList =
                     reviewRestTemplateClient.getReviewStatisticsByProductIds(
                             page.getContent().stream().map(SearchProductDto::getId).toList());
-            System.out.println(reviewStatisticDtoList.get(0).getRating());
             Map<Long, Double> productIdToRating = reviewStatisticDtoList.stream().collect(Collectors.toMap(
                     ReviewStatisticDto::getProductId, r -> Double.isNaN(r.getRating()) ? 0 : r.getRating()
             ));
             Map<Long, Long> productIdToCountReviews = reviewStatisticDtoList.stream().collect(Collectors.toMap(
                     ReviewStatisticDto::getProductId, ReviewStatisticDto::getCountReviews
             ));
-            System.out.println(productIdToRating);
             page.getContent().forEach(r -> {
                 r.setRating(productIdToRating.getOrDefault(r.getId(), 0.0));
                 r.setReviewCount(productIdToCountReviews.getOrDefault(r.getId(), 0L));
