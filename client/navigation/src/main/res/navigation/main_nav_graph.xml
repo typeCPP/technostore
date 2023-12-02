@@ -11,6 +11,7 @@
     <include app:graph="@navigation/shopping_cart_flow" />
     <include app:graph="@navigation/review_flow" />
     <include app:graph="@navigation/search_flow" />
+    <include app:graph="@navigation/main_page_flow" />
 
     <action
         android:id="@+id/action_global_filter_flow"
@@ -64,6 +65,14 @@
     <action
         android:id="@+id/action_global_search_flow"
         app:destination="@id/search_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/main_nav_graph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_main_page_flow"
+        app:destination="@id/main_page_flow"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popUpTo="@id/main_nav_graph"

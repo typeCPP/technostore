@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_page_popular_title">Популярные</string>
+    <string name="main_page_category_title">Категории</string>
+    <plurals name="main_page_reviews">
+        <item quantity="zero">%d отзывов</item>
+        <item quantity="one">%d отзыв</item>
+        <item quantity="few">%d отзыва</item>
+        <item quantity="many">%d отзывов</item>
+        <item quantity="other">%d отзывов</item>
+    </plurals>
+</resources>

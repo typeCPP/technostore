@@ -126,7 +126,7 @@ class FilterFragment : Fragment() {
 
     private fun setAdapterForTagsRecyclerView() {
         val adapter = CategoryFilterAdapter { item -> onClickTag(item) }
-        val layoutManager = GridLayoutManager(requireContext(), 1, RecyclerView.HORIZONTAL, false)
+        val layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
         binding.rvCategory.layoutManager = layoutManager
         binding.rvCategory.adapter = adapter
     }

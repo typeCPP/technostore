@@ -49,10 +49,19 @@ class MainActivity : AppCompatActivity(), ToFlowNavigatable {
                     selectedItemId = R.id.search
                 }
 
+                R.id.home -> {
+                    if (selectedItemId != R.id.home) {
+                        navigateToFlow(NavigationFlow.MainPageFlow)
+                    }
+                    selectedItemId = R.id.home
+                }
+
                 else -> {}
             }
             return@setOnItemSelectedListener true
         }
+        selectedItemId = R.id.home
+        navigateToFlow(NavigationFlow.MainPageFlow)
     }
 
     override fun navigateToFlow(flow: NavigationFlow) {

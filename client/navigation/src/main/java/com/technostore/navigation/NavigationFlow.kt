@@ -10,4 +10,5 @@ sealed class NavigationFlow {
     data class ProductFlow(val productId: Long) : NavigationFlow()
     data class ReviewListFlow(val productId: Long) : NavigationFlow()
     data object SearchFlow : NavigationFlow()
+    data object MainPageFlow : NavigationFlow()
 }
