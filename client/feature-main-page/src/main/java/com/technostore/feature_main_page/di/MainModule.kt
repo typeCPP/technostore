@@ -4,6 +4,8 @@ import com.technostore.feature_main_page.business.MainRepository
 import com.technostore.feature_main_page.business.MainRepositoryImpl
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
 import com.technostore.feature_main_page.main_page.presentation.MainReducer
+import com.technostore.feature_main_page.search_result.presentation.SearchResultEffectHandler
+import com.technostore.feature_main_page.search_result.presentation.SearchResultReducer
 import com.technostore.network.service.ProductService
 import com.technostore.shared_search.business.SharedSearchRepository
 import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
@@ -26,15 +28,29 @@ class MainModule {
 
     /* Main */
     @Provides
-    fun provideSearchReducer(): MainReducer {
+    fun provideMainReducer(): MainReducer {
         return MainReducer()
     }
 
     @Provides
-    fun provideSearchEffectHandler(
+    fun provideMainEffectHandler(
         sharedSearchRepository: SharedSearchRepository,
         mainRepository: MainRepository
     ): MainEffectHandler {
         return MainEffectHandler(sharedSearchRepository, mainRepository)
+    }
+
+    /* Search result */
+    @Provides
+    fun provideSearchResultReducer(): SearchResultReducer {
+        return SearchResultReducer()
+    }
+
+    @Provides
+    fun provideSearchResultEffectHandler(
+        sharedSearchRepository: SharedSearchRepository,
+        mainRepository: MainRepository
+    ): SearchResultEffectHandler {
+        return SearchResultEffectHandler(mainRepository, sharedSearchRepository)
     }
 }

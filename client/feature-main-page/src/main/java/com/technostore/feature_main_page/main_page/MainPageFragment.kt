@@ -237,11 +237,18 @@ class MainPageFragment : Fragment() {
             }
 
             is MainNews.OpenResultByCategory -> {
-                TODO()
+                val action =
+                    MainPageFragmentDirections.actionMainPageFragmentToSearchResultFragment()
+                action.isPopularity = false
+                action.categoryId = news.categoryId
+                findNavController().navigate(action)
             }
 
             MainNews.OpenResultByPopularity -> {
-                TODO()
+                val action =
+                    MainPageFragmentDirections.actionMainPageFragmentToSearchResultFragment()
+                action.isPopularity = true
+                findNavController().navigate(action)
             }
         }
     }

@@ -39,6 +39,10 @@ import com.technostore.feature_main_page.main_page.presentation.MainEffectHandle
 import com.technostore.feature_main_page.main_page.presentation.MainReducer
 import com.technostore.feature_main_page.main_page.presentation.MainState
 import com.technostore.feature_main_page.main_page.presentation.MainViewModel
+import com.technostore.feature_main_page.search_result.presentation.SearchResultEffectHandler
+import com.technostore.feature_main_page.search_result.presentation.SearchResultReducer
+import com.technostore.feature_main_page.search_result.presentation.SearchResultState
+import com.technostore.feature_main_page.search_result.presentation.SearchResultViewModel
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
 import com.technostore.feature_product.product.presentation.ProductReducer
 import com.technostore.feature_product.product.presentation.ProductState
@@ -355,6 +359,18 @@ class ViewModelModule {
     ): MainViewModel {
         return MainViewModel(
             initialState = MainState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideSearchResultViewModel(
+        reducer: SearchResultReducer,
+        effectHandler: SearchResultEffectHandler
+    ): SearchResultViewModel {
+        return SearchResultViewModel(
+            initialState = SearchResultState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
