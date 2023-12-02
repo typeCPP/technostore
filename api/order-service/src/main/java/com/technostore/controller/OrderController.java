@@ -145,4 +145,9 @@ public class OrderController {
 
         return new ResponseEntity<>(orderService.getCompletedOrder(id, userId, request), HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/get-popular-products", method = RequestMethod.GET)
+    public ResponseEntity<?> getMostPopularProductsIds() {
+        return new ResponseEntity<>(orderService.getPopularProductsIds(), HttpStatus.OK);
+    }
 }

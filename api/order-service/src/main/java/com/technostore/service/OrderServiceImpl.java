@@ -1,5 +1,6 @@
 package com.technostore.service;
 
+import java.awt.print.Pageable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import com.technostore.model.OrderProduct;
 import com.technostore.repository.OrderProductRepository;
 import com.technostore.repository.OrderRepository;
 import com.technostore.service.client.ProductRestTemplateClient;
+
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -91,6 +94,11 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException("No completed order with id: " + orderId);
         }
         return fillOrderDtoByOrder(orderOptional.get(), request);
+    }
+
+    @Override
+    public List<Long> getPopularProductsIds() {
+        return orderProductRepository.findMostFrequentProductsIds(PageRequest.of(0, 100));
     }
 
     private Order getOrCreateCurrentOrder(Long userId) {
