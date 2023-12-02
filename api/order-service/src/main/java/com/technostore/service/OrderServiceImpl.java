@@ -124,4 +124,10 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         orderRepository.save(order);
     }
+
+    @Override
+    public List<Long> getCompletedOrdersIds(Long userId) {
+        List<Order> orders = orderRepository.findOrdersByStatusEqualsAndUserId(OrderStatus.COMPLETED, userId);
+        return orders.stream().map(Order::getId).toList();
+    }
 }
