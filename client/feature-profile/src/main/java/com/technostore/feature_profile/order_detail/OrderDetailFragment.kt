@@ -23,6 +23,7 @@ import com.technostore.feature_profile.order_detail.presentation.OrderDetailNews
 import com.technostore.feature_profile.order_detail.presentation.OrderDetailState
 import com.technostore.feature_profile.order_detail.presentation.OrderDetailViewModel
 import com.technostore.feature_profile.order_detail.ui.OrderDetailAdapter
+import com.technostore.navigation.MainNavGraphDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -107,7 +108,9 @@ class OrderDetailFragment : Fragment() {
             }
 
             is OrderDetailNews.OpenProductPage -> {
-                TODO()
+                val action = MainNavGraphDirections.actionGlobalProductFlow()
+                action.productId = news.id
+                findNavController().navigate(action)
             }
         }
     }
