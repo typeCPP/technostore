@@ -1,8 +1,10 @@
 package com.technostore.shared_search.di
 
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
 import com.technostore.shared_search.business.SharedSearchRepository
 import com.technostore.shared_search.business.SharedSearchRepositoryImpl
+import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
 import com.technostore.shared_search.filter.presentation.FilterEffectHandler
 import com.technostore.shared_search.filter.presentation.FilterReducer
 import dagger.Module
@@ -16,10 +18,22 @@ import javax.inject.Singleton
 class SharedSearchModule {
     @Provides
     @Singleton
+    fun provideProductSearchMapper(): ProductSearchMapper {
+        return ProductSearchMapper()
+    }
+
+    @Provides
+    @Singleton
     fun provideSharedSearchRepository(
-        productService: ProductService
+        productService: ProductService,
+        orderService: OrderService,
+        productSearchMapper: ProductSearchMapper
     ): SharedSearchRepository {
-        return SharedSearchRepositoryImpl(productService)
+        return SharedSearchRepositoryImpl(
+            productService,
+            orderService,
+            productSearchMapper
+        )
     }
 
     @Provides

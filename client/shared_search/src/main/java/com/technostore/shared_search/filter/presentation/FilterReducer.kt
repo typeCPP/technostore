@@ -15,7 +15,13 @@ class FilterReducer : Reducer<FilterState, FilterEvent> {
             )
 
             is FilterEvent.DataLoaded -> currentState.copy(
-                categories = event.categories
+                categories = event.categories,
+                isSortingByPopularity = event.isSortingByPopularity,
+                isSortingByRating = event.isSortingByRating,
+                minPrice = event.minPrice,
+                maxPrice = event.maxPrice,
+                minRating = event.minRating,
+                maxRating = event.maxRating
             )
 
             else -> currentState

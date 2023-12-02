@@ -146,6 +146,30 @@ class FilterFragment : Fragment() {
         }
         val adapter = binding.rvCategory.adapter as CategoryFilterAdapter
         adapter.submitList(state.categories)
+        if (state.isSortingByPopularity) {
+            binding.tvSortPopular.background = ContextCompat.getDrawable(
+                requireContext(),
+                CoreR.drawable.selected_category_filter_background
+            )
+        } else {
+            binding.tvSortPopular.background = ContextCompat.getDrawable(
+                requireContext(),
+                CoreR.drawable.category_filter_background
+            )
+        }
+        if (state.isSortingByRating) {
+            binding.tvSortRating.background = ContextCompat.getDrawable(
+                requireContext(),
+                CoreR.drawable.selected_category_filter_background
+            )
+        } else {
+            binding.tvSortRating.background = ContextCompat.getDrawable(
+                requireContext(),
+                CoreR.drawable.category_filter_background
+            )
+        }
+        binding.sliderCost.setValues(state.minPrice, state.maxPrice)
+        binding.sliderRating.setValues(state.minRating, state.maxRating)
     }
 
     private fun setVisibilityForMainContent(visibility: Boolean) {

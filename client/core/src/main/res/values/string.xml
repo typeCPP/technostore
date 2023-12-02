@@ -2,4 +2,5 @@
 <resources>
     <string name="error_toast">Ошибка. Повторите попытку позже</string>
     <string name="price">%s Р</string>
+    <string name="product_card_to_shopping_cart">В корзину</string>
 </resources>

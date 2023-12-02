@@ -24,9 +24,10 @@ class OrderDetailAdapter(private val onClickProduct: (item: ProductOrderModel) -
             binding.icMinus.isVisible = false
             binding.icClose.isVisible = false
             binding.count.isVisible = false
+            binding.tvButtonConfirm.isVisible = false
             binding.name.text = product.name
             binding.price.text = context.getString(CoreR.string.price, product.price.toString())
-            binding.rating.text=product.rating.toString()
+            binding.rating.text = product.rating.toString()
             Glide.with(binding.ivPicture)
                 .load(product.photoLink)
                 .centerCrop()
@@ -68,7 +69,10 @@ class ProductOrderDiffCallback : DiffUtil.ItemCallback<ProductOrderModel>() {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: ProductOrderModel, newItem: ProductOrderModel): Boolean {
+    override fun areContentsTheSame(
+        oldItem: ProductOrderModel,
+        newItem: ProductOrderModel
+    ): Boolean {
         return oldItem.id == newItem.id
     }
 }

@@ -62,6 +62,10 @@ import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
+import com.technostore.feature_search.search.presentation.SearchEffectHandler
+import com.technostore.feature_search.search.presentation.SearchReducer
+import com.technostore.feature_search.search.presentation.SearchState
+import com.technostore.feature_search.search.presentation.SearchViewModel
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEffectHandler
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartReducer
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
@@ -323,6 +327,18 @@ class ViewModelModule {
     ): ReviewViewModel {
         return ReviewViewModel(
             initialState = ReviewState(),
+            reducer = reducer,
+            effectHandler = effectHandler
+        )
+    }
+
+    @Provides
+    fun provideSearchViewModel(
+        reducer: SearchReducer,
+        effectHandler: SearchEffectHandler
+    ): SearchViewModel {
+        return SearchViewModel(
+            initialState = SearchState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
