@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.technostore.productservice.dto.ReviewDto;
@@ -36,22 +37,30 @@ public class ReviewRestTemplateClient {
         headers.add("Authorization", request.getHeader("Authorization"));
         HttpEntity<?> entity = new HttpEntity<>(headers);
         ResponseEntity<?> responseEntity;
-        responseEntity = restTemplate.exchange(
-                "http://review-service/review/product-rating/" + productId,
-                HttpMethod.GET,
-                entity, Double.class);
-        return ((Double) responseEntity.getBody()).doubleValue();
+        try {
+            responseEntity = restTemplate.exchange(
+                    "http://review-service/review/product-rating/" + productId,
+                    HttpMethod.GET,
+                    entity, Double.class);
+            return ((Double) responseEntity.getBody()).doubleValue();
+        } catch (RestClientException e) {
+            return 0.0;
+        }
     }
 
-    public ReviewDto getReviewByUserIdAndProductId(Long productId, HttpServletRequest request) {
+    public double getReviewRatingByUserIdAndProductId(Long productId, HttpServletRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", request.getHeader("Authorization"));
         HttpEntity<?> entity = new HttpEntity<>(headers);
         ResponseEntity<?> responseEntity;
-        responseEntity = restTemplate.exchange(
-                "http://review-service/by-product-id/" + productId,
-                HttpMethod.GET,
-                entity, ReviewDto.class);
-        return (ReviewDto) responseEntity.getBody();
+        try {
+            responseEntity = restTemplate.exchange(
+                    "http://review-service/review/by-product-id/" + productId,
+                    HttpMethod.GET,
+                    entity, ReviewDto.class);
+            return ((ReviewDto) responseEntity.getBody()).getRate();
+        } catch (RestClientException e) {
+            return 0.0;
+        }
     }
 }

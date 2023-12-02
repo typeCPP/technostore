@@ -57,6 +57,23 @@ public class ProductController {
         }
     }
 
+    @GetMapping(path = "/products-by-ids")
+    ResponseEntity<?> getProductsByIds(@RequestParam String ids, HttpServletRequest request) {
+        List<Long> productsIds = listLongFromString(ids);
+        List<ProductDto> products = new ArrayList<>();
+
+        for (Long id : productsIds) {
+            try {
+                products.add(productService.getProductById(id, request));
+            } catch (EntityNotFoundException exception) {
+                return new ResponseEntity<>(
+                        new AppError(HttpStatus.NOT_FOUND.value(),
+                                "No product with id: " + id), HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/search")
     ResponseEntity<?> search(@RequestParam int numberPage,
                              @RequestParam int sizePage,
@@ -78,16 +95,7 @@ public class ProductController {
                             "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
-        Scanner scanner = new Scanner("");
-        List<Long> listCategories = new ArrayList<>();
-        if (categories != null) {
-            scanner = new Scanner(categories);
-            scanner.useDelimiter(",");
-            while (scanner.hasNextLong()) {
-                listCategories.add(scanner.nextLong());
-            }
-        }
-        scanner.close();
+        List<Long> listCategories = listLongFromString(categories);
 
         try {
             return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
@@ -125,5 +133,20 @@ public class ProductController {
         } catch (IOException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    private List<Long> listLongFromString(String str) {
+        if (str == null) {
+            return new ArrayList<>();
+        }
+        Scanner scanner = new Scanner(str);
+        List<Long> resultList = new ArrayList<>();
+        scanner.useDelimiter(",");
+        while (scanner.hasNextLong()) {
+            resultList.add(scanner.nextLong());
+        }
+
+        scanner.close();
+        return resultList;
     }
 }
