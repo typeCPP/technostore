@@ -42,6 +42,13 @@ class MainActivity : AppCompatActivity(), ToFlowNavigatable {
                     selectedItemId = R.id.shopping_cart
                 }
 
+                R.id.search -> {
+                    if (selectedItemId != R.id.search) {
+                        navigateToFlow(NavigationFlow.SearchFlow)
+                    }
+                    selectedItemId = R.id.search
+                }
+
                 else -> {}
             }
             return@setOnItemSelectedListener true

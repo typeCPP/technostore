@@ -9,6 +9,7 @@
     <item name="product_flow" type="id" />
     <item name="shopping_cart_flow" type="id" />
     <item name="review_flow" type="id" />
+    <item name="search_flow" type="id" />
 
     <item name="main_activity" type="id" />
     <item name="login_activity" type="id" />

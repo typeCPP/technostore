@@ -8,4 +8,6 @@
     <string name="filter_by_popular">По популярности</string>
     <string name="filter_category">Категории</string>
     <string name="filter_find">Искать</string>
+    <string name="search_bar_enter_name">Введите название</string>
+    <string name="search_not_found">Ничего не найдено</string>
 </resources>

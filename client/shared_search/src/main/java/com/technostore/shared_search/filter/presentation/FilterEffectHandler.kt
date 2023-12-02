@@ -20,7 +20,15 @@ class FilterEffectHandler(
                 store.dispatch(FilterEvent.EndLoading)
                 when (result) {
                     is Result.Error -> store.acceptNews(FilterNews.ShowErrorToast)
-                    is Result.Success -> store.dispatch(FilterEvent.DataLoaded(result.data!!))
+                    is Result.Success -> store.dispatch(FilterEvent.DataLoaded(
+                        categories = result.data!!,
+                        isSortingByPopularity = sharedSearchRepository.getIsSortByPopularity(),
+                        isSortingByRating = sharedSearchRepository.getIsSortByRating(),
+                        minPrice = sharedSearchRepository.getMinPrice(),
+                        maxPrice = sharedSearchRepository.getMaxPrice(),
+                        minRating = sharedSearchRepository.getMinRating(),
+                        maxRating = sharedSearchRepository.getMaxRating(),
+                        ))
                 }
             }
 
@@ -44,15 +52,21 @@ class FilterEffectHandler(
 
             FilterUiEvent.OnChangedIsSortingByPopularity -> {
                 val isSelected = sharedSearchRepository.setIsSelectByPopularity()
+                if (isSelected) {
+                    store.acceptNews(FilterNews.ChangeIsSortingByRatingBackground(false))
+                }
                 store.acceptNews(FilterNews.ChangeIsSortingByPopularityBackground(isSelected))
             }
 
             FilterUiEvent.OnChangedIsSortingByRating -> {
                 val isSelected = sharedSearchRepository.setIsSelectByRating()
+                if (isSelected) {
+                    store.acceptNews(FilterNews.ChangeIsSortingByPopularityBackground(false))
+                }
                 store.acceptNews(FilterNews.ChangeIsSortingByRatingBackground(isSelected))
             }
 
-            FilterUiEvent.OnNextButtonClicked, FilterUiEvent.OnNextButtonClicked -> {
+            FilterUiEvent.OnNextButtonClicked, FilterUiEvent.OnBackButtonClicked -> {
                 store.acceptNews(FilterNews.OpenPreviousPage)
             }
 

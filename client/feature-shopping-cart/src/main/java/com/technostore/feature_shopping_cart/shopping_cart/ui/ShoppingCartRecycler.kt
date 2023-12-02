@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class ShoppingCartRecycler(
             onClickMinus: (item: ProductOrderModel) -> Unit,
             onClickRemove: (item: ProductOrderModel) -> Unit
         ) {
+            binding.tvButtonConfirm.isVisible = false
             binding.name.text = product.name
             binding.price.text = context.getString(CoreR.string.price, product.price.toString())
             binding.rating.text = product.rating.toString()

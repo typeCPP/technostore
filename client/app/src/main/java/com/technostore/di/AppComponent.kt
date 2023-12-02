@@ -5,6 +5,7 @@ import com.technostore.arch.di.ArchModule
 import com.technostore.base.di.BaseModule
 import com.technostore.feature_login.di.LoginModule
 import com.technostore.feature_profile.di.ProfileModule
+import com.technostore.feature_search.di.SearchModule
 import com.technostore.feature_shopping_cart.di.ShoppingCartModule
 import com.technostore.network.di.NetworkModule
 import com.technostore.shared_search.di.SharedSearchModule
@@ -24,7 +25,8 @@ import javax.inject.Singleton
         SharedSearchModule::class,
         ProfileModule::class,
         ShoppingCartModule::class,
-        ReviewModule::class
+        ReviewModule::class,
+        SearchModule::class
     ]
 )
 interface AppComponent

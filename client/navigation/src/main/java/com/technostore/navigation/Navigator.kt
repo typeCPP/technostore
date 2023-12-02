@@ -35,10 +35,15 @@ class Navigator {
             action.productId = navigationFlow.productId
             navController.navigate(action)
         }
+
         is NavigationFlow.ReviewListFlow -> {
             val action = MainNavGraphDirections.actionGlobalReviewFlow()
             action.productId = navigationFlow.productId
             navController.navigate(action)
+        }
+
+        NavigationFlow.SearchFlow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalSearchFlow())
         }
     }
 }

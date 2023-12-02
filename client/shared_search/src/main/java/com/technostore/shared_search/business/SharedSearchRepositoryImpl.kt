@@ -1,14 +1,22 @@
 package com.technostore.shared_search.business
 
 import com.technostore.arch.result.Result
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
+import com.technostore.shared_search.business.error.SearchEmpty
 import com.technostore.shared_search.business.model.Category
 import com.technostore.shared_search.business.model.CategoryWithCheck
+import com.technostore.shared_search.business.model.ProductSearchModel
+import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+private const val PAGE_SIZE = 100
+
 class SharedSearchRepositoryImpl(
-    private val productService: ProductService
+    private val productService: ProductService,
+    private val orderService: OrderService,
+    private val productSearchMapper: ProductSearchMapper
 ) : SharedSearchRepository {
 
     @Volatile
@@ -32,6 +40,12 @@ class SharedSearchRepositoryImpl(
     @Volatile
     private var maxRating: Float = 10f
 
+    @Volatile
+    private var numberPage: Int = 0
+
+    @Volatile
+    private var searchText: String? = ""
+
     override suspend fun getCategories(): Result<List<CategoryWithCheck>> =
         withContext(Dispatchers.IO) {
             val response = productService.getPopularCategories()
@@ -50,13 +64,45 @@ class SharedSearchRepositoryImpl(
             return@withContext Result.Error()
         }
 
-    override suspend fun setIsSelectByPopularity():Boolean {
-        isSelectByPopularity = !isSelectByPopularity
+    override fun getMinPrice(): Float {
+        return minCost
+    }
+
+    override fun getMaxPrice(): Float {
+        return maxCost
+    }
+
+    override fun getMinRating(): Float {
+        return minRating
+    }
+
+    override fun getMaxRating(): Float {
+        return maxRating
+    }
+
+    override fun getIsSortByPopularity(): Boolean {
         return isSelectByPopularity
     }
 
-    override suspend fun setIsSelectByRating():Boolean {
+    override fun getIsSortByRating(): Boolean {
+        return isSelectByRating
+    }
+
+    override suspend fun setIsSelectByPopularity(): Boolean {
+        isSelectByPopularity = !isSelectByPopularity
+        if (isSelectByPopularity) {
+            isSelectByRating = false
+        }
+        searchText = null
+        return isSelectByPopularity
+    }
+
+    override suspend fun setIsSelectByRating(): Boolean {
         isSelectByRating = !isSelectByRating
+        if (isSelectByRating) {
+            isSelectByPopularity = false
+        }
+        searchText = null
         return isSelectByRating
     }
 
@@ -66,16 +112,74 @@ class SharedSearchRepositoryImpl(
         } else {
             selectedCategories.removeIf { it == categoryWithCheck.category.id }
         }
+        searchText = null
     }
 
     override suspend fun updateCostBoundaries(minCost: Float, maxCost: Float) {
         this.minCost = minCost
         this.maxCost = maxCost
+        searchText = null
     }
 
 
     override suspend fun updateRatingBoundaries(minRating: Float, maxRating: Float) {
         this.minRating = minRating
         this.maxRating = maxRating
+        searchText = null
+    }
+
+    override suspend fun setProductCount(productId: Long, count: Int): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            val result = orderService.setProductCount(productId, count)
+            if (result.isSuccessful) {
+                return@withContext Result.Success()
+            }
+            return@withContext Result.Error()
+        }
+
+    override suspend fun searchProducts(word: String): Result<List<ProductSearchModel>> =
+        withContext(Dispatchers.IO) {
+            updateNumberPage(word)
+            val categories = selectedCategories.joinToString(",")
+            val response = productService.searchProducts(
+                numberPage = numberPage,
+                sizePage = PAGE_SIZE,
+                word = word,
+                sort = getSortingType(),
+                minRating = minRating.toInt(),
+                maxRating = maxRating.toInt(),
+                minPrice = minCost.toInt(),
+                maxPrice = maxCost.toInt(),
+                categories = categories,
+            )
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    if (body.listOfProducts.isEmpty() && numberPage == 0) {
+                        searchText = word
+                        return@withContext Result.Error(SearchEmpty())
+                    }
+                    val models =
+                        body.listOfProducts.map { productSearchMapper.mapFromResponseToModel(it) }
+                    return@withContext Result.Success(models)
+                }
+            }
+            return@withContext Result.Error()
+        }
+
+    private fun getSortingType(): String {
+        return when {
+            isSelectByPopularity -> "BY_POPULARITY"
+            isSelectByRating -> "BY_RATING"
+            else -> "NOTHING"
+        }
+    }
+
+    private fun updateNumberPage(text: String) {
+        if (searchText == null || text != searchText) {
+            numberPage = 0
+        } else {
+            numberPage++
+        }
     }
 }
