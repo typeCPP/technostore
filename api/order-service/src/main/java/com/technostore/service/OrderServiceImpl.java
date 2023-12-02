@@ -49,6 +49,10 @@ public class OrderServiceImpl implements OrderService {
                 .findOrderProductByOrderAndProductId(order, productId);
         orderProductOptional.ifPresent(product -> orderProduct.setId(product.getId()));
 
-        orderProductRepository.save(orderProduct);
+        if (count < 1) {
+            orderProductRepository.delete(orderProduct);
+        } else {
+            orderProductRepository.save(orderProduct);
+        }
     }
 }

@@ -38,7 +38,7 @@ public class OrderController {
         } catch (HttpClientErrorException.Forbidden exception) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can write review"), HttpStatus.FORBIDDEN);
+                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
         } catch (HttpClientErrorException.Unauthorized exception) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.UNAUTHORIZED.value(),
