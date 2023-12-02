@@ -22,7 +22,7 @@ spring:
           predicates:
             - Path=/user-service/**
         - id: product-service
-          uri: http://localhost:8085/
+          uri: http://localhost:8082/
           predicates:
             - Path=/products-service/**
         - id: review-service
