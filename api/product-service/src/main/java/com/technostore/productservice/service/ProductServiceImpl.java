@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         }
         Product product = productOptional.get();
         List<ReviewDto> reviews = reviewRestTemplateClient.getAllReviews(id, request);
-        double userRating = reviewRestTemplateClient.getReviewByUserIdAndProductId(id, request).getRate();
+        double userRating = reviewRestTemplateClient.getReviewRatingByUserIdAndProductId(id, request);
         double productRating = reviewRestTemplateClient.getProductRating(id, request);
 
         return ProductDto.builder()
