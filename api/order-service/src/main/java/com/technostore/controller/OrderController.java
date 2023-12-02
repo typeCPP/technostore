@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @RequestMapping(path = "/complete-order/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> setProductCount(@PathVariable Long id,
+    public ResponseEntity<?> completeOrder(@PathVariable Long id,
                                              HttpServletRequest request) {
         Long userId;
         try {
