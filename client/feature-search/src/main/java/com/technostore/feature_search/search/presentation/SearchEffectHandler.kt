@@ -15,6 +15,10 @@ class SearchEffectHandler(
         store: Store<SearchState, SearchEvent>
     ) {
         when (event) {
+            SearchUiEvent.Init -> {
+                sharedSearchRepository.clearNumberPage()
+            }
+
             is SearchUiEvent.OnTextChanged -> {
                 store.dispatch(SearchEvent.StartLoading)
                 val result = sharedSearchRepository.searchProducts(event.text)
