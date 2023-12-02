@@ -11,13 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReviewDto {
-    private Long id;
+public class ReviewStatisticDto {
     private Long productId;
-    private String text;
-    private int rate;
-    private Long date;
-    private String userName;
-    private String photoLink;
-
+    private Double rating;
+    private Long countReviews;
 }

@@ -18,6 +18,10 @@ import com.technostore.reviewservice.service.client.UserRestTemplateClient;
 import com.technostore.reviewservice.service.ReviewService;
 import com.technostore.reviewservice.utils.AppError;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
@@ -104,5 +108,26 @@ public class ReviewController {
         }
 
         return new ResponseEntity<>(reviewService.getReviewByUserIdAndProductId(userId, id), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/statistics-by-product-ids", method = RequestMethod.GET)
+    public ResponseEntity<?> getReviewByProductId(@RequestParam String ids) {
+        List<Long> productsIds = listLongFromString(ids);
+        return new ResponseEntity<>(reviewService.getReviewStatisticDto(productsIds), HttpStatus.OK);
+    }
+
+    private List<Long> listLongFromString(String str) {
+        if (str == null) {
+            return new ArrayList<>();
+        }
+        Scanner scanner = new Scanner(str);
+        List<Long> resultList = new ArrayList<>();
+        scanner.useDelimiter(",");
+        while (scanner.hasNextLong()) {
+            resultList.add(scanner.nextLong());
+        }
+
+        scanner.close();
+        return resultList;
     }
 }

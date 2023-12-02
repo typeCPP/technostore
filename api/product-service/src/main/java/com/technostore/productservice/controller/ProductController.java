@@ -78,22 +78,22 @@ public class ProductController {
     ResponseEntity<?> search(@RequestParam int numberPage,
                              @RequestParam int sizePage,
                              @RequestParam(required = false) String word,
-                             @RequestParam(required = false) SortType sort,
+                             @RequestParam(required = false, defaultValue = "NOTHING") SortType sort,
                              @RequestParam(required = false, defaultValue = "0") Integer minRating,
                              @RequestParam(required = false, defaultValue = "10") Integer maxRating,
-                             @RequestParam(required = false) Integer minPrice,
-                             @RequestParam(required = false) Integer maxPrice,
+                             @RequestParam(required = false, defaultValue = "0") Integer minPrice,
+                             @RequestParam(required = false, defaultValue = "2147483647") Integer maxPrice,
                              @RequestParam(required = false) String categories,
                              HttpServletRequest request) {
-        Long userId = (long) -1;
-        try {
-            userId = userRestTemplateClient.getUserId(request);
-        } catch (IllegalStateException | HttpClientErrorException.Forbidden ignored) {
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
-        }
+        Long userId = (long) 1;
+//        try {
+//            userId = userRestTemplateClient.getUserId(request);
+//        } catch (IllegalStateException | HttpClientErrorException.Forbidden ignored) {
+//        } catch (HttpClientErrorException.Unauthorized exception) {
+//            return new ResponseEntity<>(
+//                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+//                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
+//        }
 
         List<Long> listCategories = listLongFromString(categories);
 

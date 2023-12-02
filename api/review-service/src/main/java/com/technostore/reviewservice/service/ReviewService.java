@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.technostore.reviewservice.dto.ReviewDto;
+import com.technostore.reviewservice.dto.ReviewStatisticDto;
 import com.technostore.reviewservice.model.Review;
 
 public interface ReviewService {
@@ -17,4 +18,6 @@ public interface ReviewService {
     Review getReviewByUserIdAndProductId(Long userId, Long productId);
 
     Double getProductRatingById(Long productId);
+
+    List<ReviewStatisticDto> getReviewStatisticDto(List<Long> productIds);
 }
