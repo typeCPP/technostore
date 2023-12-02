@@ -1,0 +1,117 @@
+version: '2.1'
+services:
+  database:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data-db:/var/lib/mysql:rw
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./database:/var/lib/mysql
+    user: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: strongpassword
+    networks:
+      backend:
+        aliases:
+          - "database"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 60s
+      retries: 20
+  configserver:
+    image: prlwk/tech-serverconfig:latest
+    ports:
+      - "8088:8080"
+    environment:
+      SPRING_CLOUD_CONFIG_URL: http://configserver:8088
+    networks:
+      backend:
+        aliases:
+          - "configserver"
+  eurekaserver:
+    image: prlwk/tech-eurekaserver:latest
+    environment:
+      PROFILE: "dev"
+    ports:
+      - "8085:8080"
+    networks:
+       backend:
+         aliases:
+          - "eurekaserver"
+  gatewayserver:
+    image: prlwk/tech-gateway-server:latest
+    ports:
+      - "8080:8072"
+    environment:
+      PROFILE: "default"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+      eurekaserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "gateway"
+  orderservice:
+    image: prlwk/tech-order-service:latest
+    environment:
+      PROFILE: "dev"
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    ports:
+      - "8086:8086"
+    networks:
+      - backend
+  productservice:
+    image: prlwk/tech-product-service:latest
+    environment:
+      PROFILE: "dev"
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    ports:
+      - "8085:8085"
+    networks:
+      - backend
+  reviewservice:
+    image: prlwk/tech-review-service:latest
+    environment:
+      PROFILE: "dev"
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    ports:
+      - "8083:8083"
+    networks:
+      - backend
+  userservice:
+    image: prlwk/tech-user-service:latest
+    environment:
+      PROFILE: "dev"
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    ports:
+      - "8084:8084"
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
