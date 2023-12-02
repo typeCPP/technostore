@@ -22,7 +22,7 @@ public class OrderProduct {
 
     private Integer count;
 
-    @ManyToOne(targetEntity = OrderEntity.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Order.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "order_id")
-    private OrderEntity order;
+    private Order order;
 }

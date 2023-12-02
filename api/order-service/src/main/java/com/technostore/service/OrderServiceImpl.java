@@ -1,20 +1,28 @@
 package com.technostore.service;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.technostore.dto.FullProductDto;
 import com.technostore.dto.OrderDto;
 import com.technostore.dto.OrderStatus;
 import com.technostore.dto.ProductDto;
-import com.technostore.model.OrderEntity;
+import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
 import com.technostore.repository.OrderProductRepository;
 import com.technostore.repository.OrderRepository;
 import com.technostore.service.client.ProductRestTemplateClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
-import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -30,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void setProductCount(Long userId, Long productId, int count) {
-        OrderEntity order = getOrCreateCurrentOrder(userId);
+        Order order = getOrCreateCurrentOrder(userId);
 
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setProductId(productId);
@@ -50,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getCurrentOrder(Long userId, HttpServletRequest request) {
-        OrderEntity order = getOrCreateCurrentOrder(userId);
+        Order order = getOrCreateCurrentOrder(userId);
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
 
@@ -79,13 +87,13 @@ public class OrderServiceImpl implements OrderService {
         return orderDto;
     }
 
-    private OrderEntity getOrCreateCurrentOrder(Long userId) {
-        Optional<OrderEntity> uncompleteOrderOptional = orderRepository
-                .findOrderEntityByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId);
+    private Order getOrCreateCurrentOrder(Long userId) {
+        Optional<Order> uncompleteOrderOptional = orderRepository
+                .findOrderByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId);
 
-        OrderEntity order;
+        Order order;
         if (uncompleteOrderOptional.isEmpty()) {
-            OrderEntity newOrder = new OrderEntity();
+            Order newOrder = new Order();
             Instant instantNow = Instant.now();
             newOrder.setUserId(userId);
             newOrder.setStatus(OrderStatus.IN_PROGRESS);
@@ -99,5 +107,21 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order;
+    }
+
+    @Override
+    @Transactional
+    public void completeOrder(Long userId, Long orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isEmpty()) {
+            throw new EntityNotFoundException("No order with id = " + orderId);
+        }
+        if (!Objects.equals(orderOptional.get().getUserId(), userId)) {
+            throw new EntityNotFoundException(
+                    String.format("User with id = %s does not own order with id = %s", userId, orderId));
+        }
+        Order order = orderOptional.get();
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
     }
 }

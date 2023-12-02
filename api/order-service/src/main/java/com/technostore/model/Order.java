@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.Table;
 
 import com.technostore.dto.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -16,9 +19,10 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderEntity {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +34,6 @@ public class OrderEntity {
 
     private Instant updatedAt;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 }
