@@ -1,9 +1,13 @@
 package com.technostore.productservice.service.client;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.technostore.productservice.dto.ReviewStatisticDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -62,5 +66,25 @@ public class ReviewRestTemplateClient {
         } catch (RestClientException e) {
             return 0.0;
         }
+    }
+
+    public List<ReviewStatisticDto> getReviewStatisticsByProductIds(List<Long> productsIds) {
+        StringBuilder idsStr = new StringBuilder();
+        for (Long id : productsIds) {
+            idsStr.append(id);
+            idsStr.append(",");
+        }
+
+        ResponseEntity<List> responseEntity;
+        responseEntity = restTemplate.exchange(
+                "http://review-service/review/statistics-by-product-ids?ids=" + idsStr,
+                HttpMethod.GET,
+                null, List.class);
+        ObjectMapper mapper = new ObjectMapper();
+        List<ReviewStatisticDto> list = new ArrayList<>();
+        for (int i = 0; i < responseEntity.getBody().size(); i++) {
+            list.add(mapper.convertValue(responseEntity.getBody().get(i), ReviewStatisticDto.class));
+        }
+        return list;
     }
 }

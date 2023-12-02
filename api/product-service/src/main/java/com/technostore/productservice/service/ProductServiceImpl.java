@@ -1,20 +1,19 @@
 package com.technostore.productservice.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.technostore.productservice.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.technostore.productservice.dto.ProductDto;
-import com.technostore.productservice.dto.ReviewDto;
-import com.technostore.productservice.dto.SearchProductDto;
-import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.model.Product;
 import com.technostore.productservice.repository.ProductRepository;
 import com.technostore.productservice.service.client.ReviewRestTemplateClient;
@@ -27,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ReviewRestTemplateClient reviewRestTemplateClient;
+
     @Override
     public ProductDto getProductById(Long id, HttpServletRequest request) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -59,6 +59,19 @@ public class ProductServiceImpl implements ProductService {
         if (sort == SortType.NOTHING) {
             page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
                     categories.size(), PageRequest.of(numberPage, sizePage));
+            List<ReviewStatisticDto> reviewStatisticDtoList =
+                    reviewRestTemplateClient.getReviewStatisticsByProductIds(
+                            page.getContent().stream().map(SearchProductDto::getId).toList());
+            Map<Long, Double> productIdToRating = reviewStatisticDtoList.stream().collect(Collectors.toMap(
+                    ReviewStatisticDto::getProductId, r -> Double.isNaN(r.getRating()) ? 0 : r.getRating()
+            ));
+            Map<Long, Long> productIdToCountReviews = reviewStatisticDtoList.stream().collect(Collectors.toMap(
+                    ReviewStatisticDto::getProductId, ReviewStatisticDto::getCountReviews
+            ));
+            page.getContent().forEach(r -> {
+                r.setRating(productIdToRating.getOrDefault(r.getId(), 0.0));
+                r.setReviewCount(productIdToCountReviews.getOrDefault(r.getId(), 0L));
+            });
         } else if (sort == SortType.BY_RATING) {
             // добавить логику сортировки по рейтингу
             page = null;

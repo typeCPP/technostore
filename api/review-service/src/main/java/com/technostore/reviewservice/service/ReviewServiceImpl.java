@@ -9,6 +9,7 @@ import java.util.OptionalDouble;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.technostore.reviewservice.dto.ReviewStatisticDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     UserRestTemplateClient userRestTemplateClient;
+
     @Override
     public ReviewDto getReviewById(Long id, HttpServletRequest request) {
         Optional<Review> reviewOptional = reviewRepository.findById(id);
@@ -88,6 +90,20 @@ public class ReviewServiceImpl implements ReviewService {
                 .mapToDouble(Review::getRate)
                 .average();
         return avgRating.isPresent() ? avgRating.getAsDouble() : 0.0;
+    }
+
+    @Override
+    public List<ReviewStatisticDto> getReviewStatisticDto(List<Long> productIds) {
+        return productIds.stream()
+                .map(id -> {
+                    List<Review> reviews = reviewRepository.findAllByProductId(id);
+                    return ReviewStatisticDto.builder()
+                            .productId(id)
+                            .rating(reviews.isEmpty() ? 0.0 :
+                                    reviews.stream().map(Review::getRate).mapToDouble(r -> r).sum() / reviews.size())
+                            .countReviews(reviews.stream().filter(r -> r.getText() != null).count())
+                            .build();
+                }).toList();
     }
 
     @Override

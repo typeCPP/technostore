@@ -19,8 +19,8 @@ public class SearchProductDto {
     private String linkPhoto;
     private double price;
     private String name;
-    @Nullable
-    private Double rating;
+    private double rating;
+    private Long reviewCount;
     @Nullable
     private Integer inCartCount;
 

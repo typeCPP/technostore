@@ -30,6 +30,7 @@ public class ProductRestTemplateClient {
         headers.add("Authorization", request.getHeader("Authorization"));
         HttpEntity<?> entity = new HttpEntity<>(headers);
         ResponseEntity<List> responseEntity;
+
         responseEntity = restTemplate.exchange(
                 "http://product-service/product/products-by-ids/?ids=" + idsStr,
                 HttpMethod.GET,
@@ -41,6 +42,5 @@ public class ProductRestTemplateClient {
             list.add(mapper.convertValue(responseEntity.getBody().get(i), FullProductDto.class));
         }
         return list;
-
     }
 }
