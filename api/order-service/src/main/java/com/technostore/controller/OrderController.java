@@ -123,4 +123,26 @@ public class OrderController {
 
         return new ResponseEntity<>(orderService.getCompletedOrdersIds(userId), HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/get-completed-order/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCompletedOrder(@PathVariable Long id, HttpServletRequest request) {
+        Long userId;
+        try {
+            userId = userRestTemplateClient.getUserId(request);
+        } catch (IllegalStateException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (HttpClientErrorException.Forbidden exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.FORBIDDEN.value(),
+                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(orderService.getCompletedOrder(id, userId, request), HttpStatus.OK);
+    }
 }

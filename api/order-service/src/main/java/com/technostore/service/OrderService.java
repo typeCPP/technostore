@@ -10,4 +10,5 @@ public interface OrderService {
     OrderDto getCurrentOrder(Long userId, HttpServletRequest request);
     void completeOrder(Long userId, Long orderId);
     List<Long> getCompletedOrdersIds(Long userId);
+    OrderDto getCompletedOrder(Long orderId, Long userId, HttpServletRequest request);
 }

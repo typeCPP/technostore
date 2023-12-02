@@ -59,6 +59,63 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getCurrentOrder(Long userId, HttpServletRequest request) {
         Order order = getOrCreateCurrentOrder(userId);
+        return fillOrderDtoByOrder(order, request);
+    }
+
+    @Override
+    @Transactional
+    public void completeOrder(Long userId, Long orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isEmpty()) {
+            throw new EntityNotFoundException("No order with id = " + orderId);
+        }
+        if (!Objects.equals(orderOptional.get().getUserId(), userId)) {
+            throw new EntityNotFoundException(
+                    String.format("User with id = %s does not own order with id = %s", userId, orderId));
+        }
+        Order order = orderOptional.get();
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public List<Long> getCompletedOrdersIds(Long userId) {
+        List<Order> orders = orderRepository.findOrdersByStatusEqualsAndUserId(OrderStatus.COMPLETED, userId);
+        return orders.stream().map(Order::getId).toList();
+    }
+
+    @Override
+    public OrderDto getCompletedOrder(Long orderId, Long userId, HttpServletRequest request) {
+        Optional<Order> orderOptional = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.COMPLETED);
+        if (orderOptional.isEmpty()) {
+            throw new EntityNotFoundException("No completed order with id: " + orderId);
+        }
+        return fillOrderDtoByOrder(orderOptional.get(), request);
+    }
+
+    private Order getOrCreateCurrentOrder(Long userId) {
+        Optional<Order> uncompleteOrderOptional = orderRepository
+                .findOrderByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId);
+
+        Order order;
+        if (uncompleteOrderOptional.isEmpty()) {
+            Order newOrder = new Order();
+            Instant instantNow = Instant.now();
+            newOrder.setUserId(userId);
+            newOrder.setStatus(OrderStatus.IN_PROGRESS);
+            newOrder.setCreatedAt(instantNow);
+            newOrder.setUpdatedAt(instantNow);
+            order = orderRepository.save(newOrder);
+        } else {
+            order = uncompleteOrderOptional.get();
+            order.setUpdatedAt(Instant.now());
+            orderRepository.save(order);
+        }
+
+        return order;
+    }
+
+    private OrderDto fillOrderDtoByOrder(Order order, HttpServletRequest request) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
 
@@ -85,49 +142,5 @@ public class OrderServiceImpl implements OrderService {
                 .build()).toList();
         orderDto.setProducts(productDtoList);
         return orderDto;
-    }
-
-    private Order getOrCreateCurrentOrder(Long userId) {
-        Optional<Order> uncompleteOrderOptional = orderRepository
-                .findOrderByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId);
-
-        Order order;
-        if (uncompleteOrderOptional.isEmpty()) {
-            Order newOrder = new Order();
-            Instant instantNow = Instant.now();
-            newOrder.setUserId(userId);
-            newOrder.setStatus(OrderStatus.IN_PROGRESS);
-            newOrder.setCreatedAt(instantNow);
-            newOrder.setUpdatedAt(instantNow);
-            order = orderRepository.save(newOrder);
-        } else {
-            order = uncompleteOrderOptional.get();
-            order.setUpdatedAt(Instant.now());
-            orderRepository.save(order);
-        }
-
-        return order;
-    }
-
-    @Override
-    @Transactional
-    public void completeOrder(Long userId, Long orderId) {
-        Optional<Order> orderOptional = orderRepository.findById(orderId);
-        if (orderOptional.isEmpty()) {
-            throw new EntityNotFoundException("No order with id = " + orderId);
-        }
-        if (!Objects.equals(orderOptional.get().getUserId(), userId)) {
-            throw new EntityNotFoundException(
-                    String.format("User with id = %s does not own order with id = %s", userId, orderId));
-        }
-        Order order = orderOptional.get();
-        order.setStatus(OrderStatus.COMPLETED);
-        orderRepository.save(order);
-    }
-
-    @Override
-    public List<Long> getCompletedOrdersIds(Long userId) {
-        List<Order> orders = orderRepository.findOrdersByStatusEqualsAndUserId(OrderStatus.COMPLETED, userId);
-        return orders.stream().map(Order::getId).toList();
     }
 }
