@@ -11,11 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDto {
-    private long id;
-    private String linkPhoto;
-    private double price;
-    private String name;
-    private double rating;
-    private int count;
+public class InCartCountProductDto {
+    Long productId;
+    Integer inCartCount;
 }

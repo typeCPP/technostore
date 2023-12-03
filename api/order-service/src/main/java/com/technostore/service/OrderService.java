@@ -1,5 +1,6 @@
 package com.technostore.service;
 
+import com.technostore.dto.InCartCountProductDto;
 import com.technostore.dto.OrderDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,4 +13,5 @@ public interface OrderService {
     List<Long> getCompletedOrdersIds(Long userId);
     OrderDto getCompletedOrder(Long orderId, Long userId, HttpServletRequest request);
     List<Long> getPopularProductsIds();
+    List<InCartCountProductDto> getInCartCountByProductIds(List<Long> productIds, Long userId);
 }

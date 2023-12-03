@@ -1,6 +1,5 @@
 package com.technostore.service;
 
-import java.awt.print.Pageable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -11,14 +10,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.persistence.EntityNotFoundException;
 
+import com.technostore.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.technostore.dto.FullProductDto;
-import com.technostore.dto.OrderDto;
-import com.technostore.dto.OrderStatus;
-import com.technostore.dto.ProductDto;
 import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
 import com.technostore.repository.OrderProductRepository;
@@ -99,6 +95,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Long> getPopularProductsIds() {
         return orderProductRepository.findMostFrequentProductsIds(PageRequest.of(0, 100));
+    }
+
+    @Override
+    public List<InCartCountProductDto> getInCartCountByProductIds(List<Long> productIds, Long userId) {
+        return orderProductRepository.findByUserIdAndProductIds(userId, productIds).stream()
+                .map(op -> InCartCountProductDto.builder()
+                        .productId(op.getProductId())
+                        .inCartCount(op.getCount())
+                        .build())
+                .toList();
     }
 
     private Order getOrCreateCurrentOrder(Long userId) {
