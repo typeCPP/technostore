@@ -1,5 +1,6 @@
 package com.technostore.feature_profile.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -117,6 +118,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun checkState(state: ProfileState) {
         binding.slShimmer.isVisible = state.isLoading
         setVisibilityForContent(state.isLoading)
@@ -132,7 +134,7 @@ class ProfileFragment : Fragment() {
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(binding.ivPicture)
-        binding.tvName.text = state.name
+        binding.tvName.text = "${state.name} ${state.lastName}"
         binding.tvEmail.text = state.email
     }
 
