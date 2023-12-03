@@ -11,6 +11,7 @@ services:
     user: mysql
     environment:
       MYSQL_ROOT_PASSWORD: strongpassword
+      POSTGRES_INITDB_ARGS='--locale=ru_RU:UTF-8':
     networks:
       backend:
         aliases:

@@ -1,3 +1,4 @@
+SET NAMES 'utf8';
 CREATE DATABASE IF NOT EXISTS orders;
 CREATE DATABASE IF NOT EXISTS review;
 CREATE DATABASE IF NOT EXISTS product;
@@ -16,7 +17,7 @@ create table if not exists product.product
     link_photo  varchar(255),
     name        varchar(255),
     price       double not null,
-    category_id bigint not null
+    category_id bigint not null references category (id)
 );
 
 insert into product.category

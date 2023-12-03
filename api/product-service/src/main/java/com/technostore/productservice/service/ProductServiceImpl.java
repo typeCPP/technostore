@@ -60,6 +60,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public String getPhotoLink(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            throw new EntityNotFoundException("No product with such id");
+        }
+        return productOptional.get().getLinkPhoto();
+    }
+
+    @Override
     public Page<SearchProductDto> searchProducts(int numberPage, int sizePage, SortType sort, String word,
                                                  Integer minRating, Integer maxRating, Integer minPrice,
                                                  Integer maxPrice, List<Long> categories, HttpServletRequest request) {
