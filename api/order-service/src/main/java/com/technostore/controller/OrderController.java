@@ -1,5 +1,9 @@
 package com.technostore.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,10 +16,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import com.technostore.service.OrderService;
 import com.technostore.service.client.UserRestTemplateClient;
 import com.technostore.utils.AppError;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 @RestController
 @RequestMapping("/order")
@@ -38,14 +38,6 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         orderService.setProductCount(userId, productId, count);
@@ -62,15 +54,8 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
+
         try {
             orderService.completeOrder(userId, id);
         } catch (EntityNotFoundException e) {
@@ -89,14 +74,6 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(orderService.getCurrentOrder(userId, request), HttpStatus.OK);
@@ -111,14 +88,6 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(orderService.getCompletedOrdersIds(userId), HttpStatus.OK);
@@ -133,14 +102,6 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can set product count"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(orderService.getCompletedOrder(id, userId, request), HttpStatus.OK);
@@ -160,14 +121,6 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can view product"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         List<Long> productsIds = listLongFromString(ids);
@@ -196,6 +149,11 @@ public class OrderController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.FORBIDDEN.value(),
                             e.getMessage()), HttpStatus.FORBIDDEN);
+        }
+        if (e instanceof HttpClientErrorException.Unauthorized) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+                            e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
         throw e;
     }

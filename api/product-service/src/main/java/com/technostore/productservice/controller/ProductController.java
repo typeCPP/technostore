@@ -148,6 +148,11 @@ public class ProductController {
                     new AppError(HttpStatus.FORBIDDEN.value(),
                             e.getMessage()), HttpStatus.FORBIDDEN);
         }
+        if (e instanceof HttpClientErrorException.Unauthorized) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+                            e.getMessage()), HttpStatus.UNAUTHORIZED);
+        }
         throw e;
     }
 }
