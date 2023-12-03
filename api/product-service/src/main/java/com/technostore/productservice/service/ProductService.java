@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ProductService {
     ProductDto getProductById(Long id, HttpServletRequest request);
+    String getPhotoLink(Long id);
     Page<SearchProductDto> searchProducts(int numberPage, int sizePage, SortType sort, String word, Integer minRating,
                                           Integer maxRating, Integer minPrice, Integer maxPrice, List<Long> categorie,
                                           HttpServletRequest request);

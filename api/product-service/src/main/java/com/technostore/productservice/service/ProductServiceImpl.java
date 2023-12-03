@@ -51,12 +51,21 @@ public class ProductServiceImpl implements ProductService {
                 .category(product.getCategory())
                 .description(product.getDescription())
                 .name(product.getName())
-                .linkPhoto(product.getLinkPhoto())
+                .linkPhoto("/product/image?id=" + product.getId())
                 .userRating(userRating)
                 .rating(productRating)
                 .reviews(reviews)
                 .inCartCount(inCartCount)
                 .build();
+    }
+
+    @Override
+    public String getPhotoLink(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            throw new EntityNotFoundException("No product with such id");
+        }
+        return productOptional.get().getLinkPhoto();
     }
 
     @Override
@@ -95,6 +104,7 @@ public class ProductServiceImpl implements ProductService {
             r.setRating(productIdToRating.getOrDefault(r.getId(), 0.0));
             r.setReviewCount(productIdToCountReviews.getOrDefault(r.getId(), 0L));
             r.setInCartCount(productIdToInCartCount.getOrDefault(r.getId(), 0));
+            r.setLinkPhoto("/product/image?id=" + r.getId());
         });
         return page;
     }

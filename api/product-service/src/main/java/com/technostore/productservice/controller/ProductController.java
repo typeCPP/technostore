@@ -106,9 +106,9 @@ public class ProductController {
     @RequestMapping(path = "/image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public ResponseEntity<?> getProductImage(@RequestParam Long id, HttpServletRequest request) {
-        ProductDto product;
+        String photoLink;
         try {
-            product = productService.getProductById(id, request);
+            photoLink = productService.getPhotoLink(id);
         } catch (EntityNotFoundException exception) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -116,9 +116,12 @@ public class ProductController {
                     new AppError(HttpStatus.NOT_FOUND.value(),
                             "Product with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
         }
+        if (photoLink == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         try {
             String path = new File("").getAbsolutePath();
-            File file = new File(path + product.getLinkPhoto());
+            File file = new File(path + photoLink);
             InputStream input = new FileInputStream(file);
             return new ResponseEntity<>(IOUtils.toByteArray(input), HttpStatus.OK);
         } catch (IOException e) {
