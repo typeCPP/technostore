@@ -3,7 +3,7 @@ services:
   database:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./data-db:/var/lib/mysql:rw
       - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql

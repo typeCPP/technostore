@@ -129,7 +129,7 @@ class ProductDetailFragment : Fragment() {
                 productName.text = state.productDetail.name
                 Glide.with(productImage)
                     .load(state.productDetail.photoLink)
-                    .centerCrop()
+                    .centerInside()
                     .placeholder(
                         ContextCompat.getDrawable(
                             requireContext(),
