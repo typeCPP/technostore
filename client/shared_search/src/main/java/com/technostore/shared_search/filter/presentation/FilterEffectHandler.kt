@@ -20,15 +20,26 @@ class FilterEffectHandler(
                 store.dispatch(FilterEvent.EndLoading)
                 when (result) {
                     is Result.Error -> store.acceptNews(FilterNews.ShowErrorToast)
-                    is Result.Success -> store.dispatch(FilterEvent.DataLoaded(
-                        categories = result.data!!,
-                        isSortingByPopularity = sharedSearchRepository.getIsSortByPopularity(),
-                        isSortingByRating = sharedSearchRepository.getIsSortByRating(),
-                        minPrice = sharedSearchRepository.getMinPrice(),
-                        maxPrice = sharedSearchRepository.getMaxPrice(),
-                        minRating = sharedSearchRepository.getMinRating(),
-                        maxRating = sharedSearchRepository.getMaxRating(),
-                        ))
+                    is Result.Success -> {
+                        val categories = result.data!!
+                        val selectedCategories = sharedSearchRepository.getSelectedCategories()
+                        categories.forEach { categoryWithCheck ->
+                            if (selectedCategories.find { categoryWithCheck.category.id == it } != null) {
+                                categoryWithCheck.isSelected = true
+                            }
+                        }
+                        store.dispatch(
+                            FilterEvent.DataLoaded(
+                                categories = categories,
+                                isSortingByPopularity = sharedSearchRepository.getIsSortByPopularity(),
+                                isSortingByRating = sharedSearchRepository.getIsSortByRating(),
+                                minPrice = sharedSearchRepository.getMinPrice(),
+                                maxPrice = sharedSearchRepository.getMaxPrice(),
+                                minRating = sharedSearchRepository.getMinRating(),
+                                maxRating = sharedSearchRepository.getMaxRating(),
+                            )
+                        )
+                    }
                 }
             }
 
