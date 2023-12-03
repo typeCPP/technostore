@@ -102,4 +102,10 @@ class MainViewModel @Inject constructor(
             store.dispatch(MainUiEvent.MorePopularClicked)
         }
     }
+
+    fun setIsMainPage(isMainPage: Boolean) {
+        viewModelScope.launch {
+            store.dispatch(MainEvent.SetIsMainPage(isMainPage))
+        }
+    }
 }
