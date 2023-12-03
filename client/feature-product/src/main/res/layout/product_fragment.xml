@@ -71,7 +71,6 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="H,5:7"
                 app:layout_constraintEnd_toStartOf="@id/view_2"
                 app:layout_constraintHorizontal_weight="1.5"
