@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -138,5 +139,15 @@ public class ProductController {
 
         scanner.close();
         return resultList;
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<AppError> handleException(HttpClientErrorException e) {
+        if (e instanceof HttpClientErrorException.Forbidden) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.FORBIDDEN.value(),
+                            e.getMessage()), HttpStatus.FORBIDDEN);
+        }
+        throw e;
     }
 }
