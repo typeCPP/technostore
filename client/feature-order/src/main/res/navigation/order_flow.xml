@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/order_flow"
+    app:startDestination="@id/ordersFragment">
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.technostore.feature_order.orders.OrdersFragment">
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="orderId"
+                app:argType="long"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.technostore.feature_order.order_detail.OrderDetailFragment">
+        <argument
+            android:name="orderId"
+            app:argType="long"
+            app:nullable="false" />
+    </fragment>
+
+</navigation>
