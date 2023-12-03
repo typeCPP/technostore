@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class ProductOrderResponse(
     @SerializedName("id")
     val id: Long,
-    @SerializedName("photoLink")
+    @SerializedName("linkPhoto")
     val photoLink: String,
     @SerializedName("price")
     val price: Double,

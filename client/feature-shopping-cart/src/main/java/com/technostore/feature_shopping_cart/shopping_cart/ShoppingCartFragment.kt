@@ -16,7 +16,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.technostore.arch.mvi.News
-import com.technostore.core.databinding.ErrorFragmentBinding
 import com.technostore.feature_profile.R
 import com.technostore.core.R as CoreR
 import com.technostore.feature_profile.databinding.ShoppingCartFragmentBinding
@@ -33,14 +32,12 @@ import kotlinx.coroutines.launch
 class ShoppingCartFragment : Fragment() {
     private val viewModel by viewModels<ShoppingCartViewModel>()
     private lateinit var binding: ShoppingCartFragmentBinding
-    private lateinit var emptyBinding: ErrorFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         this.binding = ShoppingCartFragmentBinding.inflate(inflater)
-        this.emptyBinding = binding.emptyShoppingCart
         return binding.root
     }
 
@@ -63,9 +60,9 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun initViews() {
-        setOnClickListenerForStartShoppingButton()
         setAdapterForRecyclerView()
         setOnClickListenerForSetOrderButton()
+        setOnClickListenerForStartShoppingButton()
     }
 
 
@@ -110,7 +107,7 @@ class ShoppingCartFragment : Fragment() {
             layoutShimmer.slShimmer.isVisible = state.isLoading
             setOrder.isVisible =
                 !state.isLoading && !state.products.isNullOrEmpty()
-            productsList.isVisible = !state.isLoading
+            productsList.isVisible = !state.isLoading && !state.products.isNullOrEmpty()
             emptyShoppingCart.clMain.isVisible =
                 !state.isLoading && state.products.isNullOrEmpty()
 
