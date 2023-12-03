@@ -15,8 +15,7 @@ class CropContract : ActivityResultContract<CropImageContractOptions, CropImageV
         Intent(context, CropActivity::class.java).apply {
             putExtra(
                 CropImage.CROP_IMAGE_EXTRA_BUNDLE,
-                Bundle(2).apply {
-                    putParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE, input.uri)
+                Bundle(1).apply {
                     putParcelable(CropImage.CROP_IMAGE_EXTRA_OPTIONS, input.cropImageOptions)
                 },
             )

@@ -20,14 +20,17 @@ class SignInEffectHandler(
                 val emailTrim = event.email?.trim()
                 if (emailTrim.isNullOrEmpty()) {
                     store.dispatch(SignInEvent.EmailIsEmpty)
+                    store.dispatch(SignInEvent.PasswordIsValid)
                     return
                 }
                 if (emailTrim.length > 255) {
                     store.dispatch(SignInEvent.EmailMaxLength)
+                    store.dispatch(SignInEvent.PasswordIsValid)
                     return
                 }
                 if (!EMAIL_REGEX.toRegex().matches(emailTrim)) {
                     store.dispatch(SignInEvent.EmailIsInvalid)
+                    store.dispatch(SignInEvent.PasswordIsValid)
                     return
                 }
                 store.dispatch(SignInEvent.EmailIsValid)
