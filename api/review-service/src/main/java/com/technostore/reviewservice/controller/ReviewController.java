@@ -1,5 +1,9 @@
 package com.technostore.reviewservice.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +17,6 @@ import com.technostore.reviewservice.service.client.ProductRestTemplateClient;
 import com.technostore.reviewservice.service.client.UserRestTemplateClient;
 import com.technostore.reviewservice.service.ReviewService;
 import com.technostore.reviewservice.utils.AppError;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 @RestController
 @RequestMapping("/review")
@@ -59,14 +59,6 @@ public class ReviewController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can write review"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
         reviewService.setReview(userId, productId, rate, text);
@@ -93,17 +85,14 @@ public class ReviewController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HttpClientErrorException.Forbidden exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            "Only authorized user can write review"), HttpStatus.FORBIDDEN);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>(reviewService.getReviewByUserIdAndProductId(userId, id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(reviewService.getReviewByUserIdAndProductId(userId, id), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.FORBIDDEN);
+        }
     }
 
     @RequestMapping(path = "/statistics-by-product-ids", method = RequestMethod.GET)
@@ -133,6 +122,11 @@ public class ReviewController {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.FORBIDDEN.value(),
                             e.getMessage()), HttpStatus.FORBIDDEN);
+        }
+        if (e instanceof HttpClientErrorException.Unauthorized) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+                            e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
         throw e;
     }
