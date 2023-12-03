@@ -4,7 +4,7 @@ import com.technostore.arch.mvi.News
 
 sealed class ProductNews : News() {
     data object ShowErrorToast : ProductNews()
-    data object OpenRateDialog : ProductNews()
+    data class OpenRateDialog(val reviewText: String?, val userRating: Int) : ProductNews()
     data class OpenDescription(
         val productName: String,
         val description: String

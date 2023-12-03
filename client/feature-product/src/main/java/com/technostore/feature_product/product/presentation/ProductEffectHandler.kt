@@ -20,6 +20,10 @@ class ProductEffectHandler(
                 when (result) {
                     is Result.Success -> {
                         if (result.data != null) {
+                            val reviewResult = productRepository.getUserReview(event.productId)
+                            if (reviewResult is Result.Success) {
+                                store.dispatch(ProductEvent.OnReviewLoaded(reviewResult.data!!.text))
+                            }
                             store.dispatch(ProductEvent.EndLoading)
                             store.dispatch(ProductEvent.OnDataLoaded(result.data!!))
                         } else {
@@ -34,11 +38,25 @@ class ProductEffectHandler(
             }
 
             ProductUiEvent.OnRateClicked -> {
-                store.acceptNews(ProductNews.OpenRateDialog)
+                store.acceptNews(
+                    ProductNews.OpenRateDialog(
+                        reviewText = currentState.userReviewText,
+                        userRating = currentState.productDetail!!.userRating
+                    )
+                )
             }
 
             is ProductUiEvent.OnBuyClicked -> {
-                TODO()
+                val newCount = currentState.productDetail!!.inCartCount + 1
+                val result = productRepository.setProductCount(
+                    event.productId,
+                    newCount
+                )
+                if (result is Result.Error) {
+                    store.acceptNews(ProductNews.ShowErrorToast)
+                } else {
+                    store.dispatch(ProductEvent.UpdateInCartCount(newCount))
+                }
             }
 
             ProductUiEvent.OnMoreDescriptionClicked -> {
@@ -66,12 +84,13 @@ class ProductEffectHandler(
                 )
                 when (result) {
                     is Result.Success -> {
-                        if (result.data != null) {
-                            store.dispatch(ProductEvent.UpdateRating(event.rating))
-                        } else {
-                            store.acceptNews(ProductNews.ShowErrorToast)
+                        val newReviews = productRepository.getReviews(currentState.productDetail.id)
+                        if (newReviews is Result.Success && newReviews.data != null) {
+                            store.dispatch(ProductEvent.UpdateReviews(newReviews.data!!))
                         }
+                        store.dispatch(ProductEvent.UpdateRating(event.rating, event.text))
                     }
+
                     is Result.Error -> {
                         store.acceptNews(ProductNews.ShowErrorToast)
                     }

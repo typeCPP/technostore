@@ -18,7 +18,8 @@ class ProductDetailMapper(
             description = data.description,
             category = categoryMapper.mapFromResponseToModel(data.category),
             reviews = data.reviews.map { reviewMapper.mapFromResponseToModel(it) },
-            name = data.name
+            name = data.name,
+            inCartCount = data.inCartCount
         )
     }
 }

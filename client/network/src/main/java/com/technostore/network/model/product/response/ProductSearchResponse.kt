@@ -9,5 +9,6 @@ class ProductSearchResponse(
     @SerializedName("name") val name: String,
     @SerializedName("price") val price: Double,
     @SerializedName("rating") val rating: Double,
-    @SerializedName("inCartCount") val inCartCount: Int?,
+    @SerializedName("inCartCount") val inCartCount: Int,
+    @SerializedName("reviewCount") val reviewCount: Int,
 )

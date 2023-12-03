@@ -44,11 +44,8 @@ class SearchViewModel @Inject constructor(
 
     fun plusClicked(productOrderModel: ProductSearchModel) {
         viewModelScope.launch {
-            val count = if (productOrderModel.inCartCount == null) {
-                1
-            } else {
-                productOrderModel.inCartCount!! + 1
-            }
+            val count = productOrderModel.inCartCount + 1
+
             store.dispatch(
                 SearchUiEvent.OnPlusClicked(
                     productId = productOrderModel.id,

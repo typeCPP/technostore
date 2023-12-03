@@ -5,10 +5,12 @@ import com.technostore.feature_product.business.ProductRepositoryImpl
 import com.technostore.feature_product.business.model.mapper.CategoryMapper
 import com.technostore.feature_product.business.model.mapper.ProductDetailMapper
 import com.technostore.feature_product.business.model.mapper.ReviewMapper
+import com.technostore.feature_product.business.model.mapper.UserReviewMapper
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
 import com.technostore.feature_product.product.presentation.ProductReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
+import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
 import com.technostore.network.service.ReviewService
 import dagger.Module
@@ -31,6 +33,11 @@ class ProductModule {
     }
 
     @Provides
+    fun provideUserReviewMapper(): UserReviewMapper {
+        return UserReviewMapper()
+    }
+
+    @Provides
     fun provideProductDetailMapper(
         categoryMapper: CategoryMapper,
         reviewMapper: ReviewMapper
@@ -42,12 +49,18 @@ class ProductModule {
     fun provideProductRepository(
         productService: ProductService,
         reviewService: ReviewService,
-        productDetailMapper: ProductDetailMapper
+        orderService: OrderService,
+        productDetailMapper: ProductDetailMapper,
+        userReviewMapper: UserReviewMapper,
+        reviewMapper: ReviewMapper
     ): ProductRepository {
         return ProductRepositoryImpl(
             productService,
             reviewService,
-            productDetailMapper
+            orderService,
+            productDetailMapper,
+            userReviewMapper,
+            reviewMapper
         )
     }
 

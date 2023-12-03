@@ -152,7 +152,7 @@ class ReviewListFragment : Fragment() {
                 action.photoLink = news.review.photoLink
                 action.date = news.review.date
                 action.rating = news.review.rate
-                action.text = news.review.text
+                action.text = news.review.text!!
                 findNavController().navigate(action)
             }
 
