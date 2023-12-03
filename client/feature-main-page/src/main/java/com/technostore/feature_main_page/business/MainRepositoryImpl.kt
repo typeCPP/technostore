@@ -6,7 +6,6 @@ import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.technostore.arch.result.Result
-import com.technostore.shared_search.business.SEARCH_BY_POPULARITY
 import com.technostore.shared_search.business.SEARCH_NOTHING
 
 private const val PAGE_SIZE = 100
@@ -21,7 +20,7 @@ class MainRepositoryImpl(
                 numberPage = 0,
                 sizePage = PAGE_SIZE,
                 word = "",
-                sort = SEARCH_BY_POPULARITY,
+                sort = SEARCH_NOTHING,
                 minRating = 0,
                 maxRating = 10,
                 minPrice = 0,

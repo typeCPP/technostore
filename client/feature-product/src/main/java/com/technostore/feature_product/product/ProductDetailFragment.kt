@@ -157,6 +157,7 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initReview(state: ProductState) {
         if (state.productDetail!!.reviews.isEmpty()) {
             binding.rvReview.isVisible = false
@@ -172,6 +173,7 @@ class ProductDetailFragment : Fragment() {
             )
             val adapter = binding.rvReview.adapter as ReviewAdapter
             adapter.submitList(state.productDetail.reviews)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -215,7 +217,9 @@ class ProductDetailFragment : Fragment() {
             is ProductNews.OpenRateDialog -> {
                 val dialog = RateProductDialog(
                     { rating, text -> setOnClickListenerForRateDialog(rating, text) },
-                    { rateDialogShowError() }
+                    { rateDialogShowError() },
+                    userReviewText = news.reviewText,
+                    userRating = news.userRating
                 )
                 dialog.show(parentFragmentManager, "rate")
             }

@@ -14,7 +14,9 @@ import com.technostore.feature_product.R
 
 class RateProductDialog(
     private val onClickRating: (rate: Int, text: String?) -> Unit,
-    private val showError: () -> Unit
+    private val showError: () -> Unit,
+    private val userReviewText: String?,
+    private val userRating: Int?
 ) : DialogFragment() {
 
     override fun onCreateView(
@@ -31,11 +33,12 @@ class RateProductDialog(
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setStyle(STYLE_NO_FRAME, android.R.style.Theme)
         val motionLayout = view.findViewById<MotionLayout>(R.id.ml_set_mark)
-
+        setStartUserRating(motionLayout, userRating)
         val submitButton = view.findViewById<TextView>(R.id.rate_button)
 
         val backButton = view.findViewById<ImageView>(R.id.iv_prev)
         val text = view.findViewById<EditText>(R.id.et_review_text)
+        text.setText(userReviewText.orEmpty())
 
         backButton.setOnClickListener {
             dismissNow()
@@ -54,12 +57,29 @@ class RateProductDialog(
                     R.id.center_btn_9 -> 9
                     else -> 10
                 }
-                val textResult = if (text.text.toString().trim().isEmpty()) null else text.text.toString()
+                val textResult =
+                    if (text.text.toString().trim().isEmpty()) null else text.text.toString()
                 onClickRating.invoke(rating, textResult)
                 dismiss()
             } else {
                 showError.invoke()
             }
+        }
+    }
+
+    private fun setStartUserRating(motionLayout: MotionLayout, rating: Int?) {
+        when (rating) {
+            null -> motionLayout.transitionToState(R.id.center_btn_0)
+            1 -> motionLayout.transitionToState(R.id.center_btn_1)
+            2 -> motionLayout.transitionToState(R.id.center_btn_2)
+            3 -> motionLayout.transitionToState(R.id.center_btn_3)
+            4 -> motionLayout.transitionToState(R.id.center_btn_4)
+            5 -> motionLayout.transitionToState(R.id.center_btn_5)
+            6 -> motionLayout.transitionToState(R.id.center_btn_6)
+            7 -> motionLayout.transitionToState(R.id.center_btn_7)
+            8 -> motionLayout.transitionToState(R.id.center_btn_8)
+            9 -> motionLayout.transitionToState(R.id.center_btn_9)
+            10 -> motionLayout.transitionToState(R.id.center_btn_10)
         }
     }
 

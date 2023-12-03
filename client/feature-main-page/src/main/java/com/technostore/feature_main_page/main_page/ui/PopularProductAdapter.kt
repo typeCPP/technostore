@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.technostore.feature_main_page.R
 import com.technostore.core.R as CoreR
 import com.technostore.feature_main_page.databinding.ViewHolderPopularProductBinding
 import com.technostore.shared_search.business.model.ProductSearchModel
@@ -43,7 +44,11 @@ class PopularProductAdapter(
             binding.ivPicture.setOnClickListener {
                 onClickProduct.invoke(product)
             }
-            // ПРИСОБАЧИТЬ ОТЗЫВЫ
+            binding.reviewsCount.text = context.resources.getQuantityString(
+                R.plurals.main_page_reviews,
+                product.reviewCount,
+                product.reviewCount
+            )
         }
 
         private val RecyclerView.ViewHolder.context

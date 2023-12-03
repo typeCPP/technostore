@@ -6,5 +6,6 @@ import com.technostore.feature_product.business.model.ProductDetailModel
 data class ProductState(
     val isLoading: Boolean = false,
     val productDetail: ProductDetailModel? = null,
-    val userRating: Int = 0
+    val userRating: Int = 0,
+    val userReviewText: String? = null,
 ) : State

@@ -6,5 +6,6 @@ data class ProductSearchModel(
     val name: String,
     val price: Double,
     val rating: Double,
-    var inCartCount: Int?,
+    var inCartCount: Int,
+    val reviewCount: Int
 )

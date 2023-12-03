@@ -198,7 +198,9 @@ class FilterFragment : Fragment() {
             ).show()
 
             FilterNews.OpenPreviousPage -> {
-                findNavController().popBackStack()
+                val navController = findNavController()
+                navController.previousBackStackEntry?.savedStateHandle?.set("filter", "true")
+                navController.popBackStack()
             }
 
             is FilterNews.ChangeIsSortingByPopularityBackground -> {

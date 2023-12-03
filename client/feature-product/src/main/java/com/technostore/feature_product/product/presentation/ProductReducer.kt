@@ -17,7 +17,27 @@ class ProductReducer : Reducer<ProductState, ProductEvent> {
             is ProductEvent.UpdateRating -> {
                 val productDetail = currentState.productDetail!!
                 productDetail.userRating = event.newRating
-                currentState.copy(productDetail = productDetail, userRating = event.newRating)
+                currentState.copy(
+                    productDetail = productDetail,
+                    userRating = event.newRating,
+                    userReviewText = event.text
+                )
+            }
+
+            is ProductEvent.UpdateInCartCount -> {
+                val productDetail = currentState.productDetail!!
+                productDetail.inCartCount = event.count
+                currentState.copy(productDetail = productDetail)
+            }
+
+            is ProductEvent.OnReviewLoaded -> {
+                currentState.copy(userReviewText = event.text)
+            }
+
+            is ProductEvent.UpdateReviews -> {
+                val productDetail = currentState.productDetail!!
+                productDetail.reviews = event.reviews
+                currentState.copy(productDetail = productDetail)
             }
 
             else -> currentState

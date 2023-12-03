@@ -10,5 +10,6 @@ data class ProductDetailModel(
     var userRating: Int,
     val description: String,
     val category: CategoryModel,
-    val reviews: List<ReviewModel>
+    var reviews: List<ReviewModel>,
+    var inCartCount: Int,
 )

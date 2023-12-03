@@ -52,10 +52,10 @@ class ReviewAdapter : ListAdapter<ReviewModel, ReviewAdapter.DataViewHolder>(Rev
 
 class ReviewDiffCallback : DiffUtil.ItemCallback<ReviewModel>() {
     override fun areItemsTheSame(oldItem: ReviewModel, newItem: ReviewModel): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: ReviewModel, newItem: ReviewModel): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

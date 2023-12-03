@@ -46,7 +46,6 @@ class MainPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.newsQueue.collect(::showNews)
@@ -58,6 +57,13 @@ class MainPageFragment : Fragment() {
                 viewModel.viewState.collect(::render)
             }
         }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("filter")
+            ?.observe(viewLifecycleOwner) {
+                viewModel.setIsMainPage(false)
+                if (binding.searchBar.mlSearchBar.currentState != SharedSearchR.id.with_back_button) {
+                    binding.searchBar.mlSearchBar.transitionToState(SharedSearchR.id.with_back_button)
+                }
+            }
         viewModel.init()
         initViews()
     }

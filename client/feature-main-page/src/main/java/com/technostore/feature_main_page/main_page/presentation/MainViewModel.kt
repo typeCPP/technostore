@@ -44,11 +44,8 @@ class MainViewModel @Inject constructor(
 
     fun plusClicked(productOrderModel: ProductSearchModel) {
         viewModelScope.launch {
-            val count = if (productOrderModel.inCartCount == null) {
-                1
-            } else {
-                productOrderModel.inCartCount!! + 1
-            }
+            val count = productOrderModel.inCartCount + 1
+
             store.dispatch(
                 MainUiEvent.OnPlusClicked(
                     productId = productOrderModel.id,
@@ -103,6 +100,12 @@ class MainViewModel @Inject constructor(
     fun morePopularityClicked() {
         viewModelScope.launch {
             store.dispatch(MainUiEvent.MorePopularClicked)
+        }
+    }
+
+    fun setIsMainPage(isMainPage: Boolean) {
+        viewModelScope.launch {
+            store.dispatch(MainEvent.SetIsMainPage(isMainPage))
         }
     }
 }

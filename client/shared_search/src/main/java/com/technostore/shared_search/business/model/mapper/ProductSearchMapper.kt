@@ -12,7 +12,8 @@ class ProductSearchMapper {
             price = data.price,
             name = data.name,
             rating = data.rating,
-            inCartCount = data.inCartCount
+            inCartCount = data.inCartCount,
+            reviewCount = data.reviewCount
         )
     }
 }

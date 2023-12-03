@@ -13,5 +13,6 @@ class ProductDetailResponse(
     @SerializedName("userRating") val userRating: Int,
     @SerializedName("description") val description: String,
     @SerializedName("category") val category: CategoryResponse,
-    @SerializedName("reviews") val reviews: List<ReviewResponse>
+    @SerializedName("reviews") val reviews: List<ReviewResponse>,
+    @SerializedName("inCartCount") val inCartCount: Int,
 )
