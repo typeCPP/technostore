@@ -79,7 +79,7 @@ class OrdersFragment : Fragment() {
 
 
     private fun setAdapterForRecyclerView() {
-        val adapter = OrdersAdapter { item -> onClickOrder(item.id) }
+        val adapter = OrdersAdapter { item -> onClickOrder(item) }
         val layoutManager = GridLayoutManager(requireContext(), 1, RecyclerView.VERTICAL, false)
         binding.ordersList.layoutManager = layoutManager
         binding.ordersList.adapter = adapter

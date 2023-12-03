@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 @kotlinx.serialization.Serializable
 data class Order(
-    @SerializedName("id")
-    val id: Long
+    @SerializedName("ids")
+    val ids: List<Long>
 )

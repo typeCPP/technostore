@@ -5,5 +5,5 @@ import com.technostore.network.model.order.response.Order
 
 data class OrdersState(
     val isLoading: Boolean = false,
-    val ordersList: List<Order> = emptyList()
+    val ordersList: List<Long> = emptyList()
 ) : State

@@ -14,7 +14,7 @@ class OrdersReducer : Reducer<OrdersState, OrdersEvent> {
             }
 
             is OrdersEvent.OrdersLoaded -> {
-                currentState.copy(ordersList = event.orders)
+                currentState.copy(ordersList = event.orders.ids)
             }
 
             else -> currentState

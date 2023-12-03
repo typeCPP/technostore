@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.technostore.arch.mvi.News
+import com.technostore.feature_profile.R
 import com.technostore.feature_profile.business.model.ProductOrderModel
 import com.technostore.feature_profile.databinding.OrderDetailsFragmentBinding
 import com.technostore.feature_profile.order_detail.presentation.OrderDetailNews
@@ -84,6 +85,13 @@ class OrderDetailFragment : Fragment() {
 
     private fun render(state: OrderDetailState) {
         with(binding) {
+            if (!state.isLoading) {
+                tvTitle.text =
+                    getString(R.string.orders_item_title, state.orderDetail?.id.toString())
+                tvTitle.isVisible = true
+            } else {
+                tvTitle.isVisible = false
+            }
             layoutShimmer.slShimmer.isVisible = state.isLoading
             productsList.isVisible = !state.isLoading
             val adapter = binding.productsList.adapter as OrderDetailAdapter
