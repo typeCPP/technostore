@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface OrderService {
     @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-orders")
-    suspend fun getCompletedOrders(): Response<List<Order>>
+    suspend fun getCompletedOrders(): Response<Order>
 
     @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-order/{id}")
     suspend fun getCompletedOrderById(@Path("id") id: Long): Response<OrderDetailResponse>

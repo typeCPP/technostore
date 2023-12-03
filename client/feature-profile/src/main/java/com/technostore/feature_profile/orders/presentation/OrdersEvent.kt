@@ -6,7 +6,7 @@ import com.technostore.network.model.order.response.Order
 sealed class OrdersEvent : Event {
     data object StartLoading : OrdersEvent()
     data object EndLoading : OrdersEvent()
-    data class OrdersLoaded(val orders: List<Order>) : OrdersEvent()
+    data class OrdersLoaded(val orders: Order) : OrdersEvent()
 }
 
 sealed class OrdersUiEvent : OrdersEvent() {

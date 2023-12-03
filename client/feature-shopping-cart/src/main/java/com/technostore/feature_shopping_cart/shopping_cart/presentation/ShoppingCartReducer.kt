@@ -17,7 +17,7 @@ class ShoppingCartReducer : Reducer<ShoppingCartState, ShoppingCartEvent> {
             }
 
             is ShoppingCartEvent.OrderDetailsLoaded -> {
-                currentState.copy(products = event.order.products)
+                currentState.copy(products = event.order.products, orderId = event.order.id)
             }
 
             ShoppingCartEvent.OrderHasBeenPlaced -> {
