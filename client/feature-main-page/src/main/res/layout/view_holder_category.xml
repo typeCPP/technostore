@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_5x">
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:background="@drawable/category_button_background"
+        android:gravity="center"
         android:padding="@dimen/space_2x"
         android:textColor="@color/light_color_text"
         android:textSize="14sp"
-        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Категория" />
