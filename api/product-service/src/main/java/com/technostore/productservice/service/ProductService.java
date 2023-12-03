@@ -12,5 +12,5 @@ public interface ProductService {
     ProductDto getProductById(Long id, HttpServletRequest request);
     Page<SearchProductDto> searchProducts(int numberPage, int sizePage, SortType sort, String word, Integer minRating,
                                           Integer maxRating, Integer minPrice, Integer maxPrice, List<Long> categorie,
-                                          Long userId);
+                                          HttpServletRequest request);
 }

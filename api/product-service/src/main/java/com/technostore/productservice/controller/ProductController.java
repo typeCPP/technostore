@@ -85,21 +85,11 @@ public class ProductController {
                              @RequestParam(required = false, defaultValue = "2147483647") Integer maxPrice,
                              @RequestParam(required = false) String categories,
                              HttpServletRequest request) {
-        Long userId = (long) 1;
-        try {
-            userId = userRestTemplateClient.getUserId(request);
-        } catch (IllegalStateException | HttpClientErrorException.Forbidden ignored) {
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
-        }
-
         List<Long> listCategories = listLongFromString(categories);
 
         try {
             return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
-                    maxRating, minPrice, maxPrice, listCategories, userId), HttpStatus.OK);
+                    maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
         } catch (EntityNotFoundException entityNotFoundException) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),

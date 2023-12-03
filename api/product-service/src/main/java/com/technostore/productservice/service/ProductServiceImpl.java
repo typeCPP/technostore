@@ -62,31 +62,40 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<SearchProductDto> searchProducts(int numberPage, int sizePage, SortType sort, String word,
                                                  Integer minRating, Integer maxRating, Integer minPrice,
-                                                 Integer maxPrice, List<Long> categories, Long userId) {
+                                                 Integer maxPrice, List<Long> categories, HttpServletRequest request) {
         Page<SearchProductDto> page;
         if (sort == SortType.NOTHING) {
             page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
                     categories.size(), PageRequest.of(numberPage, sizePage));
-            List<ReviewStatisticDto> reviewStatisticDtoList =
-                    reviewRestTemplateClient.getReviewStatisticsByProductIds(
-                            page.getContent().stream().map(SearchProductDto::getId).toList());
-            Map<Long, Double> productIdToRating = reviewStatisticDtoList.stream().collect(Collectors.toMap(
-                    ReviewStatisticDto::getProductId, r -> Double.isNaN(r.getRating()) ? 0 : r.getRating()
-            ));
-            Map<Long, Long> productIdToCountReviews = reviewStatisticDtoList.stream().collect(Collectors.toMap(
-                    ReviewStatisticDto::getProductId, ReviewStatisticDto::getCountReviews
-            ));
-            page.getContent().forEach(r -> {
-                r.setRating(productIdToRating.getOrDefault(r.getId(), 0.0));
-                r.setReviewCount(productIdToCountReviews.getOrDefault(r.getId(), 0L));
-            });
         } else if (sort == SortType.BY_RATING) {
             // добавить логику сортировки по рейтингу
-            page = null;
+            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
+                    categories.size(), PageRequest.of(numberPage, sizePage));
         } else {
             // добавить логику сортировки по популярности
-            page = null;
+            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
+                    categories.size(), PageRequest.of(numberPage, sizePage));
         }
+        List<ReviewStatisticDto> reviewStatisticDtoList =
+                reviewRestTemplateClient.getReviewStatisticsByProductIds(
+                        page.getContent().stream().map(SearchProductDto::getId).toList());
+        Map<Long, Double> productIdToRating = reviewStatisticDtoList.stream().collect(Collectors.toMap(
+                ReviewStatisticDto::getProductId, r -> Double.isNaN(r.getRating()) ? 0 : r.getRating()
+        ));
+        Map<Long, Long> productIdToCountReviews = reviewStatisticDtoList.stream().collect(Collectors.toMap(
+                ReviewStatisticDto::getProductId, ReviewStatisticDto::getCountReviews
+        ));
+        List<InCartCountProductDto> inCartCountByProductIds =
+                orderRestTemplateClient.getInCartCountByProductIds(page.getContent().stream()
+                        .map(SearchProductDto::getId).toList(), request);
+        Map<Long, Integer> productIdToInCartCount = inCartCountByProductIds.stream().collect(Collectors.toMap(
+                InCartCountProductDto::getProductId, InCartCountProductDto::getInCartCount
+        ));
+        page.getContent().forEach(r -> {
+            r.setRating(productIdToRating.getOrDefault(r.getId(), 0.0));
+            r.setReviewCount(productIdToCountReviews.getOrDefault(r.getId(), 0L));
+            r.setInCartCount(productIdToInCartCount.getOrDefault(r.getId(), 0));
+        });
         return page;
     }
 }

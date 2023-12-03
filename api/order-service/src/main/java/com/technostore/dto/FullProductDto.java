@@ -23,4 +23,5 @@ public class FullProductDto {
     private String description;
     private CategoryDto category;
     private List<ReviewDto> reviews;
+    private Integer inCartCount;
 }
