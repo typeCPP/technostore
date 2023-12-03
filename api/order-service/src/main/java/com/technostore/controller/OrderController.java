@@ -2,6 +2,7 @@ package com.technostore.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.persistence.EntityNotFoundException;
@@ -46,7 +47,7 @@ public class OrderController {
 
     @RequestMapping(path = "/complete-order/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> completeOrder(@PathVariable Long id,
-                                             HttpServletRequest request) {
+                                           HttpServletRequest request) {
         Long userId;
         try {
             userId = userRestTemplateClient.getUserId(request);
@@ -90,7 +91,7 @@ public class OrderController {
                             "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(orderService.getCompletedOrdersIds(userId), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("ids", orderService.getCompletedOrdersIds(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/get-completed-order/{id}", method = RequestMethod.GET)
