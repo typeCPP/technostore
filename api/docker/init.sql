@@ -154,3 +154,34 @@ iPhone 13. Самая совершенная система двух камер 
         '/app/images/44.png', 'Монитор Rombica SkyView 23" TN черный M23-MF MUT-002', 5999, 9),
        ('Игровой монитор Samsung Odyssey G3 (LS27AG320NIXCI) обладает диагональю 27 дюймов и разрешением 1920х1080 пикселей. Формат экрана — 16:9. Время отклика минимальное — не превышает 1 мс. Уровень яркости достигает 250 кд/м², показатель контрастности — 3000:1. Устройство характеризуется широкими углами обзора, которые достигают 178° как по горизонтали, так и по вертикали. В качестве матрицы используется VA. Набор интерфейсов включает DisplayPort, HDMI и вход 3,5 мм. Поддержка технологии AMD FreeSync Premium обеспечивает плавность изображения — технология снижает замирание картинки и ее дрожание.',
         '/app/images/45.png', 'Монитор игровой Samsung Odyssey G3 27" VA черный LS27AG320NIXCI', 20999, 9);
+
+create table if not exists user.users
+(
+    id         bigint auto_increment primary key,
+    email      varchar(255) null,
+    is_enabled bit          not null,
+    last_name  varchar(255) null,
+    link_photo varchar(255) null,
+    name       varchar(255) null,
+    password   varchar(255) null
+);
+
+insert into user.users(email, is_enabled, last_name, link_photo, name, password)
+values ('ivanov@yandex.ru', true, 'Иванов', '/app/images/1.0.jpg', 'Николай',
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG') #123456 password
+;
+
+create table if not exists review.review
+(
+    id         bigint auto_increment primary key,
+    date       bigint       not null,
+    product_id bigint       not null,
+    rate       int          not null,
+    text       varchar(255) null,
+    user_id    bigint       not null
+);
+
+insert into review.review (date, product_id, rate, text, user_id)
+values (timestamp (now()), 1, 10,
+        'Покупал пару дней назад. Ноута хватает не только для работы но и фильмы глянуть - дисплей full hd. Так что картинка четкая. Цветопередача хорошая, для медийки подходит отлично. К тому же онлайн потоковое видео подгружает шустро.',
+        1);

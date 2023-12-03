@@ -34,6 +34,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/user")
 public class UserController {
 
+    private final static String IMAGE_PATH = "/app/images/";
+
     private final int ACCESS_TOKEN_EXPIRATION_TIME_MINUTES = 30;
 
     private final int REFRESH_TOKEN_EXPIRATION_TIME_MONTH = 6;
@@ -81,9 +83,9 @@ public class UserController {
         try {
             if (file != null) {
                 String path = new File("").getAbsolutePath();
-                File newFile = new File(path + user.getId() + ".0.jpg");
+                File newFile = new File(path + IMAGE_PATH + user.getId() + ".0.jpg");
                 file.transferTo(newFile);
-                userService.setLinkPhoto(user.getId() + ".0.jpg", user.getId());
+                userService.setLinkPhoto( IMAGE_PATH + user.getId() + ".0.jpg", user.getId());
             } else {
                 userService.setLinkPhoto(null, user.getId());
             }
