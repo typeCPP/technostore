@@ -21,6 +21,7 @@ import com.technostore.core.R as CoreR
 import com.technostore.feature_profile.profile.presentation.ProfileNews
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
+import com.technostore.navigation.NavigationFlow
 import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -103,9 +104,7 @@ class ProfileFragment : Fragment() {
             }
 
             ProfileNews.OpenOrderHistoryPage -> {
-                findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToOrdersFragment()
-                )
+                (activity as ToFlowNavigatable).navigateToFlow(NavigationFlow.OrderFLow)
             }
 
             ProfileNews.ShowErrorToast -> {

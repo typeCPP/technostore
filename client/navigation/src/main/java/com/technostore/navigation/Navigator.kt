@@ -49,5 +49,9 @@ class Navigator {
         NavigationFlow.MainPageFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalMainPageFlow())
         }
+
+        NavigationFlow.OrderFLow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalOrderFlow())
+        }
     }
 }
