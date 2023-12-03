@@ -111,7 +111,7 @@ public class ReviewController {
     }
 
     @RequestMapping(path = "/statistics-by-product-ids", method = RequestMethod.GET)
-    public ResponseEntity<?> getReviewByProductId(@RequestParam String ids) {
+    public ResponseEntity<?> getReviewStatisticsByProductIds(@RequestParam String ids) {
         List<Long> productsIds = listLongFromString(ids);
         return new ResponseEntity<>(reviewService.getReviewStatisticDto(productsIds), HttpStatus.OK);
     }

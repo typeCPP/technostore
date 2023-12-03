@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.technostore.productservice.dto.*;
+import com.technostore.productservice.service.client.OrderRestTemplateClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ReviewRestTemplateClient reviewRestTemplateClient;
 
+    @Autowired
+    OrderRestTemplateClient orderRestTemplateClient;
+
     @Override
     public ProductDto getProductById(Long id, HttpServletRequest request) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -37,6 +41,9 @@ public class ProductServiceImpl implements ProductService {
         List<ReviewDto> reviews = reviewRestTemplateClient.getAllReviews(id, request);
         double userRating = reviewRestTemplateClient.getReviewRatingByUserIdAndProductId(id, request);
         double productRating = reviewRestTemplateClient.getProductRating(id, request);
+        List<InCartCountProductDto> inCartCountByProductIds =
+                orderRestTemplateClient.getInCartCountByProductIds(List.of(id), request);
+        int inCartCount = inCartCountByProductIds.isEmpty() ? 0 : inCartCountByProductIds.get(0).getInCartCount();
 
         return ProductDto.builder()
                 .id(product.getId())
@@ -48,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
                 .userRating(userRating)
                 .rating(productRating)
                 .reviews(reviews)
+                .inCartCount(inCartCount)
                 .build();
     }
 

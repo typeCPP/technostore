@@ -17,6 +17,10 @@ import com.technostore.service.OrderService;
 import com.technostore.service.client.UserRestTemplateClient;
 import com.technostore.utils.AppError;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -149,5 +153,44 @@ public class OrderController {
     @RequestMapping(path = "/get-popular-products", method = RequestMethod.GET)
     public ResponseEntity<?> getMostPopularProductsIds() {
         return new ResponseEntity<>(orderService.getPopularProductsIds(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/get-in-cart-count-by-product-ids", method = RequestMethod.GET)
+    public ResponseEntity<?> getInCartCountByProductsIds(@RequestParam String ids, HttpServletRequest request) {
+        Long userId;
+        try {
+            userId = userRestTemplateClient.getUserId(request);
+        } catch (IllegalStateException exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Lost connection with user service"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (HttpClientErrorException.Forbidden exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.FORBIDDEN.value(),
+                            "Only authorized user can view product"), HttpStatus.FORBIDDEN);
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return new ResponseEntity<>(
+                    new AppError(HttpStatus.UNAUTHORIZED.value(),
+                            "Access token is expired"), HttpStatus.UNAUTHORIZED);
+        }
+
+        List<Long> productsIds = listLongFromString(ids);
+
+        return new ResponseEntity<>(orderService.getInCartCountByProductIds(productsIds, userId), HttpStatus.OK);
+    }
+
+    private List<Long> listLongFromString(String str) {
+        if (str == null) {
+            return new ArrayList<>();
+        }
+        Scanner scanner = new Scanner(str);
+        List<Long> resultList = new ArrayList<>();
+        scanner.useDelimiter(",");
+        while (scanner.hasNextLong()) {
+            resultList.add(scanner.nextLong());
+        }
+
+        scanner.close();
+        return resultList;
     }
 }
