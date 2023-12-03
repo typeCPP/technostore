@@ -13,7 +13,7 @@ class ShoppingCartRepositoryImpl(
 ) : ShoppingCartRepository {
     override suspend fun getCurrentOrder(): Result<OrderDetailModel> = withContext(Dispatchers.IO) {
         val result = orderService.getCurrentOrder()
-        if (result.isSuccessful && result.body() != null) {
+        if (result.isSuccessful) {
             return@withContext Result.Success(
                 orderDetailMapper.mapFromResponseToModel(
                     result.body()!!

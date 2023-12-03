@@ -13,6 +13,7 @@ sealed class SearchEvent : Event {
 }
 
 sealed class SearchUiEvent : SearchEvent() {
+    data object Init : SearchUiEvent()
     data class OnTextChanged(val text: String) : SearchUiEvent()
     data object OnBackClicked : SearchUiEvent()
     data class OnProductClicked(val productId: Long) : SearchUiEvent()

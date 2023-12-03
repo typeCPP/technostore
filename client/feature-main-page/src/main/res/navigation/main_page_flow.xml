@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/main_page_flow"
+    app:startDestination="@id/mainPageFragment">
+
+    <fragment
+        android:id="@+id/mainPageFragment"
+        android:name="com.technostore.feature_main_page.main_page.MainPageFragment">
+        <action
+            android:id="@+id/action_mainPageFragment_to_searchResultFragment"
+            app:destination="@id/confirmationCodeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out">
+            <argument
+                android:name="isPopularity"
+                android:defaultValue="true"
+                app:argType="boolean"
+                app:nullable="false" />
+            <argument
+                android:name="categoryId"
+                android:defaultValue="0L"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.technostore.feature_main_page.search_result.SearchResultFragment">
+        <argument
+            android:name="isPopularity"
+            android:defaultValue="true"
+            app:argType="boolean"
+            app:nullable="false" />
+        <argument
+            android:name="categoryId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+</navigation>

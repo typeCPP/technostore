@@ -7,7 +7,7 @@ class OrderDetailMapper(private val productOrderMapper: ProductOrderMapper) {
     fun mapFromResponseToModel(data: OrderDetailResponse): OrderDetailModel {
         return OrderDetailModel(
             id = data.id,
-            products = data.products.map { productOrderMapper.mapFromResponseToModel(it) }
+            products = data.products?.map { productOrderMapper.mapFromResponseToModel(it) }
         )
     }
 }

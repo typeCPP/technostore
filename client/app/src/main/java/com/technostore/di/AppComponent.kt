@@ -4,6 +4,7 @@ import com.technostore.app_store.di.AppStoreModule
 import com.technostore.arch.di.ArchModule
 import com.technostore.base.di.BaseModule
 import com.technostore.feature_login.di.LoginModule
+import com.technostore.feature_main_page.di.MainModule
 import com.technostore.feature_profile.di.ProfileModule
 import com.technostore.feature_search.di.SearchModule
 import com.technostore.feature_shopping_cart.di.ShoppingCartModule
@@ -26,7 +27,8 @@ import javax.inject.Singleton
         ProfileModule::class,
         ShoppingCartModule::class,
         ReviewModule::class,
-        SearchModule::class
+        SearchModule::class,
+        MainModule::class
     ]
 )
 interface AppComponent

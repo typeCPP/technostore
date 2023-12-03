@@ -7,6 +7,7 @@ import com.technostore.shared_search.business.model.ProductSearchModel
 interface SharedSearchRepository {
 
     suspend fun getCategories(): Result<List<CategoryWithCheck>>
+    fun clearNumberPage()
     fun getMinPrice(): Float
     fun getMaxPrice(): Float
     fun getMinRating(): Float
@@ -20,5 +21,5 @@ interface SharedSearchRepository {
     suspend fun updateRatingBoundaries(minRating: Float, maxRating: Float)
     suspend fun setProductCount(productId: Long, count: Int): Result<Unit>
 
-    suspend fun searchProducts(word: String, ): Result<List<ProductSearchModel>>
+    suspend fun searchProducts(word: String): Result<List<ProductSearchModel>>
 }

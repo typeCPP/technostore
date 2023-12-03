@@ -13,6 +13,10 @@ import kotlinx.coroutines.withContext
 
 private const val PAGE_SIZE = 100
 
+const val SEARCH_BY_POPULARITY = "BY_POPULARITY"
+const val SEARCH_BY_RATING = "BY_RATING"
+const val SEARCH_NOTHING = "NOTHING"
+
 class SharedSearchRepositoryImpl(
     private val productService: ProductService,
     private val orderService: OrderService,
@@ -63,6 +67,10 @@ class SharedSearchRepositoryImpl(
             }
             return@withContext Result.Error()
         }
+
+    override fun clearNumberPage() {
+        numberPage = 0
+    }
 
     override fun getMinPrice(): Float {
         return minCost
@@ -169,9 +177,9 @@ class SharedSearchRepositoryImpl(
 
     private fun getSortingType(): String {
         return when {
-            isSelectByPopularity -> "BY_POPULARITY"
-            isSelectByRating -> "BY_RATING"
-            else -> "NOTHING"
+            isSelectByPopularity -> SEARCH_BY_POPULARITY
+            isSelectByRating -> SEARCH_BY_RATING
+            else -> SEARCH_NOTHING
         }
     }
 

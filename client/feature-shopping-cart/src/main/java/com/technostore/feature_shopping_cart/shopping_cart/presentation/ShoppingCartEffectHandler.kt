@@ -70,7 +70,7 @@ class ShoppingCartEffectHandler(
             }
 
             ShoppingCartUiEvent.OnStartShoppingClicked -> {
-                TODO()
+                store.acceptNews(ShoppingCartNews.OpenMainPage)
             }
 
             else -> {}

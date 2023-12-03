@@ -117,8 +117,8 @@ class ProfileRepositoryImpl(
 
     override suspend fun getCompletedOrders(): Result<List<Order>> = withContext(Dispatchers.IO) {
         val orderResponse = orderService.getCompletedOrders()
-        if (orderResponse.isSuccessful && orderResponse.body() != null) {
-            return@withContext Result.Success(orderResponse.body())
+        if (orderResponse.isSuccessful) {
+            return@withContext Result.Success(orderResponse.body().orEmpty())
         }
         return@withContext Result.Error()
     }

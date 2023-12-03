@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.technostore.arch.mvi.News
+import com.technostore.core.databinding.ErrorFragmentBinding
 import com.technostore.feature_profile.R
 import com.technostore.core.R as CoreR
 import com.technostore.feature_profile.databinding.ShoppingCartFragmentBinding
@@ -23,6 +25,7 @@ import com.technostore.feature_shopping_cart.shopping_cart.presentation.Shopping
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartViewModel
 import com.technostore.feature_shopping_cart.shopping_cart.ui.ShoppingCartRecycler
+import com.technostore.navigation.BottomNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,12 +33,14 @@ import kotlinx.coroutines.launch
 class ShoppingCartFragment : Fragment() {
     private val viewModel by viewModels<ShoppingCartViewModel>()
     private lateinit var binding: ShoppingCartFragmentBinding
+    private lateinit var emptyBinding: ErrorFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         this.binding = ShoppingCartFragmentBinding.inflate(inflater)
+        this.emptyBinding = binding.emptyShoppingCart
         return binding.root
     }
 
@@ -58,9 +63,9 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun initViews() {
+        setOnClickListenerForStartShoppingButton()
         setAdapterForRecyclerView()
         setOnClickListenerForSetOrderButton()
-        setOnClickListenerForStartShoppingButton()
     }
 
 
@@ -94,7 +99,8 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun setOnClickListenerForStartShoppingButton() {
-        binding.emptyShoppingCart.button.setOnClickListener {
+        val button = view?.findViewById<AppCompatTextView>(CoreR.id.button)
+        button?.setOnClickListener {
             viewModel.startShopping()
         }
     }
@@ -102,10 +108,11 @@ class ShoppingCartFragment : Fragment() {
     private fun render(state: ShoppingCartState) {
         with(binding) {
             layoutShimmer.slShimmer.isVisible = state.isLoading
-            setOrder.isVisible = !state.isLoading && state.products.isNotEmpty()
+            setOrder.isVisible =
+                !state.isLoading && !state.products.isNullOrEmpty()
             productsList.isVisible = !state.isLoading
             emptyShoppingCart.clMain.isVisible =
-                !state.isLoading && state.products.isEmpty()
+                !state.isLoading && state.products.isNullOrEmpty()
 
             val adapter = binding.productsList.adapter as ShoppingCartRecycler
             adapter.submitList(state.products)
@@ -138,6 +145,10 @@ class ShoppingCartFragment : Fragment() {
                     R.string.shopping_cart_order_has_been_placed,
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+
+            ShoppingCartNews.OpenMainPage -> {
+                (activity as BottomNavigatable).navigateToHome()
             }
         }
     }

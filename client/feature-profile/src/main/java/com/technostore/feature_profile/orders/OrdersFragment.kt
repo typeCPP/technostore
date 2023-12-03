@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +24,7 @@ import com.technostore.feature_profile.orders.presentation.OrdersNews
 import com.technostore.feature_profile.orders.presentation.OrdersState
 import com.technostore.feature_profile.orders.presentation.OrdersViewModel
 import com.technostore.feature_profile.orders.ui.OrdersAdapter
+import com.technostore.navigation.BottomNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -69,7 +71,8 @@ class OrdersFragment : Fragment() {
     }
 
     private fun setOnClickListenerForBuyButton() {
-        binding.emptyOrders.button.setOnClickListener {
+        val button = view?.findViewById<AppCompatTextView>(CoreR.id.button)
+        button?.setOnClickListener {
             viewModel.onGoToShoppingClicked()
         }
     }
@@ -120,6 +123,10 @@ class OrdersFragment : Fragment() {
                 val action =
                     OrdersFragmentDirections.actionOrdersFragmentToOrderDetailFragment(news.id)
                 findNavController().navigate(action)
+            }
+
+            OrdersNews.OpenMainPage -> {
+                (requireActivity() as BottomNavigatable).navigateToHome()
             }
         }
     }

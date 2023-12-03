@@ -7,5 +7,5 @@ data class OrderDetailResponse(
     @SerializedName("id")
     val id: Long,
     @SerializedName("products")
-    val products: List<ProductOrderResponse>,
+    val products: List<ProductOrderResponse>?,
 )

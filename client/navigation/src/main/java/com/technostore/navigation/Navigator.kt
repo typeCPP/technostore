@@ -45,5 +45,9 @@ class Navigator {
         NavigationFlow.SearchFlow -> {
             navController.navigate(MainNavGraphDirections.actionGlobalSearchFlow())
         }
+
+        NavigationFlow.MainPageFlow -> {
+            navController.navigate(MainNavGraphDirections.actionGlobalMainPageFlow())
+        }
     }
 }

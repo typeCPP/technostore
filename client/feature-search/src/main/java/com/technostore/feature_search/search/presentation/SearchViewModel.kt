@@ -28,6 +28,12 @@ class SearchViewModel @Inject constructor(
 
     val viewState: StateFlow<SearchState> = store.state
 
+    fun init() {
+        viewModelScope.launch {
+            store.dispatch(SearchUiEvent.Init)
+        }
+    }
+
     fun search(text: String) {
         viewModelScope.launch {
             store.dispatch(

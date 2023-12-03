@@ -7,13 +7,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.technostore.base.R
+import com.technostore.navigation.BottomNavigatable
 import com.technostore.navigation.NavigationFlow
 import com.technostore.navigation.Navigator
 import com.technostore.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ToFlowNavigatable {
+class MainActivity : AppCompatActivity(), ToFlowNavigatable, BottomNavigatable {
 
     private val navigator: Navigator = Navigator()
 
@@ -49,10 +50,19 @@ class MainActivity : AppCompatActivity(), ToFlowNavigatable {
                     selectedItemId = R.id.search
                 }
 
+                R.id.home -> {
+                    if (selectedItemId != R.id.home) {
+                        navigateToFlow(NavigationFlow.MainPageFlow)
+                    }
+                    selectedItemId = R.id.home
+                }
+
                 else -> {}
             }
             return@setOnItemSelectedListener true
         }
+        selectedItemId = R.id.home
+        navigateToFlow(NavigationFlow.MainPageFlow)
     }
 
     override fun navigateToFlow(flow: NavigationFlow) {
@@ -63,5 +73,12 @@ class MainActivity : AppCompatActivity(), ToFlowNavigatable {
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+    }
+
+    override fun navigateToHome() {
+        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        navView.selectedItemId = R.id.home
+        selectedItemId = R.id.home
+        navigateToFlow(NavigationFlow.MainPageFlow)
     }
 }
