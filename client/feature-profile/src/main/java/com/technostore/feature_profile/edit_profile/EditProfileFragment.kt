@@ -24,12 +24,11 @@ import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.technostore.arch.mvi.News
+import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.core.ui.PhotoCompression
 import com.technostore.core.ui.crop.CropContract
-import com.technostore.core.R as CoreR
-import com.technostore.feature_profile.databinding.EditProfilePageFragmentBinding
-import com.technostore.core.databinding.LoadingFragmentBinding
 import com.technostore.feature_profile.R
+import com.technostore.feature_profile.databinding.EditProfilePageFragmentBinding
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileNews
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
@@ -38,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import com.technostore.core.R as CoreR
 
 @AndroidEntryPoint
 class EditProfileFragment : Fragment() {
@@ -201,7 +201,11 @@ class EditProfileFragment : Fragment() {
                 binding.tilNickname.error = getString(R.string.profile_empty_field)
             }
 
-            is EditProfileNews.ChangeImage -> setImageUri(news.uri)
+            is EditProfileNews.ChangeImage -> {
+                if (news.uri != null) {
+                    setImageUri(news.uri)
+                }
+            }
         }
     }
 }
