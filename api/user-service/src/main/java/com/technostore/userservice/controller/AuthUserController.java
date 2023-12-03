@@ -35,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user")
 public class AuthUserController {
 
+    private final static String IMAGE_PATH = "/app/images/";
+
     @Autowired
     private JwtService jwtService;
 
@@ -161,9 +163,9 @@ public class AuthUserController {
                     photoVersion++;
                 }
                 String path = new File("").getAbsolutePath();
-                File newFile = new File(path + user.getId() + "." + photoVersion + ".jpg");
+                File newFile = new File(path + IMAGE_PATH + user.getId() + "." + photoVersion + ".jpg");
                 file.transferTo(newFile);
-                File oldPhoto = new File(path + user.getId() + "." + --photoVersion + ".jpg");
+                File oldPhoto = new File(path + IMAGE_PATH + user.getId() + "." + --photoVersion + ".jpg");
                 oldPhoto.delete();
             }
         } catch (IOException e) {
