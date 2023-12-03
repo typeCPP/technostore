@@ -175,7 +175,7 @@ public class AuthUserController {
         }
         userService.update(user, editUserBean);
         if (file != null) {
-            userService.setLinkPhoto(user.getId() + "." + ++photoVersion + ".jpg", user.getId());
+            userService.setLinkPhoto(IMAGE_PATH + user.getId() + "." + ++photoVersion + ".jpg", user.getId());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
