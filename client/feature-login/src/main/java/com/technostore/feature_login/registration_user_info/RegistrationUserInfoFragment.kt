@@ -199,7 +199,12 @@ class RegistrationUserInfoFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            is RegistrationUserInfoNews.ChangeImage -> setImage(news.uri)
+            is RegistrationUserInfoNews.ChangeImage -> {
+                if (news.uri != null) {
+                    setImage(news.uri)
+                }
+            }
+
             is RegistrationUserInfoNews.OpenCodePage -> {
                 val action =
                     RegistrationUserInfoFragmentDirections.actionRegistrationUserInfoFragmentToConfirmationCodeFragment()
