@@ -22,6 +22,7 @@ import com.technostore.feature_main_page.search_result.presentation.SearchResult
 import com.technostore.feature_main_page.search_result.presentation.SearchResultState
 import com.technostore.feature_main_page.search_result.presentation.SearchResultViewModel
 import com.technostore.navigation.MainNavGraphDirections
+import com.technostore.shared_search.R as SharedSearchR
 import com.technostore.shared_search.business.model.ProductSearchModel
 import com.technostore.shared_search.ui.ProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,13 +94,24 @@ class SearchResultFragment : Fragment() {
     private fun render(state: SearchResultState) {
         with(binding) {
             if (state.isLoading) {
-                binding.layoutShimmer.slShimmer.isVisible = true
-                binding.productsList.isVisible = false
+                layoutShimmer.slShimmer.isVisible = true
+                productsList.isVisible = false
+                emptyResult.clMain.isVisible = false
             } else {
-                binding.layoutShimmer.slShimmer.isVisible = false
-                binding.productsList.isVisible = true
-                val adapter = productsList.adapter as ProductAdapter
-                adapter.submitList(state.products)
+                layoutShimmer.slShimmer.isVisible = false
+                emptyResult.button.isVisible = false
+                emptyResult.description.isVisible = false
+                if (state.products.isEmpty()) {
+                    productsList.isVisible = false
+                    emptyResult.title.text = getString(SharedSearchR.string.search_not_found)
+                    emptyResult.clMain.isVisible = true
+
+                } else {
+                    emptyResult.clMain.isVisible = false
+                    productsList.isVisible = true
+                    val adapter = productsList.adapter as ProductAdapter
+                    adapter.submitList(state.products)
+                }
             }
         }
     }
