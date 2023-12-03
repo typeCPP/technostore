@@ -43,6 +43,8 @@ class OrdersViewModel @Inject constructor(
     }
 
     fun onGoToShoppingClicked() {
-        TODO()
+        viewModelScope.launch {
+            store.dispatch(OrdersUiEvent.OnStartShoppingClicked)
+        }
     }
 }

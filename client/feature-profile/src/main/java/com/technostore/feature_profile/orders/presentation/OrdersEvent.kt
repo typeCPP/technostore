@@ -13,4 +13,5 @@ sealed class OrdersUiEvent : OrdersEvent() {
     data object Init : OrdersUiEvent()
     data object OnBackClicked : OrdersUiEvent()
     data class OnOrderClicked(val id: Long) : OrdersUiEvent()
+    data object OnStartShoppingClicked : OrdersUiEvent()
 }

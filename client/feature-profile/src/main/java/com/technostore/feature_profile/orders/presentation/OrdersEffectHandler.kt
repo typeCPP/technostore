@@ -37,6 +37,10 @@ class OrdersEffectHandler(
                 store.acceptNews(OrdersNews.OpenOrderDetail(event.id))
             }
 
+            OrdersUiEvent.OnStartShoppingClicked -> {
+                store.acceptNews(OrdersNews.OpenMainPage)
+            }
+
             else -> {}
         }
     }

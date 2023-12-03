@@ -29,7 +29,7 @@ class ShoppingCartReducer : Reducer<ShoppingCartState, ShoppingCartEvent> {
             }
 
             is ShoppingCartEvent.RemoveItem -> {
-                val newProducts = currentState.products.filter { it.id != event.productId }
+                val newProducts = currentState.products?.filter { it.id != event.productId }
                 currentState.copy(products = newProducts)
             }
 

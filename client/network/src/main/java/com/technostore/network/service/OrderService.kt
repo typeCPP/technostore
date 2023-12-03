@@ -13,18 +13,18 @@ interface OrderService {
     @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-orders")
     suspend fun getCompletedOrders(): Response<List<Order>>
 
-    @GET("${URL.PRODUCT_SERVICE_BASE_URL}/order/get-completed-order/{id}")
+    @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-order/{id}")
     suspend fun getCompletedOrderById(@Path("id") id: Long): Response<OrderDetailResponse>
 
-    @GET("${URL.PRODUCT_SERVICE_BASE_URL}/order/get-current-order")
+    @GET("${URL.ORDER_SERVICE_BASE_URL}/order/get-current-order")
     suspend fun getCurrentOrder(): Response<OrderDetailResponse>
 
-    @POST("${URL.PRODUCT_SERVICE_BASE_URL}/order/complete-order/{id}")
+    @POST("${URL.ORDER_SERVICE_BASE_URL}/order/complete-order/{id}")
     suspend fun makeOrderCompleted(@Path("id") id: Long): Response<Unit>
 
-    @POST("${URL.PRODUCT_SERVICE_BASE_URL}/order/set-product-count")
+    @POST("${URL.ORDER_SERVICE_BASE_URL}/order/set-product-count")
     suspend fun setProductCount(
-        @Query("id") productId: Long,
+        @Query("productId") productId: Long,
         @Query("count") count: Int
     ): Response<Unit>
 }
