@@ -96,6 +96,10 @@ class SharedSearchRepositoryImpl(
         return isSelectByRating
     }
 
+    override fun getSelectedCategories(): ArrayList<Long> {
+        return selectedCategories
+    }
+
     override suspend fun setIsSelectByPopularity(): Boolean {
         isSelectByPopularity = !isSelectByPopularity
         if (isSelectByPopularity) {

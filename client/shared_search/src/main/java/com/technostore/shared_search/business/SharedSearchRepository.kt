@@ -14,6 +14,7 @@ interface SharedSearchRepository {
     fun getMaxRating(): Float
     fun getIsSortByPopularity(): Boolean
     fun getIsSortByRating(): Boolean
+    fun getSelectedCategories(): ArrayList<Long>
     suspend fun setIsSelectByPopularity(): Boolean
     suspend fun setIsSelectByRating(): Boolean
     suspend fun updateSelectedCategories(categoryWithCheck: CategoryWithCheck)
