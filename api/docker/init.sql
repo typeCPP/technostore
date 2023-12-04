@@ -20,6 +20,33 @@ create table if not exists product.product
     category_id bigint not null references category (id)
 );
 
+create table if not exists product.product_rating
+(
+    id           bigint auto_increment primary key,
+    product_id   bigint not null references product (id),
+    sum_rating   bigint default 0,
+    count_rating bigint default 0
+);
+
+create table if not exists product.product_popularity
+(
+    id          bigint auto_increment primary key,
+    product_id  bigint not null references product (id),
+    count_order bigint default 0
+);
+
+CREATE TRIGGER product.insert_product_rating
+    AFTER INSERT
+    ON product.product
+    FOR EACH ROW
+    INSERT product.product_rating(product_id) VALUE (New.id);
+
+CREATE TRIGGER product.insert_product_popularity
+    AFTER INSERT
+    ON product.product
+    FOR EACH ROW
+    INSERT product.product_popularity(product_id) VALUE (New.id);
+
 insert into product.category
 values (1, 'Ноутбуки'),
        (2, 'Планшеты'),
@@ -189,14 +216,37 @@ create table if not exists review.review
     user_id    bigint       not null
 );
 
-ALTER TABLE review.review ADD CONSTRAINT constraintname UNIQUE (user_id, product_id);
+CREATE PROCEDURE review.update_product_rating(IN product_id_in BIGINT, IN count_rate int)
+BEGIN
+    UPDATE product.product_rating
+    SET count_rating = count_rating + count_rate,
+        sum_rating   = (SELECT sum(review.rate)
+                        from review
+                        where review.product_id = product_id_in)
+    WHERE product.product_rating.product_id = product_id_in;
+END;
+
+CREATE TRIGGER review.set_product_rating_by_review_insert
+    AFTER INSERT
+    ON review.review
+    FOR EACH ROW
+    call review.update_product_rating(NEW.product_id, 1);
+
+CREATE TRIGGER review.set_product_rating_by_review_update
+    AFTER UPDATE
+    ON review.review
+    FOR EACH ROW
+    call review.update_product_rating(NEW.product_id, 0);
+
+ALTER TABLE review.review
+    ADD CONSTRAINT constraintname UNIQUE (user_id, product_id);
 insert into review.review (date, product_id, rate, text, user_id)
 values (1701615797610, 1, 10,
         'Легкий и мощный компаньон: этот ноутбук стал для меня настоящим помощником в повседневных задачах благодаря своей портативности и высокой производительности.',
         1),
        (1701615797610, 2, 9,
         'Элегантный дизайн и высококачественный дисплей делают использование этого ноутбука удовольствием. Батарея также впечатляет своей долговечностью.',
-        2),
+        5),
        (1701615797610, 3, 7,
         'Сверхтонкий корпус и отличная автономность - идеальный выбор для тех, кто ценит стиль и мобильность. Очень доволен своим выбором.',
         3),
@@ -227,7 +277,6 @@ values (1701615797610, 1, 10,
        (1701615797610, 3, 5,
         'Этот товар - двойственное впечатление. С одной стороны, его функциональность и инновационные возможности поражают. Это может быть вопросом для тех, кто ценит эстетику в своих устройствах.',
         2),
-
        (1701615797610, 7, 10,
         'Этот товар стал настоящим открытием для меня! Я в восторге от его функциональности и стильного дизайна.',
         1),
@@ -258,3 +307,37 @@ values (1701615797610, 1, 10,
        (1701615797610, 16, 8,
         'Этот товар стал незаменимым помощником в повседневной жизни. Я не могу представить, как я раньше обходился без него.',
         5);
+
+create table if not exists orders
+(
+    id         bigint auto_increment primary key,
+    created_at datetime     null,
+    status     varchar(255) null,
+    updated_at datetime     null,
+    user_id    bigint       null
+);
+
+create table if not exists order_product
+(
+    id         bigint auto_increment primary key,
+    count      int    null,
+    product_id bigint null,
+    order_id   bigint not null references orders (id)
+);
+
+CREATE TRIGGER orders.set_product_popularity
+    AFTER UPDATE
+    ON orders.orders
+    FOR EACH ROW
+BEGIN
+    IF OLD.status = 'IN_PROGRESS' THEN
+        BEGIN
+            UPDATE product.product_popularity
+            SET count_order = product_popularity.count_order + 1
+            WHERE product_id in (SELECT product_id
+                                 FROM order_product
+                                 JOIN orders.orders o on o.id = order_product.order_id
+                                 WHERE o.id = NEW.id);
+        END;
+    END IF;
+END;
