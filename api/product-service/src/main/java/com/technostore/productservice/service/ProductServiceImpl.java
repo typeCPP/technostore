@@ -13,6 +13,8 @@ import com.technostore.productservice.service.client.OrderRestTemplateClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
 import com.technostore.productservice.model.Product;
@@ -73,18 +75,21 @@ public class ProductServiceImpl implements ProductService {
                                                  Integer minRating, Integer maxRating, Integer minPrice,
                                                  Integer maxPrice, List<Long> categories, HttpServletRequest request) {
         Page<SearchProductDto> page;
-        if (sort == SortType.NOTHING) {
-            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
-                    categories.size(), PageRequest.of(numberPage, sizePage));
-        } else if (sort == SortType.BY_RATING) {
-            // добавить логику сортировки по рейтингу
-            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
-                    categories.size(), PageRequest.of(numberPage, sizePage));
-        } else {
-            // добавить логику сортировки по популярности
-            page = productRepository.searchProducts(minPrice, maxPrice, word, categories,
-                    categories.size(), PageRequest.of(numberPage, sizePage));
+        switch (sort) {
+            case BY_RATING ->
+                    page = productRepository.searchProducts(minRating, maxRating, minPrice, maxPrice, word, categories,
+                            categories.size(), PageRequest.of(numberPage, sizePage,
+                                    JpaSort.unsafe(Sort.Direction.DESC, "(pr.sumRating + 0.0) / (pr.countRating + 0.0)")));
+            case BY_POPULARITY ->
+                    page = productRepository.searchProducts(minRating, maxRating, minPrice, maxPrice, word, categories,
+                            categories.size(), PageRequest.of(numberPage, sizePage,
+                                    JpaSort.unsafe(Sort.Direction.DESC, "pp.countOrder")));
+
+            default ->
+                    page = productRepository.searchProducts(minRating, maxRating, minPrice, maxPrice, word, categories,
+                            categories.size(), PageRequest.of(numberPage, sizePage));
         }
+
         List<ReviewStatisticDto> reviewStatisticDtoList =
                 reviewRestTemplateClient.getReviewStatisticsByProductIds(
                         page.getContent().stream().map(SearchProductDto::getId).toList());

@@ -31,4 +31,10 @@ public class Product {
     @OneToOne(targetEntity = Category.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
+
+    @OneToOne(mappedBy = "product")
+    private ProductRating productRating;
+
+    @OneToOne(mappedBy = "product")
+    private ProductPopularity productPopularity;
 }
