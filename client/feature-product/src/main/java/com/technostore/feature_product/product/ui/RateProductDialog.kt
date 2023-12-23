@@ -3,6 +3,7 @@ package com.technostore.feature_product.product.ui
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
@@ -45,6 +46,7 @@ class RateProductDialog(
         }
         submitButton.setOnClickListener {
             if (motionLayout.currentState != R.id.center_btn_0) {
+                Log.wtf("currentState", "currentState ${motionLayout.currentState} ${R.id.center_btn_5}")
                 val rating = when (motionLayout.currentState) {
                     R.id.center_btn_1 -> 1
                     R.id.center_btn_2 -> 2

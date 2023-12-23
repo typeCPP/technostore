@@ -41,6 +41,7 @@ class SignInEffectHandler(
                 }
                 if (event.password.length > 255) {
                     store.dispatch(SignInEvent.PasswordErrorMaxLength)
+                    return
                 }
                 store.dispatch(SignInEvent.PasswordIsValid)
 
