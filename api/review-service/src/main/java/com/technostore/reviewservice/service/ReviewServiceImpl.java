@@ -89,7 +89,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .stream()
                 .mapToDouble(Review::getRate)
                 .average();
-        return avgRating.isPresent() ? avgRating.getAsDouble() : 0.0;
+        return roundDouble(avgRating.isPresent() ? avgRating.getAsDouble() : 0.0);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ReviewServiceImpl implements ReviewService {
                     return ReviewStatisticDto.builder()
                             .productId(id)
                             .rating(reviews.isEmpty() ? 0.0 :
-                                    reviews.stream().map(Review::getRate).mapToDouble(r -> r).sum() / reviews.size())
+                                    roundDouble(reviews.stream().map(Review::getRate).mapToDouble(r -> r).sum() / reviews.size()))
                             .countReviews(reviews.stream().filter(r -> r.getText() != null).count())
                             .build();
                 }).toList();
@@ -120,5 +120,9 @@ public class ReviewServiceImpl implements ReviewService {
         review.setText(text);
         review.setUserId(userId);
         reviewRepository.save(review);
+    }
+
+    private double roundDouble(double n) {
+        return Math.round(n * 10.0) / 10.0;
     }
 }
