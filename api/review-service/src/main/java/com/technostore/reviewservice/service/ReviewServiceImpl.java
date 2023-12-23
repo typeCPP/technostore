@@ -123,6 +123,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     private double roundDouble(double n) {
-        return Double.parseDouble(String.format("%.1f", n).replace(',','.'));
+        return Math.round(n * 10.0) / 10.0;
     }
 }
