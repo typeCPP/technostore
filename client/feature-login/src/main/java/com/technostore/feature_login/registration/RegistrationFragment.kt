@@ -131,7 +131,7 @@ class RegistrationFragment : Fragment() {
         }
         when (state.secondPasswordValidation) {
             PasswordValidation.SUCCESS -> binding.tilPassword2.error = ""
-            PasswordValidation.EMPTY -> binding.tilEmail.error =
+            PasswordValidation.EMPTY -> binding.tilPassword2.error =
                 getString(R.string.login_empty_field)
 
             PasswordValidation.ERROR_SYMBOL -> binding.tilPassword2.error =

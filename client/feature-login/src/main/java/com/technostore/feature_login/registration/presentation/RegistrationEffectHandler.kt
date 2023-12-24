@@ -21,14 +21,20 @@ class RegistrationEffectHandler(
                 val emailTrim = event.email.trim()
                 if (emailTrim.isEmpty()) {
                     store.dispatch(RegistrationEvent.EmailIsEmpty)
+                    store.dispatch(RegistrationEvent.FirstPasswordIsValid)
+                    store.dispatch(RegistrationEvent.SecondPasswordIsValid)
                     return
                 }
                 if (emailTrim.length > 255) {
                     store.dispatch(RegistrationEvent.EmailMaxLength)
+                    store.dispatch(RegistrationEvent.FirstPasswordIsValid)
+                    store.dispatch(RegistrationEvent.SecondPasswordIsValid)
                     return
                 }
                 if(!EMAIL_REGEX.toRegex().matches(emailTrim)){
                     store.dispatch(RegistrationEvent.EmailIsInvalid)
+                    store.dispatch(RegistrationEvent.FirstPasswordIsValid)
+                    store.dispatch(RegistrationEvent.SecondPasswordIsValid)
                     return
                 }
                 store.dispatch(RegistrationEvent.EmailIsValid)
