@@ -212,7 +212,7 @@ create table if not exists review.review
     date       bigint       not null,
     product_id bigint       not null,
     rate       int          not null,
-    text       varchar(255) null,
+    text       text         null,
     user_id    bigint       not null
 );
 

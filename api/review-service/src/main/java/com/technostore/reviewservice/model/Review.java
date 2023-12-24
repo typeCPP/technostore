@@ -1,5 +1,6 @@
 package com.technostore.reviewservice.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Review {
 
     private long userId;
 
+    @Column(columnDefinition="TEXT")
     private String text;
 
     private int rate;
