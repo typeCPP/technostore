@@ -65,12 +65,8 @@ jobs:
         min-coverage-overall: 80
         min-coverage-changed-files: 0
         title: ':iphone: `Client Code Coverage`'
-        update-comment: true
 
     - name: Get the Coverage info
       run: |
         echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
         echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-    
-    - name: Add Coverage Job Summary
-      run: echo "${{ steps.jacoco_reporter.outputs.coverageSummary }}" >> $GITHUB_STEP_SUMMARY
