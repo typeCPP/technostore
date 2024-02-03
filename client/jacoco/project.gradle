@@ -37,7 +37,7 @@ project.afterEvaluate {
                 'com/technostore/common_test/**/*.*',
                 '**/*Module*.*',
                 "**/dagger/**/*.*",
-                "**/hilt*/**/*.*"
+                "**/hilt*/**/*.*",
         ]
 
         def jClasses = subprojects.collect { proj ->

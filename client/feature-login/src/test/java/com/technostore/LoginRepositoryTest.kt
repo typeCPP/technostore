@@ -21,6 +21,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import com.technostore.feature_login.business.sign_in.error.Message.ERROR_PASSWORD
+import kotlinx.coroutines.test.TestScope
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
@@ -39,26 +40,29 @@ class LoginRepositoryTest {
         sessionService = networkModule.sessionService,
         userService = networkModule.userService,
     )
+    private val testStore = TestScope()
 
+    /* Sign in */
     @Test
-    fun `sign in with 200 status → refresh data, set isActive, return success`() = runTest {
-        LoginServiceMock {
-            login.success()
+    fun `sign in with 200 status → refresh data, set isActive, return success`() =
+        testStore.runTest {
+            LoginServiceMock {
+                login.success()
+            }
+            val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
+            coVerify(exactly = 1) { appStore.isActive = true }
+            coVerify(exactly = 1) {
+                appStore.refresh(
+                    refreshToken = TestData.REFRESH_TOKEN,
+                    accessToken = TestData.ACCESS_TOKEN,
+                    expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                    expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                    id = TestData.ID.toString(),
+                    email = TestData.EMAIL
+                )
+            }
+            assertThat(result is Result.Success)
         }
-        val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
-        coVerify(exactly = 1) { appStore.isActive = true }
-        coVerify(exactly = 1) {
-            appStore.refresh(
-                refreshToken = TestData.REFRESH_TOKEN,
-                accessToken = TestData.ACCESS_TOKEN,
-                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
-                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
-                id = TestData.ID.toString(),
-                email = TestData.EMAIL
-            )
-        }
-        assertThat(result is Result.Success)
-    }
 
     @Test
     fun `sign in with 404 status (wrong password) → return error password`() = runTest {
@@ -104,6 +108,8 @@ class LoginRepositoryTest {
 
         assertTrue(Result.Success(true) == result)
     }
+
+    /* check email exists */
 
     @Test
     fun `check emailt exists return false → return false`() = runTest {

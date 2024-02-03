@@ -4,13 +4,14 @@ import org.intellij.lang.annotations.Language
 
 object CheckEmailExistsResponse {
     @Language("JSON")
-    const val successExists="""
+    const val successExists = """
         {
           "exists": true
         }
     """
+
     @Language("JSON")
-    const val successNotExists="""
+    const val successNotExists = """
         {
           "exists": false
         }
