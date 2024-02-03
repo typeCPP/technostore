@@ -79,4 +79,16 @@ class LoginRepositoryTest {
 
         assertTrue(Result.Error<SignInError>(SignInError.ErrorEmail) == result)
     }
+
+    @Test
+    fun `sign in with 500 status (wrong email) → return error`() = runTest {
+        LoginServiceMock {
+            login.internalError()
+        }
+        val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
+        coVerify(exactly = 0) { appStore.isActive = true }
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+
+        assertTrue(Result.Error<Unit>() == result)
+    }
 }

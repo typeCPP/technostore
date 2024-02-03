@@ -37,5 +37,11 @@ object LoginServiceMock {
                 .withBody(BaseResponse.customError(message))
             stubFor(matcher.willReturn(response))
         }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
     }
 }
