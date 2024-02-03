@@ -57,7 +57,7 @@ jobs:
       uses: madrapps/jacoco-report@v1.2
       with:
         paths: |
-          ${{ github.workspace }}/**/build/reports/jacoco/allDebugCoverage/html/index.html,
+          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/html/index.html
         token: ${{ secrets.TOKEN }}
         title: Code Coverage
         debug-mode: false
