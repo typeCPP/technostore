@@ -55,15 +55,16 @@ jobs:
 
     - name: Jacoco Report to PR
       id: jacoco
-      uses: madrapps/jacoco-report@v1.6.1
+      uses: madrapps/jacoco-report@v6.1
       with:
         paths: |
           ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-        title: Code Coverage
         debug-mode: false
+        min-coverage-overall: 80
+        min-coverage-changed-files: 0
         title: ':iphone: `Client Code Coverage`'
-  
+
     - name: Get the Coverage info
       run: |
         echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
