@@ -57,11 +57,9 @@ jobs:
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
-        paths: |
-          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml
+        paths: ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         title: Code Coverage
-        debug-mode: false
         title: ':iphone: `Client Code Coverage`'
   
     - name: Get the Coverage info
