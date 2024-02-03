@@ -48,14 +48,16 @@ jobs:
         ./gradlew :app:assembleDebugAndroidTest testDebugUnitTest
    
     - name: Run Module Coverage
-      run: ./gradlew allDebugCoverage
+      run: |-
+        cd client
+        ./gradlew allDebugCoverage
 
     - name: Jacoco Report to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.2
       with:
         paths: |
-          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/index.xml,
+          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/html/index.html,
         token: ${{ secrets.TOKEN }}
         title: Code Coverage
         debug-mode: false
