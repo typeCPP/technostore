@@ -58,7 +58,8 @@ jobs:
       uses: madrapps/jacoco-report@v1.6.1
       with:
         paths: |
-          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml
+          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml,
+          ${{ github.workspace }}/client/**/build/reports/jacoco/allDebugCoverage/debugCoverage.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         debug-mode: false
         min-coverage-overall: 80
