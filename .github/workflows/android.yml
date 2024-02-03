@@ -64,7 +64,7 @@ jobs:
         min-coverage-overall: 80
         min-coverage-changed-files: 0
         title: ':iphone: `Client Code Coverage`'
-        publish_only_summary: false
+        update-comment: true
 
     - name: Get the Coverage info
       run: |
