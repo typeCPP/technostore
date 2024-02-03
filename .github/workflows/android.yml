@@ -24,4 +24,4 @@ jobs:
     - name: Build with Gradle
       run: |-
         cd client
-        ./gradlew assembleDebug
+        ./gradlew buld
