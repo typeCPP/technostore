@@ -46,3 +46,21 @@ jobs:
       run: |-
         cd client
         ./gradlew :app:assembleDebugAndroidTest testDebugUnitTest
+   
+    - name: Run Module Coverage
+      run: ./gradlew allDebugCoverage
+
+    - name: Jacoco Report to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.2
+      with:
+        paths: |
+          ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/index.xml,
+        token: ${{ secrets.TOKEN }}
+        title: Code Coverage
+        debug-mode: false
+
+    - name: Get the Coverage info
+      run: |
+        echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
