@@ -29,6 +29,7 @@ jobs:
   
   client_unit_tests:
     needs: client_build
+    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
