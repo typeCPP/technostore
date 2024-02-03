@@ -30,18 +30,14 @@ project.afterEvaluate {
                 '**/*Test*.*',
                 'android/**/*.*',
                 'androidx/**/*.*',
-                '**/*$ViewInjector*.*',
-                '**/*Dagger*.*',
-                '**/*MembersInjector*.*',
-                '**/*_Factory.*',
-                '**/*_Provide*Factory*.*',
-                '**/*_ViewBinding*.*',
-                '**/AutoValue_*.*',
-                '**/R2.class',
-                '**/R2$*.class',
-                '**/*Directions$*',
-                '**/*Directions.*',
-                '**/*Binding.*'
+                '**/*Binding.*',
+                '**/Hilt_*.*',
+                '**/*Mock*.*',
+                '**/MockServer*.*',
+                '**/com/technostore/response/base/BaseResponse*.*',
+                '**/com/technostore/response/base/BaseResponse*.*',
+                '**/*Module*.*',
+                "**/com/technostore/response/login_service/**",
         ]
 
         def jClasses = subprojects.collect { proj ->
