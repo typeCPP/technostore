@@ -17,7 +17,6 @@ rootProject.name = "techstore"
 include ':app'
 include ':feature-login'
 include ':core'
-include ':mylibrary'
 include ':arch'
 include ':network'
 include ':app-store'
