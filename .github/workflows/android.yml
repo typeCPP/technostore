@@ -64,7 +64,6 @@ jobs:
         debug-mode: false
         min-coverage-overall: 80
         min-coverage-changed-files: 0
-        title: ':iphone: `Client Code Coverage`'
 
     - name: Get the Coverage info
       run: |
