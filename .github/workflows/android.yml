@@ -58,7 +58,7 @@ jobs:
       with:
         paths: |
           ${{ github.workspace }}/client/build/reports/jacoco/allDebugCoverage/allDebugCoverage.xml
-        token: ${{ secrets.TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         title: Code Coverage
         debug-mode: false
 
