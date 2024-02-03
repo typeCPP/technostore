@@ -1,6 +1,6 @@
-package com.technostore.network
+package com.technostore.common_test.network
 
-import com.technostore.MockServer
+import com.technostore.common_test.MockServer
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService

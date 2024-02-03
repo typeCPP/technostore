@@ -1,4 +1,4 @@
-package com.technostore.response.base
+package com.technostore.common_test.response.base
 
 import org.intellij.lang.annotations.Language
 

@@ -4,10 +4,13 @@ import LoginServiceMock
 import com.technostore.arch.result.Result
 import com.technostore.app_store.store.AppStore
 import com.google.common.truth.Truth.assertThat
+import com.technostore.arch.result.ErrorType
+import com.technostore.common_test.MockServer
+import com.technostore.common_test.TestData
 import com.technostore.feature_login.business.LoginRepositoryImpl
 import com.technostore.feature_login.business.sign_in.error.Message.ERROR_EMAIL
 import com.technostore.feature_login.business.sign_in.error.SignInError
-import com.technostore.network.NetworkModuleTest
+import com.technostore.common_test.network.NetworkModuleTest
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
@@ -81,7 +84,7 @@ class LoginRepositoryTest {
     }
 
     @Test
-    fun `sign in with 500 status (wrong email) → return error`() = runTest {
+    fun `sign in with 500 status → return error`() = runTest {
         LoginServiceMock {
             login.internalError()
         }
@@ -90,5 +93,34 @@ class LoginRepositoryTest {
         coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
 
         assertTrue(Result.Error<Unit>() == result)
+    }
+
+    @Test
+    fun `check emailt exists return true → return true`() = runTest {
+        LoginServiceMock {
+            checkEmailExists.successExists()
+        }
+        val result = loginRepository.checkEmailExists(TestData.EMAIL)
+
+        assertTrue(Result.Success(true) == result)
+    }
+
+    @Test
+    fun `check emailt exists return false → return false`() = runTest {
+        LoginServiceMock {
+            checkEmailExists.successNotExists()
+        }
+        val result = loginRepository.checkEmailExists(TestData.EMAIL)
+
+        assertTrue(Result.Success(false) == result)
+    }
+
+    @Test
+    fun `check emailt with 500 status → return error`() = runTest {
+        LoginServiceMock {
+            checkEmailExists.internalError()
+        }
+        val result = loginRepository.checkEmailExists(TestData.EMAIL)
+        assertTrue(result is Result.Error<Boolean> && result.error is ErrorType)
     }
 }

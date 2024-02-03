@@ -37,7 +37,7 @@ project.afterEvaluate {
                 '**/com/technostore/response/base/BaseResponse*.*',
                 '**/com/technostore/response/base/BaseResponse*.*',
                 '**/*Module*.*',
-                "**/com/technostore/response/login_service/**",
+                "**/com/technostore/response/common_test/**",
         ]
 
         def jClasses = subprojects.collect { proj ->
