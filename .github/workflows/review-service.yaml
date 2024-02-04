@@ -58,6 +58,7 @@ jobs:
           mvn -B test --file pom.xml
       - name: Generate Coverage Report
         run: |
+          cd api/review-service
           mvn -B package --file pom.xml
 
       - name: Upload Report
