@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-kapt'
 }
 apply from: rootProject.file('gradle/versions.gradle')
+apply from: '../jacoco/modules.gradle'
+
 android {
     namespace 'com.technostore.arch'
     compileSdk 34
