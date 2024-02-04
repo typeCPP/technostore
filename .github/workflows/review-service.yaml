@@ -24,6 +24,7 @@ jobs:
           mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
   test:
     needs: build
+    permissions: write-all
     runs-on: ubuntu-latest
     env:
       ACTIVE_PROFILE: default
@@ -56,6 +57,27 @@ jobs:
         run: |-
           cd api/review-service
           mvn -B test --file pom.xml
+      - name: Generate Coverage Report
+        run: |
+          cd api/review-service
+          mvn -B package --file pom.xml
+
+      - name: Jacoco Report to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/api/review-service/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug-mode: false
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          title: Review Microservice Code Coverage
+
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
     services:
       mysql:
