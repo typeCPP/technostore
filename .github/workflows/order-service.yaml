@@ -1,4 +1,4 @@
-name: "review-service"
+name: "order-service"
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
 
       - name: Build with Maven
         run: |-
-          cd api/review-service
+          cd api/order-service
           mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
   test:
     needs: build
@@ -53,13 +53,13 @@ jobs:
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
-      - name: Run tests for review-service
+      - name: Run tests for order-service
         run: |-
-          cd api/review-service
+          cd api/order-service
           mvn -B test --file pom.xml
       - name: Generate Coverage Report
         run: |
-          cd api/review-service
+          cd api/order-service
           mvn -B package -Pcoverage
 
       - name: Generate JaCoCo badge
@@ -69,7 +69,7 @@ jobs:
           badges-directory: badges
           generate-branches-badge: true
           generate-summary: true
-          jacoco-csv-file: api/review-service/target/site/jacoco/jacoco.csv
+          jacoco-csv-file: api/order-service/target/site/jacoco/jacoco.csv
 
       - name: Log coverage percentages to workflow output
         run: |
@@ -80,19 +80,19 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: api/review-service/target/site/jacoco/
+          path: api/order-service/target/site/jacoco/
 
       - name: Jacoco Report to PR
         id: jacoco1
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
-            ${{ github.workspace }}/api/review-service/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/api/order-service/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: false
           min-coverage-overall: 80
           min-coverage-changed-files: 80
-          title: Review Microservice Code Coverage
+          title: order Microservice Code Coverage
 
       - name: Get the Coverage info
         run: |
@@ -103,7 +103,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: review
+          MYSQL_DATABASE: order
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: somepassword
         ports:
