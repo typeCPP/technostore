@@ -41,7 +41,7 @@ dependencies {
     api("com.github.tomakehurst:wiremock-jre8:$wiremockVersion") {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
         exclude group: 'asm', module: 'asm'
-       // exclude group: 'com.google.guava', module: 'guava'
+        // exclude group: 'com.google.guava', module: 'guava'
     }
     api "junit:junit:$junitVersion"
     api "io.mockk:mockk:$mockkVersion"

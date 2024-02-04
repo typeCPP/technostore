@@ -164,17 +164,15 @@ class LoginRepositoryImpl(
         withContext(Dispatchers.IO) {
             val response = loginService.checkRecoveryCode(code, email)
             if (response.isSuccessful) {
-                if (response.body() != null) {
-                    val body = response.body()!!
-                    appStore.refresh(
-                        refreshToken = body.refreshToken,
-                        expireTimeRefreshToken = body.expireTimeRefreshToken,
-                        accessToken = body.accessToken,
-                        expireTimeAccessToken = body.expireTimeAccessToken,
-                        id = body.id,
-                        email = body.email
-                    )
-                }
+                val body = response.body()!!
+                appStore.refresh(
+                    refreshToken = body.refreshToken,
+                    expireTimeRefreshToken = body.expireTimeRefreshToken,
+                    accessToken = body.accessToken,
+                    expireTimeAccessToken = body.expireTimeAccessToken,
+                    id = body.id,
+                    email = body.email
+                )
                 return@withContext Result.Success(true)
             } else {
                 if (response.code() == 409) {
