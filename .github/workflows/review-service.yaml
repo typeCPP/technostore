@@ -20,7 +20,7 @@ jobs:
 
       - name: Build with Maven
         run: |-
-          cd API/review-service
+          cd api/review-service
           mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
   test:
     needs: build
@@ -42,19 +42,19 @@ jobs:
         env:
           SERVER_PORT: 8088
         run: |-
-          cd API/serverconfig
+          cd api/serverconfig
           mvn spring-boot:run &
       - name: Run eurekaserver
         run: |-
-          cd API/eurekaserver
+          cd api/eurekaserver
           mvn spring-boot:run &
       - name: Run gateway-server
         run: |-
-          cd API/gateway-server
+          cd api/gateway-server
           mvn spring-boot:run &
       - name: Run tests for review-service
         run: |-
-          cd API/review-service
+          cd api/review-service
           mvn -B test --file pom.xml
 
     services:
