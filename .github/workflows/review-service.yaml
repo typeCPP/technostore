@@ -2,9 +2,9 @@ name: "review-service"
 
 on:
   push:
-    paths:
-      - "api/review-service/**"
-      - ".github/workflows/review-service.yaml"
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
