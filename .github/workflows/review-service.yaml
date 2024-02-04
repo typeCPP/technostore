@@ -56,6 +56,10 @@ jobs:
         run: |-
           cd api/review-service
           mvn -B test --file pom.xml
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
 
     services:
       mysql:
