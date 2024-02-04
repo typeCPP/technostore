@@ -92,7 +92,7 @@ jobs:
           debug-mode: false
           min-coverage-overall: 80
           min-coverage-changed-files: 80
-          title: user Microservice Code Coverage
+          title: User Microservice Code Coverage
 
       - name: Get the Coverage info
         run: |
