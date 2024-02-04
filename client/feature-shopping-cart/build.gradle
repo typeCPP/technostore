@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 apply from: rootProject.file('gradle/versions.gradle')
+apply from: '../jacoco/modules.gradle'
 
 android {
     namespace 'com.technostore.feature_profile'
@@ -58,4 +59,5 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    testImplementation project(':common_test')
 }

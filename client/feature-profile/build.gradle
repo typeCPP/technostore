@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 apply from: rootProject.file('gradle/versions.gradle')
+apply from: '../jacoco/modules.gradle'
 
 android {
     namespace 'com.technostore.feature_profile'
