@@ -61,12 +61,6 @@ jobs:
           cd api/review-service
           mvn -B package --file pom.xml
 
-      - name: Upload Report
-        uses: 'actions/upload-artifact@v2'
-        with:
-          name: jacoco-report
-          path: ${{ github.workspace }}/api/review-service/target/site/jacoco/jacoco.xml
-
       - name: Jacoco Report to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
