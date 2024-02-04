@@ -82,19 +82,6 @@ jobs:
           name: jacoco-report
           path: api/review-service/target/site/jacoco/
 
-      - name: Comment on PR with coverage percentages
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          REPORT=$(<badges/coverage-summary.json)
-          COVERAGE=$(jq -r '.coverage' <<< "$REPORT")%
-          BRANCHES=$(jq -r '.branches' <<< "$REPORT")%
-          NEWLINE=$'\n'
-          BODY="## Review Microservice Test Coverage Summary Statistics${NEWLINE}* __Coverage:__ ${COVERAGE}${NEWLINE}* __Branches:__ ${BRANCHES}"
-          gh pr comment ${{github.event.pull_request.number}} -b "${BODY}"
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Jacoco Report to PR
         id: jacoco1
         uses: madrapps/jacoco-report@v1.6.1
