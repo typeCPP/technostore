@@ -25,17 +25,15 @@ class ProfileRepositoryImpl(
     override suspend fun getProfile(): Result<ProfileModel> = withContext(Dispatchers.IO) {
         val response = userService.getProfile()
         if (response.isSuccessful) {
-            if (response.body() != null) {
-                val body = response.body()
-                if (body != null) {
-                    val profile = ProfileModel(
-                        firstName = body.firstName,
-                        lastName = body.lastName,
-                        image = "$BASE_URL$USER_SERVICE_BASE_URL${body.image}",
-                        email = body.email
-                    )
-                    return@withContext Result.Success(profile)
-                }
+            val body = response.body()
+            if (body != null) {
+                val profile = ProfileModel(
+                    firstName = body.firstName,
+                    lastName = body.lastName,
+                    image = "$BASE_URL$USER_SERVICE_BASE_URL${body.image}",
+                    email = body.email
+                )
+                return@withContext Result.Success(profile)
             }
         }
         return@withContext Result.Error()

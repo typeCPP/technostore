@@ -10,4 +10,5 @@ object TestData {
     const val PASSWORD = "Test123"
     const val NAME = "name"
     const val LAST_NAME = "last_name"
+    const val USER_PHOTO_LINK = "/link"
 }
