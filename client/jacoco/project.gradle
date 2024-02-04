@@ -38,6 +38,7 @@ project.afterEvaluate {
                 '**/*Module*.*',
                 "**/dagger/**/*.*",
                 "**/hilt*/**/*.*",
+                "**/*Fragment*.*"
         ]
 
         def jClasses = subprojects.collect { proj ->
