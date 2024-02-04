@@ -1,4 +1,4 @@
-package com.technostore
+package com.technostore.common_test
 
 object TestData {
     const val ID = 1

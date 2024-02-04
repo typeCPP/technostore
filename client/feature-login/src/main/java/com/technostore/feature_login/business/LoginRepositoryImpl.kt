@@ -59,10 +59,8 @@ class LoginRepositoryImpl(
         withContext(Dispatchers.IO) {
             val response = loginService.checkEmailExists(email)
             if (response.isSuccessful) {
-                val body = response.body()?.exists
-                if (body != null) {
-                    return@withContext Result.Success(body)
-                }
+                val body = response.body()!!.exists
+                return@withContext Result.Success(body)
             }
             return@withContext Result.Error(ErrorType())
         }

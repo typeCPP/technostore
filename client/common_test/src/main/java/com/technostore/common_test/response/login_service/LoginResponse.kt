@@ -1,6 +1,6 @@
-package com.technostore.response.login_service
+package com.technostore.common_test.response.login_service
 
-import com.technostore.TestData
+import com.technostore.common_test.TestData
 import org.intellij.lang.annotations.Language
 
 
