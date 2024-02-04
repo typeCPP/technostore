@@ -60,19 +60,39 @@ jobs:
       - name: Generate Coverage Report
         run: |
           cd api/review-service
-          mvn -B package --file pom.xml
+          mvn -B package -Pcoverage
 
-      - name: Jacoco Report to PR
+      - name: Generate JaCoCo badge
         id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
+        uses: cicirello/jacoco-badge-generator@v2
         with:
-          paths: |
-            ${{ github.workspace }}/api/review-service/target/site/jacoco/jacoco.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          debug-mode: false
-          min-coverage-overall: 80
-          min-coverage-changed-files: 80
-          title: Review Microservice Code Coverage
+          badges-directory: badges
+          generate-branches-badge: true
+          generate-summary: true
+
+      - name: Log coverage percentages to workflow output
+        run: |
+          echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
+          echo "branches = ${{ steps.jacoco.outputs.branches }}"
+
+      - name: Upload JaCoCo coverage report as a workflow artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report
+          path: api/review-service/target/site/jacoco/
+
+      - name: Comment on PR with coverage percentages
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          REPORT=$(<badges/coverage-summary.json)
+          COVERAGE=$(jq -r '.coverage' <<< "$REPORT")%
+          BRANCHES=$(jq -r '.branches' <<< "$REPORT")%
+          NEWLINE=$'\n'
+          BODY="## JaCoCo Test Coverage Summary Statistics${NEWLINE}* __Coverage:__ ${COVERAGE}${NEWLINE}* __Branches:__ ${BRANCHES}"
+          gh pr comment ${{github.event.pull_request.number}} -b "${BODY}"
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get the Coverage info
         run: |
