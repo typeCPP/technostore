@@ -9,12 +9,20 @@ import com.technostore.network.utils.URL.USER_SERVICE_BASE_URL
 import com.technostore.common_test.response.base.BaseResponse
 import com.technostore.common_test.response.login_service.CheckEmailExistsResponse
 import com.technostore.common_test.response.login_service.LoginResponse
+import com.technostore.common_test.response.login_service.PasswordRecoveryResponse
+import com.technostore.common_test.response.login_service.RegistrationResponse
 import java.net.HttpURLConnection
 
 object LoginServiceMock {
 
     val login get() = Login()
     val checkEmailExists = CheckEmailExists()
+    val registration = Registration()
+    val confirmAccount = ConfirmAccount()
+    val passwordRecovery = PasswordRecovery()
+    val sendCodeForRecoveryPassword = SendCodeForRecoveryPassword()
+    val sendCodeForConfirmationAccount = SendCodeForConfirmationAccount()
+    val changePassword = ChangePassword()
 
     inline operator fun invoke(block: LoginServiceMock.() -> Unit) = apply(block)
 
@@ -58,6 +66,108 @@ object LoginServiceMock {
 
         fun successNotExists() {
             stubFor(matcher.willReturn(ok(CheckEmailExistsResponse.successNotExists)))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class Registration internal constructor() {
+        private val matcher: MappingBuilder
+            get() = post(urlPathMatching("/$USER_SERVICE_BASE_URL/user/registration"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok(RegistrationResponse.success)))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class ChangePassword internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/change-password"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class ConfirmAccount internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/confirm-account"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+
+        fun notFound() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_NOT_FOUND)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class PasswordRecovery internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/password-recovery"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok(PasswordRecoveryResponse.success)))
+        }
+
+        fun conflict() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_CONFLICT)
+            stubFor(matcher.willReturn(response))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class SendCodeForRecoveryPassword internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/send-code-for-recovery-password"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
+        fun internalError() {
+            val response = aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class SendCodeForConfirmationAccount internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/send-code-for-confirmation-account"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun internalError() {

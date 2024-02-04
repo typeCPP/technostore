@@ -35,6 +35,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -62,4 +65,5 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     testImplementation project(':common_test')
+    testImplementation 'org.json:json:20180813'
 }
