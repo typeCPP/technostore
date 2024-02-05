@@ -3,12 +3,14 @@ package com.technostore.common_test.network
 import com.technostore.common_test.MockServer
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
+import com.technostore.network.service.ProductService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 class NetworkModuleTest {
@@ -29,4 +31,5 @@ class NetworkModuleTest {
     val sessionService: SessionService = retrofit.create(SessionService::class.java)
     val userService: UserService = retrofit.create(UserService::class.java)
     val orderService: OrderService = retrofit.create(OrderService::class.java)
+    val productService: ProductService = retrofit.create(ProductService::class.java)
 }

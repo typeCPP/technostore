@@ -11,13 +11,26 @@ object TestData {
     const val NAME = "name"
     const val LAST_NAME = "last_name"
     const val USER_PHOTO_LINK = "/link"
-  
-    const val PRODUCT_ID = 1L
-    const val PRODUCT_PHOTO_LINK = "/link"
-    const val PRODUCT_PRICE = 10000.0
-    const val PRODUCT_NAME = "name"
-    const val PRODUCT_RATING = 5.0
-    const val PRODUCT_COUNT = 1
+
+    const val FIRST_PRODUCT_ID = 1L
+    const val FIRST_PRODUCT_PHOTO_LINK = "/link"
+    const val FIRST_PRODUCT_PRICE = 10000.0
+    const val FIRST_PRODUCT_NAME = "name"
+    const val FIRST_PRODUCT_RATING = 5.0
+    const val FIRST_PRODUCT_COUNT = 1
+    const val FIRST_PRODUCT_REVIEW_COUNT = 10
+    const val SECOND_PRODUCT_ID = 2L
+    const val SECOND_PRODUCT_PHOTO_LINK = "/link2"
+    const val SECOND_PRODUCT_PRICE = 15000.0
+    const val SECOND_PRODUCT_NAME = "name2"
+    const val SECOND_PRODUCT_RATING = 4.6
+    const val SECOND_PRODUCT_COUNT = 2
+    const val SECOND_PRODUCT_REVIEW_COUNT = 25
 
     const val ORDER_ID = 1L
+
+    const val FIRST_CATEGORY_ID = 1L
+    const val FIRST_CATEGORY_NAME = "Ноутбуки"
+    const val SECOND_CATEGORY_ID = 2L
+    const val SECOND_CATEGORY_NAME = "Планшеты"
 }

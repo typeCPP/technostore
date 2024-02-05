@@ -3,12 +3,12 @@ package com.technostore.feature_shopping_cart.business.model.mapper.business
 import com.technostore.arch.result.Result
 import com.technostore.common_test.MockServer
 import com.technostore.common_test.TestData.ORDER_ID
-import com.technostore.common_test.TestData.PRODUCT_COUNT
-import com.technostore.common_test.TestData.PRODUCT_ID
-import com.technostore.common_test.TestData.PRODUCT_NAME
-import com.technostore.common_test.TestData.PRODUCT_PHOTO_LINK
-import com.technostore.common_test.TestData.PRODUCT_PRICE
-import com.technostore.common_test.TestData.PRODUCT_RATING
+import com.technostore.common_test.TestData.FIRST_PRODUCT_COUNT
+import com.technostore.common_test.TestData.FIRST_PRODUCT_ID
+import com.technostore.common_test.TestData.FIRST_PRODUCT_NAME
+import com.technostore.common_test.TestData.FIRST_PRODUCT_PHOTO_LINK
+import com.technostore.common_test.TestData.FIRST_PRODUCT_PRICE
+import com.technostore.common_test.TestData.FIRST_PRODUCT_RATING
 import com.technostore.common_test.mock.OrderServiceMock
 import com.technostore.common_test.network.NetworkModuleTest
 import com.technostore.feature_shopping_cart.business.ShoppingCartRepositoryImpl
@@ -52,12 +52,12 @@ class ShoppingCartRepositoryTest {
             }
             val expectedProducts = listOf(
                 ProductOrderModel(
-                    id = PRODUCT_ID,
-                    photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}$PRODUCT_PHOTO_LINK",
-                    name = PRODUCT_NAME,
-                    rating = PRODUCT_RATING,
-                    count = PRODUCT_COUNT,
-                    price = PRODUCT_PRICE
+                    id = FIRST_PRODUCT_ID,
+                    photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}$FIRST_PRODUCT_PHOTO_LINK",
+                    name = FIRST_PRODUCT_NAME,
+                    rating = FIRST_PRODUCT_RATING,
+                    count = FIRST_PRODUCT_COUNT,
+                    price = FIRST_PRODUCT_PRICE
                 )
             )
             val expectedOrder = OrderDetailModel(
@@ -102,7 +102,7 @@ class ShoppingCartRepositoryTest {
         OrderServiceMock {
             setProductCount.success()
         }
-        val result = shoppingCartRepository.setProductCount(PRODUCT_ID, PRODUCT_COUNT)
+        val result = shoppingCartRepository.setProductCount(FIRST_PRODUCT_ID, FIRST_PRODUCT_COUNT)
         assertTrue(result is Result.Success)
     }
 
@@ -111,7 +111,7 @@ class ShoppingCartRepositoryTest {
         OrderServiceMock {
             setProductCount.internalError()
         }
-        val result = shoppingCartRepository.setProductCount(PRODUCT_ID, PRODUCT_COUNT)
+        val result = shoppingCartRepository.setProductCount(FIRST_PRODUCT_ID, FIRST_PRODUCT_COUNT)
         assertTrue(result is Result.Error)
     }
 
