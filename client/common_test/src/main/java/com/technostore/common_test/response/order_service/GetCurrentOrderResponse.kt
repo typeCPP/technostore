@@ -10,12 +10,12 @@ object GetCurrentOrderResponse {
           "id": 1,
           "products": [
             {
-              "id": ${TestData.PRODUCT_ID},
-              "linkPhoto": "${TestData.PRODUCT_PHOTO_LINK}",
-              "price": ${TestData.PRODUCT_PRICE},
-              "name": "${TestData.PRODUCT_NAME}", 
-              "rating": ${TestData.PRODUCT_RATING}, 
-              "count": ${TestData.PRODUCT_COUNT}
+              "id": ${TestData.FIRST_PRODUCT_ID},
+              "linkPhoto": "${TestData.FIRST_PRODUCT_PHOTO_LINK}",
+              "price": ${TestData.FIRST_PRODUCT_PRICE},
+              "name": "${TestData.FIRST_PRODUCT_NAME}", 
+              "rating": ${TestData.FIRST_PRODUCT_RATING}, 
+              "count": ${TestData.FIRST_PRODUCT_COUNT}
             }
           ]
         }

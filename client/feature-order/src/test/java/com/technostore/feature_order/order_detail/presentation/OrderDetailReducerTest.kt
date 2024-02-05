@@ -26,12 +26,12 @@ class OrderDetailReducerTest : OrderDetailBaseTest() {
     fun `order details loaded → set order details`() {
         val products = listOf(
             ProductOrderModel(
-                id = TestData.PRODUCT_ID,
-                photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.PRODUCT_PHOTO_LINK}",
-                name = TestData.PRODUCT_NAME,
-                rating = TestData.PRODUCT_RATING,
-                count = TestData.PRODUCT_COUNT,
-                price = TestData.PRODUCT_PRICE
+                id = TestData.FIRST_PRODUCT_ID,
+                photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
+                name = TestData.FIRST_PRODUCT_NAME,
+                rating = TestData.FIRST_PRODUCT_RATING,
+                count = TestData.FIRST_PRODUCT_COUNT,
+                price = TestData.FIRST_PRODUCT_PRICE
             )
         )
         val order = OrderDetailModel(

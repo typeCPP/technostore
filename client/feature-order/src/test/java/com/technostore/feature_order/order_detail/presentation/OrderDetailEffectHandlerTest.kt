@@ -45,12 +45,12 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
             )
             val products = listOf(
                 ProductOrderModel(
-                    id = TestData.PRODUCT_ID,
-                    photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.PRODUCT_PHOTO_LINK}",
-                    name = TestData.PRODUCT_NAME,
-                    rating = TestData.PRODUCT_RATING,
-                    count = TestData.PRODUCT_COUNT,
-                    price = TestData.PRODUCT_PRICE
+                    id = TestData.FIRST_PRODUCT_ID,
+                    photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
+                    name = TestData.FIRST_PRODUCT_NAME,
+                    rating = TestData.FIRST_PRODUCT_RATING,
+                    count = TestData.FIRST_PRODUCT_COUNT,
+                    price = TestData.FIRST_PRODUCT_PRICE
                 )
             )
             val order = OrderDetailModel(
@@ -88,13 +88,13 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
 
     @Test
     fun `event on Product clicked → open product page`() = testScope.runTest {
-        val event = OrderDetailUiEvent.OnProductClicked(productId = TestData.PRODUCT_ID)
+        val event = OrderDetailUiEvent.OnProductClicked(productId = TestData.FIRST_PRODUCT_ID)
         orderDetailEffectHandler.process(
             event = event,
             currentState = defaultState,
             store = store
         )
-        coVerify(exactly = 1) { store.acceptNews(OrderDetailNews.OpenProductPage(TestData.PRODUCT_ID)) }
+        coVerify(exactly = 1) { store.acceptNews(OrderDetailNews.OpenProductPage(TestData.FIRST_PRODUCT_ID)) }
     }
 
     @Test

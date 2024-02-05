@@ -11,7 +11,7 @@ import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-private const val PAGE_SIZE = 100
+const val PAGE_SIZE = 100
 
 const val SEARCH_BY_POPULARITY = "BY_POPULARITY"
 const val SEARCH_BY_RATING = "BY_RATING"
@@ -120,24 +120,31 @@ class SharedSearchRepositoryImpl(
 
     override suspend fun updateSelectedCategories(categoryWithCheck: CategoryWithCheck) {
         if (categoryWithCheck.isSelected) {
-            selectedCategories.add(categoryWithCheck.category.id)
+            if (selectedCategories.find { categoryWithCheck.category.id == it } == null) {
+                selectedCategories.add(categoryWithCheck.category.id)
+                searchText = null
+            }
         } else {
             selectedCategories.removeIf { it == categoryWithCheck.category.id }
+            searchText = null
         }
-        searchText = null
     }
 
     override suspend fun updateCostBoundaries(minCost: Float, maxCost: Float) {
-        this.minCost = minCost
-        this.maxCost = maxCost
-        searchText = null
+        if (minCost <= maxCost) {
+            this.minCost = minCost
+            this.maxCost = maxCost
+            searchText = null
+        }
     }
 
 
     override suspend fun updateRatingBoundaries(minRating: Float, maxRating: Float) {
-        this.minRating = minRating
-        this.maxRating = maxRating
-        searchText = null
+        if (minRating <= maxRating) {
+            this.minRating = minRating
+            this.maxRating = maxRating
+            searchText = null
+        }
     }
 
     override suspend fun setProductCount(productId: Long, count: Int): Result<Unit> =
@@ -152,7 +159,8 @@ class SharedSearchRepositoryImpl(
     override suspend fun searchProducts(word: String): Result<List<ProductSearchModel>> =
         withContext(Dispatchers.IO) {
             updateNumberPage(word)
-            val categories = selectedCategories.joinToString(",")
+            val categories =
+                if (selectedCategories.size != 0) selectedCategories.joinToString(",") else null
             val response = productService.searchProducts(
                 numberPage = numberPage,
                 sizePage = PAGE_SIZE,
@@ -165,10 +173,10 @@ class SharedSearchRepositoryImpl(
                 categories = categories,
             )
             if (response.isSuccessful) {
+                searchText = word
                 val body = response.body()
                 if (body != null) {
                     if (body.listOfProducts.isEmpty() && numberPage == 0) {
-                        searchText = word
                         return@withContext Result.Error(SearchEmpty())
                     }
                     val models =
