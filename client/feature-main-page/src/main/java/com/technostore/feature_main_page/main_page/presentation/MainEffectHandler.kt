@@ -57,10 +57,8 @@ class MainEffectHandler(
                     }
 
                     is Result.Error -> {
-                        if (result.error != null) {
-                            if (result.error is SearchEmpty) {
-                                store.dispatch(MainEvent.IsEmpty)
-                            }
+                        if (result.error != null && result.error is SearchEmpty) {
+                            store.dispatch(MainEvent.IsEmpty)
                         } else {
                             store.acceptNews(MainNews.ShowErrorToast)
                         }
