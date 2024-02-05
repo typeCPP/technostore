@@ -15,6 +15,7 @@ object OrderServiceMock {
 
     val getCurrentOrder = GetCurrentOrder()
     val completeOrder = CompleteOrder()
+    val getCompletedOrder = GetCompletedOrder()
     val setProductCount = SetProductCount()
 
     inline operator fun invoke(block: OrderServiceMock.() -> Unit) = apply(block)
@@ -42,6 +43,22 @@ object OrderServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
+        }
+
+        fun internalError() {
+            val response = WireMock.aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            stubFor(matcher.willReturn(response))
+            stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class GetCompletedOrder internal constructor() {
+        val urlPattern = urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-order/.+")
+        private val matcher: MappingBuilder get() = get(urlPattern)
+
+        fun success() {
+            stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
         }
 
         fun internalError() {
