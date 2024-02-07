@@ -15,19 +15,27 @@ class ProductReducer : Reducer<ProductState, ProductEvent> {
             }
 
             is ProductEvent.UpdateRating -> {
-                val productDetail = currentState.productDetail!!
-                productDetail.userRating = event.newRating
-                currentState.copy(
-                    productDetail = productDetail,
-                    userRating = event.newRating,
-                    userReviewText = event.text
-                )
+                if (currentState.productDetail != null) {
+                    val productDetail = currentState.productDetail
+                    productDetail.userRating = event.newRating
+                    currentState.copy(
+                        productDetail = productDetail,
+                        userRating = event.newRating,
+                        userReviewText = event.text
+                    )
+                } else {
+                    currentState
+                }
             }
 
             is ProductEvent.UpdateInCartCount -> {
-                val productDetail = currentState.productDetail!!
-                productDetail.inCartCount = event.count
-                currentState.copy(productDetail = productDetail)
+                if (currentState.productDetail != null) {
+                    val productDetail = currentState.productDetail
+                    productDetail.inCartCount = event.count
+                    currentState.copy(productDetail = productDetail)
+                } else {
+                    currentState
+                }
             }
 
             is ProductEvent.OnReviewLoaded -> {
@@ -35,9 +43,13 @@ class ProductReducer : Reducer<ProductState, ProductEvent> {
             }
 
             is ProductEvent.UpdateReviews -> {
-                val productDetail = currentState.productDetail!!
-                productDetail.reviews = event.reviews
-                currentState.copy(productDetail = productDetail)
+                if (currentState.productDetail != null) {
+                    val productDetail = currentState.productDetail
+                    productDetail.reviews = event.reviews
+                    currentState.copy(productDetail = productDetail)
+                } else {
+                    currentState
+                }
             }
 
             else -> currentState

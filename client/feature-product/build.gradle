@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
+
 apply from: rootProject.file('gradle/versions.gradle')
 apply from: '../jacoco/modules.gradle'
 
@@ -56,4 +57,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
+    testImplementation project(':common_test')
 }

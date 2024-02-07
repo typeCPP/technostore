@@ -19,6 +19,7 @@ object TestData {
     const val FIRST_PRODUCT_RATING = 5.0
     const val FIRST_PRODUCT_COUNT = 1
     const val FIRST_PRODUCT_REVIEW_COUNT = 10
+    const val FIRST_PRODUCT_DESCRIPTION = "description"
     const val SECOND_PRODUCT_ID = 2L
     const val SECOND_PRODUCT_PHOTO_LINK = "/link2"
     const val SECOND_PRODUCT_PRICE = 15000.0
@@ -33,4 +34,10 @@ object TestData {
     const val FIRST_CATEGORY_NAME = "Ноутбуки"
     const val SECOND_CATEGORY_ID = 2L
     const val SECOND_CATEGORY_NAME = "Планшеты"
+
+    const val USER_REVIEW_ID = 1L
+    const val USER_REVIEW_TEXT = "Очень хороший отзыв"
+    const val USER_REVIEW_RATE = 4
+    const val USER_REVIEW_DATE = 123455L
+    const val USER_REVIEW_PHOTO_LINK = "/reviewUserLink"
 }
