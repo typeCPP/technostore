@@ -1,27 +1,25 @@
-package com.technostore
+package com.technostore.feature_login.business
 
 import LoginServiceMock
-import com.technostore.arch.result.Result
 import com.technostore.app_store.store.AppStore
 import com.technostore.arch.result.ErrorType
+import com.technostore.arch.result.Result
 import com.technostore.common_test.MockServer
 import com.technostore.common_test.TestData
 import com.technostore.common_test.mock.SessionServiceMock
-import com.technostore.feature_login.business.LoginRepositoryImpl
-import com.technostore.feature_login.business.sign_in.error.Message.ERROR_EMAIL
-import com.technostore.feature_login.business.sign_in.error.SignInError
 import com.technostore.common_test.network.NetworkModuleTest
+import com.technostore.feature_login.business.sign_in.error.Message
+import com.technostore.feature_login.business.sign_in.error.SignInError
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
-import com.technostore.feature_login.business.sign_in.error.Message.ERROR_PASSWORD
-import kotlinx.coroutines.test.TestScope
 import org.junit.Test
 
 private const val CODE = "1234"
@@ -75,7 +73,7 @@ class LoginRepositoryTest {
     @Test
     fun `sign in with 404 status (wrong password) → return error password`() = testScope.runTest {
         LoginServiceMock {
-            login.errorPassword(ERROR_PASSWORD)
+            login.errorPassword(Message.ERROR_PASSWORD)
         }
         val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
         coVerify(exactly = 0) { appStore.isActive = true }
@@ -86,7 +84,7 @@ class LoginRepositoryTest {
     @Test
     fun `sign in with 404 status (wrong email) → return error email`() = testScope.runTest {
         LoginServiceMock {
-            login.errorEmail(ERROR_EMAIL)
+            login.errorEmail(Message.ERROR_EMAIL)
         }
         val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
         coVerify(exactly = 0) { appStore.isActive = true }

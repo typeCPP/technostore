@@ -84,7 +84,6 @@ class RegistrationEffectHandler(
                 store.dispatch(RegistrationEvent.EndLoading)
                 if (checkEmailExistsResult is Result.Error) {
                     store.acceptNews(RegistrationNews.ShowErrorToast)
-                    store.dispatch(RegistrationEvent.EndLoading)
                     return
                 }
                 if (checkEmailExistsResult is Result.Success) {
@@ -104,7 +103,7 @@ class RegistrationEffectHandler(
 
             is RegistrationUiEvent.OnLoginClicked -> store.acceptNews(RegistrationNews.OpenSignInPage)
 
-            else -> {}
+            else -> Unit
         }
     }
 }
