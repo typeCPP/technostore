@@ -38,6 +38,9 @@ project.afterEvaluate {
                 '**/*Module*.*',
                 "**/dagger/**/*.*",
                 "**/hilt*/**/*.*",
+                "**/*Model*.*",
+                "**/*Request*",
+                "**/*Response*",
         ]
 
         def jClasses = subprojects.collect { proj ->
