@@ -10,6 +10,6 @@ sealed class ProductNews : News() {
         val description: String
     ) : ProductNews()
 
-    class OpenReviewsListPage(val productId: Long) : ProductNews()
+    data class OpenReviewsListPage(val productId: Long) : ProductNews()
     data object OpenPreviousPage : ProductNews()
 }

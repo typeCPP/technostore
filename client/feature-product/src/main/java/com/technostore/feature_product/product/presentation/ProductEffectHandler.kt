@@ -41,13 +41,13 @@ class ProductEffectHandler(
                 store.acceptNews(
                     ProductNews.OpenRateDialog(
                         reviewText = currentState.userReviewText,
-                        userRating = currentState.productDetail!!.userRating
+                        userRating = currentState.productDetail?.userRating ?: 0
                     )
                 )
             }
 
             is ProductUiEvent.OnBuyClicked -> {
-                val newCount = currentState.productDetail!!.inCartCount + 1
+                val newCount = (currentState.productDetail?.inCartCount ?: 0) + 1
                 val result = productRepository.setProductCount(
                     event.productId,
                     newCount
@@ -62,8 +62,8 @@ class ProductEffectHandler(
             ProductUiEvent.OnMoreDescriptionClicked -> {
                 store.acceptNews(
                     ProductNews.OpenDescription(
-                        productName = currentState.productDetail?.name!!,
-                        description = currentState.productDetail.description
+                        productName = currentState.productDetail?.name.orEmpty(),
+                        description = currentState.productDetail?.description.orEmpty()
                     )
                 )
             }
@@ -77,8 +77,12 @@ class ProductEffectHandler(
             }
 
             is ProductUiEvent.SetReview -> {
+                if (currentState.productDetail == null) {
+                    store.acceptNews(ProductNews.ShowErrorToast)
+                    return
+                }
                 val result = productRepository.setReview(
-                    currentState.productDetail?.id!!,
+                    currentState.productDetail.id,
                     event.rating,
                     event.text
                 )
