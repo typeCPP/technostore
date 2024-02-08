@@ -19,8 +19,14 @@ class ShoppingCartEffectHandler(
                 val result = shoppingCartRepository.getCurrentOrder()
                 when (result) {
                     is Result.Success -> {
-                        store.dispatch(ShoppingCartEvent.EndLoading)
-                        store.dispatch(ShoppingCartEvent.OrderDetailsLoaded(result.data!!))
+                        val data=result.data
+                        if(data!=null) {
+                            store.dispatch(ShoppingCartEvent.EndLoading)
+                            store.dispatch(ShoppingCartEvent.OrderDetailsLoaded(data))
+                        }
+                        else{
+                            store.acceptNews(ShoppingCartNews.ShowErrorToast)
+                        }
                     }
 
                     else -> {
