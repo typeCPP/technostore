@@ -1,4 +1,4 @@
-package com.technostore.feature_shopping_cart.business.model.mapper.business
+package com.technostore.feature_shopping_cart.business
 
 import com.technostore.arch.result.Result
 import com.technostore.common_test.MockServer

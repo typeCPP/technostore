@@ -6,5 +6,5 @@ data class ProductOrderModel(
     val price: Double,
     val name: String,
     val rating: Double,
-    val count: Int,
+    var count: Int,
 )

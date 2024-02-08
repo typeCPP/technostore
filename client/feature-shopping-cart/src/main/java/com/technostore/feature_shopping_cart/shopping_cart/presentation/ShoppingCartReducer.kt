@@ -21,11 +21,20 @@ class ShoppingCartReducer : Reducer<ShoppingCartState, ShoppingCartEvent> {
             }
 
             ShoppingCartEvent.OrderHasBeenPlaced -> {
-                currentState.copy(products = emptyList())
+                currentState.copy(products = emptyList(), orderId = 0)
             }
 
             is ShoppingCartEvent.UpdateCount -> {
-                currentState
+                val product = currentState.products?.find { it.id == event.productId }
+                if (product != null) {
+                    val newProducts = currentState.products.map { model ->
+                        if (model == product) product.count = event.count
+                        product
+                    }
+                    currentState.copy(products = newProducts)
+                } else {
+                    currentState
+                }
             }
 
             is ShoppingCartEvent.RemoveItem -> {
