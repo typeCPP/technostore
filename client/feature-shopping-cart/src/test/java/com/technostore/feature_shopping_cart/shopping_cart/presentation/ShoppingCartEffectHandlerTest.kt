@@ -194,14 +194,6 @@ class ShoppingCartEffectHandlerTest : ShoppingCartBaseTest() {
             )
             effectHandler.process(event, defaultState, store)
             coVerify(exactly = 1) {
-                store.dispatch(
-                    ShoppingCartEvent.UpdateCount(
-                        productId = TestData.FIRST_PRODUCT_ID,
-                        count = 0
-                    )
-                )
-            }
-            coVerify(exactly = 1) {
                 shoppingCartRepository.setProductCount(
                     productId = TestData.FIRST_PRODUCT_ID,
                     count = 0
