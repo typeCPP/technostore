@@ -24,8 +24,14 @@ class SearchEffectHandler(
                 val result = sharedSearchRepository.searchProducts(event.text)
                 when (result) {
                     is Result.Success -> {
-                        store.dispatch(SearchEvent.EndLoading)
-                        store.dispatch(SearchEvent.DataLoaded(result.data!!))
+                        val data = result.data
+                        if (data != null) {
+                            store.dispatch(SearchEvent.EndLoading)
+                            store.dispatch(SearchEvent.DataLoaded(data))
+                        }
+                        else{
+                            store.acceptNews(SearchNews.ShowErrorToast)
+                        }
                     }
 
                     is Result.Error -> {
@@ -44,7 +50,11 @@ class SearchEffectHandler(
                 val result = sharedSearchRepository.searchProducts(event.text)
                 when (result) {
                     is Result.Success -> {
-                        store.dispatch(SearchEvent.DataLoaded(result.data!!))
+                        val data = result.data
+                        if (data != null) {
+                            store.dispatch(SearchEvent.EndLoading)
+                            store.dispatch(SearchEvent.DataLoaded(data))
+                        }
                     }
 
                     is Result.Error -> {
