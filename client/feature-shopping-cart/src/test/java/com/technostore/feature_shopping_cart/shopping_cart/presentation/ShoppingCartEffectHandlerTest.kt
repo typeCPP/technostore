@@ -189,9 +189,8 @@ class ShoppingCartEffectHandlerTest : ShoppingCartBaseTest() {
             shoppingCartRepository.apply {
                 coEvery { setProductCount(any(), any()) } returns Result.Error()
             }
-            val event = ShoppingCartUiEvent.OnMinusClicked(
-                productId = TestData.FIRST_PRODUCT_ID,
-                count = 0
+            val event = ShoppingCartUiEvent.OnRemoveClicked(
+                productId = TestData.FIRST_PRODUCT_ID
             )
             effectHandler.process(event, defaultState, store)
             coVerify(exactly = 1) {
