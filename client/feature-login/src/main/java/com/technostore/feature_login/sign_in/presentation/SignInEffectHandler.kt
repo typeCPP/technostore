@@ -54,11 +54,11 @@ class SignInEffectHandler(
                     store.acceptNews(SignInNews.OpenMainPage)
                 }
                 if (result is Result.Error) {
+                    store.dispatch(SignInEvent.EndLoading)
                     when (result.error) {
                         SignInError.ErrorEmail -> store.dispatch(SignInEvent.EmailNotExists)
                         SignInError.ErrorPassword -> store.dispatch(SignInEvent.PasswordInvalid)
                         else -> {
-                            store.dispatch(SignInEvent.EndLoading)
                             store.acceptNews(SignInNews.ShowErrorToast)
                         }
                     }
