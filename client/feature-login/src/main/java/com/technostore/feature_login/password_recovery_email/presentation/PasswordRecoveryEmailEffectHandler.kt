@@ -5,7 +5,6 @@ import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.common_ui.EMAIL_REGEX
-import com.technostore.feature_login.registration.presentation.RegistrationNews
 
 class PasswordRecoveryEmailEffectHandler(private val loginRepository: LoginRepository) :
     EffectHandler<PasswordRecoveryEmailState, PasswordRecoveryEmailEvent> {
@@ -34,24 +33,25 @@ class PasswordRecoveryEmailEffectHandler(private val loginRepository: LoginRepos
                 val checkEmailExistsResult = loginRepository.checkEmailExists(emailTrim)
                 if (checkEmailExistsResult is Result.Error) {
                     store.dispatch(PasswordRecoveryEmailEvent.EndLoading)
-                    store.acceptNews(RegistrationNews.ShowErrorToast)
+                    store.acceptNews(PasswordRecoveryEmailNews.ShowErrorToast)
                     return
                 }
                 if (checkEmailExistsResult is Result.Success) {
-                    val isEmailExists = checkEmailExistsResult.data!!
-                    if (!isEmailExists) {
+                    val isEmailExists = checkEmailExistsResult.data
+                    if (isEmailExists == null || !isEmailExists) {
                         store.dispatch(PasswordRecoveryEmailEvent.EndLoading)
                         store.dispatch(PasswordRecoveryEmailEvent.EmailNotExists)
                         return
                     }
                 }
+
                 val sendCodeResult = loginRepository.sendCodeForRecoveryPassword(email = emailTrim)
                 store.dispatch(PasswordRecoveryEmailEvent.EndLoading)
                 if (sendCodeResult is Result.Error) {
-                    store.acceptNews(RegistrationNews.ShowErrorToast)
+                    store.acceptNews(PasswordRecoveryEmailNews.ShowErrorToast)
                     return
                 }
-                store.acceptNews(PasswordRecoveryEmailNews.OpenCodePage(event.email))
+                store.acceptNews(PasswordRecoveryEmailNews.OpenCodePage(emailTrim))
             }
 
             else -> {}
