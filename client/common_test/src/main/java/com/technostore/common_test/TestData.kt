@@ -40,4 +40,26 @@ object TestData {
     const val USER_REVIEW_RATE = 4
     const val USER_REVIEW_DATE = 123455L
     const val USER_REVIEW_PHOTO_LINK = "/reviewUserLink"
+
+    const val NEGATIVE_REVIEW_TEST_ID = 1L
+    const val NEGATIVE_REVIEW_PRODUCT_ID = 1L
+    const val NEGATIVE_REVIEW_TEXT = "отзыв 1"
+    const val NEGATIVE_REVIEW_RATE = 1
+    const val NEGATIVE_REVIEW_DATE = "01.02.2024"
+    const val NEGATIVE_REVIEW_USER_NAME = "Настя"
+    const val NEGATIVE_REVIEW_PHOTO_LINK = "/link1"
+    const val NEUTRAL_REVIEW_TEST_ID = 2L
+    const val NEUTRAL_REVIEW_PRODUCT_ID = 1L
+    const val NEUTRAL_REVIEW_TEXT = "отзыв 2"
+    const val NEUTRAL_REVIEW_RATE = 4
+    const val NEUTRAL_REVIEW_DATE = "01.03.2024"
+    const val NEUTRAL_REVIEW_USER_NAME = "Андрей"
+    const val NEUTRAL_REVIEW_PHOTO_LINK = "/link2"
+    const val POSITIVE_REVIEW_TEST_ID = 3L
+    const val POSITIVE_REVIEW_PRODUCT_ID = 1L
+    const val POSITIVE_REVIEW_TEXT = "отзыв 3"
+    const val POSITIVE_REVIEW_RATE = 10
+    const val POSITIVE_REVIEW_DATE = "02.01.2024"
+    const val POSITIVE_REVIEW_USER_NAME = "Данил"
+    const val POSITIVE_REVIEW_PHOTO_LINK = "/link3"
 }

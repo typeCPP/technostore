@@ -15,13 +15,15 @@ class ReviewListEffectHandler(
     ) {
         when (event) {
             is ReviewListUiEvent.Init -> {
+                store.dispatch(ReviewListEvent.StartLoading)
                 val result = reviewRepository.getReviews(event.productId)
                 when (result) {
                     is Result.Success -> {
-                        if (result.data != null) {
+                        val data=result.data
+                        if (data!= null) {
                             store.dispatch(ReviewListEvent.EndLoading)
-                            store.dispatch(ReviewListEvent.OnDataLoaded(result.data!!))
-                            store.dispatch(ReviewListUiEvent.LoadReviews(result.data!!))
+                            store.dispatch(ReviewListEvent.OnDataLoaded(data))
+                            store.acceptNews(ReviewListNews.ShowReviews(data))
                         } else {
                             store.acceptNews(ReviewListNews.ShowErrorToast)
                         }
@@ -55,10 +57,6 @@ class ReviewListEffectHandler(
 
             ReviewListUiEvent.OnPositiveReviewsClicked -> {
                 store.acceptNews(ReviewListNews.ShowReviews(currentState.positiveReviews))
-            }
-
-            is ReviewListUiEvent.LoadReviews -> {
-                store.acceptNews(ReviewListNews.ShowReviews(event.reviews))
             }
 
             else -> {}
