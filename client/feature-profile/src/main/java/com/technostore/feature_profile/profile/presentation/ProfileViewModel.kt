@@ -10,16 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    initialState: ProfileState,
-    reducer: ProfileReducer,
-    effectHandler: ProfileEffectHandler
+    private val store: Store<ProfileState, ProfileEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     val viewState: StateFlow<ProfileState> = store.state
 

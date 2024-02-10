@@ -1,9 +1,8 @@
 package com.technostore.feature_profile.profile.presentation
 
-import com.technostore.app_store.store.AppStore
 import com.technostore.arch.mvi.Reducer
 
-class ProfileReducer(private val appStore: AppStore) : Reducer<ProfileState, ProfileEvent> {
+class ProfileReducer : Reducer<ProfileState, ProfileEvent> {
     override fun reduce(currentState: ProfileState, event: ProfileEvent): ProfileState {
         return when (event) {
             is ProfileEvent.StartLoading -> {
@@ -22,7 +21,7 @@ class ProfileReducer(private val appStore: AppStore) : Reducer<ProfileState, Pro
                 currentState.copy(
                     name = event.name,
                     lastName = event.lastName,
-                    email = appStore.email.orEmpty(),
+                    email = event.email,
                     image = event.image
                 )
             }
