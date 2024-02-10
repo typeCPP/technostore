@@ -50,6 +50,12 @@ project.afterEvaluate {
                             '**/*Fragment*.*',
                             '**/*Activity',
                             '**/*Activity*.*',
+                            '**/*Dialog*.*',
+                            '**/*Dialog',
+                            '**/*Adapter',
+                            '**/*Adapter*.*',
+                            '**/*DiffCallback',
+                            '**/*DiffCallback*.*'
                     ]
 
                     def jClasses = "${project.buildDir}/intermediates/javac/${variantName}/classes"
