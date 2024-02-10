@@ -1,6 +1,5 @@
 package com.technostore.feature_login.registration.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import io.mockk.coEvery
@@ -10,7 +9,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class RegistrationEffectHandlerTest : RegistrationBaseTest() {
-    private val store = mockk<Store<RegistrationState, RegistrationEvent>>(relaxed = true)
     private val notValidEmail = "testtesTemail"
     private val notValidPassword = "test123!"
 
