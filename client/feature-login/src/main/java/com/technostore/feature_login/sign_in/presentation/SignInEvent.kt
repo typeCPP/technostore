@@ -18,7 +18,7 @@ sealed class SignInEvent : Event {
 }
 
 sealed class SignInUiEvent : SignInEvent() {
-    class OnSignInClicked(val email: String?, val password: String?) : SignInUiEvent()
+    data class OnSignInClicked(val email: String?, val password: String?) : SignInUiEvent()
     data object OnRegistrationClicked : SignInEvent()
     data object OnForgotPasswordClicked : SignInEvent()
 }

@@ -1,6 +1,5 @@
 package com.technostore.feature_login.sign_in.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.sign_in.error.SignInError
@@ -17,7 +16,6 @@ class SignInEffectHandlerTest : SignInBaseTest() {
     private val effectHandler = SignInEffectHandler(
         loginRepository = loginRepository
     )
-    private val store = mockk<Store<SignInState, SignInEvent>>(relaxed = true)
     private val notValidEmail = "testtesTemail"
 
     /* OnSignInClicked */
