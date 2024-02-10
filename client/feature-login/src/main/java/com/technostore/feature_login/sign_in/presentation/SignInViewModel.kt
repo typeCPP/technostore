@@ -10,15 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    initialState: SignInState,
-    reducer: SignInReducer,
-    effectHandler: SignInEffectHandler
+    val store: Store<SignInState, SignInEvent>
 ) : BaseViewModel() {
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

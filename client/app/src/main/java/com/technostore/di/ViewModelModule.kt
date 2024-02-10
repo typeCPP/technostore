@@ -1,6 +1,7 @@
 package com.technostore.di
 
 import com.technostore.arch.mvi.InitialState
+import com.technostore.arch.mvi.Store
 import com.technostore.base.presentation.BaseEffectHandler
 import com.technostore.base.presentation.BaseReducer
 import com.technostore.base.presentation.BaseViewModel
@@ -8,6 +9,7 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeE
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
+import com.technostore.feature_login.di.SignInStore
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
@@ -20,8 +22,6 @@ import com.technostore.feature_login.registration_user_info.presentation.Registr
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoReducer
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoViewModel
-import com.technostore.feature_login.sign_in.presentation.SignInEffectHandler
-import com.technostore.feature_login.sign_in.presentation.SignInReducer
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import com.technostore.feature_login.sign_in.presentation.SignInViewModel
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
@@ -35,6 +35,7 @@ import com.technostore.feature_login.password_recovery_code.presentation.Passwor
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
 import com.technostore.feature_main_page.main_page.presentation.MainReducer
 import com.technostore.feature_main_page.main_page.presentation.MainState
@@ -125,14 +126,9 @@ class ViewModelModule {
 
     @Provides
     fun provideWelcomeSignInViewModel(
-        reducer: SignInReducer,
-        effectHandler: SignInEffectHandler
+        @SignInStore store: Store<SignInState, SignInEvent>
     ): SignInViewModel {
-        return SignInViewModel(
-            initialState = SignInState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return SignInViewModel(store)
     }
 
     @Provides
