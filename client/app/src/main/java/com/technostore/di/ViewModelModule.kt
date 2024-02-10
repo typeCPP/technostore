@@ -10,9 +10,10 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeR
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
 import com.technostore.feature_login.di.RegistrationStore
+import com.technostore.feature_login.di.PasswordRecoveryCodeStore
+import com.technostore.feature_login.di.PasswordRecoveryEmailStore
+import com.technostore.feature_login.di.PasswordRecoveryStore
 import com.technostore.feature_login.di.SignInStore
-import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
-import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailViewModel
 import com.technostore.feature_login.registration.presentation.RegistrationState
@@ -26,14 +27,13 @@ import com.technostore.feature_login.sign_in.presentation.SignInViewModel
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
-import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryEffectHandler
-import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryReducer
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryEvent
 import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryState
 import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryViewModel
-import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEffectHandler
-import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEvent
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEvent
 import com.technostore.feature_login.registration.presentation.RegistrationEvent
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
@@ -164,39 +164,24 @@ class ViewModelModule {
 
     @Provides
     fun providePasswordRecoveryEmailViewModel(
-        reducer: PasswordRecoveryEmailReducer,
-        effectHandler: PasswordRecoveryEmailEffectHandler
+        @PasswordRecoveryEmailStore store: Store<PasswordRecoveryEmailState, PasswordRecoveryEmailEvent>
     ): PasswordRecoveryEmailViewModel {
-        return PasswordRecoveryEmailViewModel(
-            initialState = PasswordRecoveryEmailState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return PasswordRecoveryEmailViewModel(store)
     }
 
 
     @Provides
     fun providePasswordRecoveryCodeViewModel(
-        reducer: PasswordRecoveryCodeReducer,
-        effectHandler: PasswordRecoveryCodeEffectHandler
+        @PasswordRecoveryCodeStore store: Store<PasswordRecoveryCodeState, PasswordRecoveryCodeEvent>
     ): PasswordRecoveryCodeViewModel {
-        return PasswordRecoveryCodeViewModel(
-            initialState = PasswordRecoveryCodeState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return PasswordRecoveryCodeViewModel(store)
     }
 
     @Provides
     fun providePasswordRecoveryViewModel(
-        reducer: PasswordRecoveryReducer,
-        effectHandler: PasswordRecoveryEffectHandler
+        @PasswordRecoveryStore store: Store<PasswordRecoveryState, PasswordRecoveryEvent>
     ): PasswordRecoveryViewModel {
-        return PasswordRecoveryViewModel(
-            initialState = PasswordRecoveryState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return PasswordRecoveryViewModel(store)
     }
 
     @Provides

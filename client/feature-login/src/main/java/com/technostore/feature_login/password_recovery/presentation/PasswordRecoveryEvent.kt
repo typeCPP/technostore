@@ -23,7 +23,7 @@ sealed class PasswordRecoveryEvent : Event {
 }
 
 sealed class PasswordRecoveryUIEvent : PasswordRecoveryEvent() {
-    class OnNextClicked(
+    data class OnNextClicked(
         val firstPassword: String,
         val secondPassword: String
     ) : PasswordRecoveryUIEvent()

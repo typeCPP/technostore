@@ -8,6 +8,6 @@ sealed class PasswordRecoveryCodeEvent : Event {
 }
 
 sealed class PasswordRecoveryCodeUiEvent : PasswordRecoveryCodeEvent() {
-    class OnNextClicked(val email: String, val code: String) : PasswordRecoveryCodeUiEvent()
-    class OnRepeatClicked(val email: String) : PasswordRecoveryCodeUiEvent()
+    data class OnNextClicked(val email: String, val code: String) : PasswordRecoveryCodeUiEvent()
+    data class OnRepeatClicked(val email: String) : PasswordRecoveryCodeUiEvent()
 }

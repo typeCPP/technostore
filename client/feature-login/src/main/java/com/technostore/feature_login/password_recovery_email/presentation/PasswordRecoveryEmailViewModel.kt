@@ -10,15 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PasswordRecoveryEmailViewModel @Inject constructor(
-    initialState: PasswordRecoveryEmailState,
-    reducer: PasswordRecoveryEmailReducer,
-    effectHandler: PasswordRecoveryEmailEffectHandler
+    private val store: Store<PasswordRecoveryEmailState, PasswordRecoveryEmailEvent>
 ) : BaseViewModel() {
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

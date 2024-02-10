@@ -20,11 +20,17 @@ import com.technostore.network.service.LoginService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryEffectHandler
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryEvent
 import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryReducer
+import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEffectHandler
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEvent
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.registration.presentation.RegistrationEvent
 import com.technostore.feature_login.registration.presentation.RegistrationState
+import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
+import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEvent
+import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import dagger.Module
@@ -157,6 +163,25 @@ class LoginModule {
         return PasswordRecoveryEmailReducer()
     }
 
+    @Provides
+    fun providePasswordRecoveryEmailState(): PasswordRecoveryEmailState {
+        return PasswordRecoveryEmailState()
+    }
+
+    @PasswordRecoveryEmailStore
+    @Provides
+    fun providePasswordRecoveryEmailStore(
+        initialState: PasswordRecoveryEmailState,
+        reducer: PasswordRecoveryEmailReducer,
+        effectHandler: PasswordRecoveryEmailEffectHandler
+    ): Store<PasswordRecoveryEmailState, PasswordRecoveryEmailEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Password recovery code */
     @Provides
     fun providePasswordRecoveryCodeEffectHandler(loginRepository: LoginRepository): PasswordRecoveryCodeEffectHandler {
@@ -168,6 +193,25 @@ class LoginModule {
         return PasswordRecoveryCodeReducer()
     }
 
+    @Provides
+    fun providePasswordRecoveryCodeState(): PasswordRecoveryCodeState {
+        return PasswordRecoveryCodeState()
+    }
+
+    @PasswordRecoveryCodeStore
+    @Provides
+    fun providePasswordRecoveryCodeStore(
+        initialState: PasswordRecoveryCodeState,
+        reducer: PasswordRecoveryCodeReducer,
+        effectHandler: PasswordRecoveryCodeEffectHandler
+    ): Store<PasswordRecoveryCodeState, PasswordRecoveryCodeEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Password recovery */
     @Provides
     fun providePasswordRecoveryEffectHandler(loginRepository: LoginRepository): PasswordRecoveryEffectHandler {
@@ -177,5 +221,24 @@ class LoginModule {
     @Provides
     fun providePasswordRecoveryReducer(): PasswordRecoveryReducer {
         return PasswordRecoveryReducer()
+    }
+
+    @Provides
+    fun providePasswordRecoveryState(): PasswordRecoveryState {
+        return PasswordRecoveryState()
+    }
+
+    @PasswordRecoveryStore
+    @Provides
+    fun providePasswordRecoveryStore(
+        initialState: PasswordRecoveryState,
+        reducer: PasswordRecoveryReducer,
+        effectHandler: PasswordRecoveryEffectHandler
+    ): Store<PasswordRecoveryState, PasswordRecoveryEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }
