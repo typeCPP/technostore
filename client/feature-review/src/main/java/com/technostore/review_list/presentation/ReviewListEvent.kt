@@ -6,7 +6,7 @@ import com.technostore.business.model.ReviewModel
 sealed class ReviewListEvent : Event {
     data object StartLoading : ReviewListEvent()
     data object EndLoading : ReviewListEvent()
-    class OnDataLoaded(val reviews: List<ReviewModel>) : ReviewListEvent()
+    data class OnDataLoaded(val reviews: List<ReviewModel>) : ReviewListEvent()
 }
 
 sealed class ReviewListUiEvent : ReviewListEvent() {
@@ -17,5 +17,4 @@ sealed class ReviewListUiEvent : ReviewListEvent() {
     data object OnNegativeReviewsClicked : ReviewListUiEvent()
     data object OnNeutralReviewsClicked : ReviewListUiEvent()
     data object OnPositiveReviewsClicked : ReviewListUiEvent()
-    data class LoadReviews(val reviews: List<ReviewModel>) : ReviewListUiEvent()
 }
