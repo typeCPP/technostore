@@ -10,16 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    initialState: ChangePasswordState,
-    reducer: ChangePasswordReducer,
-    effectHandler: ChangePasswordEffectHandler
+    private val store: Store<ChangePasswordState, ChangePasswordEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

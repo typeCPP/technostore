@@ -8,7 +8,7 @@ sealed class ChangePasswordEvent : Event {
 }
 
 sealed class ChangePasswordUiEvent : ChangePasswordEvent() {
-    class OnChangePasswordClicked(
+    data class OnChangePasswordClicked(
         val oldPassword: String,
         val newPassword: String,
         val newRepeatPassword: String

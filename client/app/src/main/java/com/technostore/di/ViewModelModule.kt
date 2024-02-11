@@ -59,13 +59,16 @@ import com.technostore.feature_product.product.presentation.ProductViewModel
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
-import com.technostore.feature_profile.change_password.presentation.ChangePasswordEffectHandler
-import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
+import com.technostore.feature_profile.change_password.presentation.ChangePasswordEvent
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordViewModel
 import com.technostore.feature_profile.di.ProfileStore
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
+import com.technostore.feature_profile.di.ChangePasswordStore
+import com.technostore.feature_profile.di.EditProfileStore
+import com.technostore.feature_profile.di.ProfileStore
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileEvent
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
 import com.technostore.feature_profile.profile.presentation.ProfileEvent
@@ -208,26 +211,16 @@ class ViewModelModule {
 
     @Provides
     fun provideChangePasswordViewModel(
-        reducer: ChangePasswordReducer,
-        effectHandler: ChangePasswordEffectHandler
+        @ChangePasswordStore store: Store<ChangePasswordState, ChangePasswordEvent>
     ): ChangePasswordViewModel {
-        return ChangePasswordViewModel(
-            initialState = ChangePasswordState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return ChangePasswordViewModel(store)
     }
 
     @Provides
     fun provideEditProfileViewModel(
-        reducer: EditProfileReducer,
-        effectHandler: EditProfileEffectHandler
+        @EditProfileStore store: Store<EditProfileState, EditProfileEvent>
     ): EditProfileViewModel {
-        return EditProfileViewModel(
-            initialState = EditProfileState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return EditProfileViewModel(store)
     }
 
     @Provides
