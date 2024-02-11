@@ -14,5 +14,5 @@ sealed class PasswordRecoveryEmailEvent : Event {
 }
 
 sealed class PasswordRecoveryEmailUIEvent : PasswordRecoveryEmailEvent() {
-    class OnNextClicked(val email: String) : PasswordRecoveryEmailUIEvent()
+    data class OnNextClicked(val email: String) : PasswordRecoveryEmailUIEvent()
 }

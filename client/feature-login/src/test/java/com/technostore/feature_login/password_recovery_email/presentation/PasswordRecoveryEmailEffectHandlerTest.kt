@@ -1,6 +1,5 @@
 package com.technostore.feature_login.password_recovery_email.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.feature_login.business.LoginRepository
 import io.mockk.coEvery
@@ -17,8 +16,6 @@ class PasswordRecoveryEmailEffectHandlerTest : PasswordRecoveryEmailBaseTest() {
     private val effectHandler = PasswordRecoveryEmailEffectHandler(
         loginRepository = loginRepository
     )
-    private val store =
-        mockk<Store<PasswordRecoveryEmailState, PasswordRecoveryEmailEvent>>(relaxed = true)
     private val notValidEmail = "testtesTemail"
 
     /* OnNextClicked */
