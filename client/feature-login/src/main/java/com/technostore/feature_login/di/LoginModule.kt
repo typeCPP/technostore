@@ -1,7 +1,6 @@
 package com.technostore.feature_login.di
 
 import com.technostore.app_store.store.AppStore
-import com.technostore.arch.mvi.InitialState
 import com.technostore.arch.mvi.Store
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
@@ -24,13 +23,14 @@ import com.technostore.feature_login.password_recovery.presentation.PasswordReco
 import com.technostore.feature_login.password_recovery.presentation.PasswordRecoveryReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeEffectHandler
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
+import com.technostore.feature_login.registration.presentation.RegistrationEvent
+import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -103,6 +103,26 @@ class LoginModule {
     fun provideRegistrationReducer(): RegistrationReducer {
         return RegistrationReducer()
     }
+
+    @Provides
+    fun provideRegistrationState(): RegistrationState {
+        return RegistrationState()
+    }
+
+    @Provides
+    @RegistrationStore
+    fun provideRegistrationStore(
+        effectHandler: RegistrationEffectHandler,
+        reducer: RegistrationReducer,
+        initialState: RegistrationState
+    ): Store<RegistrationState, RegistrationEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
 
     /* Registration User Info */
     @Provides

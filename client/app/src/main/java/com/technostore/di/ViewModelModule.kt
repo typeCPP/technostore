@@ -9,13 +9,12 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeE
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
+import com.technostore.feature_login.di.RegistrationStore
 import com.technostore.feature_login.di.SignInStore
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailViewModel
-import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
-import com.technostore.feature_login.registration.presentation.RegistrationReducer
 import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.registration.presentation.RegistrationViewModel
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
@@ -35,6 +34,7 @@ import com.technostore.feature_login.password_recovery_code.presentation.Passwor
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeReducer
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeViewModel
+import com.technostore.feature_login.registration.presentation.RegistrationEvent
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
 import com.technostore.feature_main_page.main_page.presentation.MainReducer
@@ -133,14 +133,9 @@ class ViewModelModule {
 
     @Provides
     fun provideRegistrationViewModel(
-        reducer: RegistrationReducer,
-        effectHandler: RegistrationEffectHandler
+        @RegistrationStore store: Store<RegistrationState, RegistrationEvent>
     ): RegistrationViewModel {
-        return RegistrationViewModel(
-            initialState = RegistrationState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return RegistrationViewModel(store)
     }
 
     @Provides

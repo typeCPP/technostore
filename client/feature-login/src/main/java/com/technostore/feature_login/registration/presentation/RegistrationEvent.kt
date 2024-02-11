@@ -29,7 +29,7 @@ sealed class RegistrationEvent : Event {
 
 
 sealed class RegistrationUiEvent : RegistrationEvent() {
-    class OnRegistrationClicked(
+    data class OnRegistrationClicked(
         val email: String,
         val firstPassword: String,
         val secondPassword: String
