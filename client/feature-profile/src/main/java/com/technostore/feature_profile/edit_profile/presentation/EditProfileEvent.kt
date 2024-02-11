@@ -17,5 +17,5 @@ sealed class EditProfileUiEvent : EditProfileEvent() {
 
     data object OnBackButtonClicked : EditProfileUiEvent()
 
-    class OnImageChanged(val uri: Uri?) : EditProfileUiEvent()
+    data class OnImageChanged(val uri: Uri?) : EditProfileUiEvent()
 }

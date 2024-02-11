@@ -5,9 +5,13 @@ import com.technostore.arch.mvi.Store
 import com.technostore.feature_profile.business.ProfileRepository
 import com.technostore.feature_profile.business.ProfileRepositoryImpl
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordEffectHandler
+import com.technostore.feature_profile.change_password.presentation.ChangePasswordEvent
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
+import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileEvent
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
+import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
 import com.technostore.feature_profile.profile.presentation.ProfileEvent
 import com.technostore.feature_profile.profile.presentation.ProfileReducer
@@ -77,6 +81,25 @@ class ProfileModule {
         return ChangePasswordReducer()
     }
 
+    @Provides
+    fun provideChangePasswordState(): ChangePasswordState {
+        return ChangePasswordState()
+    }
+
+    @ChangePasswordStore
+    @Provides
+    fun provideChangePasswordStore(
+        initialState: ChangePasswordState,
+        reducer: ChangePasswordReducer,
+        effectHandler: ChangePasswordEffectHandler
+    ): Store<ChangePasswordState, ChangePasswordEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Edit profile */
     @Provides
     fun provideEditProfileEffectHandler(profileRepository: ProfileRepository): EditProfileEffectHandler {
@@ -86,5 +109,24 @@ class ProfileModule {
     @Provides
     fun provideEditProfiledPageReducer(): EditProfileReducer {
         return EditProfileReducer()
+    }
+
+    @Provides
+    fun provideEditProfileState(): EditProfileState {
+        return EditProfileState()
+    }
+
+    @EditProfileStore
+    @Provides
+    fun provideEditProfileStore(
+        initialState: EditProfileState,
+        reducer: EditProfileReducer,
+        effectHandler: EditProfileEffectHandler
+    ): Store<EditProfileState, EditProfileEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }
