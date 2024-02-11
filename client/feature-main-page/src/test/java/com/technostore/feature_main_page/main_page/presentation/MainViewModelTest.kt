@@ -1,9 +1,6 @@
-package com.technostore.feature_main_page.presentation
+package com.technostore.feature_main_page.main_page.presentation
 
 import com.technostore.common_test.TestData
-import com.technostore.feature_main_page.main_page.presentation.MainEvent
-import com.technostore.feature_main_page.main_page.presentation.MainUiEvent
-import com.technostore.feature_main_page.main_page.presentation.MainViewModel
 import io.mockk.coVerify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

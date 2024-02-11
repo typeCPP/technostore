@@ -7,10 +7,6 @@ import com.technostore.base.presentation.BaseViewModel
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
-import com.technostore.feature_main_page.search_result.presentation.SearchResultEffectHandler
-import com.technostore.feature_main_page.search_result.presentation.SearchResultReducer
-import com.technostore.feature_main_page.search_result.presentation.SearchResultState
-import com.technostore.feature_main_page.search_result.presentation.SearchResultViewModel
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
@@ -70,18 +66,6 @@ class ViewModelModule {
     ): ProductDescriptionViewModel {
         return ProductDescriptionViewModel(
             initialState = InitialState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
-    }
-
-    @Provides
-    fun provideSearchResultViewModel(
-        reducer: SearchResultReducer,
-        effectHandler: SearchResultEffectHandler
-    ): SearchResultViewModel {
-        return SearchResultViewModel(
-            initialState = SearchResultState(),
             reducer = reducer,
             effectHandler = effectHandler
         )
