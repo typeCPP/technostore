@@ -1,7 +1,6 @@
-package com.technostore.feature_search.search.presenation
+package com.technostore.feature_search.search.presentation
 
 import com.technostore.common_test.TestData
-import com.technostore.feature_search.search.presentation.SearchState
 import com.technostore.network.utils.URL
 import com.technostore.shared_search.business.model.ProductSearchModel
 

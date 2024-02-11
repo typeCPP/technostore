@@ -71,8 +71,8 @@ import com.technostore.feature_profile.edit_profile.presentation.EditProfileView
 import com.technostore.feature_profile.profile.presentation.ProfileEvent
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
-import com.technostore.feature_search.search.presentation.SearchEffectHandler
-import com.technostore.feature_search.search.presentation.SearchReducer
+import com.technostore.feature_search.di.SearchStore
+import com.technostore.feature_search.search.presentation.SearchEvent
 import com.technostore.feature_search.search.presentation.SearchState
 import com.technostore.feature_search.search.presentation.SearchViewModel
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEffectHandler
@@ -318,14 +318,9 @@ class ViewModelModule {
 
     @Provides
     fun provideSearchViewModel(
-        reducer: SearchReducer,
-        effectHandler: SearchEffectHandler
+        @SearchStore store: Store<SearchState, SearchEvent>
     ): SearchViewModel {
-        return SearchViewModel(
-            initialState = SearchState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return SearchViewModel(store)
     }
 
     @Provides

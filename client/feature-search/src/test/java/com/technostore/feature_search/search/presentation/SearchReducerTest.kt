@@ -1,9 +1,6 @@
-package com.technostore.feature_search.search.presenation
+package com.technostore.feature_search.search.presentation
 
 import com.technostore.common_test.TestData
-import com.technostore.feature_search.search.presentation.SearchEvent
-import com.technostore.feature_search.search.presentation.SearchReducer
-import com.technostore.feature_search.search.presentation.SearchUiEvent
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
