@@ -18,10 +18,6 @@ import com.technostore.feature_main_page.search_result.presentation.SearchResult
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
-import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEffectHandler
-import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartReducer
-import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
-import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartViewModel
 import com.technostore.shared_search.filter.presentation.FilterEffectHandler
 import com.technostore.shared_search.filter.presentation.FilterReducer
 import com.technostore.shared_search.filter.presentation.FilterState
@@ -78,18 +74,6 @@ class ViewModelModule {
     ): ProductDescriptionViewModel {
         return ProductDescriptionViewModel(
             initialState = InitialState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
-    }
-
-    @Provides
-    fun provideShoppingCartViewModel(
-        reducer: ShoppingCartReducer,
-        effectHandler: ShoppingCartEffectHandler
-    ): ShoppingCartViewModel {
-        return ShoppingCartViewModel(
-            initialState = ShoppingCartState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

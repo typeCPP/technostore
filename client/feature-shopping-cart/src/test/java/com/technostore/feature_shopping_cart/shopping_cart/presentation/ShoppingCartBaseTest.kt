@@ -1,9 +1,11 @@
 package com.technostore.feature_shopping_cart.shopping_cart.presentation
 
+import com.technostore.arch.mvi.Store
 import com.technostore.common_test.TestData
 import com.technostore.feature_shopping_cart.business.model.OrderDetailModel
 import com.technostore.feature_shopping_cart.business.model.ProductOrderModel
 import com.technostore.network.utils.URL
+import io.mockk.mockk
 
 open class ShoppingCartBaseTest {
     protected val firstProduct = ProductOrderModel(
@@ -27,4 +29,5 @@ open class ShoppingCartBaseTest {
         products = listOf(firstProduct)
     )
     protected val defaultState = ShoppingCartState()
+    protected val store = mockk<Store<ShoppingCartState, ShoppingCartEvent>>(relaxed = true)
 }

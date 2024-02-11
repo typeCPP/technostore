@@ -11,16 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShoppingCartViewModel @Inject constructor(
-    initialState: ShoppingCartState,
-    reducer: ShoppingCartReducer,
-    effectHandler: ShoppingCartEffectHandler
+    private val store: Store<ShoppingCartState, ShoppingCartEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

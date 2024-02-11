@@ -1,11 +1,14 @@
 package com.technostore.feature_shopping_cart.di
 
+import com.technostore.arch.mvi.Store
 import com.technostore.feature_shopping_cart.business.ShoppingCartRepository
 import com.technostore.feature_shopping_cart.business.ShoppingCartRepositoryImpl
 import com.technostore.feature_shopping_cart.business.model.mapper.OrderDetailMapper
 import com.technostore.feature_shopping_cart.business.model.mapper.ProductOrderMapper
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEffectHandler
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartEvent
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartReducer
+import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
 import com.technostore.network.service.OrderService
 import dagger.Module
 import dagger.Provides
@@ -43,5 +46,22 @@ class ShoppingCartModule {
     @Provides
     fun provideShoppingCartReducer(): ShoppingCartReducer {
         return ShoppingCartReducer()
+    }
+    @Provides
+    fun provideShoppingCartState(): ShoppingCartState {
+        return ShoppingCartState()
+    }
+
+    @Provides
+    fun provideShoppingCartStore(
+        initialState: ShoppingCartState,
+        reducer: ShoppingCartReducer,
+        effectHandler: ShoppingCartEffectHandler
+    ): Store<ShoppingCartState, ShoppingCartEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }
