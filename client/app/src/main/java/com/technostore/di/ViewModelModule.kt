@@ -63,12 +63,12 @@ import com.technostore.feature_profile.change_password.presentation.ChangePasswo
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordReducer
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordViewModel
+import com.technostore.feature_profile.di.ProfileStore
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel
-import com.technostore.feature_profile.profile.presentation.ProfileEffectHandler
-import com.technostore.feature_profile.profile.presentation.ProfileReducer
+import com.technostore.feature_profile.profile.presentation.ProfileEvent
 import com.technostore.feature_profile.profile.presentation.ProfileState
 import com.technostore.feature_profile.profile.presentation.ProfileViewModel
 import com.technostore.feature_search.search.presentation.SearchEffectHandler
@@ -201,14 +201,9 @@ class ViewModelModule {
 
     @Provides
     fun provideProfileViewModel(
-        reducer: ProfileReducer,
-        effectHandler: ProfileEffectHandler
+        @ProfileStore store: Store<ProfileState, ProfileEvent>
     ): ProfileViewModel {
-        return ProfileViewModel(
-            initialState = ProfileState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return ProfileViewModel(store)
     }
 
     @Provides

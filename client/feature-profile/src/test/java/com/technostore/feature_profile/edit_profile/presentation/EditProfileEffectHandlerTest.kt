@@ -1,14 +1,9 @@
-package com.technostore.feature_profile.presentation
+package com.technostore.feature_profile.edit_profile.presentation
 
 import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.common_test.TestData
 import com.technostore.feature_profile.business.ProfileRepository
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileEvent
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileNews
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileUiEvent
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -20,7 +15,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class EditProfileEffectHandlerTest {
 
-    private val profileRepositoryMock = mockk<ProfileRepository>() {
+    private val profileRepositoryMock = mockk<ProfileRepository> {
         coEvery { editProfile(any(), any(), any()) } returns Result.Success()
     }
     private val editProfileEffectHandler = EditProfileEffectHandler(

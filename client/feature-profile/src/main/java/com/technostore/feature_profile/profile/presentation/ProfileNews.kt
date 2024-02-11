@@ -7,7 +7,7 @@ sealed class ProfileNews : News() {
     data object ShowErrorToast : ProfileNews()
     data object Logout : ProfileNews()
     data object OpenChangePasswordPage : ProfileNews()
-    class OpenChangeProfilePage(
+    data class OpenChangeProfilePage(
         val name: String,
         val lastName: String,
         val photoUrl: String

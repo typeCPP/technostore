@@ -1,8 +1,5 @@
-package com.technostore.feature_profile.presentation
+package com.technostore.feature_profile.edit_profile.presentation
 
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileEvent
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

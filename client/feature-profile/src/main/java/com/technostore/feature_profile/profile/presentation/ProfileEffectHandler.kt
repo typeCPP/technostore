@@ -17,18 +17,22 @@ class ProfileEffectHandler(
             is ProfileUiEvent.Init -> {
                 store.dispatch(ProfileEvent.StartLoading)
                 when (val response = profileRepository.getProfile()) {
-                    is Result.Success ->
-                        if (response.data != null) {
+                    is Result.Success -> {
+                        val data = response.data
+                        if (data != null) {
                             store.dispatch(ProfileEvent.EndLoading)
                             store.dispatch(
                                 ProfileEvent.ProfileLoaded(
-                                    name = response.data!!.firstName,
-                                    lastName = response.data!!.lastName,
-                                    email = response.data!!.email,
-                                    image = response.data!!.image
+                                    name = data.firstName,
+                                    lastName = data.lastName,
+                                    email = data.email,
+                                    image = data.image
                                 )
                             )
+                        } else {
+                            store.acceptNews(ProfileNews.ShowErrorToast)
                         }
+                    }
 
                     is Result.Error -> {
                         store.acceptNews(ProfileNews.ShowErrorToast)
