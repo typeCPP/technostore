@@ -4,10 +4,6 @@ import com.technostore.arch.mvi.InitialState
 import com.technostore.base.presentation.BaseEffectHandler
 import com.technostore.base.presentation.BaseReducer
 import com.technostore.base.presentation.BaseViewModel
-import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEffectHandler
-import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
-import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
-import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
@@ -58,18 +54,6 @@ class ViewModelModule {
     ): WelcomePageViewModel {
         return WelcomePageViewModel(
             initialState = InitialState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
-    }
-
-    @Provides
-    fun provideConfirmationCodeViewModel(
-        reducer: ConfirmationCodeReducer,
-        effectHandler: ConfirmationCodeEffectHandler
-    ): ConfirmationCodeViewModel {
-        return ConfirmationCodeViewModel(
-            initialState = ConfirmationCodeState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

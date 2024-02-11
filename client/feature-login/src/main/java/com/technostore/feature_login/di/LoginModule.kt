@@ -5,7 +5,9 @@ import com.technostore.arch.mvi.Store
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEffectHandler
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEvent
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
@@ -168,6 +170,24 @@ class LoginModule {
     @Provides
     fun provideConfirmationCodeReducer(): ConfirmationCodeReducer {
         return ConfirmationCodeReducer()
+    }
+
+    @Provides
+    fun provideConfirmationCodeState(): ConfirmationCodeState {
+        return ConfirmationCodeState()
+    }
+
+    @Provides
+    fun provideConfirmationCodeStore(
+        effectHandler: ConfirmationCodeEffectHandler,
+        reducer: ConfirmationCodeReducer,
+        initialState: ConfirmationCodeState
+    ): Store<ConfirmationCodeState, ConfirmationCodeEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 
     /* Password recovery email */

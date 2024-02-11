@@ -10,15 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmationCodeViewModel @Inject constructor(
-    initialState: ConfirmationCodeState,
-    reducer: ConfirmationCodeReducer,
-    effectHandler: ConfirmationCodeEffectHandler
+    private val store: Store<ConfirmationCodeState, ConfirmationCodeEvent>
 ) : BaseViewModel() {
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)
