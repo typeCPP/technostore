@@ -17,10 +17,10 @@ sealed class ProductEvent : Event {
 sealed class ProductUiEvent : ProductEvent() {
     data class Init(val productId: Long) : ProductUiEvent()
     data object OnRateClicked : ProductUiEvent()
-    class OnBuyClicked(val productId: Long) : ProductUiEvent()
+    data class OnBuyClicked(val productId: Long) : ProductUiEvent()
     data object OnMoreDescriptionClicked : ProductUiEvent()
-    class OnMoreReviewClicked(val productId: Long) : ProductUiEvent()
+    data class OnMoreReviewClicked(val productId: Long) : ProductUiEvent()
     data object OnBackClicked : ProductUiEvent()
 
-    class SetReview(val rating: Int, val text: String?) : ProductUiEvent()
+    data class SetReview(val rating: Int, val text: String?) : ProductUiEvent()
 }

@@ -1,5 +1,6 @@
 package com.technostore.feature_product.di
 
+import com.technostore.arch.mvi.Store
 import com.technostore.feature_product.business.ProductRepository
 import com.technostore.feature_product.business.ProductRepositoryImpl
 import com.technostore.feature_product.business.model.mapper.CategoryMapper
@@ -7,7 +8,9 @@ import com.technostore.feature_product.business.model.mapper.ProductDetailMapper
 import com.technostore.feature_product.business.model.mapper.ReviewMapper
 import com.technostore.feature_product.business.model.mapper.UserReviewMapper
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
+import com.technostore.feature_product.product.presentation.ProductEvent
 import com.technostore.feature_product.product.presentation.ProductReducer
+import com.technostore.feature_product.product.presentation.ProductState
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.network.service.OrderService
@@ -73,6 +76,24 @@ class ProductModule {
     @Provides
     fun provideProductReducer(): ProductReducer {
         return ProductReducer()
+    }
+
+    @Provides
+    fun provideProductState(): ProductState {
+        return ProductState()
+    }
+
+    @Provides
+    fun provideProductStore(
+        initialState: ProductState,
+        reducer: ProductReducer,
+        effectHandler: ProductEffectHandler
+    ): Store<ProductState, ProductEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 
     /* Product description */
