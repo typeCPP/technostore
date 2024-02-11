@@ -10,16 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderDetailViewModel @Inject constructor(
-    initialState: OrderDetailState,
-    reducer: OrderDetailReducer,
-    effectHandler: OrderDetailEffectHandler
+    private val store: Store<OrderDetailState, OrderDetailEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)
