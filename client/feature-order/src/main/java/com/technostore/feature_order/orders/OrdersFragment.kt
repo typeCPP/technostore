@@ -55,6 +55,7 @@ class OrdersFragment : Fragment() {
                 viewModel.viewState.collect(::render)
             }
         }
+        viewModel.init()
         initViews()
     }
 

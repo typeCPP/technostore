@@ -44,12 +44,12 @@ import com.technostore.feature_main_page.search_result.presentation.SearchResult
 import com.technostore.feature_main_page.search_result.presentation.SearchResultReducer
 import com.technostore.feature_main_page.search_result.presentation.SearchResultState
 import com.technostore.feature_main_page.search_result.presentation.SearchResultViewModel
-import com.technostore.feature_order.order_detail.presentation.OrderDetailEffectHandler
-import com.technostore.feature_order.order_detail.presentation.OrderDetailReducer
+import com.technostore.feature_order.di.OrderDetailStore
+import com.technostore.feature_order.di.OrdersStore
+import com.technostore.feature_order.order_detail.presentation.OrderDetailEvent
 import com.technostore.feature_order.order_detail.presentation.OrderDetailState
 import com.technostore.feature_order.order_detail.presentation.OrderDetailViewModel
-import com.technostore.feature_order.orders.presentation.OrdersEffectHandler
-import com.technostore.feature_order.orders.presentation.OrdersReducer
+import com.technostore.feature_order.orders.presentation.OrdersEvent
 import com.technostore.feature_order.orders.presentation.OrdersState
 import com.technostore.feature_order.orders.presentation.OrdersViewModel
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
@@ -268,26 +268,16 @@ class ViewModelModule {
 
     @Provides
     fun provideOrdersViewModel(
-        reducer: OrdersReducer,
-        effectHandler: OrdersEffectHandler
+        @OrdersStore store: Store<OrdersState, OrdersEvent>
     ): OrdersViewModel {
-        return OrdersViewModel(
-            initialState = OrdersState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return OrdersViewModel(store)
     }
 
     @Provides
     fun provideOrderDetailViewModel(
-        reducer: OrderDetailReducer,
-        effectHandler: OrderDetailEffectHandler
+        @OrderDetailStore store: Store<OrderDetailState, OrderDetailEvent>
     ): OrderDetailViewModel {
-        return OrderDetailViewModel(
-            initialState = OrderDetailState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
+        return OrderDetailViewModel(store)
     }
 
     @Provides

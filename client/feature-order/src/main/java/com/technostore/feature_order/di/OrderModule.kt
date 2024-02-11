@@ -1,13 +1,18 @@
 package com.technostore.feature_order.di
 
+import com.technostore.arch.mvi.Store
 import com.technostore.feature_order.business.OrderRepository
 import com.technostore.feature_order.business.OrderRepositoryImpl
 import com.technostore.feature_order.business.model.mapper.OrderDetailMapper
 import com.technostore.feature_order.business.model.mapper.ProductOrderMapper
 import com.technostore.feature_order.order_detail.presentation.OrderDetailEffectHandler
+import com.technostore.feature_order.order_detail.presentation.OrderDetailEvent
 import com.technostore.feature_order.order_detail.presentation.OrderDetailReducer
+import com.technostore.feature_order.order_detail.presentation.OrderDetailState
 import com.technostore.feature_order.orders.presentation.OrdersEffectHandler
+import com.technostore.feature_order.orders.presentation.OrdersEvent
 import com.technostore.feature_order.orders.presentation.OrdersReducer
+import com.technostore.feature_order.orders.presentation.OrdersState
 import com.technostore.network.service.OrderService
 import dagger.Module
 import dagger.Provides
@@ -46,6 +51,25 @@ class OrderModule {
         return OrdersReducer()
     }
 
+    @Provides
+    fun provideOrdersState(): OrdersState {
+        return OrdersState()
+    }
+
+    @OrdersStore
+    @Provides
+    fun provideOrdersStore(
+        initialState: OrdersState,
+        reducer: OrdersReducer,
+        effectHandler: OrdersEffectHandler
+    ): Store<OrdersState, OrdersEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Order detail */
 
     @Provides
@@ -56,5 +80,24 @@ class OrderModule {
     @Provides
     fun provideOrderDetailReducer(): OrderDetailReducer {
         return OrderDetailReducer()
+    }
+
+    @Provides
+    fun provideOrderDetailState(): OrderDetailState {
+        return OrderDetailState()
+    }
+
+    @OrderDetailStore
+    @Provides
+    fun provideOrderDetailStore(
+        initialState: OrderDetailState,
+        reducer: OrderDetailReducer,
+        effectHandler: OrderDetailEffectHandler
+    ): Store<OrderDetailState, OrderDetailEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }

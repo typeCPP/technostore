@@ -24,8 +24,6 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
     @get:Rule
     val wireMockRule = MockServer.testRule()
 
-    private val store = mockk<Store<OrderDetailState, OrderDetailEvent>>(relaxed = true)
-
     @Before
     fun before() {
         store.setViewModel(BaseViewModel())

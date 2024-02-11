@@ -10,25 +10,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
-    initialState: OrdersState,
-    reducer: OrdersReducer,
-    effectHandler: OrdersEffectHandler
+    private val store: Store<OrdersState, OrdersEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
-
     init {
         store.setViewModel(this)
+    }
+
+    val viewState: StateFlow<OrdersState> = store.state
+
+    fun init() {
         viewModelScope.launch {
             store.dispatch(OrdersUiEvent.Init)
         }
     }
-
-    val viewState: StateFlow<OrdersState> = store.state
 
     fun onBackClicked() {
         viewModelScope.launch {
