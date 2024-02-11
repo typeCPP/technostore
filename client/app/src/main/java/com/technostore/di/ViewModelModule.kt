@@ -8,10 +8,6 @@ import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeE
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeViewModel
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEffectHandler
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoReducer
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
-import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoViewModel
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
 import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
@@ -62,18 +58,6 @@ class ViewModelModule {
     ): WelcomePageViewModel {
         return WelcomePageViewModel(
             initialState = InitialState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
-    }
-
-    @Provides
-    fun provideRegistrationUserInfoViewModel(
-        reducer: RegistrationUserInfoReducer,
-        effectHandler: RegistrationUserInfoEffectHandler
-    ): RegistrationUserInfoViewModel {
-        return RegistrationUserInfoViewModel(
-            initialState = RegistrationUserInfoState(),
             reducer = reducer,
             effectHandler = effectHandler
         )

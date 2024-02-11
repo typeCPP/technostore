@@ -31,6 +31,8 @@ import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEvent
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEvent
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import dagger.Module
@@ -137,6 +139,24 @@ class LoginModule {
     @Provides
     fun provideRegistrationUserInfoReducer(): RegistrationUserInfoReducer {
         return RegistrationUserInfoReducer()
+    }
+
+    @Provides
+    fun provideRegistrationUserInfoState(): RegistrationUserInfoState {
+        return RegistrationUserInfoState()
+    }
+
+    @Provides
+    fun provideRegistrationUserInfoStore(
+        effectHandler: RegistrationUserInfoEffectHandler,
+        reducer: RegistrationUserInfoReducer,
+        initialState: RegistrationUserInfoState
+    ): Store<RegistrationUserInfoState, RegistrationUserInfoEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 
     /* Confirmation code */
