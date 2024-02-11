@@ -35,7 +35,6 @@ project.afterEvaluate {
                 '**/*Mock*.*',
                 '**/MockServer*.*',
                 'com/technostore/common_test/**/*.*',
-                '**/*Module*.*',
                 "**/dagger/**/*.*",
                 "**/hilt*/**/*.*",
                 '**/*Fragment',
