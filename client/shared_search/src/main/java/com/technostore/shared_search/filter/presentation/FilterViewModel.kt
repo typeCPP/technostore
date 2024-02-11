@@ -11,15 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    initialState: FilterState,
-    reducer: FilterReducer,
-    effectHandler: FilterEffectHandler
+    private val store: Store<FilterState, FilterEvent>
 ) : BaseViewModel() {
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

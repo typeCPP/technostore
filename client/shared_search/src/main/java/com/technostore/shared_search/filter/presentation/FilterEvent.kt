@@ -19,9 +19,9 @@ sealed class FilterEvent : Event {
 
 sealed class FilterUiEvent : FilterEvent() {
     data object Init : FilterUiEvent()
-    class OnClickCategory(val categoryWithCheck: CategoryWithCheck) : FilterUiEvent()
-    class OnChangedRatingBoundaries(val minValue: Float, val maxValue: Float) : FilterUiEvent()
-    class OnChangedCostBoundaries(val minValue: Float, val maxValue: Float) : FilterUiEvent()
+    data class OnClickCategory(val categoryWithCheck: CategoryWithCheck) : FilterUiEvent()
+    data class OnChangedRatingBoundaries(val minValue: Float, val maxValue: Float) : FilterUiEvent()
+    data class OnChangedCostBoundaries(val minValue: Float, val maxValue: Float) : FilterUiEvent()
     data object OnNextButtonClicked : FilterUiEvent()
     data object OnBackButtonClicked : FilterUiEvent()
     data object OnChangedIsSortingByPopularity : FilterUiEvent()
