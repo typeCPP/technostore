@@ -1,13 +1,8 @@
 package com.technostore.feature_product.product.business
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.common_test.TestData
 import com.technostore.feature_product.business.ProductRepository
-import com.technostore.feature_product.business.model.CategoryModel
-import com.technostore.feature_product.business.model.ProductDetailModel
-import com.technostore.feature_product.business.model.ReviewModel
-import com.technostore.feature_product.business.model.UserReviewModel
 import com.technostore.feature_product.product.presentation.ProductEffectHandler
 import com.technostore.feature_product.product.presentation.ProductEvent
 import com.technostore.feature_product.product.presentation.ProductNews
@@ -33,7 +28,6 @@ class ProductEffectHandlerTest : ProductBaseTest() {
         productRepository = productRepository
     )
     private val defaultState = ProductState()
-    private val store = mockk<Store<ProductState, ProductEvent>>(relaxed = true)
 
     /* Init */
     @Test

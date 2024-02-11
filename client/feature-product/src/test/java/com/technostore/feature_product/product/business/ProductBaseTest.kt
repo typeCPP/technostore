@@ -1,10 +1,14 @@
 package com.technostore.feature_product.product.business
 
+import com.technostore.arch.mvi.Store
 import com.technostore.common_test.TestData
 import com.technostore.feature_product.business.model.CategoryModel
 import com.technostore.feature_product.business.model.ProductDetailModel
 import com.technostore.feature_product.business.model.ReviewModel
 import com.technostore.feature_product.business.model.UserReviewModel
+import com.technostore.feature_product.product.presentation.ProductEvent
+import com.technostore.feature_product.product.presentation.ProductState
+import io.mockk.mockk
 
 open class ProductBaseTest {
     protected val categoryModel = CategoryModel(
@@ -40,4 +44,5 @@ open class ProductBaseTest {
         reviews = listOf(),
         inCartCount = TestData.FIRST_PRODUCT_COUNT
     )
+    protected val store = mockk<Store<ProductState, ProductEvent>>(relaxed = true)
 }
