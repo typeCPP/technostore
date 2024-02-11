@@ -56,7 +56,6 @@ class OrderModule {
         return OrdersState()
     }
 
-    @OrdersStore
     @Provides
     fun provideOrdersStore(
         initialState: OrdersState,
@@ -87,7 +86,6 @@ class OrderModule {
         return OrderDetailState()
     }
 
-    @OrderDetailStore
     @Provides
     fun provideOrderDetailStore(
         initialState: OrderDetailState,
