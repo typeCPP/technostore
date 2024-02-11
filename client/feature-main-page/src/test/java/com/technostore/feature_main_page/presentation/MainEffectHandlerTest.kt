@@ -1,12 +1,9 @@
 package com.technostore.feature_main_page.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.feature_main_page.main_page.presentation.MainEvent
-import com.technostore.feature_main_page.main_page.presentation.MainState
 import com.technostore.feature_main_page.main_page.presentation.MainUiEvent
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -17,9 +14,6 @@ import com.technostore.shared_search.business.error.SearchEmpty
 
 @ExperimentalCoroutinesApi
 class MainEffectHandlerTest : MainPageBaseTest() {
-
-    private val store = mockk<Store<MainState, MainEvent>>(relaxed = true)
-    private val word = "word"
 
     /* Init */
     @Test

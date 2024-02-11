@@ -1,5 +1,6 @@
 package com.technostore.feature_main_page.presentation
 
+import com.technostore.arch.mvi.Store
 import com.technostore.common_test.TestData
 import com.technostore.feature_main_page.business.MainRepository
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
@@ -13,10 +14,12 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestScope
 import com.technostore.arch.result.Result
+import com.technostore.feature_main_page.main_page.presentation.MainEvent
 import io.mockk.just
 import io.mockk.runs
 
 open class MainPageBaseTest {
+    protected val word = "word"
     val firstProductModel = ProductSearchModel(
         id = TestData.FIRST_PRODUCT_ID,
         photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
@@ -69,4 +72,5 @@ open class MainPageBaseTest {
     )
     val defaultState = MainState()
     val testScope = TestScope()
+    protected val store = mockk<Store<MainState, MainEvent>>(relaxed = true)
 }
