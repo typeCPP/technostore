@@ -1,6 +1,5 @@
 package com.technostore.review_list.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.business.ReviewRepository
 import com.technostore.common_test.TestData
@@ -17,7 +16,6 @@ class ReviewListEffectHandlerTest : ReviewListBaseTest() {
     private val effectHandler = ReviewListEffectHandler(
         reviewRepository = reviewRepository
     )
-    private val store = mockk<Store<ReviewListState, ReviewListEvent>>(relaxed = true)
 
     /* Init */
     @Test

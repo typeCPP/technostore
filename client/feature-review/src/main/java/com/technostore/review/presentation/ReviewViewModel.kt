@@ -10,16 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
-    initialState: ReviewState,
-    reducer: ReviewReducer,
-    effectHandler: ReviewEffectHandler
+    private val store: Store<ReviewState, ReviewEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

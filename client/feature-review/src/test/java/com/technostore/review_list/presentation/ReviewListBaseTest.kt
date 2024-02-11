@@ -1,7 +1,9 @@
 package com.technostore.review_list.presentation
 
+import com.technostore.arch.mvi.Store
 import com.technostore.business.model.ReviewModel
 import com.technostore.common_test.TestData
+import io.mockk.mockk
 
 open class ReviewListBaseTest {
     protected val defaultState = ReviewListState()
@@ -33,4 +35,5 @@ open class ReviewListBaseTest {
         photoLink = TestData.POSITIVE_REVIEW_PHOTO_LINK,
     )
     protected val reviews = listOf(negativeReviewModel, neutralReviewModel, positiveReviewModel)
+    protected val store = mockk<Store<ReviewListState, ReviewListEvent>>(relaxed = true)
 }

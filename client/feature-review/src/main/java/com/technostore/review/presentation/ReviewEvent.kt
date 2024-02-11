@@ -2,8 +2,7 @@ package com.technostore.review.presentation
 
 import com.technostore.arch.mvi.Event
 
-sealed class ReviewEvent : Event {
-}
+sealed class ReviewEvent : Event
 
 sealed class ReviewUiEvent : ReviewEvent() {
     data class Init(
