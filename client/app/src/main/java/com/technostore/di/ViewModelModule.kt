@@ -52,10 +52,6 @@ import com.technostore.feature_order.order_detail.presentation.OrderDetailViewMo
 import com.technostore.feature_order.orders.presentation.OrdersEvent
 import com.technostore.feature_order.orders.presentation.OrdersState
 import com.technostore.feature_order.orders.presentation.OrdersViewModel
-import com.technostore.feature_product.di.ProductStore
-import com.technostore.feature_product.product.presentation.ProductEvent
-import com.technostore.feature_product.product.presentation.ProductState
-import com.technostore.feature_product.product.presentation.ProductViewModel
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
@@ -215,13 +211,6 @@ class ViewModelModule {
             reducer = reducer,
             effectHandler = effectHandler
         )
-    }
-
-    @Provides
-    fun provideProductViewModel(
-        @ProductStore store: Store<ProductState, ProductEvent>
-    ): ProductViewModel {
-        return ProductViewModel(store)
     }
 
     @Provides

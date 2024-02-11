@@ -83,7 +83,6 @@ class ProductModule {
         return ProductState()
     }
 
-    @ProductStore
     @Provides
     fun provideProductStore(
         initialState: ProductState,
