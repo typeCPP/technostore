@@ -63,11 +63,8 @@ import com.technostore.feature_profile.change_password.presentation.ChangePasswo
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordState
 import com.technostore.feature_profile.change_password.presentation.ChangePasswordViewModel
 import com.technostore.feature_profile.di.ProfileStore
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileEffectHandler
-import com.technostore.feature_profile.edit_profile.presentation.EditProfileReducer
 import com.technostore.feature_profile.di.ChangePasswordStore
 import com.technostore.feature_profile.di.EditProfileStore
-import com.technostore.feature_profile.di.ProfileStore
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileEvent
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileState
 import com.technostore.feature_profile.edit_profile.presentation.EditProfileViewModel

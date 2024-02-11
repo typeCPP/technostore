@@ -70,25 +70,6 @@ class ProfileModule {
         )
     }
 
-    @Provides
-    fun provideProfileState(): ProfileState {
-        return ProfileState()
-    }
-
-    @ProfileStore
-    @Provides
-    fun provideProfileStore(
-        initialState: ProfileState,
-        reducer: ProfileReducer,
-        effectHandler: ProfileEffectHandler
-    ): Store<ProfileState, ProfileEvent> {
-        return Store(
-            initialState = initialState,
-            reducer = reducer,
-            effectHandlers = listOf(effectHandler)
-        )
-    }
-
     /* Change password */
     @Provides
     fun provideChangePasswordEffectHandler(profileRepository: ProfileRepository): ChangePasswordEffectHandler {
