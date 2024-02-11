@@ -31,7 +31,6 @@ class SearchModule {
         return SearchState()
     }
 
-    @SearchStore
     @Provides
     fun provideSearchStore(
         initialState: SearchState,

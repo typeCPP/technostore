@@ -56,7 +56,6 @@ class ProfileModule {
         return ProfileState()
     }
 
-    @ProfileStore
     @Provides
     fun provideProfileStore(
         effectHandler: ProfileEffectHandler,
@@ -86,7 +85,6 @@ class ProfileModule {
         return ChangePasswordState()
     }
 
-    @ChangePasswordStore
     @Provides
     fun provideChangePasswordStore(
         initialState: ChangePasswordState,
@@ -116,7 +114,6 @@ class ProfileModule {
         return EditProfileState()
     }
 
-    @EditProfileStore
     @Provides
     fun provideEditProfileStore(
         initialState: EditProfileState,

@@ -86,7 +86,6 @@ class LoginModule {
     }
 
     @Provides
-    @SignInStore
     fun provideSignInStore(
         signInEffectHandler: SignInEffectHandler,
         signInReducer: SignInReducer,
@@ -116,7 +115,6 @@ class LoginModule {
     }
 
     @Provides
-    @RegistrationStore
     fun provideRegistrationStore(
         effectHandler: RegistrationEffectHandler,
         reducer: RegistrationReducer,
@@ -168,7 +166,6 @@ class LoginModule {
         return PasswordRecoveryEmailState()
     }
 
-    @PasswordRecoveryEmailStore
     @Provides
     fun providePasswordRecoveryEmailStore(
         initialState: PasswordRecoveryEmailState,
@@ -198,7 +195,6 @@ class LoginModule {
         return PasswordRecoveryCodeState()
     }
 
-    @PasswordRecoveryCodeStore
     @Provides
     fun providePasswordRecoveryCodeStore(
         initialState: PasswordRecoveryCodeState,
@@ -228,7 +224,6 @@ class LoginModule {
         return PasswordRecoveryState()
     }
 
-    @PasswordRecoveryStore
     @Provides
     fun providePasswordRecoveryStore(
         initialState: PasswordRecoveryState,
