@@ -1,5 +1,17 @@
 package com.technostore;
 
+import java.time.Instant;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
+
 import com.technostore.dto.CategoryDto;
 import com.technostore.dto.FullProductDto;
 import com.technostore.dto.OrderDto;
@@ -10,21 +22,6 @@ import com.technostore.repository.OrderProductRepository;
 import com.technostore.repository.OrderRepository;
 import com.technostore.service.OrderService;
 import com.technostore.service.client.ProductRestTemplateClient;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-
-import java.time.Instant;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +30,7 @@ import static org.mockito.ArgumentMatchers.eq;
 @SpringBootTest
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class OrderServiceTest {
+public class OrderServiceTest {
 
     @Autowired
     OrderService orderService;
