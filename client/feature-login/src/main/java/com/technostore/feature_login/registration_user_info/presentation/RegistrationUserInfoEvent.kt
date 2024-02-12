@@ -17,8 +17,8 @@ sealed class RegistrationUserInfoEvent : Event {
 }
 
 sealed class RegistrationUserInfoUiEvent : RegistrationUserInfoEvent() {
-    class OnImageChanged(val uri: Uri?) : RegistrationUserInfoUiEvent()
-    class OnRegistrationClicked(
+    data class OnImageChanged(val uri: Uri?) : RegistrationUserInfoUiEvent()
+    data class OnRegistrationClicked(
         val byteArray: ByteArray?,
         val email: String,
         val password: String,

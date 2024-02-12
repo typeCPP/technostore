@@ -11,16 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
-    initialState: SearchResultState,
-    reducer: SearchResultReducer,
-    effectHandler: SearchResultEffectHandler
+    private val store: Store<SearchResultState, SearchResultEvent>
 ) : BaseViewModel() {
-
-    private val store = Store(
-        initialState = initialState,
-        reducer = reducer,
-        effectHandlers = listOf(effectHandler)
-    )
 
     init {
         store.setViewModel(this)

@@ -1,11 +1,16 @@
 package com.technostore.feature_main_page.di
 
+import com.technostore.arch.mvi.Store
 import com.technostore.feature_main_page.business.MainRepository
 import com.technostore.feature_main_page.business.MainRepositoryImpl
 import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
+import com.technostore.feature_main_page.main_page.presentation.MainEvent
 import com.technostore.feature_main_page.main_page.presentation.MainReducer
+import com.technostore.feature_main_page.main_page.presentation.MainState
 import com.technostore.feature_main_page.search_result.presentation.SearchResultEffectHandler
+import com.technostore.feature_main_page.search_result.presentation.SearchResultEvent
 import com.technostore.feature_main_page.search_result.presentation.SearchResultReducer
+import com.technostore.feature_main_page.search_result.presentation.SearchResultState
 import com.technostore.network.service.ProductService
 import com.technostore.shared_search.business.SharedSearchRepository
 import com.technostore.shared_search.business.model.mapper.ProductSearchMapper
@@ -40,6 +45,24 @@ class MainModule {
         return MainEffectHandler(sharedSearchRepository, mainRepository)
     }
 
+    @Provides
+    fun provideMainState(): MainState {
+        return MainState()
+    }
+
+    @Provides
+    fun provideMainStore(
+        initialState: MainState,
+        reducer: MainReducer,
+        effectHandler: MainEffectHandler
+    ): Store<MainState, MainEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Search result */
     @Provides
     fun provideSearchResultReducer(): SearchResultReducer {
@@ -52,5 +75,23 @@ class MainModule {
         mainRepository: MainRepository
     ): SearchResultEffectHandler {
         return SearchResultEffectHandler(mainRepository, sharedSearchRepository)
+    }
+
+    @Provides
+    fun provideSearchResultState(): SearchResultState {
+        return SearchResultState()
+    }
+
+    @Provides
+    fun provideSearchResultStore(
+        initialState: SearchResultState,
+        reducer: SearchResultReducer,
+        effectHandler: SearchResultEffectHandler
+    ): Store<SearchResultState, SearchResultEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }

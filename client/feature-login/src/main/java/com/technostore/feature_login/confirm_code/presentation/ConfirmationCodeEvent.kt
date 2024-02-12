@@ -4,9 +4,9 @@ import com.technostore.arch.mvi.Event
 
 sealed class ConfirmationCodeEvent : Event {
     data object StartLoading : ConfirmationCodeEvent()
-    data object EndLoading: ConfirmationCodeEvent()
+    data object EndLoading : ConfirmationCodeEvent()
 }
 
 sealed class ConfirmationCodeUIEvent : ConfirmationCodeEvent() {
-    class OnConfirmCode(val email: String, val code: String) : ConfirmationCodeUIEvent()
+    data class OnConfirmCode(val email: String, val code: String) : ConfirmationCodeUIEvent()
 }

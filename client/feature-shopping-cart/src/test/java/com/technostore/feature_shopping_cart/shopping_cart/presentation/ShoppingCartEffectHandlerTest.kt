@@ -19,7 +19,6 @@ class ShoppingCartEffectHandlerTest : ShoppingCartBaseTest() {
     private val effectHandler = ShoppingCartEffectHandler(
         shoppingCartRepository = shoppingCartRepository
     )
-    private val store = mockk<Store<ShoppingCartState, ShoppingCartEvent>>(relaxed = true)
 
     /* Init */
     @Test

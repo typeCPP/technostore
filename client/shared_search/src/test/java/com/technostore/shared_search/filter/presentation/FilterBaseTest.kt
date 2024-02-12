@@ -1,9 +1,10 @@
-package com.technostore.shared_search.presentation
+package com.technostore.shared_search.filter.presentation
 
+import com.technostore.arch.mvi.Store
 import com.technostore.common_test.TestData
 import com.technostore.shared_search.business.model.Category
 import com.technostore.shared_search.business.model.CategoryWithCheck
-import com.technostore.shared_search.filter.presentation.FilterState
+import io.mockk.mockk
 
 open class FilterBaseTest {
     protected val defaultState = FilterState()
@@ -29,4 +30,5 @@ open class FilterBaseTest {
     protected val defaultMinRating = 0f
     protected val defaultMaxRating = 10f
     protected val selectedCategories = arrayListOf(TestData.FIRST_CATEGORY_ID)
+    protected val store = mockk<Store<FilterState, FilterEvent>>(relaxed = true)
 }

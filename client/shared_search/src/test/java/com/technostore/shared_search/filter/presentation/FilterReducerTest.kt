@@ -1,8 +1,5 @@
-package com.technostore.shared_search.presentation
+package com.technostore.shared_search.filter.presentation
 
-import com.technostore.shared_search.filter.presentation.FilterEvent
-import com.technostore.shared_search.filter.presentation.FilterReducer
-import com.technostore.shared_search.filter.presentation.FilterUiEvent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test

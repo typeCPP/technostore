@@ -1,16 +1,13 @@
-package com.technostore.feature_main_page.presentation
+package com.technostore.feature_main_page.main_page.presentation
 
 import com.technostore.common_test.TestData
-import com.technostore.feature_main_page.main_page.presentation.MainEvent
-import com.technostore.feature_main_page.main_page.presentation.MainReducer
-import com.technostore.feature_main_page.main_page.presentation.MainUiEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class MainReducerTest : MainPageBaseTest() {
-    val reducer = MainReducer()
+    private val reducer = MainReducer()
 
     /* StartLoading */
     @Test

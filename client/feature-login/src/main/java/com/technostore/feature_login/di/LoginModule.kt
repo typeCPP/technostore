@@ -5,7 +5,9 @@ import com.technostore.arch.mvi.Store
 import com.technostore.feature_login.business.LoginRepository
 import com.technostore.feature_login.business.LoginRepositoryImpl
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEffectHandler
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeEvent
 import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeReducer
+import com.technostore.feature_login.confirm_code.presentation.ConfirmationCodeState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEffectHandler
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailReducer
 import com.technostore.feature_login.registration.presentation.RegistrationEffectHandler
@@ -31,6 +33,8 @@ import com.technostore.feature_login.registration.presentation.RegistrationState
 import com.technostore.feature_login.password_recovery_code.presentation.PasswordRecoveryCodeState
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailEvent
 import com.technostore.feature_login.password_recovery_email.presentation.PasswordRecoveryEmailState
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoEvent
+import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_login.sign_in.presentation.SignInState
 import dagger.Module
@@ -139,6 +143,24 @@ class LoginModule {
         return RegistrationUserInfoReducer()
     }
 
+    @Provides
+    fun provideRegistrationUserInfoState(): RegistrationUserInfoState {
+        return RegistrationUserInfoState()
+    }
+
+    @Provides
+    fun provideRegistrationUserInfoStore(
+        effectHandler: RegistrationUserInfoEffectHandler,
+        reducer: RegistrationUserInfoReducer,
+        initialState: RegistrationUserInfoState
+    ): Store<RegistrationUserInfoState, RegistrationUserInfoEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
+    }
+
     /* Confirmation code */
     @Provides
     fun provideConfirmationCodeEffectHandler(loginRepository: LoginRepository): ConfirmationCodeEffectHandler {
@@ -148,6 +170,24 @@ class LoginModule {
     @Provides
     fun provideConfirmationCodeReducer(): ConfirmationCodeReducer {
         return ConfirmationCodeReducer()
+    }
+
+    @Provides
+    fun provideConfirmationCodeState(): ConfirmationCodeState {
+        return ConfirmationCodeState()
+    }
+
+    @Provides
+    fun provideConfirmationCodeStore(
+        effectHandler: ConfirmationCodeEffectHandler,
+        reducer: ConfirmationCodeReducer,
+        initialState: ConfirmationCodeState
+    ): Store<ConfirmationCodeState, ConfirmationCodeEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 
     /* Password recovery email */

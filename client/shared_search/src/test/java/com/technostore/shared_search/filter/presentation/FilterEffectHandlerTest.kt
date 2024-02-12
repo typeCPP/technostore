@@ -1,13 +1,7 @@
-package com.technostore.shared_search.presentation
+package com.technostore.shared_search.filter.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.shared_search.business.SharedSearchRepository
-import com.technostore.shared_search.filter.presentation.FilterEffectHandler
-import com.technostore.shared_search.filter.presentation.FilterEvent
-import com.technostore.shared_search.filter.presentation.FilterNews
-import com.technostore.shared_search.filter.presentation.FilterState
-import com.technostore.shared_search.filter.presentation.FilterUiEvent
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just
@@ -17,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class FilterEffectHandlerTest : FilterBaseTest() {
-    private val store = mockk<Store<FilterState, FilterEvent>>(relaxed = true)
     private val sharedSearchRepository = mockk<SharedSearchRepository> {
         coEvery { getSelectedCategories() } returns selectedCategories
         coEvery { getIsSortByPopularity() } returns false

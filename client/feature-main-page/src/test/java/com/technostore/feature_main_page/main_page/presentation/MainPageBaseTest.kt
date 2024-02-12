@@ -1,23 +1,17 @@
-package com.technostore.feature_main_page.presentation
+package com.technostore.feature_main_page.main_page.presentation
 
+import com.technostore.arch.mvi.Store
 import com.technostore.common_test.TestData
-import com.technostore.feature_main_page.business.MainRepository
-import com.technostore.feature_main_page.main_page.presentation.MainEffectHandler
-import com.technostore.feature_main_page.main_page.presentation.MainState
 import com.technostore.network.utils.URL
-import com.technostore.shared_search.business.SharedSearchRepository
 import com.technostore.shared_search.business.model.Category
 import com.technostore.shared_search.business.model.CategoryWithCheck
 import com.technostore.shared_search.business.model.ProductSearchModel
-import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestScope
-import com.technostore.arch.result.Result
-import io.mockk.just
-import io.mockk.runs
 
 open class MainPageBaseTest {
-    val firstProductModel = ProductSearchModel(
+    protected val word = "word"
+    protected val firstProductModel = ProductSearchModel(
         id = TestData.FIRST_PRODUCT_ID,
         photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
         price = TestData.FIRST_PRODUCT_PRICE,
@@ -51,22 +45,9 @@ open class MainPageBaseTest {
         category = secondCategory,
         isSelected = false
     )
-    val defaultProducts = listOf(firstProductModel, secondProductModel)
-    val defaultCategories = listOf(firstCategoryWithCheck, secondCategoryWithCheck)
-
-    val sharedSearchRepositoryMock = mockk<SharedSearchRepository> {
-        coEvery { clearNumberPage() } just runs
-        coEvery { getCategories() } returns Result.Success(defaultCategories)
-        coEvery { searchProducts(any()) } returns Result.Success(defaultProducts)
-        coEvery { setProductCount(any(), any()) } returns Result.Success()
-    }
-    val mainRepositoryMock = mockk<MainRepository> {
-        coEvery { searchByPopularity() } returns Result.Success(defaultProducts)
-    }
-    val effectHandler = MainEffectHandler(
-        sharedSearchRepository = sharedSearchRepositoryMock,
-        mainRepository = mainRepositoryMock
-    )
+    protected val defaultProducts = listOf(firstProductModel, secondProductModel)
+    protected val defaultCategories = listOf(firstCategoryWithCheck, secondCategoryWithCheck)
     val defaultState = MainState()
     val testScope = TestScope()
+    protected val store = mockk<Store<MainState, MainEvent>>(relaxed = true)
 }

@@ -1,25 +1,35 @@
-package com.technostore.feature_main_page.presentation
+package com.technostore.feature_main_page.main_page.presentation
 
-import com.technostore.arch.mvi.Store
-import com.technostore.feature_main_page.main_page.presentation.MainEvent
-import com.technostore.feature_main_page.main_page.presentation.MainState
-import com.technostore.feature_main_page.main_page.presentation.MainUiEvent
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import com.technostore.arch.result.Result
 import com.technostore.common_test.TestData
-import com.technostore.feature_main_page.main_page.presentation.MainNews
+import com.technostore.feature_main_page.business.MainRepository
+import com.technostore.shared_search.business.SharedSearchRepository
 import com.technostore.shared_search.business.error.SearchEmpty
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 
 @ExperimentalCoroutinesApi
 class MainEffectHandlerTest : MainPageBaseTest() {
 
-    private val store = mockk<Store<MainState, MainEvent>>(relaxed = true)
-    private val word = "word"
+    private val sharedSearchRepositoryMock = mockk<SharedSearchRepository> {
+        coEvery { clearNumberPage() } just runs
+        coEvery { getCategories() } returns Result.Success(defaultCategories)
+        coEvery { searchProducts(any()) } returns Result.Success(defaultProducts)
+        coEvery { setProductCount(any(), any()) } returns Result.Success()
+    }
+    private val mainRepositoryMock = mockk<MainRepository> {
+        coEvery { searchByPopularity() } returns Result.Success(defaultProducts)
+    }
+    private val effectHandler = MainEffectHandler(
+        sharedSearchRepository = sharedSearchRepositoryMock,
+        mainRepository = mainRepositoryMock
+    )
 
     /* Init */
     @Test
