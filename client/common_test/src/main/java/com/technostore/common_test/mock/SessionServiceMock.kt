@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
+import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.session_service.RefreshTokenResponse
 import com.technostore.network.utils.URL
@@ -20,17 +21,17 @@ object SessionServiceMock {
             get() = post(urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/refresh-tokens"))
 
         fun success() {
-            WireMock.stubFor(matcher.willReturn(ok(RefreshTokenResponse.success)))
+            stubFor(matcher.willReturn(ok(RefreshTokenResponse.success)))
         }
 
         fun successRefreshTokenNull() {
-            WireMock.stubFor(matcher.willReturn(ok(RefreshTokenResponse.successRefreshTokenNull)))
+            stubFor(matcher.willReturn(ok(RefreshTokenResponse.successRefreshTokenNull)))
         }
 
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
-            WireMock.stubFor(matcher.willReturn(response))
+            stubFor(matcher.willReturn(response))
         }
     }
 }

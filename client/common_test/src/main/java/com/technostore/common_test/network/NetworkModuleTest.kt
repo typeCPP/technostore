@@ -4,6 +4,7 @@ import com.technostore.common_test.MockServer
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
+import com.technostore.network.service.ReviewService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
 import okhttp3.OkHttpClient
@@ -32,4 +33,5 @@ class NetworkModuleTest {
     val userService: UserService = retrofit.create(UserService::class.java)
     val orderService: OrderService = retrofit.create(OrderService::class.java)
     val productService: ProductService = retrofit.create(ProductService::class.java)
+    val reviewService: ReviewService = retrofit.create(ReviewService::class.java)
 }

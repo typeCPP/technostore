@@ -7,38 +7,22 @@ import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
-import com.technostore.common_test.response.order_service.GetCurrentOrderResponse
+import com.technostore.common_test.response.review_service.ReviewsByProductIdResponse
+import com.technostore.common_test.response.review_service.UserReviewByProductIdResponse
 import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
-object OrderServiceMock {
+object ReviewServiceMock {
+    val setReview = SetReview()
+    val userReviewByProductId = UserReviewByProductId()
+    val reviewsByProductId = ReviewsByProductId()
 
-    val getCurrentOrder = GetCurrentOrder()
-    val completeOrder = CompleteOrder()
-    val getCompletedOrder = GetCompletedOrder()
-    val setProductCount = SetProductCount()
+    inline operator fun invoke(block: ReviewServiceMock.() -> Unit) = apply(block)
 
-    inline operator fun invoke(block: OrderServiceMock.() -> Unit) = apply(block)
-
-    class GetCurrentOrder internal constructor() {
+    class SetReview internal constructor() {
 
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-current-order"))
-
-        fun success() {
-            stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
-        }
-
-        fun internalError() {
-            val response = WireMock.aResponse()
-                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
-            stubFor(matcher.willReturn(response))
-        }
-    }
-
-    class CompleteOrder internal constructor() {
-        private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/complete-order/.+"))
+            get() = post(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/newReview"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -51,12 +35,17 @@ object OrderServiceMock {
         }
     }
 
-    class GetCompletedOrder internal constructor() {
-        val urlPattern = urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-order/.+")
-        private val matcher: MappingBuilder get() = get(urlPattern)
+    class UserReviewByProductId internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/by-product-id/.+"))
 
         fun success() {
-            stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
+            stubFor(matcher.willReturn(ok(UserReviewByProductIdResponse.success)))
+        }
+        fun notFound() {
+            val response = WireMock.aResponse()
+                .withStatus(HttpURLConnection.HTTP_NOT_FOUND)
+            stubFor(matcher.willReturn(response))
         }
 
         fun internalError() {
@@ -66,12 +55,12 @@ object OrderServiceMock {
         }
     }
 
-    class SetProductCount internal constructor() {
+    class ReviewsByProductId internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/set-product-count"))
+            get() = get(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/all-by-product-id/.+"))
 
         fun success() {
-            stubFor(matcher.willReturn(ok()))
+            stubFor(matcher.willReturn(ok(ReviewsByProductIdResponse.success)))
         }
 
         fun internalError() {
