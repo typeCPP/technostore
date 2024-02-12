@@ -31,7 +31,7 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
 
     @Test
     fun `event init → start loading, complete orders return success  → stop loading, set order details`() =
-        testScope.runTest {
+        runTest {
             OrderServiceMock {
                 getCompletedOrder.success()
             }
@@ -65,27 +65,26 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
         }
 
     @Test
-    fun `event init → start loading, complete orders return error → show error`() =
-        testScope.runTest {
-            OrderServiceMock {
-                getCompletedOrder.internalError()
-            }
-            val event = OrderDetailUiEvent.Init(TestData.ORDER_ID)
-            orderDetailEffectHandler.process(
-                event = event,
-                currentState = defaultState,
-                store = store
-            )
-            coVerify(exactly = 1) { store.dispatch(OrderDetailEvent.StartLoading) }
-            verify(
-                exactly(1),
-                getRequestedFor(OrderServiceMock.getCompletedOrder.urlPattern)
-            )
-            coVerify(exactly = 1) { store.acceptNews(OrderDetailNews.ShowErrorToast) }
+    fun `event init → start loading, complete orders return error → show error`() = runTest {
+        OrderServiceMock {
+            getCompletedOrder.internalError()
         }
+        val event = OrderDetailUiEvent.Init(TestData.ORDER_ID)
+        orderDetailEffectHandler.process(
+            event = event,
+            currentState = defaultState,
+            store = store
+        )
+        coVerify(exactly = 1) { store.dispatch(OrderDetailEvent.StartLoading) }
+        verify(
+            exactly(1),
+            getRequestedFor(OrderServiceMock.getCompletedOrder.urlPattern)
+        )
+        coVerify(exactly = 1) { store.acceptNews(OrderDetailNews.ShowErrorToast) }
+    }
 
     @Test
-    fun `event on Product clicked → open product page`() = testScope.runTest {
+    fun `event on Product clicked → open product page`() = runTest {
         val event = OrderDetailUiEvent.OnProductClicked(productId = TestData.FIRST_PRODUCT_ID)
         orderDetailEffectHandler.process(
             event = event,
@@ -96,7 +95,7 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
     }
 
     @Test
-    fun `event on back clicked → open prev page`() = testScope.runTest {
+    fun `event on back clicked → open prev page`() = runTest {
         val event = OrderDetailUiEvent.OnBackClicked
         orderDetailEffectHandler.process(
             event = event,

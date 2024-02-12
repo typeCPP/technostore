@@ -11,14 +11,12 @@ import com.technostore.common_test.TestData.FIRST_PRODUCT_PRICE
 import com.technostore.common_test.TestData.FIRST_PRODUCT_RATING
 import com.technostore.common_test.mock.OrderServiceMock
 import com.technostore.common_test.network.NetworkModuleTest
-import com.technostore.feature_shopping_cart.business.ShoppingCartRepositoryImpl
 import com.technostore.feature_shopping_cart.business.model.OrderDetailModel
 import com.technostore.feature_shopping_cart.business.model.ProductOrderModel
 import com.technostore.feature_shopping_cart.business.model.mapper.OrderDetailMapper
 import com.technostore.feature_shopping_cart.business.model.mapper.ProductOrderMapper
 import com.technostore.network.utils.URL
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -40,13 +38,9 @@ class ShoppingCartRepositoryTest {
         orderDetailMapper = orderDetailMapper
     )
 
-    private val testScope = TestScope()
-
-
     /* get current order */
     @Test
-    fun `get current order with 200 status → return success with order model`() =
-        testScope.runTest {
+    fun `get current order with 200 status → return success with order model`() = runTest {
             OrderServiceMock {
                 getCurrentOrder.success()
             }
@@ -69,7 +63,7 @@ class ShoppingCartRepositoryTest {
         }
 
     @Test
-    fun `get current order with 500 status → return error`() = testScope.runTest {
+    fun `get current order with 500 status → return error`() = runTest {
         OrderServiceMock {
             getCurrentOrder.internalError()
         }
@@ -79,7 +73,7 @@ class ShoppingCartRepositoryTest {
 
     /* make order completed */
     @Test
-    fun `make order completed with 200 status → return success`() = testScope.runTest {
+    fun `make order completed with 200 status → return success`() = runTest {
         OrderServiceMock {
             completeOrder.success()
         }
@@ -88,7 +82,7 @@ class ShoppingCartRepositoryTest {
     }
 
     @Test
-    fun `make order completed with 500 status → return error`() = testScope.runTest {
+    fun `make order completed with 500 status → return error`() = runTest {
         OrderServiceMock {
             completeOrder.internalError()
         }
@@ -98,7 +92,7 @@ class ShoppingCartRepositoryTest {
 
     /* setProductCount */
     @Test
-    fun `set product count with 200 status → return success`() = testScope.runTest {
+    fun `set product count with 200 status → return success`() = runTest {
         OrderServiceMock {
             setProductCount.success()
         }
@@ -107,7 +101,7 @@ class ShoppingCartRepositoryTest {
     }
 
     @Test
-    fun `set product count with 500 status → return error`() = testScope.runTest {
+    fun `set product count with 500 status → return error`() = runTest {
         OrderServiceMock {
             setProductCount.internalError()
         }

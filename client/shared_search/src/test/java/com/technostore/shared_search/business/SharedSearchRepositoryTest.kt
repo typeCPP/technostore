@@ -19,7 +19,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -39,8 +38,6 @@ class SharedSearchRepositoryTest {
         orderService = networkModule.orderService,
         productSearchMapper = productSearchMapper
     )
-
-    private val testScope = TestScope()
 
     private val firstCategory = Category(
         id = TestData.FIRST_CATEGORY_ID,
@@ -127,29 +124,27 @@ class SharedSearchRepositoryTest {
 
     /* get popular categories */
     @Test
-    fun `get categories with 200 status → return success with categories model`() =
-        testScope.runTest {
-            ProductServiceMock {
-                popularCategories.success()
-            }
-            val result = sharedSearchRepository.getCategories()
-            assertTrue(result is Result.Success && result.data == expectedCategoryWithCheckModels)
+    fun `get categories with 200 status → return success with categories model`() = runTest {
+        ProductServiceMock {
+            popularCategories.success()
         }
+        val result = sharedSearchRepository.getCategories()
+        assertTrue(result is Result.Success && result.data == expectedCategoryWithCheckModels)
+    }
 
     @Test
-    fun `get categories with 500 status → return error`() =
-        testScope.runTest {
-            ProductServiceMock {
-                popularCategories.internalError()
-            }
-            val result = sharedSearchRepository.getCategories()
-            assertTrue(result is Result.Error)
+    fun `get categories with 500 status → return error`() = runTest {
+        ProductServiceMock {
+            popularCategories.internalError()
         }
+        val result = sharedSearchRepository.getCategories()
+        assertTrue(result is Result.Error)
+    }
 
     /* isSelectedByPopularity */
     @Test
     fun `isSelectedByPopularity = false, call setIsSelectedByPopularity → set isSelectedByRating = false, set isSelectedByPopularity = true`() =
-        testScope.runTest {
+        runTest {
             val isSelectedByPopularity = sharedSearchRepository.setIsSelectByPopularity()
             val isSelectedByRating = sharedSearchRepository.getIsSortByRating()
             assertTrue(!isSelectedByRating && isSelectedByPopularity)
@@ -157,7 +152,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `isSelectedByPopularity = true, call setIsSelectedByPopularity → set isSelectedByPopularity = false`() =
-        testScope.runTest {
+        runTest {
             val isSelectedByPopularity = sharedSearchRepository.setIsSelectByPopularity()
             assertTrue(isSelectedByPopularity)
 
@@ -168,7 +163,7 @@ class SharedSearchRepositoryTest {
     /* isSelectedByRating */
     @Test
     fun `isSelectedByRating = false, call setIsSelectedByRating → set isSelectedByPopularity = false, set isSelectedByRating = true`() =
-        testScope.runTest {
+        runTest {
             val isSelectedByRating = sharedSearchRepository.setIsSelectByRating()
             val isSelectedByPopularity = sharedSearchRepository.getIsSortByPopularity()
             assertTrue(!isSelectedByPopularity && isSelectedByRating)
@@ -176,7 +171,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `isSelectedByRating = true, call isSelectedByPopularity → set isSelectedByRating = false`() =
-        testScope.runTest {
+        runTest {
             val isSelectedByRating = sharedSearchRepository.setIsSelectByRating()
             assertTrue(isSelectedByRating)
 
@@ -187,7 +182,7 @@ class SharedSearchRepositoryTest {
     /* updateSelectedCategories */
     @Test
     fun `categoryWithCheck isSelected = true, category does not exists, updateSelectedCategories → add to selected categories`() =
-        testScope.runTest {
+        runTest {
             val categoryWithCheck = firstCategoryWithCheck.copy(isSelected = true)
             sharedSearchRepository.updateSelectedCategories(categoryWithCheck)
             val selectedCategories = sharedSearchRepository.getSelectedCategories()
@@ -196,7 +191,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `categoryWithCheck isSelected = true, category exists, updateSelectedCategories → category is not being added`() =
-        testScope.runTest {
+        runTest {
             val categoryWithCheck = firstCategoryWithCheck.copy(isSelected = true)
             sharedSearchRepository.updateSelectedCategories(categoryWithCheck)
             val selectedCategories = sharedSearchRepository.getSelectedCategories()
@@ -209,7 +204,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `categoryWithCheck isSelected = false, category exists, updateSelectedCategories → remove from selected categories`() =
-        testScope.runTest {
+        runTest {
             val categoryWithCheck = firstCategoryWithCheck.copy(isSelected = true)
             sharedSearchRepository.updateSelectedCategories(categoryWithCheck)
             val selectedCategories = sharedSearchRepository.getSelectedCategories()
@@ -221,7 +216,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `categoryWithCheck isSelected = false, category does not exists, updateSelectedCategories → category is not being deleted`() =
-        testScope.runTest {
+        runTest {
             val categoryWithCheck = firstCategoryWithCheck.copy(isSelected = true)
             sharedSearchRepository.updateSelectedCategories(categoryWithCheck)
             val selectedCategories = sharedSearchRepository.getSelectedCategories()
@@ -233,55 +228,51 @@ class SharedSearchRepositoryTest {
 
     /* updateCostBoundaries */
     @Test
-    fun `new minCost = 2, maxCost = 4 → update minCost, maxCost`() =
-        testScope.runTest {
-            sharedSearchRepository.updateCostBoundaries(2f, 4f)
-            val minPrice = sharedSearchRepository.getMinPrice()
-            val maxPrice = sharedSearchRepository.getMaxPrice()
-            assertTrue(minPrice == 2f && maxPrice == 4f)
-        }
+    fun `new minCost = 2, maxCost = 4 → update minCost, maxCost`() = runTest {
+        sharedSearchRepository.updateCostBoundaries(2f, 4f)
+        val minPrice = sharedSearchRepository.getMinPrice()
+        val maxPrice = sharedSearchRepository.getMaxPrice()
+        assertTrue(minPrice == 2f && maxPrice == 4f)
+    }
 
     @Test
-    fun `new minCost = 5, maxCost = 3 → minCost, maxCost do not updated`() =
-        testScope.runTest {
-            sharedSearchRepository.updateCostBoundaries(2f, 4f)
-            val minPrice = sharedSearchRepository.getMinPrice()
-            val maxPrice = sharedSearchRepository.getMaxPrice()
-            assertTrue(minPrice == 2f && maxPrice == 4f)
+    fun `new minCost = 5, maxCost = 3 → minCost, maxCost do not updated`() = runTest {
+        sharedSearchRepository.updateCostBoundaries(2f, 4f)
+        val minPrice = sharedSearchRepository.getMinPrice()
+        val maxPrice = sharedSearchRepository.getMaxPrice()
+        assertTrue(minPrice == 2f && maxPrice == 4f)
 
-            sharedSearchRepository.updateCostBoundaries(5f, 3f)
-            val newMinPrice = sharedSearchRepository.getMinPrice()
-            val newMaxPrice = sharedSearchRepository.getMaxPrice()
-            assertTrue(newMinPrice == 2f && newMaxPrice == 4f)
-        }
+        sharedSearchRepository.updateCostBoundaries(5f, 3f)
+        val newMinPrice = sharedSearchRepository.getMinPrice()
+        val newMaxPrice = sharedSearchRepository.getMaxPrice()
+        assertTrue(newMinPrice == 2f && newMaxPrice == 4f)
+    }
 
     @Test
-    fun `new minRating = 3, maxRaing = 5 → update minRating, maxRaing`() =
-        testScope.runTest {
-            sharedSearchRepository.updateRatingBoundaries(3f, 5f)
-            val minRating = sharedSearchRepository.getMinRating()
-            val maxRating = sharedSearchRepository.getMaxRating()
-            assertTrue(minRating == 3f && maxRating == 5f)
-        }
+    fun `new minRating = 3, maxRaing = 5 → update minRating, maxRaing`() = runTest {
+        sharedSearchRepository.updateRatingBoundaries(3f, 5f)
+        val minRating = sharedSearchRepository.getMinRating()
+        val maxRating = sharedSearchRepository.getMaxRating()
+        assertTrue(minRating == 3f && maxRating == 5f)
+    }
 
     /* updateRatingBoundaries */
     @Test
-    fun `new minRating = 4, maxRaing = 2 → minRating, maxRaing do not updated`() =
-        testScope.runTest {
-            sharedSearchRepository.updateRatingBoundaries(3f, 5f)
-            val minRating = sharedSearchRepository.getMinRating()
-            val maxRating = sharedSearchRepository.getMaxRating()
-            assertTrue(minRating == 3f && maxRating == 5f)
+    fun `new minRating = 4, maxRaing = 2 → minRating, maxRaing do not updated`() = runTest {
+        sharedSearchRepository.updateRatingBoundaries(3f, 5f)
+        val minRating = sharedSearchRepository.getMinRating()
+        val maxRating = sharedSearchRepository.getMaxRating()
+        assertTrue(minRating == 3f && maxRating == 5f)
 
-            sharedSearchRepository.updateRatingBoundaries(4f, 2f)
-            val newMinRating = sharedSearchRepository.getMinRating()
-            val newMaxRating = sharedSearchRepository.getMaxRating()
-            assertTrue(newMinRating == 3f && newMaxRating == 5f)
-        }
+        sharedSearchRepository.updateRatingBoundaries(4f, 2f)
+        val newMinRating = sharedSearchRepository.getMinRating()
+        val newMaxRating = sharedSearchRepository.getMaxRating()
+        assertTrue(newMinRating == 3f && newMaxRating == 5f)
+    }
 
     /* setProductCount */
     @Test
-    fun `set productCount = 2, request is successfull → return success`() = testScope.runTest {
+    fun `set productCount = 2, request is successfull → return success`() = runTest {
         OrderServiceMock {
             setProductCount.success()
         }
@@ -290,7 +281,7 @@ class SharedSearchRepositoryTest {
     }
 
     @Test
-    fun `set productCount = 2, request return 500 code → return error`() = testScope.runTest {
+    fun `set productCount = 2, request return 500 code → return error`() = runTest {
         OrderServiceMock {
             setProductCount.internalError()
         }
@@ -301,7 +292,7 @@ class SharedSearchRepositoryTest {
     /* searchProducts */
     @Test
     fun `word is not empty, isSearchByPopularity = false, isSearchByRating = false, categories is empty, request return not empty list → return success with models`() =
-        testScope.runTest {
+        runTest {
             ProductServiceMock {
                 searchProducts.success()
             }
@@ -312,30 +303,28 @@ class SharedSearchRepositoryTest {
         }
 
     @Test
-    fun `word is not empty, request return empty list → return search empty error`() =
-        testScope.runTest {
-            ProductServiceMock {
-                searchProducts.empty()
-            }
-            val result = sharedSearchRepository.searchProducts("word")
-            assertTrue(result is Result.Error && result.error is SearchEmpty)
+    fun `word is not empty, request return empty list → return search empty error`() = runTest {
+        ProductServiceMock {
+            searchProducts.empty()
         }
+        val result = sharedSearchRepository.searchProducts("word")
+        assertTrue(result is Result.Error && result.error is SearchEmpty)
+    }
 
     @Test
-    fun `word is not empty, request return error → return search error`() =
-        testScope.runTest {
-            ProductServiceMock {
-                searchProducts.internalError()
-            }
-            val result = sharedSearchRepository.searchProducts("word")
-            assertTrue(result is Result.Error && result.error == null)
+    fun `word is not empty, request return error → return search error`() = runTest {
+        ProductServiceMock {
+            searchProducts.internalError()
         }
+        val result = sharedSearchRepository.searchProducts("word")
+        assertTrue(result is Result.Error && result.error == null)
+    }
 
 
     /* with mock service */
     @Test
     fun `word is not empty, isSearchByPopularity = true, isSearchByRating = false, categories is empty, request return not empty list → set sort by popularity`() =
-        testScope.runTest {
+        runTest {
             val word = "word"
             sharedRepositoryServiceMock.setIsSelectByPopularity()
             sharedRepositoryServiceMock.searchProducts(word)
@@ -356,7 +345,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `word is not empty, isSearchByPopularity = false, isSearchByRating = false, categories is not empty, request return not empty list → call response with selected category, sortingType = nothing`() =
-        testScope.runTest {
+        runTest {
             sharedRepositoryServiceMock.updateSelectedCategories(
                 firstCategoryWithCheck.copy(
                     isSelected = true
@@ -381,7 +370,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `word is not empty, isSearchByPopularity = false, isSearchByRating = true, categories is empty, request return not empty list → set sort by rating`() =
-        testScope.runTest {
+        runTest {
             val word = "word"
             sharedRepositoryServiceMock.setIsSelectByRating()
             sharedRepositoryServiceMock.searchProducts(word)
@@ -402,7 +391,7 @@ class SharedSearchRepositoryTest {
 
     @Test
     fun `word is repeating, repeat request with equal word, response return success → update numberPage`() =
-        testScope.runTest {
+        runTest {
             val word = "word"
             sharedRepositoryServiceMock.searchProducts(word)
             coVerify(exactly = 1) {
