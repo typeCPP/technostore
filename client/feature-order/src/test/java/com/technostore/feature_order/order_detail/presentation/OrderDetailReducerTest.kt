@@ -1,14 +1,11 @@
 package com.technostore.feature_order.order_detail.presentation
 
-import com.technostore.common_test.TestData
-import com.technostore.feature_order.business.model.OrderDetailModel
-import com.technostore.feature_order.business.model.ProductOrderModel
-import com.technostore.network.utils.URL
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 
 class OrderDetailReducerTest : OrderDetailBaseTest() {
+    private val orderDetailReducer = OrderDetailReducer()
     @Test
     fun `start loading → set isLoading = true`() {
         val newState = orderDetailReducer.reduce(defaultState, OrderDetailEvent.StartLoading)
@@ -24,20 +21,6 @@ class OrderDetailReducerTest : OrderDetailBaseTest() {
 
     @Test
     fun `order details loaded → set order details`() {
-        val products = listOf(
-            ProductOrderModel(
-                id = TestData.FIRST_PRODUCT_ID,
-                photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
-                name = TestData.FIRST_PRODUCT_NAME,
-                rating = TestData.FIRST_PRODUCT_RATING,
-                count = TestData.FIRST_PRODUCT_COUNT,
-                price = TestData.FIRST_PRODUCT_PRICE
-            )
-        )
-        val order = OrderDetailModel(
-            id = TestData.ORDER_ID,
-            products = products
-        )
         val newState = orderDetailReducer.reduce(
             defaultState, OrderDetailEvent.OrderDetailsLoaded(order)
         )
