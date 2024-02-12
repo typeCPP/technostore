@@ -7,7 +7,6 @@ import com.technostore.shared_search.business.model.Category
 import com.technostore.shared_search.business.model.CategoryWithCheck
 import com.technostore.shared_search.business.model.ProductSearchModel
 import io.mockk.mockk
-import kotlinx.coroutines.test.TestScope
 
 open class MainPageBaseTest {
     protected val word = "word"
@@ -48,6 +47,5 @@ open class MainPageBaseTest {
     protected val defaultProducts = listOf(firstProductModel, secondProductModel)
     protected val defaultCategories = listOf(firstCategoryWithCheck, secondCategoryWithCheck)
     val defaultState = MainState()
-    val testScope = TestScope()
     protected val store = mockk<Store<MainState, MainEvent>>(relaxed = true)
 }

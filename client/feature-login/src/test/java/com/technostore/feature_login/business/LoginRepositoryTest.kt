@@ -16,7 +16,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -46,32 +45,29 @@ class LoginRepositoryTest {
         userService = networkModule.userService,
     )
 
-    private val testScope = TestScope()
-
     /* Sign in */
     @Test
-    fun `sign in with 200 status → refresh data, set isActive, return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                login.success()
-            }
-            val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
-            coVerify(exactly = 1) { appStore.isActive = true }
-            coVerify(exactly = 1) {
-                appStore.refresh(
-                    refreshToken = TestData.REFRESH_TOKEN,
-                    accessToken = TestData.ACCESS_TOKEN,
-                    expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
-                    expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
-                    id = TestData.ID.toString(),
-                    email = TestData.EMAIL
-                )
-            }
-            assertTrue(result is Result.Success)
+    fun `sign in with 200 status → refresh data, set isActive, return success`() = runTest {
+        LoginServiceMock {
+            login.success()
         }
+        val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
+        coVerify(exactly = 1) { appStore.isActive = true }
+        coVerify(exactly = 1) {
+            appStore.refresh(
+                refreshToken = TestData.REFRESH_TOKEN,
+                accessToken = TestData.ACCESS_TOKEN,
+                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                id = TestData.ID.toString(),
+                email = TestData.EMAIL
+            )
+        }
+        assertTrue(result is Result.Success)
+    }
 
     @Test
-    fun `sign in with 404 status (wrong password) → return error password`() = testScope.runTest {
+    fun `sign in with 404 status (wrong password) → return error password`() = runTest {
         LoginServiceMock {
             login.errorPassword(Message.ERROR_PASSWORD)
         }
@@ -82,7 +78,7 @@ class LoginRepositoryTest {
     }
 
     @Test
-    fun `sign in with 404 status (wrong email) → return error email`() = testScope.runTest {
+    fun `sign in with 404 status (wrong email) → return error email`() = runTest {
         LoginServiceMock {
             login.errorEmail(Message.ERROR_EMAIL)
         }
@@ -94,7 +90,7 @@ class LoginRepositoryTest {
     }
 
     @Test
-    fun `sign in with 500 status → return error`() = testScope.runTest {
+    fun `sign in with 500 status → return error`() = runTest {
         LoginServiceMock {
             login.internalError()
         }
@@ -106,7 +102,7 @@ class LoginRepositoryTest {
     }
 
     @Test
-    fun `check emailt exists return true → return true`() = testScope.runTest {
+    fun `check emailt exists return true → return true`() = runTest {
         LoginServiceMock {
             checkEmailExists.successExists()
         }
@@ -118,7 +114,7 @@ class LoginRepositoryTest {
     /* check email exists */
 
     @Test
-    fun `check emailt exists return false → return false`() = testScope.runTest {
+    fun `check emailt exists return false → return false`() = runTest {
         LoginServiceMock {
             checkEmailExists.successNotExists()
         }
@@ -128,7 +124,7 @@ class LoginRepositoryTest {
     }
 
     @Test
-    fun `check emailt with 500 status → return error`() = testScope.runTest {
+    fun `check emailt with 500 status → return error`() = runTest {
         LoginServiceMock {
             checkEmailExists.internalError()
         }
@@ -139,145 +135,137 @@ class LoginRepositoryTest {
     /* registration */
 
     @Test
-    fun `registration success, byteArray is not empty → refresh data, return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                registration.success()
-            }
-            val result = loginRepository.signUp(
-                name = TestData.NAME,
-                lastName = TestData.LAST_NAME,
-                email = TestData.EMAIL,
-                password = TestData.PASSWORD,
-                byteArray = byteArrayOf()
-            )
-            coVerify(exactly = 1) {
-                appStore.refresh(
-                    refreshToken = TestData.REFRESH_TOKEN,
-                    accessToken = TestData.ACCESS_TOKEN,
-                    expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
-                    expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
-                    id = TestData.ID.toString(),
-                    email = TestData.EMAIL
-                )
-            }
-            assertTrue(result is Result.Success)
+    fun `registration success, byteArray is not empty → refresh data, return success`() = runTest {
+        LoginServiceMock {
+            registration.success()
         }
+        val result = loginRepository.signUp(
+            name = TestData.NAME,
+            lastName = TestData.LAST_NAME,
+            email = TestData.EMAIL,
+            password = TestData.PASSWORD,
+            byteArray = byteArrayOf()
+        )
+        coVerify(exactly = 1) {
+            appStore.refresh(
+                refreshToken = TestData.REFRESH_TOKEN,
+                accessToken = TestData.ACCESS_TOKEN,
+                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                id = TestData.ID.toString(),
+                email = TestData.EMAIL
+            )
+        }
+        assertTrue(result is Result.Success)
+    }
 
     @Test
-    fun `registration success, byteArray is empty → refresh data, return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                registration.success()
-            }
-            val result = loginRepository.signUp(
-                name = TestData.NAME,
-                lastName = TestData.LAST_NAME,
-                email = TestData.EMAIL,
-                password = TestData.PASSWORD,
-                byteArray = null
-            )
-            coVerify(exactly = 1) {
-                appStore.refresh(
-                    refreshToken = TestData.REFRESH_TOKEN,
-                    accessToken = TestData.ACCESS_TOKEN,
-                    expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
-                    expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
-                    id = TestData.ID.toString(),
-                    email = TestData.EMAIL
-                )
-            }
-            assertTrue(result is Result.Success)
+    fun `registration success, byteArray is empty → refresh data, return success`() = runTest {
+        LoginServiceMock {
+            registration.success()
         }
+        val result = loginRepository.signUp(
+            name = TestData.NAME,
+            lastName = TestData.LAST_NAME,
+            email = TestData.EMAIL,
+            password = TestData.PASSWORD,
+            byteArray = null
+        )
+        coVerify(exactly = 1) {
+            appStore.refresh(
+                refreshToken = TestData.REFRESH_TOKEN,
+                accessToken = TestData.ACCESS_TOKEN,
+                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                id = TestData.ID.toString(),
+                email = TestData.EMAIL
+            )
+        }
+        assertTrue(result is Result.Success)
+    }
 
     @Test
-    fun `registration internal error, byteArray is not empty → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                registration.internalError()
-            }
-            val result = loginRepository.signUp(
-                name = TestData.NAME,
-                lastName = TestData.LAST_NAME,
-                email = TestData.EMAIL,
-                password = TestData.PASSWORD,
-                byteArray = byteArrayOf()
-            )
-            coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
-            assertTrue(result is Result.Error)
+    fun `registration internal error, byteArray is not empty → return error`() = runTest {
+        LoginServiceMock {
+            registration.internalError()
         }
+        val result = loginRepository.signUp(
+            name = TestData.NAME,
+            lastName = TestData.LAST_NAME,
+            email = TestData.EMAIL,
+            password = TestData.PASSWORD,
+            byteArray = byteArrayOf()
+        )
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result is Result.Error)
+    }
 
     @Test
-    fun `registration internal error, byteArray is empty → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                registration.internalError()
-            }
-            val result = loginRepository.signUp(
-                name = TestData.NAME,
-                lastName = TestData.LAST_NAME,
-                email = TestData.EMAIL,
-                password = TestData.PASSWORD,
-                byteArray = null
-            )
-            coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
-            assertTrue(result is Result.Error)
+    fun `registration internal error, byteArray is empty → return error`() = runTest {
+        LoginServiceMock {
+            registration.internalError()
         }
+        val result = loginRepository.signUp(
+            name = TestData.NAME,
+            lastName = TestData.LAST_NAME,
+            email = TestData.EMAIL,
+            password = TestData.PASSWORD,
+            byteArray = null
+        )
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result is Result.Error)
+    }
 
     /* checkRecoveryCodeForAccountConfirmations */
     @Test
-    fun `confirmAccount returns success → return success true`() =
-        testScope.runTest {
-            LoginServiceMock {
-                confirmAccount.success()
-            }
-            val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
-                email = TestData.EMAIL,
-                code = CODE
-            )
-            assertTrue(result == Result.Success(true))
+    fun `confirmAccount returns success → return success true`() = runTest {
+        LoginServiceMock {
+            confirmAccount.success()
         }
+        val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
+            email = TestData.EMAIL,
+            code = CODE
+        )
+        assertTrue(result == Result.Success(true))
+    }
 
     @Test
-    fun `confirmAccount returns 404 → return success false`() =
-        testScope.runTest {
-            LoginServiceMock {
-                confirmAccount.notFound()
-            }
-            val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
-                email = TestData.EMAIL,
-                code = CODE
-            )
-            assertTrue(result == Result.Success(false))
+    fun `confirmAccount returns 404 → return success false`() = runTest {
+        LoginServiceMock {
+            confirmAccount.notFound()
         }
+        val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
+            email = TestData.EMAIL,
+            code = CODE
+        )
+        assertTrue(result == Result.Success(false))
+    }
 
     @Test
-    fun `confirmAccount returns internal error → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                confirmAccount.internalError()
-            }
-            val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
-                email = TestData.EMAIL,
-                code = CODE
-            )
-            assertTrue(result is Result.Error)
+    fun `confirmAccount returns internal error → return error`() = runTest {
+        LoginServiceMock {
+            confirmAccount.internalError()
         }
+        val result = loginRepository.checkRecoveryCodeForAccountConfirmations(
+            email = TestData.EMAIL,
+            code = CODE
+        )
+        assertTrue(result is Result.Error)
+    }
 
     /* changePassword */
     @Test
-    fun `refresh token is valid, changePassword return success → return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                changePassword.success()
-            }
-            val result = loginRepository.changePassword(newPassword = TestData.PASSWORD)
-            assertTrue(result is Result.Success)
+    fun `refresh token is valid, changePassword return success → return success`() = runTest {
+        LoginServiceMock {
+            changePassword.success()
         }
+        val result = loginRepository.changePassword(newPassword = TestData.PASSWORD)
+        assertTrue(result is Result.Success)
+    }
 
     @Test
     fun `refresh token is not valid, return refreshToken is not empty, changePassword return success → refresh access token, refresh refresh token, return success`() =
-        testScope.runTest {
+        runTest {
             LoginServiceMock {
                 changePassword.success()
             }
@@ -306,7 +294,7 @@ class LoginRepositoryTest {
 
     @Test
     fun `refresh token is not valid, current email, access token, refresh token is null, changePassword return success → refresh access token, refresh refresh token, return success`() =
-        testScope.runTest {
+        runTest {
             LoginServiceMock {
                 changePassword.success()
             }
@@ -338,7 +326,7 @@ class LoginRepositoryTest {
 
     @Test
     fun `refresh token is not valid, return refreshToken is null, changePassword return success → refresh access token, return success`() =
-        testScope.runTest {
+        runTest {
             LoginServiceMock {
                 changePassword.success()
             }
@@ -368,7 +356,7 @@ class LoginRepositoryTest {
 
     @Test
     fun `refresh token is not valid, refreshToken return null, changePassword return success → return success`() =
-        testScope.runTest {
+        runTest {
             LoginServiceMock {
                 changePassword.success()
             }
@@ -396,132 +384,122 @@ class LoginRepositoryTest {
         }
 
     @Test
-    fun `changePassword return error → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                changePassword.internalError()
-            }
-
-            val result = loginRepository.changePassword(newPassword = TestData.PASSWORD)
-            coVerify(exactly = 0) {
-                appStore.refreshAccessToken(
-                    TestData.ACCESS_TOKEN,
-                    TestData.EXPIRE_TIME_ACCESS_TOKEN
-                )
-            }
-            coVerify(exactly = 0) {
-                appStore.refreshRefreshToken(
-                    any(),
-                    any()
-                )
-            }
-            assertTrue(result is Result.Error)
+    fun `changePassword return error → return error`() = runTest {
+        LoginServiceMock {
+            changePassword.internalError()
         }
+
+        val result = loginRepository.changePassword(newPassword = TestData.PASSWORD)
+        coVerify(exactly = 0) {
+            appStore.refreshAccessToken(
+                TestData.ACCESS_TOKEN,
+                TestData.EXPIRE_TIME_ACCESS_TOKEN
+            )
+        }
+        coVerify(exactly = 0) {
+            appStore.refreshRefreshToken(
+                any(),
+                any()
+            )
+        }
+        assertTrue(result is Result.Error)
+    }
 
 
     /* sendCodeForRecoveryPassword */
     @Test
-    fun `sendCodeForRecoveryPassword returns success → return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                sendCodeForRecoveryPassword.success()
-            }
-            val result = loginRepository.sendCodeForRecoveryPassword(email = TestData.EMAIL)
-            assertTrue(result is Result.Success)
+    fun `sendCodeForRecoveryPassword returns success → return success`() = runTest {
+        LoginServiceMock {
+            sendCodeForRecoveryPassword.success()
         }
+        val result = loginRepository.sendCodeForRecoveryPassword(email = TestData.EMAIL)
+        assertTrue(result is Result.Success)
+    }
 
     @Test
-    fun `sendCodeForRecoveryPassword returns internal error → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                sendCodeForRecoveryPassword.internalError()
-            }
-            val result = loginRepository.sendCodeForRecoveryPassword(email = TestData.EMAIL)
-            assertTrue(result is Result.Error)
+    fun `sendCodeForRecoveryPassword returns internal error → return error`() = runTest {
+        LoginServiceMock {
+            sendCodeForRecoveryPassword.internalError()
         }
+        val result = loginRepository.sendCodeForRecoveryPassword(email = TestData.EMAIL)
+        assertTrue(result is Result.Error)
+    }
 
     /* checkRecoveryCode */
     @Test
-    fun `check recovery code returns success → return success true`() =
-        testScope.runTest {
-            LoginServiceMock {
-                passwordRecovery.success()
-            }
-            val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
-            coVerify(exactly = 1) {
-                appStore.refresh(
-                    refreshToken = TestData.REFRESH_TOKEN,
-                    accessToken = TestData.ACCESS_TOKEN,
-                    expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
-                    expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
-                    id = TestData.ID.toString(),
-                    email = TestData.EMAIL
-                )
-            }
-            assertTrue(result == Result.Success(true))
+    fun `check recovery code returns success → return success true`() = runTest {
+        LoginServiceMock {
+            passwordRecovery.success()
         }
+        val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
+        coVerify(exactly = 1) {
+            appStore.refresh(
+                refreshToken = TestData.REFRESH_TOKEN,
+                accessToken = TestData.ACCESS_TOKEN,
+                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                id = TestData.ID.toString(),
+                email = TestData.EMAIL
+            )
+        }
+        assertTrue(result == Result.Success(true))
+    }
 
     @Test
-    fun `check recovery code returns 409 code → return success false`() =
-        testScope.runTest {
-            LoginServiceMock {
-                passwordRecovery.conflict()
-            }
-            val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
-            coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
-            assertTrue(result == Result.Success(false))
+    fun `check recovery code returns 409 code → return success false`() = runTest {
+        LoginServiceMock {
+            passwordRecovery.conflict()
         }
+        val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result == Result.Success(false))
+    }
 
     @Test
-    fun `check recovery code returns internal error → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                passwordRecovery.internalError()
-            }
-            val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
-            coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
-            assertTrue(result is Result.Error)
+    fun `check recovery code returns internal error → return error`() = runTest {
+        LoginServiceMock {
+            passwordRecovery.internalError()
         }
+        val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result is Result.Error)
+    }
 
 
     /* sendCodeForAccountConfirmations */
     @Test
-    fun `sendCodeForAccountConfirmations, id is null → return error`() =
-        testScope.runTest {
-            appStore.apply {
-                every { id } returns null
-            }
-            val result = loginRepository.sendCodeForAccountConfirmations()
-            assertTrue(result is Result.Error)
+    fun `sendCodeForAccountConfirmations, id is null → return error`() = runTest {
+        appStore.apply {
+            every { id } returns null
         }
+        val result = loginRepository.sendCodeForAccountConfirmations()
+        assertTrue(result is Result.Error)
+    }
 
     @Test
-    fun `sendCodeForAccountConfirmations, id is empty → return error`() =
-        testScope.runTest {
-            appStore.apply {
-                every { id } returns ""
-            }
-            val result = loginRepository.sendCodeForAccountConfirmations()
-            assertTrue(result is Result.Error)
+    fun `sendCodeForAccountConfirmations, id is empty → return error`() = runTest {
+        appStore.apply {
+            every { id } returns ""
         }
+        val result = loginRepository.sendCodeForAccountConfirmations()
+        assertTrue(result is Result.Error)
+    }
 
     @Test
-    fun `sendCodeForAccountConfirmations returns success → return success`() =
-        testScope.runTest {
-            LoginServiceMock {
-                sendCodeForConfirmationAccount.success()
-            }
-            val result = loginRepository.sendCodeForAccountConfirmations()
-            assertTrue(result is Result.Success)
+    fun `sendCodeForAccountConfirmations returns success → return success`() = runTest {
+        LoginServiceMock {
+            sendCodeForConfirmationAccount.success()
         }
+        val result = loginRepository.sendCodeForAccountConfirmations()
+        assertTrue(result is Result.Success)
+    }
 
     @Test
-    fun `sendCodeForAccountConfirmations returns internal error → return error`() =
-        testScope.runTest {
-            LoginServiceMock {
-                sendCodeForConfirmationAccount.internalError()
-            }
-            val result = loginRepository.sendCodeForAccountConfirmations()
-            assertTrue(result is Result.Error)
+    fun `sendCodeForAccountConfirmations returns internal error → return error`() = runTest {
+        LoginServiceMock {
+            sendCodeForConfirmationAccount.internalError()
         }
+        val result = loginRepository.sendCodeForAccountConfirmations()
+        assertTrue(result is Result.Error)
+    }
 }

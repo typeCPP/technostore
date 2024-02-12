@@ -34,7 +34,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* Init */
     @Test
     fun `event init → call clear page, start loading, search by popularity return success, categories return success  → stop loading, set data`() =
-        testScope.runTest {
+       runTest {
             val event = MainUiEvent.Init
             effectHandler.process(event, defaultState, store)
             val expectedEvent = MainEvent.MainDataLoaded(
@@ -51,7 +51,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event init → call clear page, start loading, search by popularity return error → get categories did not call, show error toast`() =
-        testScope.runTest {
+        runTest {
             mainRepositoryMock.apply {
                 coEvery { searchByPopularity() } returns Result.Error()
             }
@@ -67,7 +67,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event init → call clear page, start loading, search by popularity return success, get categories return error → show error toast`() =
-        testScope.runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { getCategories() } returns Result.Error()
             }
@@ -84,7 +84,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* OnTextChanged */
     @Test
     fun `event onTextChanged → start loading, search products return success with not empty product list → stop loading, set data`() =
-        testScope.runTest {
+        runTest {
             val event = MainUiEvent.OnTextChanged(word)
             val expectedEvent = MainEvent.DataLoaded(products = defaultProducts)
 
@@ -97,7 +97,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event onTextChanged → start loading, search products return empty error → dispatch empty event`() =
-        testScope.runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { searchProducts(any()) } returns Result.Error(SearchEmpty())
             }
@@ -111,7 +111,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event onTextChanged → start loading, search products return error without body → show error toast`() =
-        testScope.runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { searchProducts(any()) } returns Result.Error()
             }
@@ -127,7 +127,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event LoadMoreProducts → search products return success → set data`() =
-        testScope.runTest {
+        runTest {
             val event = MainUiEvent.LoadMoreProducts(word)
             val expectedEvent = MainEvent.DataLoaded(products = defaultProducts)
 
@@ -138,7 +138,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event LoadMoreProducts → search products return search empty → does not show error toast`() =
-        testScope.runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { searchProducts(any()) } returns Result.Error(SearchEmpty())
             }
@@ -151,7 +151,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     @Test
     fun `event LoadMoreProducts → search products return search error → show error toast`() =
-        testScope.runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { searchProducts(any()) } returns Result.Error()
             }
@@ -164,7 +164,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnBackClicked */
     @Test
-    fun `event OnBackClicked → navigate back, clear data`() = testScope.runTest {
+    fun `event OnBackClicked → navigate back, clear data`() = runTest {
         val event = MainUiEvent.OnBackClicked
 
         effectHandler.process(event, defaultState, store)
@@ -174,7 +174,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnProductClicked */
     @Test
-    fun `event OnProductClicked → open product page`() = testScope.runTest {
+    fun `event OnProductClicked → open product page`() = runTest {
         val event = MainUiEvent.OnProductClicked(productId = TestData.FIRST_PRODUCT_ID)
 
         effectHandler.process(event, defaultState, store)
@@ -184,7 +184,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* OnPlusClicked */
     @Test
     fun `event OnPlusClicked → setProductCount return success → update count`() =
-        testScope.runTest {
+        runTest {
             val newCount = TestData.FIRST_PRODUCT_COUNT + 1
             val event = MainUiEvent.OnPlusClicked(
                 productId = TestData.FIRST_PRODUCT_ID,
@@ -208,7 +208,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* OnPlusClicked */
     @Test
     fun `event OnPlusClicked → setProductCount return error → show error toast`() =
-        testScope.runTest {
+       runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { setProductCount(any(), any()) } returns Result.Error()
             }
@@ -230,7 +230,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnFilterClicked */
     @Test
-    fun `event OnFilterClicked → open filter`() = testScope.runTest {
+    fun `event OnFilterClicked → open filter`() = runTest {
         val event = MainUiEvent.OnFilterClicked
         effectHandler.process(event, defaultState, store)
 
@@ -239,7 +239,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnCategoryClicked */
     @Test
-    fun `event OnCategoryClicked → open result`() = testScope.runTest {
+    fun `event OnCategoryClicked → open result`() = runTest {
         val event = MainUiEvent.OnCategoryClicked(TestData.FIRST_CATEGORY_ID)
         effectHandler.process(event, defaultState, store)
 
@@ -249,7 +249,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnSearchCLicked */
     @Test
-    fun `event OnSearchCLicked → clear is main page`() = testScope.runTest {
+    fun `event OnSearchCLicked → clear is main page`() = runTest {
         val event = MainUiEvent.OnSearchCLicked
         effectHandler.process(event, defaultState, store)
 
@@ -259,7 +259,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* OnTextIsEmpty */
     @Test
-    fun `event OnTextIsEmpty → set is main page`() = testScope.runTest {
+    fun `event OnTextIsEmpty → set is main page`() = runTest {
         val event = MainUiEvent.OnTextIsEmpty
         effectHandler.process(event, defaultState, store)
 
@@ -269,7 +269,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
 
     /* MorePopularClicked */
     @Test
-    fun `event MorePopularClicked → open search result by popularity`() = testScope.runTest {
+    fun `event MorePopularClicked → open search result by popularity`() = runTest {
         val event = MainUiEvent.MorePopularClicked
         effectHandler.process(event, defaultState, store)
 

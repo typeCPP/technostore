@@ -8,7 +8,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -23,12 +22,11 @@ class EditProfileEffectHandlerTest {
     )
     private val defaultState = EditProfileState()
     private val store = mockk<Store<EditProfileState, EditProfileEvent>>(relaxed = true)
-    private val testScope = TestScope()
 
     /* OnChangeProfileClicked */
     @Test
     fun `event OnChangeProfileClicked → name is not empty, last name is not empty, byteArray is not null, start loading, editProfile return success → end loading, open previous page`() =
-        testScope.runTest {
+        runTest {
             val byteArray = byteArrayOf(Byte.MIN_VALUE)
             val event = EditProfileUiEvent.OnChangeProfileClicked(
                 name = TestData.NAME,
@@ -50,7 +48,7 @@ class EditProfileEffectHandlerTest {
 
     @Test
     fun `event OnChangeProfileClicked → name is not empty, last name is not empty, byteArray is null, start loading, editProfile return success → end loading, open previous page`() =
-        testScope.runTest {
+        runTest {
             val event = EditProfileUiEvent.OnChangeProfileClicked(
                 name = TestData.NAME,
                 lastName = TestData.LAST_NAME,
@@ -71,7 +69,7 @@ class EditProfileEffectHandlerTest {
 
     @Test
     fun `event OnChangeProfileClicked → name is not empty, last name is not empty, byteArray is not null, start loading, editProfile return error → end loading, show error toast`() =
-        testScope.runTest {
+        runTest {
             profileRepositoryMock.apply {
                 coEvery {
                     profileRepositoryMock.editProfile(
@@ -102,7 +100,7 @@ class EditProfileEffectHandlerTest {
 
     @Test
     fun `event OnChangeProfileClicked → name is empty → show error, not call editProfile`() =
-        testScope.runTest {
+        runTest {
             val byteArray = byteArrayOf(Byte.MIN_VALUE)
             val event = EditProfileUiEvent.OnChangeProfileClicked(
                 name = "",
@@ -122,7 +120,7 @@ class EditProfileEffectHandlerTest {
 
     @Test
     fun `event OnChangeProfileClicked → name is not empty, last name is empty → show error, not call editProfile`() =
-        testScope.runTest {
+        runTest {
             val byteArray = byteArrayOf(Byte.MIN_VALUE)
             val event = EditProfileUiEvent.OnChangeProfileClicked(
                 name = TestData.NAME,
@@ -142,7 +140,7 @@ class EditProfileEffectHandlerTest {
 
     /* OnBackButtonClicked */
     @Test
-    fun `event OnBackButtonClicked → open prev page`() = testScope.runTest {
+    fun `event OnBackButtonClicked → open prev page`() = runTest {
         val event = EditProfileUiEvent.OnBackButtonClicked
         editProfileEffectHandler.process(event, defaultState, store)
         coVerify(exactly = 1) { store.acceptNews(EditProfileNews.OpenPreviousPage) }

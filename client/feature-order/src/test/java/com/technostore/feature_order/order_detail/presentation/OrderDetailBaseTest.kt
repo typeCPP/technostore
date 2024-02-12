@@ -6,7 +6,6 @@ import com.technostore.feature_order.business.OrderRepositoryImpl
 import com.technostore.feature_order.business.model.mapper.OrderDetailMapper
 import com.technostore.feature_order.business.model.mapper.ProductOrderMapper
 import io.mockk.mockk
-import kotlinx.coroutines.test.TestScope
 
 open class OrderDetailBaseTest {
     protected val store = mockk<Store<OrderDetailState, OrderDetailEvent>>(relaxed = true)
@@ -23,5 +22,4 @@ open class OrderDetailBaseTest {
     protected val orderDetailEffectHandler = OrderDetailEffectHandler(
         orderRepository = orderRepository
     )
-    protected val testScope = TestScope()
 }
