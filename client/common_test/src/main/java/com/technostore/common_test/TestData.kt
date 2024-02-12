@@ -53,6 +53,7 @@ object TestData {
     const val NEUTRAL_REVIEW_TEXT = "отзыв 2"
     const val NEUTRAL_REVIEW_RATE = 4
     const val NEUTRAL_REVIEW_DATE = "01.03.2024"
+    const val NEUTRAL_REVIEW_DATE_LONG = 24737272L
     const val NEUTRAL_REVIEW_USER_NAME = "Андрей"
     const val NEUTRAL_REVIEW_PHOTO_LINK = "/link2"
     const val POSITIVE_REVIEW_ID = 3L
@@ -60,6 +61,7 @@ object TestData {
     const val POSITIVE_REVIEW_TEXT = "отзыв 3"
     const val POSITIVE_REVIEW_RATE = 10
     const val POSITIVE_REVIEW_DATE = "02.01.2024"
+    const val POSITIVE_REVIEW_DATE_LONG = 1234532L
     const val POSITIVE_REVIEW_USER_NAME = "Данил"
     const val POSITIVE_REVIEW_PHOTO_LINK = "/link3"
 }

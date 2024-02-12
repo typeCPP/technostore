@@ -7,6 +7,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.product_service.CategoryResponse
+import com.technostore.common_test.response.product_service.ProductResponse
 import com.technostore.common_test.response.product_service.ProductSearchResultResponse
 import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
@@ -14,6 +15,7 @@ import java.net.HttpURLConnection
 object ProductServiceMock {
     val popularCategories = PopularCategories()
     val searchProducts = SearchProducts()
+    val product = Product()
 
     inline operator fun invoke(block: ProductServiceMock.() -> Unit) = apply(block)
 
@@ -29,7 +31,6 @@ object ProductServiceMock {
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
-            stubFor(matcher.willReturn(response))
             stubFor(matcher.willReturn(response))
         }
     }
@@ -50,6 +51,20 @@ object ProductServiceMock {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
             stubFor(matcher.willReturn(response))
+        }
+    }
+
+    class Product internal constructor() {
+        private val matcher: MappingBuilder
+            get() = get(urlPathMatching("/${URL.PRODUCT_SERVICE_BASE_URL}/product/.+"))
+
+        fun success() {
+            stubFor(matcher.willReturn(ok(ProductResponse.success)))
+        }
+
+        fun internalError() {
+            val response = WireMock.aResponse()
+                .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
             stubFor(matcher.willReturn(response))
         }
     }

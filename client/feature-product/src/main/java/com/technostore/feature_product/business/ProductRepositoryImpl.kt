@@ -24,12 +24,9 @@ class ProductRepositoryImpl(
     override suspend fun getProductById(id: Long): Result<ProductDetailModel> =
         withContext(Dispatchers.IO) {
             val response = productService.getProductById(id)
-            if (response.isSuccessful && response.body() != null) {
-                return@withContext Result.Success(
-                    productDetailMapper.mapFromResponseToModel(
-                        response.body()!!
-                    )
-                )
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                return@withContext Result.Success(productDetailMapper.mapFromResponseToModel(body))
             }
             return@withContext Result.Error()
         }
@@ -56,7 +53,10 @@ class ProductRepositoryImpl(
         withContext(Dispatchers.IO) {
             val result = reviewService.getUserReviewByProductId(productId)
             if (result.isSuccessful) {
-                return@withContext Result.Success(userReviewMapper.mapFromResponseToModel(result.body()!!))
+                val body = result.body()
+                if (body != null) {
+                    return@withContext Result.Success(userReviewMapper.mapFromResponseToModel(body))
+                }
             }
             if (result.code() == 404) {
                 return@withContext Result.Success()
@@ -67,9 +67,10 @@ class ProductRepositoryImpl(
     override suspend fun getReviews(productId: Long): Result<List<ReviewModel>> =
         withContext(Dispatchers.IO) {
             val response = reviewService.getReviewsByProductId(productId)
-            if (response.isSuccessful && response.body() != null) {
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
                 return@withContext Result.Success(
-                    response.body()!!.map { reviewMapper.mapFromResponseToModel(it) })
+                    body.map { reviewMapper.mapFromResponseToModel(it) })
             }
             return@withContext Result.Error()
         }
