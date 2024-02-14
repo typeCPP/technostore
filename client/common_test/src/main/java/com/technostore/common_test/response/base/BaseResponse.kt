@@ -9,4 +9,10 @@ object BaseResponse {
         "message": "$message"
         }
     """
+
+    @Language("JSON")
+    const val emptyBody = """
+        {
+        }
+    """
 }

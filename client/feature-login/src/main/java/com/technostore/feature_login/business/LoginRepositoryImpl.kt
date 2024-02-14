@@ -35,32 +35,33 @@ class LoginRepositoryImpl(
             )
             val loginResult = loginService.signIn(loginRequest)
             if (loginResult.isSuccessful) {
-                if (loginResult.body() != null) {
-                    val body = loginResult.body()!!
+                val body = loginResult.body()
+                if (body != null) {
                     refreshData(body)
                     appStore.isActive = true
+                    return@withContext Result.Success()
                 }
-                return@withContext Result.Success()
-            } else {
-                if (loginResult.code() == 404) {
-                    val errorMessage = ErrorMessage<LoginResponse>()
-                    val message = errorMessage.getErrorMessage(loginResult)
-                    if (message == ERROR_PASSWORD) {
-                        return@withContext Result.Error(SignInError.ErrorPassword)
-                    } else if (message == ERROR_EMAIL) {
-                        return@withContext Result.Error(SignInError.ErrorEmail)
-                    }
-                }
-                return@withContext Result.Error()
             }
+            if (loginResult.code() == 404) {
+                val errorMessage = ErrorMessage<LoginResponse>()
+                val message = errorMessage.getErrorMessage(loginResult)
+                if (message == ERROR_PASSWORD) {
+                    return@withContext Result.Error(SignInError.ErrorPassword)
+                } else if (message == ERROR_EMAIL) {
+                    return@withContext Result.Error(SignInError.ErrorEmail)
+                }
+            }
+            return@withContext Result.Error()
         }
 
     override suspend fun checkEmailExists(email: String): Result<Boolean> =
         withContext(Dispatchers.IO) {
             val response = loginService.checkEmailExists(email)
             if (response.isSuccessful) {
-                val body = response.body()!!.exists
-                return@withContext Result.Success(body)
+                val body = response.body()
+                if (body != null) {
+                    return@withContext Result.Success(body.exists)
+                }
             }
             return@withContext Result.Error(ErrorType())
         }
@@ -92,9 +93,11 @@ class LoginRepositoryImpl(
         }
         val response = loginService.signUp(dataMultipart, part)
         if (response.isSuccessful) {
-            val body = response.body()!!
-            refreshData(body)
-            return@withContext Result.Success()
+            val body = response.body()
+            if (body != null) {
+                refreshData(body)
+                return@withContext Result.Success()
+            }
         }
         return@withContext Result.Error()
     }
@@ -164,20 +167,21 @@ class LoginRepositoryImpl(
         withContext(Dispatchers.IO) {
             val response = loginService.checkRecoveryCode(code, email)
             if (response.isSuccessful) {
-                val body = response.body()!!
-                appStore.refresh(
-                    refreshToken = body.refreshToken,
-                    expireTimeRefreshToken = body.expireTimeRefreshToken,
-                    accessToken = body.accessToken,
-                    expireTimeAccessToken = body.expireTimeAccessToken,
-                    id = body.id,
-                    email = body.email
-                )
-                return@withContext Result.Success(true)
-            } else {
-                if (response.code() == 409) {
-                    return@withContext Result.Success(false)
+                val body = response.body()
+                if (body != null) {
+                    appStore.refresh(
+                        refreshToken = body.refreshToken,
+                        expireTimeRefreshToken = body.expireTimeRefreshToken,
+                        accessToken = body.accessToken,
+                        expireTimeAccessToken = body.expireTimeAccessToken,
+                        id = body.id,
+                        email = body.email
+                    )
+                    return@withContext Result.Success(true)
                 }
+            }
+            if (response.code() == 409) {
+                return@withContext Result.Success(false)
             }
             return@withContext Result.Error()
         }

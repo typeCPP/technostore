@@ -14,9 +14,15 @@ class ReviewRepositoryImpl(
     override suspend fun getReviews(productId: Long): Result<List<ReviewModel>> =
         withContext(Dispatchers.IO) {
             val response = reviewService.getReviewsByProductId(productId)
-            if (response.isSuccessful && response.body() != null) {
-                return@withContext Result.Success(
-                    response.body()!!.map { reviewMapper.mapFromResponseToModel(it) })
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    return@withContext Result.Success(body.map {
+                        reviewMapper.mapFromResponseToModel(
+                            it
+                        )
+                    })
+                }
             }
             return@withContext Result.Error()
         }

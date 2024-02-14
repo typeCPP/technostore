@@ -36,6 +36,14 @@ class OrderRepositoryTest {
         val result = orderRepository.getCompletedOrders()
         assertTrue(result is Result.Success && result.data == orders)
     }
+    @Test
+    fun `get completed orders with 200 status and empty body → return error`() = runTest {
+        OrderServiceMock {
+            completedOrders.emptyBody()
+        }
+        val result = orderRepository.getCompletedOrders()
+        assertTrue(result is Result.Error)
+    }
 
     @Test
     fun `get completed orders with 500 status → return error`() = runTest {
@@ -67,6 +75,14 @@ class OrderRepositoryTest {
         )
         val result = orderRepository.getCompletedOrderById(TestData.FIRST_ORDER_ID)
         assertTrue(result is Result.Success && result.data == order)
+    }
+    @Test
+    fun `get completed order by id with 200 status and empty body → return error`() = runTest {
+        OrderServiceMock {
+            completedOrderById.emptyBody()
+        }
+        val result = orderRepository.getCompletedOrderById(TestData.FIRST_ORDER_ID)
+        assertTrue(result is Result.Error)
     }
     @Test
     fun `get completed order by id with 500 status → return error`() = runTest {

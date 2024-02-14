@@ -57,6 +57,15 @@ class ReviewRepositoryTest {
     }
 
     @Test
+    fun `get reviews with 200 status and empty body → return error`() = runTest {
+        ReviewServiceMock {
+            reviewsByProductId.emptyBody()
+        }
+        val result = reviewRepository.getReviews(TestData.FIRST_PRODUCT_ID)
+        assertTrue(result is Result.Error)
+    }
+
+    @Test
     fun `get reviews with 500 status → return error`() = runTest {
         ReviewServiceMock {
             reviewsByProductId.internalError()

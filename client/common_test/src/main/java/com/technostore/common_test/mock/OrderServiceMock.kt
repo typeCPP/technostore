@@ -31,6 +31,10 @@ object OrderServiceMock {
             stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
@@ -62,6 +66,10 @@ object OrderServiceMock {
             stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
@@ -76,6 +84,10 @@ object OrderServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(CompletedOrdersResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun internalError() {

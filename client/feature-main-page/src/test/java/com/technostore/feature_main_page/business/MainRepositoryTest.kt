@@ -55,6 +55,15 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `search by popularity with 200 status  end empty body → return error`() = runTest {
+        ProductServiceMock {
+            searchProducts.emptyBody()
+        }
+        val result = mainRepository.searchByPopularity()
+        assertTrue(result is Result.Error)
+    }
+
+    @Test
     fun `search by popularity with 500 status → return error`() = runTest {
         ProductServiceMock {
             searchProducts.internalError()
@@ -71,6 +80,15 @@ class MainRepositoryTest {
         }
         val result = mainRepository.searchByCategory(TestData.FIRST_CATEGORY_ID)
         assertTrue(result is Result.Success && result.data == products)
+    }
+
+    @Test
+    fun `search products with 200 status end empty body → return error`() = runTest {
+        ProductServiceMock {
+            searchProducts.emptyBody()
+        }
+        val result = mainRepository.searchByCategory(TestData.FIRST_CATEGORY_ID)
+        assertTrue(result is Result.Error)
     }
 
     @Test

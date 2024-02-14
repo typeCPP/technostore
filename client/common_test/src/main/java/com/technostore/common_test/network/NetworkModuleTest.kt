@@ -1,6 +1,7 @@
 package com.technostore.common_test.network
 
 import com.technostore.common_test.MockServer
+import com.technostore.network.converter.EmptyBodyConverterFactory
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
@@ -11,8 +12,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
+
 
 class NetworkModuleTest {
     private val okkHttpClient = OkHttpClient().newBuilder()
@@ -24,6 +25,7 @@ class NetworkModuleTest {
         .build()
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(MockServer.URL)
+        .addConverterFactory(EmptyBodyConverterFactory(GsonConverterFactory.create()))
         .addConverterFactory(GsonConverterFactory.create())
         .client(okkHttpClient)
         .build()
