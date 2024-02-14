@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-review-service:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,8 +22,8 @@ jobs:
         run: |-
           cd api/review-service
           mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
-  test:
-    needs: build
+  test-review-service:
+    needs: build-review-service
     permissions: write-all
     runs-on: ubuntu-latest
     env:

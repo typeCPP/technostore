@@ -1,12 +1,10 @@
 package com.technostore.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class CategoryDto {
     private Long id;
     private String name;
