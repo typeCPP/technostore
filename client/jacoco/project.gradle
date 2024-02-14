@@ -43,6 +43,8 @@ project.afterEvaluate {
                 '**/*Activity*.*',
                 '**/*Dialog*.*',
                 '**/*Dialog',
+                '**/*Adapter',
+                '**/*Adapter*.*',
         ]
 
         def jClasses = subprojects.collect { proj ->

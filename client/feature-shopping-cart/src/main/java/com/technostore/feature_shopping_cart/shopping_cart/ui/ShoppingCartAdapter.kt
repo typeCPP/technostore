@@ -17,12 +17,12 @@ import com.technostore.core.R as CoreR
 private const val MAX_PRODUCT_COUNT = 99
 private const val MIN_PRODUCT_COUNT = 1
 
-class ShoppingCartRecycler(
+class ShoppingCartAdapter(
     private val onClickPlus: (item: ProductOrderModel) -> Unit,
     private val onClickMinus: (item: ProductOrderModel) -> Unit,
     private val onClickRemove: (item: ProductOrderModel) -> Unit,
 ) :
-    ListAdapter<ProductOrderModel, ShoppingCartRecycler.DataViewHolder>(ShoppingCartDiffCallback()) {
+    ListAdapter<ProductOrderModel, ShoppingCartAdapter.DataViewHolder>(ShoppingCartDiffCallback()) {
     private lateinit var binding: ViewHolderProductCardBinding
 
     class DataViewHolder(private val binding: ViewHolderProductCardBinding) :
