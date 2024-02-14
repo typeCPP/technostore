@@ -63,6 +63,14 @@ class ShoppingCartRepositoryTest {
         }
 
     @Test
+    fun `get current order with 200 status and empty body → return error`() = runTest {
+        OrderServiceMock {
+            getCurrentOrder.emptyBody()
+        }
+        val result = shoppingCartRepository.getCurrentOrder()
+        assertTrue(result is Result.Error)
+    }
+    @Test
     fun `get current order with 500 status → return error`() = runTest {
         OrderServiceMock {
             getCurrentOrder.internalError()

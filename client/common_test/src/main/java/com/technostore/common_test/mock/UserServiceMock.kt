@@ -49,6 +49,10 @@ object UserServiceMock {
             stubFor(matcher.willReturn(ok(ProfileResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
@@ -72,7 +76,7 @@ object UserServiceMock {
     }
 
     class Logout internal constructor() {
-         val pattern = urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/logout")
+        val pattern = urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/logout")
         private val matcher: MappingBuilder
             get() = get(pattern)
 

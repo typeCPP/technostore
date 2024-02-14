@@ -1,11 +1,11 @@
 package com.technostore.feature_login.business
 
-import LoginServiceMock
 import com.technostore.app_store.store.AppStore
 import com.technostore.arch.result.ErrorType
 import com.technostore.arch.result.Result
 import com.technostore.common_test.MockServer
 import com.technostore.common_test.TestData
+import com.technostore.common_test.mock.LoginServiceMock
 import com.technostore.common_test.mock.SessionServiceMock
 import com.technostore.common_test.network.NetworkModuleTest
 import com.technostore.feature_login.business.sign_in.error.Message
@@ -67,6 +67,26 @@ class LoginRepositoryTest {
     }
 
     @Test
+    fun `sign in with 200 status and empty body → show error`() = runTest {
+        LoginServiceMock {
+            login.emptyBody()
+        }
+        val result = loginRepository.signIn(TestData.EMAIL, TestData.PASSWORD)
+        coVerify(exactly = 0) { appStore.isActive = true }
+        coVerify(exactly = 0) {
+            appStore.refresh(
+                refreshToken = TestData.REFRESH_TOKEN,
+                accessToken = TestData.ACCESS_TOKEN,
+                expireTimeRefreshToken = TestData.EXPIRE_TIME_REFRESH_TOKEN,
+                expireTimeAccessToken = TestData.EXPIRE_TIME_ACCESS_TOKEN,
+                id = TestData.ID.toString(),
+                email = TestData.EMAIL
+            )
+        }
+        assertTrue(result is Result.Error)
+    }
+
+    @Test
     fun `sign in with 404 status (wrong password) → return error password`() = runTest {
         LoginServiceMock {
             login.errorPassword(Message.ERROR_PASSWORD)
@@ -101,6 +121,7 @@ class LoginRepositoryTest {
         assertTrue(Result.Error<Unit>() == result)
     }
 
+    /* check email exists */
     @Test
     fun `check emailt exists return true → return true`() = runTest {
         LoginServiceMock {
@@ -111,8 +132,6 @@ class LoginRepositoryTest {
         assertTrue(Result.Success(true) == result)
     }
 
-    /* check email exists */
-
     @Test
     fun `check emailt exists return false → return false`() = runTest {
         LoginServiceMock {
@@ -121,6 +140,16 @@ class LoginRepositoryTest {
         val result = loginRepository.checkEmailExists(TestData.EMAIL)
 
         assertTrue(Result.Success(false) == result)
+    }
+
+    @Test
+    fun `check emailt exists return 200 with empty body → show error`() = runTest {
+        LoginServiceMock {
+            checkEmailExists.emptyBody()
+        }
+        val result = loginRepository.checkEmailExists(TestData.EMAIL)
+
+        assertTrue(result is Result.Error<Boolean> && result.error is ErrorType)
     }
 
     @Test
@@ -182,6 +211,22 @@ class LoginRepositoryTest {
             )
         }
         assertTrue(result is Result.Success)
+    }
+
+    @Test
+    fun `registration success with empty body → return error`() = runTest {
+        LoginServiceMock {
+            registration.emptyBody()
+        }
+        val result = loginRepository.signUp(
+            name = TestData.NAME,
+            lastName = TestData.LAST_NAME,
+            email = TestData.EMAIL,
+            password = TestData.PASSWORD,
+            byteArray = byteArrayOf()
+        )
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result is Result.Error)
     }
 
     @Test
@@ -453,6 +498,16 @@ class LoginRepositoryTest {
         val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
         coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
         assertTrue(result == Result.Success(false))
+    }
+
+    @Test
+    fun `check recovery code return success with empty body → return error`() = runTest {
+        LoginServiceMock {
+            passwordRecovery.emptyBody()
+        }
+        val result = loginRepository.checkRecoveryCode(code = CODE, email = TestData.EMAIL)
+        coVerify(exactly = 0) { appStore.refresh(any(), any(), any(), any(), any(), any()) }
+        assertTrue(result is Result.Error)
     }
 
     @Test

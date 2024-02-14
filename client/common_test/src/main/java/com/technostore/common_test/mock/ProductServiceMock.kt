@@ -28,6 +28,10 @@ object ProductServiceMock {
             stubFor(matcher.willReturn(ok(CategoryResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
@@ -41,6 +45,10 @@ object ProductServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(ProductSearchResultResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun empty() {
@@ -60,6 +68,10 @@ object ProductServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(ProductResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun internalError() {

@@ -24,6 +24,10 @@ object SessionServiceMock {
             stubFor(matcher.willReturn(ok(RefreshTokenResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun successRefreshTokenNull() {
             stubFor(matcher.willReturn(ok(RefreshTokenResponse.successRefreshTokenNull)))
         }

@@ -133,6 +133,15 @@ class SharedSearchRepositoryTest {
     }
 
     @Test
+    fun `get categories with 200 status and empty body→ return error`() = runTest {
+        ProductServiceMock {
+            popularCategories.emptyBody()
+        }
+        val result = sharedSearchRepository.getCategories()
+        assertTrue(result is Result.Error)
+    }
+
+    @Test
     fun `get categories with 500 status → return error`() = runTest {
         ProductServiceMock {
             popularCategories.internalError()
@@ -310,6 +319,16 @@ class SharedSearchRepositoryTest {
         val result = sharedSearchRepository.searchProducts("word")
         assertTrue(result is Result.Error && result.error is SearchEmpty)
     }
+
+    @Test
+    fun `word is not empty, request return success with empty body → return search error`() =
+        runTest {
+            ProductServiceMock {
+                searchProducts.emptyBody()
+            }
+            val result = sharedSearchRepository.searchProducts("word")
+            assertTrue(result is Result.Error && result.error == null)
+        }
 
     @Test
     fun `word is not empty, request return error → return search error`() = runTest {

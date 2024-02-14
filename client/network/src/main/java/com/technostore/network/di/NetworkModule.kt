@@ -1,5 +1,6 @@
 package com.technostore.network.di
 
+import com.technostore.network.converter.EmptyBodyConverterFactory
 import com.technostore.network.interceptor.ConnectionInterceptor
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
@@ -51,22 +52,32 @@ class NetworkModule {
             .readTimeout(5, TimeUnit.MINUTES)
             .build()
 
+    @Provides
+    fun provideEmptyBodyConverterFactory(): EmptyBodyConverterFactory =
+        EmptyBodyConverterFactory(GsonConverterFactory.create())
+
     @UnregisteredRetrofit
     @Provides
-    fun provideRetrofit(@UnregisteredOkHttpClient okHttpClient: OkHttpClient): Retrofit =
+    fun provideRetrofit(
+        @UnregisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(URL.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(emptyBodyConverterFactory)
             .build()
 
     @RegisteredRetrofit
     @Provides
-    fun provideRegisteredRetrofit(@RegisteredOkHttpClient okHttpClient: OkHttpClient): Retrofit =
+    fun provideRegisteredRetrofit(
+        @RegisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(URL.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(emptyBodyConverterFactory)
             .build()
 
     @Singleton

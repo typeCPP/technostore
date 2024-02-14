@@ -1,3 +1,5 @@
+package com.technostore.common_test.mock
+
 import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.client.WireMock.get
@@ -35,6 +37,10 @@ object LoginServiceMock {
             stubFor(matcher.willReturn(ok(LoginResponse.success)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun errorPassword(message: String) {
             val response = aResponse()
                 .withStatus(HttpURLConnection.HTTP_NOT_FOUND)
@@ -64,6 +70,10 @@ object LoginServiceMock {
             stubFor(matcher.willReturn(ok(CheckEmailExistsResponse.successExists)))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun successNotExists() {
             stubFor(matcher.willReturn(ok(CheckEmailExistsResponse.successNotExists)))
         }
@@ -81,6 +91,10 @@ object LoginServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(RegistrationResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun internalError() {
@@ -132,6 +146,10 @@ object LoginServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(PasswordRecoveryResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun conflict() {

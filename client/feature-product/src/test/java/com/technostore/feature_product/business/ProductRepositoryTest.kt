@@ -88,6 +88,14 @@ class ProductRepositoryTest {
     }
 
     @Test
+    fun `get product with 200 status and empty body → return error`() = runTest {
+        ProductServiceMock {
+            product.emptyBody()
+        }
+        val result = productRepository.getProductById(TestData.FIRST_PRODUCT_ID)
+        assertTrue(result is Result.Error)
+    }
+    @Test
     fun `get product with 500 status → return error`() = runTest {
         ProductServiceMock {
             product.internalError()
@@ -187,6 +195,14 @@ class ProductRepositoryTest {
         val result = productRepository.getUserReview(TestData.FIRST_PRODUCT_ID)
         assertTrue(result is Result.Success && result.data == null)
     }
+    @Test
+    fun `get user review with 200 status and empty body → return error`() = runTest {
+        ReviewServiceMock {
+            userReviewByProductId.emptyBody()
+        }
+        val result = productRepository.getUserReview(TestData.FIRST_PRODUCT_ID)
+        assertTrue(result is Result.Error && result.error == null)
+    }
 
     @Test
     fun `get user review with 500 status → return error`() = runTest {
@@ -208,6 +224,14 @@ class ProductRepositoryTest {
         assertTrue(result is Result.Success && result.data == expectedResult)
     }
 
+    @Test
+    fun `get reviews with 200 status and empty body → return error`() = runTest {
+        ReviewServiceMock {
+            reviewsByProductId.internalError()
+        }
+        val result = productRepository.getReviews(TestData.FIRST_PRODUCT_ID)
+        assertTrue(result is Result.Error && result.error == null)
+    }
     @Test
     fun `get reviews with 500 status → return error`() = runTest {
         ReviewServiceMock {

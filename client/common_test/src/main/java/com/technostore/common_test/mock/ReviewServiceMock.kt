@@ -28,6 +28,10 @@ object ReviewServiceMock {
             stubFor(matcher.willReturn(ok()))
         }
 
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun internalError() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_INTERNAL_ERROR)
@@ -42,6 +46,11 @@ object ReviewServiceMock {
         fun success() {
             stubFor(matcher.willReturn(ok(UserReviewByProductIdResponse.success)))
         }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
+        }
+
         fun notFound() {
             val response = WireMock.aResponse()
                 .withStatus(HttpURLConnection.HTTP_NOT_FOUND)
@@ -61,6 +70,10 @@ object ReviewServiceMock {
 
         fun success() {
             stubFor(matcher.willReturn(ok(ReviewsByProductIdResponse.success)))
+        }
+
+        fun emptyBody() {
+            stubFor(matcher.willReturn(ok()))
         }
 
         fun internalError() {

@@ -60,6 +60,14 @@ class ProfileRepositoryTest {
     }
 
     @Test
+    fun `profile return success with 200 status → return error`() = runTest {
+        UserServiceMock {
+            profile.emptyBody()
+        }
+        val result = profileRepository.getProfile()
+        assertTrue(result is Result.Error)
+    }
+    @Test
     fun `profile return internal error → return error`() = runTest {
         UserServiceMock {
             profile.internalError()
