@@ -23,7 +23,7 @@ import com.technostore.feature_shopping_cart.business.model.ProductOrderModel
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartNews
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartViewModel
-import com.technostore.feature_shopping_cart.shopping_cart.ui.ShoppingCartRecycler
+import com.technostore.feature_shopping_cart.shopping_cart.ui.ShoppingCartAdapter
 import com.technostore.navigation.BottomNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -67,7 +67,7 @@ class ShoppingCartFragment : Fragment() {
 
 
     private fun setAdapterForRecyclerView() {
-        val adapter = ShoppingCartRecycler(
+        val adapter = ShoppingCartAdapter(
             onClickPlus = { item -> onClickPlus(item) },
             onClickMinus = { item -> onClickMinus(item) },
             onClickRemove = { item -> onClickRemove(item) }
@@ -111,7 +111,7 @@ class ShoppingCartFragment : Fragment() {
             emptyShoppingCart.clMain.isVisible =
                 !state.isLoading && state.products.isNullOrEmpty()
 
-            val adapter = binding.productsList.adapter as ShoppingCartRecycler
+            val adapter = binding.productsList.adapter as ShoppingCartAdapter
             adapter.submitList(state.products)
             renderEmptyShoppingCart()
         }
