@@ -20,7 +20,7 @@ class RegistrationUserInfoEffectHandler(
 
             is RegistrationUserInfoUiEvent.OnRegistrationClicked -> {
                 val nameTrim = event.name.trim()
-                if (event.name.isEmpty()) {
+                if (nameTrim.isEmpty()) {
                     store.dispatch(RegistrationUserInfoEvent.NameIsEmpty)
                     return
                 }
@@ -30,7 +30,7 @@ class RegistrationUserInfoEffectHandler(
                 }
                 val lastNameTrim = event.lastName.trim()
                 store.dispatch(RegistrationUserInfoEvent.NameIsValid)
-                if (event.lastName.isEmpty()) {
+                if (lastNameTrim.isEmpty()) {
                     store.dispatch(RegistrationUserInfoEvent.LastNameIsEmpty)
                     return
                 }

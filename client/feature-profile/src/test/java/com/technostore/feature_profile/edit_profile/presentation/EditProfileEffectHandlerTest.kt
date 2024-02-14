@@ -1,5 +1,6 @@
 package com.technostore.feature_profile.edit_profile.presentation
 
+import android.net.Uri
 import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.common_test.TestData
@@ -144,5 +145,21 @@ class EditProfileEffectHandlerTest {
         val event = EditProfileUiEvent.OnBackButtonClicked
         editProfileEffectHandler.process(event, defaultState, store)
         coVerify(exactly = 1) { store.acceptNews(EditProfileNews.OpenPreviousPage) }
+    }
+
+    /* OnImageChanged */
+    @Test
+    fun `event OnImageChanged with null uri → change image`() = runTest {
+        val event = EditProfileUiEvent.OnImageChanged(null)
+        editProfileEffectHandler.process(event, defaultState, store)
+        coVerify(exactly = 1) { store.acceptNews(EditProfileNews.ChangeImage(null)) }
+    }
+
+    @Test
+    fun `event OnImageChanged with not null uri → change image`() = runTest {
+        val uri = Uri.EMPTY
+        val event = EditProfileUiEvent.OnImageChanged(uri)
+        editProfileEffectHandler.process(event, defaultState, store)
+        coVerify(exactly = 1) { store.acceptNews(EditProfileNews.ChangeImage(uri)) }
     }
 }

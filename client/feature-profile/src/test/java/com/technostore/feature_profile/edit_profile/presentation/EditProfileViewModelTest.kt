@@ -1,5 +1,6 @@
 package com.technostore.feature_profile.edit_profile.presentation
 
+import android.net.Uri
 import com.technostore.arch.mvi.Store
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,11 +25,19 @@ class EditProfileViewModelTest {
     }
 
     @Test
-    fun `image changed → send OnImageChanged event`() = runTest {
+    fun `image changed with null uri → send OnImageChanged event`() = runTest {
         viewModel.imageChanged(null)
         advanceUntilIdle()
         coVerify { store.dispatch(EditProfileUiEvent.OnImageChanged(null)) }
     }
+    @Test
+    fun `image changed with not null uri → send OnImageChanged event`() = runTest {
+        val uri=Uri.EMPTY
+        viewModel.imageChanged(uri)
+        advanceUntilIdle()
+        coVerify { store.dispatch(EditProfileUiEvent.OnImageChanged(uri)) }
+    }
+
 
     @Test
     fun `change clicked → send OnChangeProfileClicked event`() = runTest {

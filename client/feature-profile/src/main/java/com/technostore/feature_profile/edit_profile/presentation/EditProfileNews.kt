@@ -8,5 +8,5 @@ sealed class EditProfileNews : News() {
     data object OpenPreviousPage : EditProfileNews()
     data object NameIsEmpty : EditProfileNews()
     data object LastNameIsEmpty : EditProfileNews()
-    class ChangeImage(val uri: Uri?) : EditProfileNews()
+    data class ChangeImage(val uri: Uri?) : EditProfileNews()
 }
