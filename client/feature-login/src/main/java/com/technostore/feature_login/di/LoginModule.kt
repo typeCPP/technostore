@@ -37,6 +37,8 @@ import com.technostore.feature_login.registration_user_info.presentation.Registr
 import com.technostore.feature_login.registration_user_info.presentation.RegistrationUserInfoState
 import com.technostore.feature_login.sign_in.presentation.SignInEvent
 import com.technostore.feature_login.sign_in.presentation.SignInState
+import com.technostore.feature_login.welcome_page.presentation.WelcomePageEvent
+import com.technostore.feature_login.welcome_page.presentation.WelcomePageState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,6 +73,24 @@ class LoginModule {
     fun provideWelcomePageReducer(
     ): WelcomePageReducer {
         return WelcomePageReducer()
+    }
+
+    @Provides
+    fun provideWelcomePageState(): WelcomePageState {
+        return WelcomePageState()
+    }
+
+    @Provides
+    fun provideWelcomePageStore(
+        effectHandler: WelcomePageEffectHandler,
+        reducer: WelcomePageReducer,
+        initialState: WelcomePageState
+    ): Store<WelcomePageState, WelcomePageEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 
     /* Sign in */

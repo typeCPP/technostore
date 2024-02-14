@@ -4,9 +4,6 @@ import com.technostore.arch.mvi.InitialState
 import com.technostore.base.presentation.BaseEffectHandler
 import com.technostore.base.presentation.BaseReducer
 import com.technostore.base.presentation.BaseViewModel
-import com.technostore.feature_login.welcome_page.presentation.WelcomePageEffectHandler
-import com.technostore.feature_login.welcome_page.presentation.WelcomePageReducer
-import com.technostore.feature_login.welcome_page.presentation.WelcomePageViewModel
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionViewModel
@@ -25,18 +22,6 @@ class ViewModelModule {
         effectHandler: BaseEffectHandler
     ): BaseViewModel {
         return BaseViewModel(
-            initialState = InitialState(),
-            reducer = reducer,
-            effectHandler = effectHandler
-        )
-    }
-
-    @Provides
-    fun provideWelcomePageViewModel(
-        reducer: WelcomePageReducer,
-        effectHandler: WelcomePageEffectHandler
-    ): WelcomePageViewModel {
-        return WelcomePageViewModel(
             initialState = InitialState(),
             reducer = reducer,
             effectHandler = effectHandler
