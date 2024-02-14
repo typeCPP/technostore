@@ -28,7 +28,8 @@ object TestData {
     const val SECOND_PRODUCT_COUNT = 2
     const val SECOND_PRODUCT_REVIEW_COUNT = 25
 
-    const val ORDER_ID = 1L
+    const val FIRST_ORDER_ID = 1L
+    const val SECOND_ORDER_ID = 1L
 
     const val FIRST_CATEGORY_ID = 1L
     const val FIRST_CATEGORY_NAME = "Ноутбуки"

@@ -39,9 +39,9 @@ class OrdersViewModelTest : OrdersBaseTest() {
 
     @Test
     fun `order clicked → send OnOrderClicked event`() = runTest {
-        viewModel.orderClick(TestData.ORDER_ID)
+        viewModel.orderClick(TestData.FIRST_ORDER_ID)
         advanceUntilIdle()
-        coVerify { store.dispatch(OrdersUiEvent.OnOrderClicked(TestData.ORDER_ID)) }
+        coVerify { store.dispatch(OrdersUiEvent.OnOrderClicked(TestData.FIRST_ORDER_ID)) }
     }
 
     @Test

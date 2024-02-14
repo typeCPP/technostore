@@ -24,9 +24,9 @@ class OrderDetailViewModelTest : OrderDetailBaseTest() {
 
     @Test
     fun `init → send Init event`() = runTest {
-        viewModel.init(TestData.ORDER_ID)
+        viewModel.init(TestData.FIRST_ORDER_ID)
         advanceUntilIdle()
-        coVerify { store.dispatch(OrderDetailUiEvent.Init(TestData.ORDER_ID)) }
+        coVerify { store.dispatch(OrderDetailUiEvent.Init(TestData.FIRST_ORDER_ID)) }
     }
 
     @Test

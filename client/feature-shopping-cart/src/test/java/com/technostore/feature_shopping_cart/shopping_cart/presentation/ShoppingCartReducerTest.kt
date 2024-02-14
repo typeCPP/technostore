@@ -38,7 +38,7 @@ class ShoppingCartReducerTest : ShoppingCartBaseTest() {
         val event = ShoppingCartEvent.OrderHasBeenPlaced
         val newState = reducer.reduce(
             defaultState.copy(
-                orderId = TestData.ORDER_ID,
+                orderId = TestData.FIRST_ORDER_ID,
                 products = listOf(firstProduct)
             ), event
         )
@@ -55,7 +55,7 @@ class ShoppingCartReducerTest : ShoppingCartBaseTest() {
         )
         val newState = reducer.reduce(
             defaultState.copy(
-                orderId = TestData.ORDER_ID,
+                orderId = TestData.FIRST_ORDER_ID,
                 products = listOf(firstProduct)
             ), event
         )
@@ -70,7 +70,7 @@ class ShoppingCartReducerTest : ShoppingCartBaseTest() {
             count = TestData.SECOND_PRODUCT_COUNT
         )
         val currentState = defaultState.copy(
-            orderId = TestData.ORDER_ID,
+            orderId = TestData.FIRST_ORDER_ID,
             products = listOf(firstProduct)
         )
         val newState = reducer.reduce(currentState, event)
@@ -84,7 +84,7 @@ class ShoppingCartReducerTest : ShoppingCartBaseTest() {
             productId = TestData.SECOND_PRODUCT_ID,
         )
         val currentState = defaultState.copy(
-            orderId = TestData.ORDER_ID,
+            orderId = TestData.FIRST_ORDER_ID,
             products = listOf(firstProduct, secondProduct)
         )
         val newState = reducer.reduce(currentState, event)
@@ -98,7 +98,7 @@ class ShoppingCartReducerTest : ShoppingCartBaseTest() {
             productId = TestData.SECOND_PRODUCT_ID,
         )
         val currentState = defaultState.copy(
-            orderId = TestData.ORDER_ID,
+            orderId = TestData.FIRST_ORDER_ID,
             products = listOf(firstProduct)
         )
         val newState = reducer.reduce(currentState, event)

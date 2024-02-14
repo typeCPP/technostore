@@ -1,6 +1,5 @@
 package com.technostore.feature_shopping_cart.shopping_cart.presentation
 
-import com.technostore.arch.mvi.Store
 import com.technostore.arch.result.Result
 import com.technostore.common_test.TestData
 import com.technostore.feature_shopping_cart.business.ShoppingCartRepository
@@ -206,8 +205,8 @@ class ShoppingCartEffectHandlerTest : ShoppingCartBaseTest() {
     fun `event OnSetOrdersClicked → start loading, make order completed return success → stop loading, show success toast, complete order`() =
         runTest {
             val event = ShoppingCartUiEvent.OnSetOrdersClicked
-            effectHandler.process(event, defaultState.copy(orderId = TestData.ORDER_ID), store)
-            coVerify(exactly = 1) { shoppingCartRepository.makeOrderCompleted(TestData.ORDER_ID) }
+            effectHandler.process(event, defaultState.copy(orderId = TestData.FIRST_ORDER_ID), store)
+            coVerify(exactly = 1) { shoppingCartRepository.makeOrderCompleted(TestData.FIRST_ORDER_ID) }
             coVerify(exactly = 1) { store.dispatch(ShoppingCartEvent.OrderHasBeenPlaced) }
             coVerify(exactly = 1) { store.acceptNews(ShoppingCartNews.ShowSuccessToast) }
         }
@@ -219,8 +218,8 @@ class ShoppingCartEffectHandlerTest : ShoppingCartBaseTest() {
                 coEvery { makeOrderCompleted(any()) } returns Result.Error()
             }
             val event = ShoppingCartUiEvent.OnSetOrdersClicked
-            effectHandler.process(event, defaultState.copy(orderId = TestData.ORDER_ID), store)
-            coVerify(exactly = 1) { shoppingCartRepository.makeOrderCompleted(TestData.ORDER_ID) }
+            effectHandler.process(event, defaultState.copy(orderId = TestData.FIRST_ORDER_ID), store)
+            coVerify(exactly = 1) { shoppingCartRepository.makeOrderCompleted(TestData.FIRST_ORDER_ID) }
             coVerify(exactly = 1) { store.acceptNews(ShoppingCartNews.ShowErrorToast) }
         }
 

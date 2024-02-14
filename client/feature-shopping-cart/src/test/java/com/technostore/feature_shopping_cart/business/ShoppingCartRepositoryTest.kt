@@ -2,7 +2,7 @@ package com.technostore.feature_shopping_cart.business
 
 import com.technostore.arch.result.Result
 import com.technostore.common_test.MockServer
-import com.technostore.common_test.TestData.ORDER_ID
+import com.technostore.common_test.TestData.FIRST_ORDER_ID
 import com.technostore.common_test.TestData.FIRST_PRODUCT_COUNT
 import com.technostore.common_test.TestData.FIRST_PRODUCT_ID
 import com.technostore.common_test.TestData.FIRST_PRODUCT_NAME
@@ -55,7 +55,7 @@ class ShoppingCartRepositoryTest {
                 )
             )
             val expectedOrder = OrderDetailModel(
-                id = ORDER_ID,
+                id = FIRST_ORDER_ID,
                 products = expectedProducts
             )
             val result = shoppingCartRepository.getCurrentOrder()
@@ -77,7 +77,7 @@ class ShoppingCartRepositoryTest {
         OrderServiceMock {
             completeOrder.success()
         }
-        val result = shoppingCartRepository.makeOrderCompleted(ORDER_ID)
+        val result = shoppingCartRepository.makeOrderCompleted(FIRST_ORDER_ID)
         assertTrue(result is Result.Success)
     }
 
@@ -86,7 +86,7 @@ class ShoppingCartRepositoryTest {
         OrderServiceMock {
             completeOrder.internalError()
         }
-        val result = shoppingCartRepository.makeOrderCompleted(ORDER_ID)
+        val result = shoppingCartRepository.makeOrderCompleted(FIRST_ORDER_ID)
         assertTrue(result is Result.Error)
     }
 

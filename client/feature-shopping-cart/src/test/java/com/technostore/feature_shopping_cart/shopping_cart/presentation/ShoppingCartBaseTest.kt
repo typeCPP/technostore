@@ -25,7 +25,7 @@ open class ShoppingCartBaseTest {
         price = TestData.SECOND_PRODUCT_PRICE
     )
     protected val order = OrderDetailModel(
-        id = TestData.ORDER_ID,
+        id = TestData.FIRST_ORDER_ID,
         products = listOf(firstProduct)
     )
     protected val defaultState = ShoppingCartState()

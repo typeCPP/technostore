@@ -14,8 +14,9 @@ class OrderRepositoryImpl(
 ) : OrderRepository {
     override suspend fun getCompletedOrders(): Result<Order> = withContext(Dispatchers.IO) {
         val orderResponse = orderService.getCompletedOrders()
-        if (orderResponse.isSuccessful) {
-            return@withContext Result.Success(orderResponse.body()!!)
+        val body = orderResponse.body()
+        if (orderResponse.isSuccessful && body != null) {
+            return@withContext Result.Success(body)
         }
         return@withContext Result.Error()
     }
@@ -23,11 +24,10 @@ class OrderRepositoryImpl(
     override suspend fun getCompletedOrderById(id: Long): Result<OrderDetailModel> =
         withContext(Dispatchers.IO) {
             val orderResponse = orderService.getCompletedOrderById(id)
-            if (orderResponse.isSuccessful && orderResponse.body() != null) {
+            val body = orderResponse.body()
+            if (orderResponse.isSuccessful && body != null) {
                 return@withContext Result.Success(
-                    orderDetailMapper.mapFromResponseToModel(
-                        orderResponse.body()!!
-                    )
+                    orderDetailMapper.mapFromResponseToModel(body)
                 )
             }
             return@withContext Result.Error()

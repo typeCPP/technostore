@@ -1,25 +1,27 @@
 package com.technostore.feature_order.order_detail.presentation
 
 import com.technostore.arch.mvi.Store
-import com.technostore.common_test.network.NetworkModuleTest
-import com.technostore.feature_order.business.OrderRepositoryImpl
-import com.technostore.feature_order.business.model.mapper.OrderDetailMapper
-import com.technostore.feature_order.business.model.mapper.ProductOrderMapper
+import com.technostore.common_test.TestData
+import com.technostore.feature_order.business.model.OrderDetailModel
+import com.technostore.feature_order.business.model.ProductOrderModel
+import com.technostore.network.utils.URL
 import io.mockk.mockk
 
 open class OrderDetailBaseTest {
     protected val store = mockk<Store<OrderDetailState, OrderDetailEvent>>(relaxed = true)
-    private val networkModule = NetworkModuleTest()
-    protected val orderDetailReducer = OrderDetailReducer()
     protected val defaultState = OrderDetailState()
-    private val productOrderMapper = ProductOrderMapper()
-    private val orderDetailMapper = OrderDetailMapper(productOrderMapper)
-
-    private val orderRepository = OrderRepositoryImpl(
-        orderService = networkModule.orderService,
-        orderDetailMapper = orderDetailMapper
+    private val products = listOf(
+        ProductOrderModel(
+            id = TestData.FIRST_PRODUCT_ID,
+            photoLink = "${URL.BASE_URL}${URL.PRODUCT_SERVICE_BASE_URL}${TestData.FIRST_PRODUCT_PHOTO_LINK}",
+            name = TestData.FIRST_PRODUCT_NAME,
+            rating = TestData.FIRST_PRODUCT_RATING,
+            count = TestData.FIRST_PRODUCT_COUNT,
+            price = TestData.FIRST_PRODUCT_PRICE
+        )
     )
-    protected val orderDetailEffectHandler = OrderDetailEffectHandler(
-        orderRepository = orderRepository
+    protected val order = OrderDetailModel(
+        id = TestData.FIRST_ORDER_ID,
+        products = products
     )
 }
