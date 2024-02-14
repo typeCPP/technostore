@@ -61,6 +61,25 @@ class RegistrationEffectHandlerTest : RegistrationBaseTest() {
             coVerify(exactly = 1) { loginRepositoryMock.checkEmailExists(trimEmail) }
             coVerify(exactly = 1) { store.dispatch(RegistrationEvent.EmailExists) }
         }
+    @Test
+    fun `event OnRegistrationClicked → email valid, passwords are valid, passwords are equals, start loading, check email return success without body → stop loading, show error`() =
+        runTest {
+            loginRepositoryMock.apply {
+                coEvery { checkEmailExists(any()) } returns Result.Success()
+            }
+            val event = RegistrationUiEvent.OnRegistrationClicked(
+                email = email,
+                firstPassword = password,
+                secondPassword = password
+            )
+            effectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { store.dispatch(RegistrationEvent.EmailIsValid) }
+            coVerify(exactly = 1) { store.dispatch(RegistrationEvent.FirstPasswordIsValid) }
+            coVerify(exactly = 1) { store.dispatch(RegistrationEvent.SecondPasswordIsValid) }
+            coVerify(exactly = 1) { store.dispatch(RegistrationEvent.StartLoading) }
+            coVerify(exactly = 1) { loginRepositoryMock.checkEmailExists(trimEmail) }
+            coVerify(exactly = 1) { store.acceptNews(RegistrationNews.ShowErrorToast) }
+        }
 
     @Test
     fun `event OnRegistrationClicked → email valid, passwords are valid, passwords are equals, start loading, check email return error → stop loading, show error`() =

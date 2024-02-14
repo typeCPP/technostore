@@ -19,13 +19,17 @@ class ProductEffectHandler(
                 val result = productRepository.getProductById(event.productId)
                 when (result) {
                     is Result.Success -> {
-                        if (result.data != null) {
+                        val data = result.data
+                        if (data != null) {
                             val reviewResult = productRepository.getUserReview(event.productId)
                             if (reviewResult is Result.Success) {
-                                store.dispatch(ProductEvent.OnReviewLoaded(reviewResult.data!!.text))
+                                val reviewData = reviewResult.data
+                                if (reviewData != null) {
+                                    store.dispatch(ProductEvent.OnReviewLoaded(reviewData.text))
+                                }
                             }
                             store.dispatch(ProductEvent.EndLoading)
-                            store.dispatch(ProductEvent.OnDataLoaded(result.data!!))
+                            store.dispatch(ProductEvent.OnDataLoaded(data))
                         } else {
                             store.acceptNews(ProductNews.ShowErrorToast)
                         }
@@ -89,8 +93,11 @@ class ProductEffectHandler(
                 when (result) {
                     is Result.Success -> {
                         val newReviews = productRepository.getReviews(currentState.productDetail.id)
-                        if (newReviews is Result.Success && newReviews.data != null) {
-                            store.dispatch(ProductEvent.UpdateReviews(newReviews.data!!))
+                        if (newReviews is Result.Success) {
+                            val reviewData = newReviews.data
+                            if (reviewData != null) {
+                                store.dispatch(ProductEvent.UpdateReviews(reviewData))
+                            }
                         }
                         store.dispatch(ProductEvent.UpdateRating(event.rating, event.text))
                     }

@@ -77,6 +77,19 @@ class FilterEffectHandlerTest : FilterBaseTest() {
         }
 
     @Test
+    fun `event Init → start loading, get categories return success with empty body → show error`() =
+        runTest {
+            sharedSearchRepository.apply {
+                coEvery { getCategories() } returns Result.Success()
+            }
+            val event = FilterUiEvent.Init
+            filterEffectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { store.dispatch(FilterEvent.StartLoading) }
+            coVerify(exactly = 1) { sharedSearchRepository.getCategories() }
+            coVerify(exactly = 1) { store.acceptNews(FilterNews.ShowErrorToast) }
+        }
+
+    @Test
     fun `event Init → start loading, get categories return error → show error`() =
         runTest {
             sharedSearchRepository.apply {

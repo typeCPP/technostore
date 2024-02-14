@@ -34,7 +34,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* Init */
     @Test
     fun `event init → call clear page, start loading, search by popularity return success, categories return success  → stop loading, set data`() =
-       runTest {
+        runTest {
             val event = MainUiEvent.Init
             effectHandler.process(event, defaultState, store)
             val expectedEvent = MainEvent.MainDataLoaded(
@@ -50,7 +50,23 @@ class MainEffectHandlerTest : MainPageBaseTest() {
         }
 
     @Test
-    fun `event init → call clear page, start loading, search by popularity return error → get categories did not call, show error toast`() =
+    fun `event init → call clear page, start loading, search by popularity return success with empty body → show error toast`() =
+        runTest {
+            mainRepositoryMock.apply {
+                coEvery { searchByPopularity() } returns Result.Success()
+            }
+            val event = MainUiEvent.Init
+
+            effectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { sharedSearchRepositoryMock.clearNumberPage() }
+            coVerify(exactly = 1) { store.dispatch(MainEvent.StartLoading) }
+            coVerify(exactly = 1) { mainRepositoryMock.searchByPopularity() }
+            coVerify(exactly = 0) { sharedSearchRepositoryMock.getCategories() }
+            coVerify(exactly = 1) { store.acceptNews(MainNews.ShowErrorToast) }
+        }
+
+    @Test
+    fun `event init → call clear page, start loading, search by popularity return error → show error toast`() =
         runTest {
             mainRepositoryMock.apply {
                 coEvery { searchByPopularity() } returns Result.Error()
@@ -62,6 +78,22 @@ class MainEffectHandlerTest : MainPageBaseTest() {
             coVerify(exactly = 1) { store.dispatch(MainEvent.StartLoading) }
             coVerify(exactly = 1) { mainRepositoryMock.searchByPopularity() }
             coVerify(exactly = 0) { sharedSearchRepositoryMock.getCategories() }
+            coVerify(exactly = 1) { store.acceptNews(MainNews.ShowErrorToast) }
+        }
+
+    @Test
+    fun `event init → call clear page, start loading, search by popularity return success, get categories return success with empty body → show error toast`() =
+        runTest {
+            sharedSearchRepositoryMock.apply {
+                coEvery { getCategories() } returns Result.Success()
+            }
+            val event = MainUiEvent.Init
+
+            effectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { sharedSearchRepositoryMock.clearNumberPage() }
+            coVerify(exactly = 1) { store.dispatch(MainEvent.StartLoading) }
+            coVerify(exactly = 1) { mainRepositoryMock.searchByPopularity() }
+            coVerify(exactly = 1) { sharedSearchRepositoryMock.getCategories() }
             coVerify(exactly = 1) { store.acceptNews(MainNews.ShowErrorToast) }
         }
 
@@ -93,6 +125,21 @@ class MainEffectHandlerTest : MainPageBaseTest() {
             coVerify(exactly = 1) { sharedSearchRepositoryMock.searchProducts(word) }
             coVerify(exactly = 1) { store.dispatch(MainEvent.EndLoading) }
             coVerify(exactly = 1) { store.dispatch(expectedEvent) }
+        }
+
+    @Test
+    fun `event onTextChanged → start loading, search products return success with empty body → show error toast`() =
+        runTest {
+            sharedSearchRepositoryMock.apply {
+                coEvery { searchProducts(any()) } returns Result.Success()
+            }
+            val event = MainUiEvent.OnTextChanged(word)
+            val expectedEvent = MainEvent.DataLoaded(products = defaultProducts)
+
+            effectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { store.dispatch(MainEvent.StartLoading) }
+            coVerify(exactly = 1) { sharedSearchRepositoryMock.searchProducts(word) }
+            coVerify(exactly = 1) { store.acceptNews(MainNews.ShowErrorToast) }
         }
 
     @Test
@@ -134,6 +181,19 @@ class MainEffectHandlerTest : MainPageBaseTest() {
             effectHandler.process(event, defaultState, store)
             coVerify(exactly = 1) { sharedSearchRepositoryMock.searchProducts(word) }
             coVerify(exactly = 1) { store.dispatch(expectedEvent) }
+        }
+
+    @Test
+    fun `event LoadMoreProducts → search products return success with empty body → show error`() =
+        runTest {
+            sharedSearchRepositoryMock.apply {
+                coEvery { searchProducts(any()) } returns Result.Success()
+            }
+            val event = MainUiEvent.LoadMoreProducts(word)
+
+            effectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { sharedSearchRepositoryMock.searchProducts(word) }
+            coVerify(exactly = 1) { store.acceptNews(MainNews.ShowErrorToast) }
         }
 
     @Test
@@ -208,7 +268,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     /* OnPlusClicked */
     @Test
     fun `event OnPlusClicked → setProductCount return error → show error toast`() =
-       runTest {
+        runTest {
             sharedSearchRepositoryMock.apply {
                 coEvery { setProductCount(any(), any()) } returns Result.Error()
             }

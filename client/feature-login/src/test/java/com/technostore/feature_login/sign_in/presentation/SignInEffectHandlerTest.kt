@@ -174,6 +174,17 @@ class SignInEffectHandlerTest : SignInBaseTest() {
         coVerify(exactly = 1) { store.dispatch(SignInEvent.PasswordIsValid) }
     }
 
+    @Test
+    fun `event OnSignInClicked → email is null → show error`() = runTest {
+        val event = SignInUiEvent.OnSignInClicked(
+            email = null,
+            password = password,
+        )
+        effectHandler.process(event, defaultState, store)
+        coVerify(exactly = 1) { store.dispatch(SignInEvent.EmailIsEmpty) }
+        coVerify(exactly = 1) { store.dispatch(SignInEvent.PasswordIsValid) }
+    }
+
     /* OnRegistrationClicked */
     @Test
     fun `event OnRegistrationClicked → open registration page`() = runTest {

@@ -21,30 +21,28 @@ class SearchResultEffectHandler(
                 store.dispatch(SearchResultEvent.StartLoading)
                 if (event.isPopularity) {
                     val result = mainRepository.searchByPopularity()
-                    when (result) {
-                        is Result.Success -> {
+                    if (result is Result.Success) {
+                        val data = result.data
+                        if (data != null) {
                             store.dispatch(SearchResultEvent.EndLoading)
-                            store.dispatch(SearchResultEvent.DataLoaded(result.data!!))
-                        }
-
-                        is Result.Error -> {
-                            store.acceptNews(SearchResultNews.ShowErrorToast)
-
+                            store.dispatch(SearchResultEvent.DataLoaded(data))
+                            return
                         }
                     }
+                    store.acceptNews(SearchResultNews.ShowErrorToast)
                 } else {
-                    val result = mainRepository.searchByCategory(event.categoryId!!)
-                    when (result) {
-                        is Result.Success -> {
-                            store.dispatch(SearchResultEvent.EndLoading)
-                            store.dispatch(SearchResultEvent.DataLoaded(result.data!!))
-                        }
-
-                        is Result.Error -> {
-                            store.acceptNews(SearchResultNews.ShowErrorToast)
-
+                    if (event.categoryId != null) {
+                        val result = mainRepository.searchByCategory(event.categoryId!!)
+                        if (result is Result.Success) {
+                            val data = result.data
+                            if (data != null) {
+                                store.dispatch(SearchResultEvent.EndLoading)
+                                store.dispatch(SearchResultEvent.DataLoaded(data))
+                                return
+                            }
                         }
                     }
+                    store.acceptNews(SearchResultNews.ShowErrorToast)
                 }
             }
 

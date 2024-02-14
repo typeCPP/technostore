@@ -66,7 +66,7 @@ class SignInEffectHandler(
             }
 
             is SignInUiEvent.OnRegistrationClicked -> store.acceptNews(SignInNews.OpenRegistrationPage)
-            is SignInUiEvent.OnForgotPasswordClicked -> store.acceptNews(SignInNews.OpenPasswordRecoveryPage)
+            SignInUiEvent.OnForgotPasswordClicked -> store.acceptNews(SignInNews.OpenPasswordRecoveryPage)
             else -> {}
         }
     }

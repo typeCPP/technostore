@@ -21,24 +21,28 @@ class FilterEffectHandler(
                 when (result) {
                     is Result.Error -> store.acceptNews(FilterNews.ShowErrorToast)
                     is Result.Success -> {
-                        val categories = result.data!!
-                        val selectedCategories = sharedSearchRepository.getSelectedCategories()
-                        categories.forEach { categoryWithCheck ->
-                            if (selectedCategories.find { categoryWithCheck.category.id == it } != null) {
-                                categoryWithCheck.isSelected = true
+                        val categories = result.data
+                        if (categories != null) {
+                            val selectedCategories = sharedSearchRepository.getSelectedCategories()
+                            categories.forEach { categoryWithCheck ->
+                                if (selectedCategories.find { categoryWithCheck.category.id == it } != null) {
+                                    categoryWithCheck.isSelected = true
+                                }
                             }
-                        }
-                        store.dispatch(
-                            FilterEvent.DataLoaded(
-                                categories = categories,
-                                isSortingByPopularity = sharedSearchRepository.getIsSortByPopularity(),
-                                isSortingByRating = sharedSearchRepository.getIsSortByRating(),
-                                minPrice = sharedSearchRepository.getMinPrice(),
-                                maxPrice = sharedSearchRepository.getMaxPrice(),
-                                minRating = sharedSearchRepository.getMinRating(),
-                                maxRating = sharedSearchRepository.getMaxRating(),
+                            store.dispatch(
+                                FilterEvent.DataLoaded(
+                                    categories = categories,
+                                    isSortingByPopularity = sharedSearchRepository.getIsSortByPopularity(),
+                                    isSortingByRating = sharedSearchRepository.getIsSortByRating(),
+                                    minPrice = sharedSearchRepository.getMinPrice(),
+                                    maxPrice = sharedSearchRepository.getMaxPrice(),
+                                    minRating = sharedSearchRepository.getMinRating(),
+                                    maxRating = sharedSearchRepository.getMaxRating(),
+                                )
                             )
-                        )
+                        } else {
+                            store.acceptNews(FilterNews.ShowErrorToast)
+                        }
                     }
                 }
             }

@@ -43,6 +43,21 @@ class ProductEffectHandlerTest : ProductBaseTest() {
         }
 
     @Test
+    fun `event init → start loading, get product return success, get reviews return success with empty body → set user review, stop loading, set data`() =
+        runTest {
+            productRepository.apply {
+                coEvery { getUserReview(any()) } returns Result.Success()
+            }
+            val event = ProductUiEvent.Init(productId = TestData.FIRST_PRODUCT_ID)
+            productEffectHandler.process(event, defaultState, store)
+            coVerify(exactly = 1) { store.dispatch(ProductEvent.StartLoading) }
+            coVerify(exactly = 1) { productRepository.getUserReview(event.productId) }
+            coVerify(exactly = 0) { store.dispatch(ProductEvent.OnReviewLoaded(TestData.USER_REVIEW_TEXT)) }
+            coVerify(exactly = 1) { store.dispatch(ProductEvent.EndLoading) }
+            coVerify(exactly = 1) { store.dispatch(ProductEvent.OnDataLoaded(productDetailModel)) }
+        }
+
+    @Test
     fun `event init → start loading, get product return success, get reviews return error → stop loading, set data`() =
         runTest {
             productRepository.apply {
