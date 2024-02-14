@@ -9,10 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Table;
 
 import com.technostore.dto.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -22,6 +19,7 @@ import java.time.Instant;
 @Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Order {
 
     @Id
