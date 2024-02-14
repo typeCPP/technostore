@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/reviewListFragment"
-        android:name="com.technostore.review_list.ReviewListFragment">
+        android:name="com.technostore.feature_review.review_list.ReviewListFragment">
         <argument
             android:name="productId"
             android:defaultValue="0L"
@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.technostore.review.ReviewFragment">
+        android:name="com.technostore.feature_review.review.ReviewFragment">
         <argument
             android:name="userName"
             android:defaultValue=""

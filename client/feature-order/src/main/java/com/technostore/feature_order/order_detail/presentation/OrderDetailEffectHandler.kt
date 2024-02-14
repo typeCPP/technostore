@@ -17,16 +17,15 @@ class OrderDetailEffectHandler(
             is OrderDetailUiEvent.Init -> {
                 store.dispatch(OrderDetailEvent.StartLoading)
                 val result = orderRepository.getCompletedOrderById(event.id)
-                when (result) {
-                    is Result.Success -> {
+                if (result is Result.Success) {
+                    val data = result.data
+                    if (data != null) {
                         store.dispatch(OrderDetailEvent.EndLoading)
-                        store.dispatch(OrderDetailEvent.OrderDetailsLoaded(result.data!!))
-                    }
-
-                    is Result.Error -> {
-                        store.acceptNews(OrderDetailNews.ShowErrorToast)
+                        store.dispatch(OrderDetailEvent.OrderDetailsLoaded(data))
+                        return
                     }
                 }
+                store.acceptNews(OrderDetailNews.ShowErrorToast)
             }
 
             is OrderDetailUiEvent.OnProductClicked -> {

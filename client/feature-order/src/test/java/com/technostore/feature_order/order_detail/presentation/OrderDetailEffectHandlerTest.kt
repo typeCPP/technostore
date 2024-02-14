@@ -35,6 +35,20 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
         }
 
     @Test
+    fun `event init → start loading, complete orders return success with empty body → show error`() = runTest {
+        orderRepository.apply {
+            coEvery { getCompletedOrderById(any()) } returns Result.Error()
+        }
+        val event = OrderDetailUiEvent.Init(TestData.FIRST_ORDER_ID)
+        orderDetailEffectHandler.process(
+            event = event,
+            currentState = defaultState,
+            store = store
+        )
+        coVerify(exactly = 1) { store.dispatch(OrderDetailEvent.StartLoading) }
+        coVerify(exactly = 1) { store.acceptNews(OrderDetailNews.ShowErrorToast) }
+    }
+    @Test
     fun `event init → start loading, complete orders return error → show error`() = runTest {
         orderRepository.apply {
             coEvery { getCompletedOrderById(any()) } returns Result.Error()
