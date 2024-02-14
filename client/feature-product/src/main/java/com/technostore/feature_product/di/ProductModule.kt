@@ -13,6 +13,8 @@ import com.technostore.feature_product.product.presentation.ProductReducer
 import com.technostore.feature_product.product.presentation.ProductState
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionEffectHandler
 import com.technostore.feature_product.product_description.presentation.ProductDescriptionReducer
+import com.technostore.feature_product.product_description.presentation.ProductDescriptionState
+import com.technostore.feature_product.product_description.presentation.ProductDescriptionUiEvent
 import com.technostore.network.service.OrderService
 import com.technostore.network.service.ProductService
 import com.technostore.network.service.ReviewService
@@ -105,5 +107,23 @@ class ProductModule {
     @Provides
     fun provideProductDescriptionReducer(): ProductDescriptionReducer {
         return ProductDescriptionReducer()
+    }
+
+    @Provides
+    fun provideProductDescriptionState(): ProductDescriptionState {
+        return ProductDescriptionState()
+    }
+
+    @Provides
+    fun provideProductDescriptionStore(
+        initialState: ProductDescriptionState,
+        reducer: ProductDescriptionReducer,
+        effectHandler: ProductDescriptionEffectHandler
+    ): Store<ProductDescriptionState, ProductDescriptionUiEvent> {
+        return Store(
+            initialState = initialState,
+            reducer = reducer,
+            effectHandlers = listOf(effectHandler)
+        )
     }
 }

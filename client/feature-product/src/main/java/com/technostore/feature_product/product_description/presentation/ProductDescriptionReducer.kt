@@ -1,10 +1,12 @@
 package com.technostore.feature_product.product_description.presentation
 
 import com.technostore.arch.mvi.Reducer
-import com.technostore.arch.mvi.State
 
-class ProductDescriptionReducer : Reducer<State, ProductDescriptionUiEvent> {
-    override fun reduce(currentState: State, event: ProductDescriptionUiEvent): State {
+class ProductDescriptionReducer : Reducer<ProductDescriptionState, ProductDescriptionUiEvent> {
+    override fun reduce(
+        currentState: ProductDescriptionState,
+        event: ProductDescriptionUiEvent
+    ): ProductDescriptionState {
         return currentState
     }
 }
