@@ -5,6 +5,6 @@ import com.technostore.arch.mvi.News
 
 sealed class RegistrationUserInfoNews : News() {
     data object ShowErrorToast : RegistrationUserInfoNews()
-    class ChangeImage(val uri: Uri?) : RegistrationUserInfoNews()
+    data class ChangeImage(val uri: Uri?) : RegistrationUserInfoNews()
     data object OpenCodePage : RegistrationUserInfoNews()
 }
