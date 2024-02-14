@@ -75,6 +75,6 @@ class ProductOrderDiffCallback : DiffUtil.ItemCallback<ProductOrderModel>() {
         oldItem: ProductOrderModel,
         newItem: ProductOrderModel
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

@@ -47,6 +47,7 @@ object TestData {
     const val NEGATIVE_REVIEW_TEXT = "отзыв 1"
     const val NEGATIVE_REVIEW_RATE = 1
     const val NEGATIVE_REVIEW_DATE = "01.02.2024"
+    const val NEGATIVE_REVIEW_DATE_LONG = 964820L
     const val NEGATIVE_REVIEW_USER_NAME = "Настя"
     const val NEGATIVE_REVIEW_PHOTO_LINK = "/link1"
     const val NEUTRAL_REVIEW_ID = 2L
