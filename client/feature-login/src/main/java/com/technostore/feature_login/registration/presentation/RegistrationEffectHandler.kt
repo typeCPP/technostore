@@ -31,7 +31,7 @@ class RegistrationEffectHandler(
                     store.dispatch(RegistrationEvent.SecondPasswordIsValid)
                     return
                 }
-                if(!EMAIL_REGEX.toRegex().matches(emailTrim)){
+                if (!EMAIL_REGEX.toRegex().matches(emailTrim)) {
                     store.dispatch(RegistrationEvent.EmailIsInvalid)
                     store.dispatch(RegistrationEvent.FirstPasswordIsValid)
                     store.dispatch(RegistrationEvent.SecondPasswordIsValid)
@@ -87,10 +87,14 @@ class RegistrationEffectHandler(
                     return
                 }
                 if (checkEmailExistsResult is Result.Success) {
-                    val isEmailExists = checkEmailExistsResult.data!!
-                    if (isEmailExists) {
-                        store.dispatch(RegistrationEvent.EmailExists)
-                        return
+                    val isEmailExists = checkEmailExistsResult.data
+                    if (isEmailExists != null) {
+                        if (isEmailExists) {
+                            store.dispatch(RegistrationEvent.EmailExists)
+                            return
+                        }
+                    } else {
+                        store.acceptNews(RegistrationNews.ShowErrorToast)
                     }
                 }
                 store.acceptNews(

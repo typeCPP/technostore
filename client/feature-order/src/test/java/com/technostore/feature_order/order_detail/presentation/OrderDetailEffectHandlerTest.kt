@@ -30,7 +30,7 @@ class OrderDetailEffectHandlerTest : OrderDetailBaseTest() {
     }
 
     @Test
-    fun `event init → start loading, complete orders return success  → stop loading, set order details`() =
+    fun `event init → start loading, complete orders return success → stop loading, set order details`() =
         runTest {
             OrderServiceMock {
                 getCompletedOrder.success()

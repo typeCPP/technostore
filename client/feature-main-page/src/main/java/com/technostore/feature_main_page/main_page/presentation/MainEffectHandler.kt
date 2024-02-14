@@ -21,30 +21,26 @@ class MainEffectHandler(
                 sharedSearchRepository.clearNumberPage()
                 store.dispatch(MainEvent.StartLoading)
                 val result = mainRepository.searchByPopularity()
-                when (result) {
-                    is Result.Success -> {
+                if (result is Result.Success) {
+                    val data = result.data
+                    if (data != null) {
                         val categoriesResult = sharedSearchRepository.getCategories()
-                        when (categoriesResult) {
-                            is Result.Success -> {
+                        if (categoriesResult is Result.Success) {
+                            val categoriesData = categoriesResult.data
+                            if (categoriesData != null) {
                                 store.dispatch(MainEvent.EndLoading)
                                 store.dispatch(
                                     MainEvent.MainDataLoaded(
-                                        popularProducts = result.data!!,
-                                        categories = categoriesResult.data!!
+                                        popularProducts = data,
+                                        categories = categoriesData
                                     )
                                 )
-                            }
-
-                            is Result.Error -> {
-                                store.acceptNews(MainNews.ShowErrorToast)
+                                return
                             }
                         }
                     }
-
-                    is Result.Error -> {
-                        store.acceptNews(MainNews.ShowErrorToast)
-                    }
                 }
+                store.acceptNews(MainNews.ShowErrorToast)
             }
 
             is MainUiEvent.OnTextChanged -> {
@@ -52,8 +48,13 @@ class MainEffectHandler(
                 val result = sharedSearchRepository.searchProducts(event.text)
                 when (result) {
                     is Result.Success -> {
-                        store.dispatch(MainEvent.EndLoading)
-                        store.dispatch(MainEvent.DataLoaded(result.data!!))
+                        val data = result.data
+                        if (data != null) {
+                            store.dispatch(MainEvent.EndLoading)
+                            store.dispatch(MainEvent.DataLoaded(data))
+                        } else {
+                            store.acceptNews(MainNews.ShowErrorToast)
+                        }
                     }
 
                     is Result.Error -> {
@@ -70,7 +71,12 @@ class MainEffectHandler(
                 val result = sharedSearchRepository.searchProducts(event.text)
                 when (result) {
                     is Result.Success -> {
-                        store.dispatch(MainEvent.DataLoaded(result.data!!))
+                        val data = result.data
+                        if (data != null) {
+                            store.dispatch(MainEvent.DataLoaded(data))
+                        } else {
+                            store.acceptNews(MainNews.ShowErrorToast)
+                        }
                     }
 
                     is Result.Error -> {

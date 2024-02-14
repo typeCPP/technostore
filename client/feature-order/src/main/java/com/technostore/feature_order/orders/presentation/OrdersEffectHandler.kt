@@ -17,16 +17,15 @@ class OrdersEffectHandler(
             OrdersUiEvent.Init -> {
                 store.dispatch(OrdersEvent.StartLoading)
                 val result = orderRepository.getCompletedOrders()
-                when (result) {
-                    is Result.Success -> {
-                        store.dispatch(OrdersEvent.OrdersLoaded(result.data!!))
+                if (result is Result.Success) {
+                    val data = result.data
+                    if (data != null) {
+                        store.dispatch(OrdersEvent.OrdersLoaded(data))
                         store.dispatch(OrdersEvent.EndLoading)
-                    }
-
-                    is Result.Error -> {
-                        store.acceptNews(OrdersNews.ShowErrorToast)
+                        return
                     }
                 }
+                store.acceptNews(OrdersNews.ShowErrorToast)
             }
 
             OrdersUiEvent.OnBackClicked -> {
