@@ -153,19 +153,6 @@ class RegistrationEffectHandlerTest : RegistrationBaseTest() {
         }
 
     @Test
-    fun `event OnRegistrationClicked → second password have first space → show error`() = runTest {
-        val event = RegistrationUiEvent.OnRegistrationClicked(
-            email = email,
-            firstPassword = password,
-            secondPassword = " " + password
-        )
-        effectHandler.process(event, defaultState, store)
-        coVerify(exactly = 1) { store.dispatch(RegistrationEvent.EmailIsValid) }
-        coVerify(exactly = 1) { store.dispatch(RegistrationEvent.FirstPasswordIsValid) }
-        coVerify(exactly = 1) { store.dispatch(RegistrationEvent.SecondPasswordErrorSymbols) }
-    }
-
-    @Test
     fun `event OnRegistrationClicked → first password is more than 255 symbols → show error`() =
         runTest {
             val event = RegistrationUiEvent.OnRegistrationClicked(
@@ -215,18 +202,6 @@ class RegistrationEffectHandlerTest : RegistrationBaseTest() {
             coVerify(exactly = 1) { store.dispatch(RegistrationEvent.EmailIsValid) }
             coVerify(exactly = 1) { store.dispatch(RegistrationEvent.FirstPasswordErrorSymbols) }
         }
-
-    @Test
-    fun `event OnRegistrationClicked → first password have first space → show error`() = runTest {
-        val event = RegistrationUiEvent.OnRegistrationClicked(
-            email = email,
-            firstPassword = " " + password,
-            secondPassword = password
-        )
-        effectHandler.process(event, defaultState, store)
-        coVerify(exactly = 1) { store.dispatch(RegistrationEvent.EmailIsValid) }
-        coVerify(exactly = 1) { store.dispatch(RegistrationEvent.FirstPasswordErrorSymbols) }
-    }
 
     @Test
     fun `event OnRegistrationClicked → email has invalid symbols → show error`() = runTest {

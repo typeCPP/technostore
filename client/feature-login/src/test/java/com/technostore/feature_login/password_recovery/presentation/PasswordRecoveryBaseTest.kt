@@ -7,4 +7,5 @@ open class PasswordRecoveryBaseTest {
     protected val store = mockk<Store<PasswordRecoveryState, PasswordRecoveryEvent>>(relaxed = true)
     protected val firstPassword = "Password123"
     protected val secondPassword = "Password1"
+    protected val defaultState = PasswordRecoveryState()
 }
