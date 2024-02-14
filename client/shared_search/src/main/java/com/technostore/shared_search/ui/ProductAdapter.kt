@@ -20,7 +20,7 @@ class ProductAdapter(
     private val onClickProduct: (item: ProductSearchModel) -> Unit,
     private val onClickAdd: (item: ProductSearchModel) -> Unit,
     private val loadMoreDataCallback: () -> Unit
-) : ListAdapter<ProductSearchModel, ProductAdapter.DataViewHolder>(ShoppingCartDiffCallback()) {
+) : ListAdapter<ProductSearchModel, ProductAdapter.DataViewHolder>(ProductDiffCallback()) {
     private lateinit var binding: ViewHolderProductCardBinding
 
     class DataViewHolder(private val binding: ViewHolderProductCardBinding) :
@@ -84,7 +84,7 @@ class ProductAdapter(
     }
 }
 
-class ShoppingCartDiffCallback : DiffUtil.ItemCallback<ProductSearchModel>() {
+class ProductDiffCallback : DiffUtil.ItemCallback<ProductSearchModel>() {
     override fun areItemsTheSame(
         oldItem: ProductSearchModel,
         newItem: ProductSearchModel
