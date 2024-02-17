@@ -19,8 +19,11 @@ import com.technostore.service.OrderService;
 import com.technostore.service.client.ProductRestTemplateClient;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.persistence.EntityNotFoundException;
+
 import static com.technostore.OrderTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
@@ -66,5 +69,49 @@ public class OrderServiceTest {
         orderService.completeOrder(userId, order.getId());
 
         assertThat(orderRepository.findOrderByIdAndStatus(order.getId(), OrderStatus.COMPLETED)).isPresent();
+    }
+
+    @Test
+    void tryCompleteOrderByAnotherUserTest() {
+        long userId = 10000L;
+        Order order = orderRepository.save(buildOrder());
+
+        assertThatThrownBy(() -> orderService.completeOrder(userId, order.getId()))
+                .isExactlyInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining(
+                        String.format("User with id = %s does not own order with id = %s", userId, order.getId()));
+    }
+
+    @Test
+    void setProductCountTest() {
+        long userId = 1L;
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        mockProductService(productRestTemplateClient, orderProduct.getProductId());
+
+        orderService.setProductCount(userId, orderProduct.getProductId(), 10);
+        assertThat(orderProductRepository.findByOrder(order).get(0).getCount()).isEqualTo(10);
+    }
+
+    @Test
+    void setProductCountWhenCountLessOneTest() {
+        long userId = 1L;
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+
+        orderService.setProductCount(userId, orderProduct.getProductId(), 0);
+        assertThat(orderProductRepository.findByOrder(order).size()).isEqualTo(0);
+    }
+
+    @Test
+    void setProductCountWhenOrderNotExistOneTest() {
+        long userId = 1L;
+
+        orderService.setProductCount(userId, 1L, 45);
+        
+        Order order = orderRepository.findOrdersByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId).get(0);
+        assertThat(orderProductRepository.findByOrder(order).size()).isEqualTo(1);
+        assertThat(orderProductRepository.findByOrder(order).get(0).getProductId()).isEqualTo(1);
+        assertThat(orderProductRepository.findByOrder(order).get(0).getCount()).isEqualTo(45);
     }
 }
