@@ -1,8 +1,9 @@
 package com.technostore.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
