@@ -12,14 +12,14 @@ class ConfirmationCodeReducerTest {
     fun `event StartLoading → set isLoading = true`() {
         val event = ConfirmationCodeEvent.StartLoading
         val newState = confirmationCodeReducer.reduce(defaultState.copy(isLoading = true), event)
-        Assert.assertTrue(newState.isLoading == true)
+        Assert.assertTrue(newState.isLoading)
     }
 
     @Test
     fun `event EndLoading → set isLoading = false`() {
         val event = ConfirmationCodeEvent.EndLoading
         val newState = confirmationCodeReducer.reduce(defaultState.copy(isLoading = true), event)
-        Assert.assertTrue(newState.isLoading == false)
+        Assert.assertTrue(!newState.isLoading)
     }
 
     @Test

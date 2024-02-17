@@ -1,6 +1,5 @@
 package com.technostore.feature_order.orders.presentation
 
-import com.technostore.common_test.TestData
 import com.technostore.network.model.order.response.Order
 import org.junit.Assert
 import org.junit.Test
@@ -14,14 +13,14 @@ class OrdersReducerTest {
     fun `event StartLoading → set isLoading = true`() {
         val event = OrdersEvent.StartLoading
         val newState = ordersReducer.reduce(defaultState.copy(isLoading = false), event)
-        Assert.assertTrue(newState.isLoading == true)
+        Assert.assertTrue(newState.isLoading)
     }
 
     @Test
     fun `event EndLoading → set isLoading = false`() {
         val event = OrdersEvent.EndLoading
         val newState = ordersReducer.reduce(defaultState.copy(isLoading = true), event)
-        Assert.assertTrue(newState.isLoading == false)
+        Assert.assertTrue(!newState.isLoading)
     }
 
     @Test
