@@ -126,6 +126,7 @@ public class ProductServiceTest {
     void searchProductsTest() {
         Category category = categoryRepository.save(buildCategory());
         List<Product> products = productRepository.saveAll(buildProducts(category));
+
         mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
 
         List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
@@ -135,6 +136,27 @@ public class ProductServiceTest {
         assertThat(productDtoList.get(1).getPrice()).isEqualTo(products.get(1).getPrice());
         assertThat(productDtoList.get(0).getName()).isEqualTo(products.get(0).getName());
         assertThat(productDtoList.get(1).getPrice()).isEqualTo(products.get(1).getPrice());
+    }
+
+    @Test
+    void searchProductsByRatingTest() {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        jdbcTemplate.execute(String.format("""
+                INSERT INTO product.product_rating(count_rating, sum_rating, product_id)
+                VALUES (1, 5, %s),
+                       (1, 6, %s)
+                """, products.get(0).getId(), products.get(1).getId()));
+
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
+
+        List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_RATING,
+                "name", 0, 10, 0, 20000, List.of(category.getId()), null).get().toList();
+        assertThat(productDtoList.size()).isEqualTo(2);
+        assertThat(productDtoList.get(1).getName()).isEqualTo(products.get(0).getName());
+        assertThat(productDtoList.get(0).getPrice()).isEqualTo(products.get(1).getPrice());
+        assertThat(productDtoList.get(1).getName()).isEqualTo(products.get(0).getName());
+        assertThat(productDtoList.get(0).getPrice()).isEqualTo(products.get(1).getPrice());
     }
 
     @Test
