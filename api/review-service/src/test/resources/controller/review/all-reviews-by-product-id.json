@@ -1,0 +1,20 @@
+[
+  {
+    "id": 5,
+    "productId": 1,
+    "text": "Cool review",
+    "rate": 3,
+    "date": 1789030338,
+    "userName": "Andrey Usanov",
+    "photoLink": "another image url"
+  },
+  {
+    "id": 4,
+    "productId": 1,
+    "text": "Cool review",
+    "rate": 7,
+    "date": 1789030338,
+    "userName": "Nastia Molchanova",
+    "photoLink": "image url"
+  }
+]
