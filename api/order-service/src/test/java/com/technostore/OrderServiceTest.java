@@ -1,10 +1,7 @@
 package com.technostore;
 
-import java.time.Instant;
-import java.util.List;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,20 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
 
-import com.technostore.dto.CategoryDto;
-import com.technostore.dto.FullProductDto;
 import com.technostore.dto.OrderDto;
-import com.technostore.dto.OrderStatus;
 import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
 import com.technostore.repository.OrderProductRepository;
 import com.technostore.repository.OrderRepository;
 import com.technostore.service.OrderService;
 import com.technostore.service.client.ProductRestTemplateClient;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import static com.technostore.OrderTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
@@ -40,37 +34,21 @@ public class OrderServiceTest {
     OrderProductRepository orderProductRepository;
     @MockBean
     ProductRestTemplateClient productRestTemplateClient;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.execute("DELETE FROM orders.order_product;");
+        jdbcTemplate.execute("DELETE FROM orders.orders;");
+    }
 
     @Test
     void getCurrentOrderTest() {
-        Long userId = 10000000L;
-        Long productId = 1L;
-        Order order = orderRepository.save(Order.builder()
-                .status(OrderStatus.IN_PROGRESS)
-                .userId(userId)
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .build()
-        );
-
-        OrderProduct orderProduct = orderProductRepository.save(OrderProduct.builder()
-                .productId(1L)
-                .order(order)
-                .count(1)
-                .build());
-
-        Mockito.when(productRestTemplateClient.getProductsByIds(eq(List.of(orderProduct.getProductId())), any()))
-                .thenReturn(List.of(FullProductDto.builder()
-                        .id(productId)
-                        .price(100.0)
-                        .linkPhoto("some url")
-                        .name("some name")
-                        .description("some desc")
-                        .userRating(7.0)
-                        .category(CategoryDto.builder().name("Ноутбуки").build())
-                        .rating(5.0)
-                        .inCartCount(1)
-                        .build()));
+        long userId = 10000000L;
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        mockProductService(productRestTemplateClient, orderProduct.getProductId());
 
         OrderDto orderDto = orderService.getCurrentOrder(userId, null);
         assertThat(orderDto.getId()).isEqualTo(order.getId());
