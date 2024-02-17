@@ -15,9 +15,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
 import static com.technostore.reviewservice.ReviewTestFactory.mockUserService;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -78,5 +80,29 @@ public class ReviewControllerTest {
         mockMvc.perform(get("/review/all-by-product-id/" + 1))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(getFileContent("controller/review/all-reviews-by-product-id.json"), true));
+    }
+
+    @Test
+    void tryGetReviewByProductIdWhenLostConnectionWithUserServiceTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(IllegalStateException.class);
+        mockMvc.perform(get("/review/by-product-id/" + 1))
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.message", is("Lost connection with user service")));
+    }
+
+    @Test
+    void tryGetReviewByProductIdWhenReviewNotExistsTest() throws Exception {
+        mockUserService(userRestTemplateClient);
+        mockMvc.perform(get("/review/by-product-id/" + 1000000))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("Review by user with id 1 for product with id 1000000 not found")));
+    }
+
+    @Test
+    void tryGetRatingByProductIdWhenReviewsForThisProductNotExistsTest() throws Exception {
+        mockUserService(userRestTemplateClient);
+        mockMvc.perform(get("/review/product-rating/" + 1))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("No product with id: 1")));
     }
 }
