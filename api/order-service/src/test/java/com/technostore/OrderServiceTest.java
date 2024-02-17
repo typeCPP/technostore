@@ -86,6 +86,30 @@ public class OrderServiceTest {
     }
 
     @Test
+    void getCompletedOrderTest() {
+        long userId = 1L;
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
+        mockProductService(productRestTemplateClient, orderProduct.getProductId());
+
+        OrderDto orderDto = orderService.getCompletedOrder(order.getId(), userId, null);
+        assertThat(orderDto.getId()).isEqualTo(order.getId());
+        assertThat(orderDto.getProducts().size()).isEqualTo(1);
+        assertThat(orderDto.getProducts().get(0).getId()).isEqualTo(orderProduct.getProductId());
+        assertThat(orderDto.getProducts().get(0).getName()).isEqualTo("some name");
+    }
+
+    @Test
+    void tryGetCompletedOrderButOrderNotExistsUserTest() {
+        long userId = 1L;
+        assertThatThrownBy(() -> orderService.getCompletedOrder(1000000L, userId, null))
+                .isExactlyInstanceOf(EntityNotFoundException.class)
+                .hasMessage("No completed order with id: 1000000");
+    }
+
+    @Test
     void setProductCountTest() {
         long userId = 1L;
         Order order = orderRepository.save(buildOrder());

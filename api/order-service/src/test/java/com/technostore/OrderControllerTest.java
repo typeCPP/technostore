@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static com.technostore.OrderTestFactory.*;
 import static com.technostore.TestUtils.getFileContent;
@@ -210,5 +211,36 @@ public class OrderControllerTest {
         mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1,2"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(getFileContent("controller/order/in-cart-count-product-ids.json"), true));
+    }
+
+    @Test
+    void getInCartCountByProductsIdsWithoutIdsInParamTest() throws Exception {
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(100)
+                        .build());
+        mockUserService(userRestTemplateClient);
+
+        mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids="))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json("[]", true));
+    }
+
+    @Test
+    void tryGetCurrentOrderWhenUnauthorizedHttpClientErrorExceptionTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(HttpClientErrorException.Unauthorized.class);
+        mockMvc.perform(get("/order/get-current-order"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void tryGetCurrentOrderWhenForbiddenHttpClientErrorExceptionTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(HttpClientErrorException.Forbidden.class);
+        mockMvc.perform(get("/order/get-current-order"))
+                .andExpect(status().is4xxClientError());
     }
 }
