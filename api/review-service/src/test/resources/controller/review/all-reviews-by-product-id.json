@@ -1,6 +1,6 @@
 [
   {
-    "id": 5,
+    "id": %s,
     "productId": 1,
     "text": "Cool review",
     "rate": 3,
@@ -9,7 +9,7 @@
     "photoLink": "another image url"
   },
   {
-    "id": 4,
+    "id": %s,
     "productId": 1,
     "text": "Cool review",
     "rate": 7,

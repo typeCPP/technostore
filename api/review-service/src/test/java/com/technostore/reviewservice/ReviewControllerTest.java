@@ -12,13 +12,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
 import static com.technostore.reviewservice.ReviewTestFactory.mockUserService;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -79,7 +83,9 @@ public class ReviewControllerTest {
 
         mockMvc.perform(get("/review/all-by-product-id/" + 1))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(getFileContent("controller/review/all-reviews-by-product-id.json"), true));
+                .andExpect(content().json(
+                        String.format(getFileContent("controller/review/all-reviews-by-product-id.json"),
+                                review2.getId(), review.getId()), true));
     }
 
     @Test
@@ -104,5 +110,34 @@ public class ReviewControllerTest {
         mockMvc.perform(get("/review/product-rating/" + 1))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.message", is("No product with id: 1")));
+    }
+
+    @Test
+    void setReviewTest() throws Exception {
+        mockUserService(userRestTemplateClient);
+
+        mockMvc.perform(post("/review/newReview")
+                        .param("text", "Nice review")
+                        .param("rate", "7")
+                        .param("productId", "2"))
+                .andExpect(status().is2xxSuccessful());
+
+        Optional<Review> review = reviewRepository.findByProductIdAndUserId(2L, 1L);
+        assertThat(review).isPresent();
+        assertThat(review.get().getUserId()).isEqualTo(1L);
+        assertThat(review.get().getProductId()).isEqualTo(2L);
+        assertThat(review.get().getText()).isEqualTo("Nice review");
+        assertThat(review.get().getRate()).isEqualTo(7);
+    }
+
+    @Test
+    void trySetReviewWhenLostConnectionWithUserServiceTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(IllegalStateException.class);
+        mockMvc.perform(post("/review/newReview")
+                        .param("text", "Nice review")
+                        .param("rate", "7")
+                        .param("productId", "2"))
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.message", is("Lost connection with user service")));
     }
 }
