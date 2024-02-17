@@ -66,4 +66,6 @@ object TestData {
     const val POSITIVE_REVIEW_DATE_LONG = 1234532L
     const val POSITIVE_REVIEW_USER_NAME = "Данил"
     const val POSITIVE_REVIEW_PHOTO_LINK = "/link3"
+    const val RATING = 2
+    const val CODE = "1212"
 }
