@@ -8,6 +8,7 @@ import com.technostore.productservice.repository.ProductRepository;
 import com.technostore.productservice.service.ProductService;
 import com.technostore.productservice.service.client.OrderRestTemplateClient;
 import com.technostore.productservice.service.client.ReviewRestTemplateClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,16 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.technostore.productservice.ProductTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -37,19 +44,21 @@ public class ProductServiceTest {
     ReviewRestTemplateClient reviewRestTemplateClient;
     @MockBean
     OrderRestTemplateClient orderRestTemplateClient;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.execute("TRUNCATE TABLE product.product_rating;");
+        jdbcTemplate.execute("TRUNCATE TABLE product.product_popularity;");
+        jdbcTemplate.execute("TRUNCATE TABLE product.product;");
+        jdbcTemplate.execute("TRUNCATE TABLE product.category;");
+    }
 
     @Test
     void getProductByIdTest() {
-        Category category = categoryRepository.save(Category.builder()
-                .name("some category")
-                .build());
-        Product product = productRepository.save(Product.builder()
-                .name("some name")
-                .price(15000)
-                .category(category)
-                .description("desc")
-                .linkPhoto("photoLink")
-                .build());
+        Category category = categoryRepository.save(buildCategory());
+        Product product = productRepository.save(buildProduct(category));
 
         ReviewDto reviewDto = ReviewDto.builder()
                 .id(1)
@@ -92,94 +101,76 @@ public class ProductServiceTest {
     }
 
     @Test
+    void whenGetProductByIdForNotExistingProductThenThrow() {
+        assertThatThrownBy(() -> productService.getProductById(100000000000L, null))
+                .isExactlyInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
     void getPhotoLinkTest() {
-        Category category = categoryRepository.save(Category.builder()
-                .name("some category")
-                .build());
-        Product product = productRepository.save(Product.builder()
-                .name("some name")
-                .price(15000)
-                .category(category)
-                .description("desc")
-                .linkPhoto("photo Link")
-                .build());
+        Category category = categoryRepository.save(buildCategory());
+        Product product = productRepository.save(buildProduct(category));
+
         String photoLink = productService.getPhotoLink(product.getId());
 
-        assertThat(photoLink).isEqualTo("photo Link");
+        assertThat(photoLink).isEqualTo(product.getLinkPhoto());
+    }
 
+    @Test
+    void whenGetPhotoLinkForNotExistingProductThenThrow() {
+        assertThatThrownBy(() -> productService.getPhotoLink(100000000000L))
+                .isExactlyInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
     void searchProductsTest() {
-        Category category = categoryRepository.save(Category.builder()
-                .name("some category")
-                .build());
-        Product product1 = productRepository.save(Product.builder()
-                .name("name1")
-                .price(10000)
-                .category(category)
-                .description("desc")
-                .linkPhoto("photo Link")
-                .build());
-
-        Product product2 = productRepository.save(Product.builder()
-                .name("name2")
-                .price(15000)
-                .category(category)
-                .description("desc")
-                .linkPhoto("photo Link")
-                .build());
-
-        Mockito.when(reviewRestTemplateClient.getReviewStatisticsByProductIds(eq(List.of(product1.getId(), product2.getId()))))
-                .thenReturn(List.of(
-                        ReviewStatisticDto.builder()
-                                .productId(product1.getId())
-                                .rating(5.0)
-                                .countReviews(1L)
-                                .build(),
-                        ReviewStatisticDto.builder()
-                                .productId(product2.getId())
-                                .rating(6.0)
-                                .countReviews(1L)
-                                .build()));
-
-        Mockito.when(orderRestTemplateClient.getInCartCountByProductIds(eq(List.of(product1.getId(), product2.getId())), any()))
-                .thenReturn(List.of(
-                        InCartCountProductDto.builder()
-                                .productId(product1.getId())
-                                .inCartCount(3)
-                                .build(),
-                        InCartCountProductDto.builder()
-                                .productId(product2.getId())
-                                .inCartCount(4)
-                                .build()));
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
 
         List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
                 "name", 0, 10, 0, 20000, List.of(category.getId()), null).get().toList();
         assertThat(productDtoList.size()).isEqualTo(2);
-        assertThat(productDtoList.get(0).getName()).isEqualTo(product1.getName());
-        assertThat(productDtoList.get(0).getPrice()).isEqualTo(product1.getPrice());
-        assertThat(productDtoList.get(1).getName()).isEqualTo(product2.getName());
-        assertThat(productDtoList.get(1).getPrice()).isEqualTo(product2.getPrice());
+        assertThat(productDtoList.get(0).getName()).isEqualTo(products.get(0).getName());
+        assertThat(productDtoList.get(1).getPrice()).isEqualTo(products.get(1).getPrice());
+        assertThat(productDtoList.get(0).getName()).isEqualTo(products.get(0).getName());
+        assertThat(productDtoList.get(1).getPrice()).isEqualTo(products.get(1).getPrice());
+    }
 
-        productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
-                "name", 0, 10, 0, 14000, List.of(category.getId()), null).get().toList();
-        assertThat(productDtoList.size()).isEqualTo(1);
-        assertThat(productDtoList.get(0).getName()).isEqualTo(product1.getName());
-        assertThat(productDtoList.get(0).getPrice()).isEqualTo(product1.getPrice());
+    @Test
+    void whenSearchProductsAndUseUnexpectedWordThenReturnEmptyList() {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
 
-        productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
-                "name", 0, 10, 11000, 20000, List.of(category.getId()), null).get().toList();
-        assertThat(productDtoList.size()).isEqualTo(1);
-        assertThat(productDtoList.get(0).getName()).isEqualTo(product2.getName());
-        assertThat(productDtoList.get(0).getPrice()).isEqualTo(product2.getPrice());
-
-        productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
-                "name", 0, 10, 20000, 20001, List.of(category.getId()), null).get().toList();
-        assertThat(productDtoList.size()).isEqualTo(0);
-
-        productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
+        List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
                 "word", 0, 10, 0, 20000, List.of(category.getId()), null).get().toList();
         assertThat(productDtoList.size()).isEqualTo(0);
+    }
+
+    @Test
+    void whenSearchProductsAndPartOfProductsHavePriceMoreMaxPriceThanInQuery() {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
+
+        List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
+                "name", 0, 10, 0, 14000, List.of(category.getId()), null).get().toList();
+        assertThat(productDtoList.size()).isEqualTo(1);
+        assertThat(productDtoList.get(0).getName()).isEqualTo(products.get(0).getName());
+        assertThat(productDtoList.get(0).getPrice()).isEqualTo(products.get(0).getPrice());
+    }
+
+    @Test
+    void whenSearchProductsAndPartOfProductsHavePriceLessMinPriceThanInQuery() {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
+
+        List<SearchProductDto> productDtoList = productService.searchProducts(0, 2, SortType.BY_POPULARITY,
+                "name", 0, 10, 11000, 20000, List.of(category.getId()), null).get().toList();
+        assertThat(productDtoList.size()).isEqualTo(1);
+        assertThat(productDtoList.get(0).getName()).isEqualTo(products.get(1).getName());
+        assertThat(productDtoList.get(0).getPrice()).isEqualTo(products.get(1).getPrice());
     }
 }

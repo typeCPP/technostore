@@ -99,7 +99,7 @@ public class ProductController {
     }
 
     @RequestMapping(path = "/popular-categories", method = RequestMethod.GET)
-    ResponseEntity<?> getProductById() {
+    ResponseEntity<?> getPopularCategories() {
         return new ResponseEntity<>(categoryService.getPopularCategories(), HttpStatus.OK);
     }
 
