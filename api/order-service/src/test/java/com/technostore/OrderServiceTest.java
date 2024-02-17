@@ -1,5 +1,6 @@
 package com.technostore;
 
+import com.technostore.dto.InCartCountProductDto;
 import com.technostore.dto.OrderStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ import com.technostore.service.client.ProductRestTemplateClient;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.persistence.EntityNotFoundException;
+
+import java.util.List;
 
 import static com.technostore.OrderTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -108,10 +111,53 @@ public class OrderServiceTest {
         long userId = 1L;
 
         orderService.setProductCount(userId, 1L, 45);
-        
+
         Order order = orderRepository.findOrdersByStatusEqualsAndUserId(OrderStatus.IN_PROGRESS, userId).get(0);
         assertThat(orderProductRepository.findByOrder(order).size()).isEqualTo(1);
         assertThat(orderProductRepository.findByOrder(order).get(0).getProductId()).isEqualTo(1);
         assertThat(orderProductRepository.findByOrder(order).get(0).getCount()).isEqualTo(45);
     }
+
+    @Test
+    void getPopularProductsIdsTest() {
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        Order order2 = orderRepository.save(buildOrder());
+        OrderProduct orderProduct2 = orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order2)
+                        .count(1)
+                        .build());
+        OrderProduct orderProduct3 = orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(1)
+                        .build());
+        mockProductService(productRestTemplateClient, orderProduct.getProductId());
+
+        List<Long> productsIds = orderService.getPopularProductsIds();
+        assertThat(productsIds.size()).isEqualTo(2);
+        assertThat(productsIds).containsExactly(2L, 1L);
+    }
+
+    @Test
+    void getInCartCountByProductsIdsTest() {
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        OrderProduct orderProduct2 = orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(100)
+                        .build());
+
+        List<InCartCountProductDto> inCartCountByProductIds
+                = orderService.getInCartCountByProductIds(List.of(1L, 2L), 1L);
+        assertThat(inCartCountByProductIds.size()).isEqualTo(2);
+        assertThat(inCartCountByProductIds.stream().map(InCartCountProductDto::getProductId))
+                .containsExactlyInAnyOrder(1L, 2L);
+    }
+
 }

@@ -171,4 +171,44 @@ public class OrderControllerTest {
                 .andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.message", is("Lost connection with user service")));
     }
+
+    @Test
+    void getMostPopularProductsIdsTest() throws Exception {
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        Order order2 = orderRepository.save(buildOrder());
+        OrderProduct orderProduct2 = orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order2)
+                        .count(1)
+                        .build());
+        OrderProduct orderProduct3 = orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(1)
+                        .build());
+
+        mockMvc.perform(get("/order/get-popular-products"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(getFileContent("controller/order/popular-products.json"), true));
+    }
+
+    @Test
+    void getInCartCountByProductsIdsTest() throws Exception {
+        Order order = orderRepository.save(buildOrder());
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        orderProductRepository.save(
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(100)
+                        .build());
+        mockUserService(userRestTemplateClient);
+
+        mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1,2"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(getFileContent("controller/order/in-cart-count-product-ids.json"), true));
+    }
 }

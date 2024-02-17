@@ -1,12 +1,11 @@
 package com.technostore.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class InCartCountProductDto {
     Long productId;
     Integer inCartCount;
