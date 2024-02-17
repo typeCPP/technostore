@@ -103,7 +103,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: order
+          MYSQL_DATABASE: orders
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: somepassword
         ports:
