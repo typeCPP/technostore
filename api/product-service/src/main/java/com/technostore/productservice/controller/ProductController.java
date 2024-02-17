@@ -53,8 +53,11 @@ public class ProductController {
             return new ResponseEntity<>(productService.getProductById(id, request), HttpStatus.OK);
         } catch (EntityNotFoundException exception) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.NOT_FOUND.value(),
-                            "No product with id: " + id), HttpStatus.NOT_FOUND);
+                    AppError.builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("No product with id: " + id)
+                            .build(),
+                    HttpStatus.NOT_FOUND);
         }
     }
 
@@ -68,8 +71,11 @@ public class ProductController {
                 products.add(productService.getProductById(id, request));
             } catch (EntityNotFoundException exception) {
                 return new ResponseEntity<>(
-                        new AppError(HttpStatus.NOT_FOUND.value(),
-                                "No product with id: " + id), HttpStatus.NOT_FOUND);
+                        AppError.builder()
+                                .statusCode(HttpStatus.NOT_FOUND.value())
+                                .message("No product with id: " + id)
+                                .build(),
+                        HttpStatus.NOT_FOUND);
             }
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -93,8 +99,11 @@ public class ProductController {
                     maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
         } catch (EntityNotFoundException entityNotFoundException) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.NOT_FOUND.value(),
-                            "There are no such results."), HttpStatus.NOT_FOUND);
+                    AppError.builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("There are no such results.")
+                            .build(),
+                    HttpStatus.NOT_FOUND);
         }
     }
 
@@ -113,8 +122,11 @@ public class ProductController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.NOT_FOUND.value(),
-                            "Product with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
+                    AppError.builder()
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("Product with id " + id + " does not exist.")
+                            .build(),
+                    HttpStatus.NOT_FOUND);
         }
         if (photoLink == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -148,13 +160,19 @@ public class ProductController {
     public ResponseEntity<AppError> handleException(HttpClientErrorException e) {
         if (e instanceof HttpClientErrorException.Forbidden) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            e.getMessage()), HttpStatus.FORBIDDEN);
+                    AppError.builder()
+                            .statusCode(HttpStatus.FORBIDDEN.value())
+                            .message(e.getMessage())
+                            .build(),
+                    HttpStatus.FORBIDDEN);
         }
         if (e instanceof HttpClientErrorException.Unauthorized) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            e.getMessage()), HttpStatus.UNAUTHORIZED);
+                    AppError.builder()
+                            .statusCode(HttpStatus.UNAUTHORIZED.value())
+                            .message(e.getMessage())
+                            .build(),
+                    HttpStatus.UNAUTHORIZED);
         }
         throw e;
     }
