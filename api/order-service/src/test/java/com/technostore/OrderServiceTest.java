@@ -1,5 +1,6 @@
 package com.technostore;
 
+import com.technostore.dto.OrderStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class OrderServiceTest {
 
     @Test
     void getCurrentOrderTest() {
-        long userId = 10000000L;
+        long userId = 1L;
         Order order = orderRepository.save(buildOrder());
         OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
         mockProductService(productRestTemplateClient, orderProduct.getProductId());
@@ -55,5 +56,15 @@ public class OrderServiceTest {
         assertThat(orderDto.getProducts().size()).isEqualTo(1);
         assertThat(orderDto.getProducts().get(0).getId()).isEqualTo(orderProduct.getProductId());
         assertThat(orderDto.getProducts().get(0).getName()).isEqualTo("some name");
+    }
+
+    @Test
+    void completeOrderTest() {
+        long userId = 1L;
+        Order order = orderRepository.save(buildOrder());
+
+        orderService.completeOrder(userId, order.getId());
+
+        assertThat(orderRepository.findOrderByIdAndStatus(order.getId(), OrderStatus.COMPLETED)).isPresent();
     }
 }

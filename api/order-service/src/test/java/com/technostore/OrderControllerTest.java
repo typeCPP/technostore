@@ -163,4 +163,12 @@ public class OrderControllerTest {
                 .andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.message", is("Lost connection with user service")));
     }
+
+    @Test
+    void tryGetInCartCountByProductsIdsWhenLostConnectionWithUserServiceTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(IllegalStateException.class);
+        mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1"))
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.message", is("Lost connection with user service")));
+    }
 }
