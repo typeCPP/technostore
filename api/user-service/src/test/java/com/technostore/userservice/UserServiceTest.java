@@ -2,6 +2,8 @@ package com.technostore.userservice;
 
 import com.technostore.userservice.dto.EditUserBean;
 import com.technostore.userservice.dto.RegisterBean;
+import com.technostore.userservice.dto.UserPageWithoutEmail;
+import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
 import com.technostore.userservice.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -28,6 +31,8 @@ public class UserServiceTest {
     UserService userService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void registerUserTest() {
@@ -79,6 +84,50 @@ public class UserServiceTest {
         User user = saveTestUser();
         assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> userService.getUserById(user.getId() + 700));
+    }
+
+    @Test
+    void isCorrectPasswordTest() {
+        final String TEST_PASSWORD = "password";
+        User user = saveTestUser();
+        user.setPassword(passwordEncoder.encode(TEST_PASSWORD));
+
+        assertThat(userService.isCorrectPassword(user, TEST_PASSWORD)).isTrue();
+        assertThat(userService.isCorrectPassword(user, TEST_PASSWORD + "wrong")).isFalse();
+    }
+
+    @Test
+    void getInfoForProfileTest() {
+        User user = saveTestUser();
+        UserProfile userProfile = userService.getInfoForProfile(user);
+
+        assertThat(userProfile.getEmail()).isEqualTo(user.getEmail());
+        assertThat(userProfile.getImage()).isEqualTo("/user/image?id=" + user.getId());
+        assertThat(userProfile.getName()).isEqualTo(user.getName());
+        assertThat(userProfile.getLastName()).isEqualTo(user.getLastName());
+    }
+
+    @Test
+    void getInfoForUserPageWithoutEmailTest() {
+        User user = saveTestUser();
+        UserPageWithoutEmail userPageWithoutEmail = userService.getInfoForUserPageWithoutEmail(user);
+
+        assertThat(userPageWithoutEmail.getImage()).isEqualTo("/user/image?id=" + user.getId());
+        assertThat(userPageWithoutEmail.getName()).isEqualTo(user.getName());
+        assertThat(userPageWithoutEmail.getLastname()).isEqualTo(user.getLastName());
+    }
+
+    @Test
+    void saveTest() {
+        User user = User.builder()
+                .email("emaill")
+                .password("pass")
+                .name("test name")
+                .lastName("last name test")
+                .linkPhoto("photolink")
+                .isEnabled(true)
+                .build();
+        userService.save(user);
     }
 
     @Test
