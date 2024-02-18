@@ -31,7 +31,6 @@ import com.technostore.productservice.service.CategoryService;
 import com.technostore.productservice.dto.ProductDto;
 import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.service.ProductService;
-import com.technostore.productservice.service.client.UserRestTemplateClient;
 import com.technostore.productservice.utils.AppError;
 
 @RestController
@@ -43,9 +42,6 @@ public class ProductController {
 
     @Autowired
     CategoryService categoryService;
-
-    @Autowired
-    UserRestTemplateClient userRestTemplateClient;
 
     @GetMapping(path = "/{id}")
     ResponseEntity<?> getProductById(@PathVariable Long id, HttpServletRequest request) {
@@ -88,14 +84,8 @@ public class ProductController {
                              HttpServletRequest request) {
         List<Long> listCategories = listLongFromString(categories);
 
-        try {
-            return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
-                    maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
-        } catch (EntityNotFoundException entityNotFoundException) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.NOT_FOUND.value(),
-                            "There are no such results."), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
+                maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/popular-categories", method = RequestMethod.GET)

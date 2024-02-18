@@ -49,10 +49,10 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE product.product_rating;");
-        jdbcTemplate.execute("TRUNCATE TABLE product.product_popularity;");
-        jdbcTemplate.execute("TRUNCATE TABLE product.product;");
-        jdbcTemplate.execute("TRUNCATE TABLE product.category;");
+        jdbcTemplate.execute("DELETE FROM product.product_rating;");
+        jdbcTemplate.execute("DELETE FROM product.product_popularity;");
+        jdbcTemplate.execute("DELETE FROM product.product;");
+        jdbcTemplate.execute("DELETE FROM product.category;");
     }
 
     @Test

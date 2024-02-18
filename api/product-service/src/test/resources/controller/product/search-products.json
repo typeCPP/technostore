@@ -1,8 +1,8 @@
 {
   "content": [
     {
-      "id": 1,
-      "linkPhoto": "/product/image?id=1",
+      "id": %s,
+      "linkPhoto": "/product/image?id=%s",
       "price": 10000.0,
       "name": "name1",
       "rating": 5.0,
@@ -10,8 +10,8 @@
       "inCartCount": 3
     },
     {
-      "id": 2,
-      "linkPhoto": "/product/image?id=2",
+      "id": %s,
+      "linkPhoto": "/product/image?id=%s",
       "price": 15000.0,
       "name": "name2",
       "rating": 6.0,
