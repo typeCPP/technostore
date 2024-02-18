@@ -2,6 +2,7 @@ package com.technostore.userservice;
 
 import com.technostore.userservice.controller.UserController;
 import com.technostore.userservice.model.User;
+import com.technostore.userservice.repository.RefreshTokenRepository;
 import com.technostore.userservice.repository.UserRepository;
 import com.technostore.userservice.repository.UserTokenRepository;
 import com.technostore.userservice.service.UserService;
@@ -21,9 +22,9 @@ import static com.technostore.userservice.TestUtils.getFileContent;
 import static com.technostore.userservice.UserTestFactory.buildRegisterBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -36,6 +37,8 @@ public class TokenControllerTest {
     UserRepository userRepository;
     @Autowired
     UserTokenRepository userTokenRepository;
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
     @Autowired
     UserController userController;
     @Autowired
@@ -50,7 +53,7 @@ public class TokenControllerTest {
     }
 
     @Test
-    void refreshTokensTest() throws Exception {
+    void refreshOnlyAccessTokensTest() throws Exception {
         User user = userService.registerUser(buildRegisterBean());
         user.setEnabled(true);
         userRepository.save(user);
@@ -65,6 +68,8 @@ public class TokenControllerTest {
                         .headers(headers))
                 .andExpect(status().is2xxSuccessful());
         assertThat(userTokenRepository.findAllByUser(user).get(0).getToken()).isNotEqualTo(map.get("access-token"));
+        assertThat(refreshTokenRepository.findAllByUser(user).get(0).getToken()).isEqualTo(map.get("refresh-token"));
+
     }
 
     @Test
@@ -101,5 +106,25 @@ public class TokenControllerTest {
                         .headers(headers))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.message", is("This access token does not exist.")));
+    }
+
+    @Test
+    void refreshTokensTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(post("/refresh-tokens")
+                        .param("generateRefreshToken", "true")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(String.format(getFileContent("controller/token/refresh-token-request.json"),
+                                map.get("access-token"), map.get("refresh-token")))
+                        .headers(headers))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(userTokenRepository.findAllByUser(user).get(0).getToken()).isNotEqualTo(map.get("access-token"));
+        assertThat(refreshTokenRepository.findAllByUser(user).get(0).getToken()).isNotEqualTo(map.get("refresh-token"));
     }
 }

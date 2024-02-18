@@ -153,6 +153,18 @@ public class UserServiceTest {
     }
 
     @Test
+    void findUserByEmailWhenExistDraftsTest() {
+        saveUnverifiedTestUser("email");
+        User user = saveTestUser();
+        User foundUser = userService.findUserByEmail(user.getEmail());
+
+        assertThat(user.getEmail()).isEqualTo(foundUser.getEmail());
+        assertThat(user.getPassword()).isEqualTo(foundUser.getPassword());
+        assertThat(user.getName()).isEqualTo(foundUser.getName());
+        assertThat(user.getLastName()).isEqualTo(foundUser.getLastName());
+    }
+
+    @Test
     void findUserByEmailErrorTest() {
         assertThatExceptionOfType(EntityNotFoundException.class)
                 .isThrownBy(() -> userService.findUserByEmail("non existing email"));
