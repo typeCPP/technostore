@@ -9,6 +9,7 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 public class ReviewStatisticDto {
     private Long productId;

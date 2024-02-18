@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Optional;
 
@@ -78,14 +79,13 @@ public class ReviewControllerTest {
     @Test
     void getAllReviewsByProductIdTest() throws Exception {
         Review review = reviewRepository.save(buildReview(1L, 7));
-        Review review2 = reviewRepository.save(buildReview(2L, 3));
         mockUserService(userRestTemplateClient);
 
         mockMvc.perform(get("/review/all-by-product-id/" + 1))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
                         String.format(getFileContent("controller/review/all-reviews-by-product-id.json"),
-                                review2.getId(), review.getId()), true));
+                                review.getId()), true));
     }
 
     @Test
@@ -139,5 +139,40 @@ public class ReviewControllerTest {
                         .param("productId", "2"))
                 .andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.message", is("Lost connection with user service")));
+    }
+
+    @Test
+    void trySetReviewWhenUnauthorizedHttpClientErrorExceptionTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(HttpClientErrorException.Unauthorized.class);
+        mockMvc.perform(post("/review/newReview")
+                        .param("text", "Nice review")
+                        .param("rate", "7")
+                        .param("productId", "2"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void trySetReviewWhenForbiddenHttpClientErrorExceptionTest() throws Exception {
+        when(userRestTemplateClient.getUserId(any())).thenThrow(HttpClientErrorException.Forbidden.class);
+        mockMvc.perform(post("/review/newReview")
+                        .param("text", "Nice review")
+                        .param("rate", "7")
+                        .param("productId", "2"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void getReviewStatisticsByProductIdsTest() throws Exception {
+        Review review = reviewRepository.save(buildReview(1L, 7));
+        Review review2 = reviewRepository.save(buildReview(2L, 3));
+        Review review3 = reviewRepository.save(buildReview(3L, 10));
+        review3.setProductId(105);
+        reviewRepository.save(review3);
+        mockUserService(userRestTemplateClient);
+
+        mockMvc.perform(get("/review/statistics-by-product-ids")
+                        .param("ids", "1,105"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(getFileContent("controller/review/product-statistics.json"), true));
     }
 }
