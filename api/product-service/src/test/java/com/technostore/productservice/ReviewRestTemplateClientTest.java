@@ -46,7 +46,12 @@ public class ReviewRestTemplateClientTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         List<ReviewDto> reviewDtoList = reviewRestTemplateClient.getAllReviews(1L, request);
         assertThat(reviewDtoList.size()).isEqualTo(1);
-        assertThat(reviewDtoList.stream().map(ReviewDto::getProductId).toList().get(0)).isEqualTo(1L);
+        assertThat(reviewDtoList.get(0).getProductId()).isEqualTo(1L);
+        assertThat(reviewDtoList.get(0).getRate()).isEqualTo(5);
+        assertThat(reviewDtoList.get(0).getDate()).isEqualTo(1000);
+        assertThat(reviewDtoList.get(0).getText()).isEqualTo("text of review");
+        assertThat(reviewDtoList.get(0).getPhotoLink()).isEqualTo("some link");
+        assertThat(reviewDtoList.get(0).getUserName()).isEqualTo("some name");
     }
 
     @Test
