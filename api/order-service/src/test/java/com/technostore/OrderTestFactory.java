@@ -42,19 +42,23 @@ public class OrderTestFactory {
 
     public static void mockProductService(ProductRestTemplateClient productRestTemplateClient, Long productId) {
         Mockito.when(productRestTemplateClient.getProductsByIds(eq(List.of(productId)), any()))
-                .thenReturn(List.of(FullProductDto.builder()
-                        .id(productId)
-                        .price(100.0)
-                        .linkPhoto("some url")
-                        .name("some name")
-                        .description("some desc")
-                        .userRating(7.0)
-                        .category(CategoryDto.builder().name("Ноутбуки").build())
-                        .rating(5.0)
-                        .reviews(List.of(
-                                new ReviewDto(1, productId, "Nice review", 7, 1234567, "Nastia", "some url")
-                        ))
-                        .inCartCount(1)
-                        .build()));
+                .thenReturn(buildListOfFullProductDto(productId));
+    }
+
+    public static List<FullProductDto> buildListOfFullProductDto(long productId) {
+        return List.of(FullProductDto.builder()
+                .id(productId)
+                .price(100.0)
+                .linkPhoto("some url")
+                .name("some name")
+                .description("some desc")
+                .userRating(7.0)
+                .category(CategoryDto.builder().name("Ноутбуки").build())
+                .rating(5.0)
+                .reviews(List.of(
+                        new ReviewDto(1, productId, "Nice review", 7, 1234567, "Nastia", "some url")
+                ))
+                .inCartCount(1)
+                .build());
     }
 }
