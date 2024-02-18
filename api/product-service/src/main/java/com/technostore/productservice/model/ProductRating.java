@@ -2,8 +2,6 @@ package com.technostore.productservice.model;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
