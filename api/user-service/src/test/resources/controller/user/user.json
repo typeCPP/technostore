@@ -1,0 +1,5 @@
+{
+  "name": "some name",
+  "lastname": "last name",
+  "image": "/user/image?id=%s"
+}
