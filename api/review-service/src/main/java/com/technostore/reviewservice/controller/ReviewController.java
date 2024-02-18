@@ -102,9 +102,6 @@ public class ReviewController {
     }
 
     private List<Long> listLongFromString(String str) {
-        if (str == null) {
-            return new ArrayList<>();
-        }
         Scanner scanner = new Scanner(str);
         List<Long> resultList = new ArrayList<>();
         scanner.useDelimiter(",");

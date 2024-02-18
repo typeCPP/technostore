@@ -104,6 +104,25 @@ public class ReviewServiceTest {
     }
 
     @Test
+    void updateReviewTest() {
+        reviewService.setReview(1L, 2L, 1, "BAD REVIEW");
+        Optional<Review> review = reviewRepository.findByProductIdAndUserId(2L, 1L);
+        assertThat(review).isPresent();
+        assertThat(review.get().getUserId()).isEqualTo(1L);
+        assertThat(review.get().getProductId()).isEqualTo(2L);
+        assertThat(review.get().getText()).isEqualTo("BAD REVIEW");
+        assertThat(review.get().getRate()).isEqualTo(1);
+
+        reviewService.setReview(1L, 2L, 7, "Nice review");
+        review = reviewRepository.findByProductIdAndUserId(2L, 1L);
+        assertThat(review).isPresent();
+        assertThat(review.get().getUserId()).isEqualTo(1L);
+        assertThat(review.get().getProductId()).isEqualTo(2L);
+        assertThat(review.get().getText()).isEqualTo("Nice review");
+        assertThat(review.get().getRate()).isEqualTo(7);
+    }
+
+    @Test
     void getProductStatisticsTest() {
         Review review = reviewRepository.save(buildReview(1L, 7));
         Review review2 = reviewRepository.save(buildReview(2L, 3));
