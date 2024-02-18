@@ -281,4 +281,42 @@ public class AuthUserControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
     }
+
+    @Test
+    void logoutWhenUserNotExistsTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        mockMvc.perform(get("/user/logout")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+    }
+
+    @Test
+    void editProfileWhenUserNotExistsTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        MockMultipartFile jsonFile = new MockMultipartFile("editUserBeanString", "", "application/json",
+                getFileContent("controller/user/edit-profile-request.json").getBytes());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart("/user/edit-profile")
+                        .file(jsonFile)
+                        .headers(headers)
+                )
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+    }
 }
