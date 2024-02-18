@@ -4,6 +4,7 @@ import com.technostore.userservice.controller.UserController;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
 import com.technostore.userservice.repository.UserTokenRepository;
+import com.technostore.userservice.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Map;
 
 import static com.technostore.userservice.TestUtils.getFileContent;
+import static com.technostore.userservice.UserTestFactory.buildRegisterBean;
 import static com.technostore.userservice.UserTestFactory.buildUser;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,6 +37,8 @@ public class AuthUserControllerTest {
     UserTokenRepository userTokenRepository;
     @Autowired
     UserController userController;
+    @Autowired
+    UserService userService;
 
     @BeforeEach
     public void setUp() {
@@ -91,5 +96,41 @@ public class AuthUserControllerTest {
         mockMvc.perform(get("/user/get-user-id").headers(headers))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.valueOf(user.getId()), true));
+    }
+
+    @Test
+    void changePasswordTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/change-password")
+                        .param("newPassword", "superpassword")
+                        .param("oldPassword", "password")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(userRepository.findById(user.getId()).get().getPassword()).isNotEqualTo(user.getPassword());
+    }
+
+    @Test
+    void tryChangePasswordWhenOldPasswordIsIncorrectTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/change-password")
+                        .param("newPassword", "superpassword")
+                        .param("oldPassword", "some pass")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("Wrong old password!")));
     }
 }
