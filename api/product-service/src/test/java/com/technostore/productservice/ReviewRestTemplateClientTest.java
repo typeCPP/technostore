@@ -80,4 +80,19 @@ public class ReviewRestTemplateClientTest {
         assertThat(reviewStatisticDtoList.stream().map(ReviewStatisticDto::getProductId).toList())
                 .containsExactlyInAnyOrder(1L, 2L);
     }
+
+    @Test
+    void getReviewRatingByUserIdAndProductIdTest() {
+        ResponseEntity<ReviewDto> responseEntity =
+                new ResponseEntity<>(buildReviewDto(1L), HttpStatus.OK);
+        when(restTemplate.exchange(
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(HttpMethod.class),
+                ArgumentMatchers.any(),
+                ArgumentMatchers.<Class<ReviewDto>>any()))
+                .thenReturn(responseEntity);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Double rating = reviewRestTemplateClient.getReviewRatingByUserIdAndProductId(1L, request);
+        assertThat(rating).isEqualTo(5.0);
+    }
 }
