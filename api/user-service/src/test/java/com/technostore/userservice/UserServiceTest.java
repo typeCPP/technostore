@@ -7,12 +7,14 @@ import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
 import com.technostore.userservice.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +35,16 @@ public class UserServiceTest {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    public void setUp() {
+        jdbcTemplate.execute("DELETE FROM user.user_jwt;");
+        jdbcTemplate.execute("DELETE FROM user.user_refresh_token;");
+        jdbcTemplate.execute("DELETE FROM user.verify_code;");
+        jdbcTemplate.execute("DELETE FROM user.users;");
+    }
 
     @Test
     void registerUserTest() {
@@ -121,6 +133,12 @@ public class UserServiceTest {
     void saveTest() {
         User user = buildUser();
         userService.save(user);
+        List<User> savedUsers = userRepository.findUsersByEmail(user.getEmail());
+        assertThat(savedUsers.size()).isEqualTo(1);
+        assertThat(savedUsers.get(0).getName()).isEqualTo(user.getName());
+        assertThat(savedUsers.get(0).getLastName()).isEqualTo(user.getLastName());
+        assertThat(savedUsers.get(0).getEmail()).isEqualTo(user.getEmail());
+        assertThat(savedUsers.get(0).getLinkPhoto()).isEqualTo(user.getLinkPhoto());
     }
 
     @Test

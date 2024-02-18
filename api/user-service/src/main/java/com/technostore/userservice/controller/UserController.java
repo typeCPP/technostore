@@ -244,7 +244,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getInfoForUserPageWithoutEmail(user), HttpStatus.OK);
     }
 
-    private Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
+    public Map<String, String> generateMapWithInfoAboutTokens(User user) throws IOException, URISyntaxException {
         String newAccessToken = jwtService.accessTokenFor(user.getEmail(), ACCESS_TOKEN_EXPIRATION_TIME_MINUTES);
         userTokenService.addAccessToken(user, newAccessToken);
         String newRefreshToken = jwtService.refreshTokenFor(user.getEmail(), REFRESH_TOKEN_EXPIRATION_TIME_MONTH);
