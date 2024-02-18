@@ -180,7 +180,7 @@ public class UserController {
         } catch (EntityNotFoundException exception) {
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
-                            "User with email" + email + "does not exist."), HttpStatus.NOT_FOUND);
+                            "User with email " + email + " does not exist."), HttpStatus.NOT_FOUND);
         }
         try {
             if (!verifyCodeService.findVerifyCodeByUser(user).equals(code)) {
