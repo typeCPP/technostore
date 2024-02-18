@@ -68,4 +68,28 @@ public class AuthUserControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
     }
+
+    @Test
+    void checkPasswordTest() throws Exception {
+        User user = userRepository.save(buildUser());
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/check-password?password=invalidpassword").headers(headers))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json("{\"isCorrectPassword\":false}", true));
+    }
+
+    @Test
+    void getUserIdTest() throws Exception {
+        User user = userRepository.save(buildUser());
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/get-user-id").headers(headers))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(String.valueOf(user.getId()), true));
+    }
 }
