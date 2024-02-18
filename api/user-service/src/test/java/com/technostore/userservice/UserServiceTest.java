@@ -19,7 +19,7 @@ import javax.persistence.EntityNotFoundException;
 
 import java.util.List;
 
-import static com.technostore.userservice.UserTestFactory.buildUser;
+import static com.technostore.userservice.UserTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -36,7 +36,7 @@ public class UserServiceTest {
 
     @Test
     void registerUserTest() {
-        RegisterBean registerBean = new RegisterBean("email", "password", "name", "lastName");
+        RegisterBean registerBean = buildRegisterBean();
         User user = userService.registerUser(registerBean);
 
         assertThat(user.getEmail()).isEqualTo(registerBean.getEmail());
@@ -119,14 +119,7 @@ public class UserServiceTest {
 
     @Test
     void saveTest() {
-        User user = User.builder()
-                .email("emaill")
-                .password("pass")
-                .name("test name")
-                .lastName("last name test")
-                .linkPhoto("photolink")
-                .isEnabled(true)
-                .build();
+        User user = buildUser();
         userService.save(user);
     }
 
@@ -182,18 +175,11 @@ public class UserServiceTest {
         assertThat(foundUser.getPassword()).isNotEqualTo(oldPassword);
     }
 
-    User saveTestUser() {
+    private User saveTestUser() {
         return userRepository.save(buildUser());
     }
 
     void saveUnverifiedTestUser(String email) {
-        userRepository.save(User.builder()
-                .email(email)
-                .password("pass")
-                .name("some name")
-                .lastName("last name")
-                .linkPhoto("link.com")
-                .isEnabled(false)
-                .build());
+        userRepository.save(buildUnverifiedUser(email));
     }
 }

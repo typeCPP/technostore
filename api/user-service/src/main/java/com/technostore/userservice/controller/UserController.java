@@ -149,7 +149,7 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET})
+    @RequestMapping(value = "/confirm-account", method = RequestMethod.GET)
     public ResponseEntity<?> confirmUserAccount(@RequestParam("confirmationCode") String confirmationCode,
                                                 @RequestParam("email") String email) {
         if (userService.isEmailExist(email)) {
