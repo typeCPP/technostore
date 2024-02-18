@@ -83,14 +83,18 @@ public class ProductTestFactory {
 
         Mockito.when(orderRestTemplateClient.getInCartCountByProductIds(
                         eq(List.of(products.get(0).getId(), products.get(1).getId())), any()))
-                .thenReturn(List.of(
-                        InCartCountProductDto.builder()
-                                .productId(products.get(0).getId())
-                                .inCartCount(3)
-                                .build(),
-                        InCartCountProductDto.builder()
-                                .productId(products.get(1).getId())
-                                .inCartCount(4)
-                                .build()));
+                .thenReturn(buildListOfInCartCountProductDto(products.stream().map(Product::getId).toList()));
+    }
+
+    public static List<InCartCountProductDto> buildListOfInCartCountProductDto(List<Long> productIds) {
+        return List.of(
+                InCartCountProductDto.builder()
+                        .productId(productIds.get(0))
+                        .inCartCount(3)
+                        .build(),
+                InCartCountProductDto.builder()
+                        .productId(productIds.get(1))
+                        .inCartCount(4)
+                        .build());
     }
 }
