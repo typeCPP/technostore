@@ -1,0 +1,13 @@
+{
+  "id": %s,
+  "products": [
+    {
+      "id": 1,
+      "linkPhoto": "some url",
+      "price": 100.0,
+      "name": "some name",
+      "rating": 5.0,
+      "count": 1
+    }
+  ]
+}

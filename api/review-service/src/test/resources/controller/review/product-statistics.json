@@ -1,0 +1,12 @@
+[
+  {
+    "productId": 1,
+    "rating": 5.0,
+    "countReviews": 2
+  },
+  {
+    "productId": 105,
+    "rating": 10.0,
+    "countReviews": 1
+  }
+]

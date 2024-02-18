@@ -1,0 +1,10 @@
+[
+  {
+    "productId": 1,
+    "inCartCount": 1
+  },
+  {
+    "productId": 2,
+    "inCartCount": 100
+  }
+]

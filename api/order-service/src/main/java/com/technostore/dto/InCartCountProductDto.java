@@ -2,9 +2,9 @@ package com.technostore.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
 @Builder
 public class InCartCountProductDto {

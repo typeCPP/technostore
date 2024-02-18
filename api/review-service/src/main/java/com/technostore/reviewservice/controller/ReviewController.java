@@ -66,7 +66,7 @@ public class ReviewController {
     }
 
     @RequestMapping(path = "/product-rating/{id}", method = RequestMethod.GET)
-    ResponseEntity<?> getReviewById(@PathVariable Long id) {
+    ResponseEntity<?> getRatingByProductId(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(reviewService.getProductRatingById(id), HttpStatus.OK);
         } catch (EntityNotFoundException exception) {
@@ -102,9 +102,6 @@ public class ReviewController {
     }
 
     private List<Long> listLongFromString(String str) {
-        if (str == null) {
-            return new ArrayList<>();
-        }
         Scanner scanner = new Scanner(str);
         List<Long> resultList = new ArrayList<>();
         scanner.useDelimiter(",");

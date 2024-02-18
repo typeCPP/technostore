@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,6 @@ import com.technostore.productservice.service.CategoryService;
 import com.technostore.productservice.dto.ProductDto;
 import com.technostore.productservice.dto.SortType;
 import com.technostore.productservice.service.ProductService;
-import com.technostore.productservice.service.client.UserRestTemplateClient;
 import com.technostore.productservice.utils.AppError;
 
 @RestController
@@ -43,9 +41,6 @@ public class ProductController {
 
     @Autowired
     CategoryService categoryService;
-
-    @Autowired
-    UserRestTemplateClient userRestTemplateClient;
 
     @GetMapping(path = "/{id}")
     ResponseEntity<?> getProductById(@PathVariable Long id, HttpServletRequest request) {
@@ -88,18 +83,12 @@ public class ProductController {
                              HttpServletRequest request) {
         List<Long> listCategories = listLongFromString(categories);
 
-        try {
-            return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
-                    maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
-        } catch (EntityNotFoundException entityNotFoundException) {
-            return new ResponseEntity<>(
-                    new AppError(HttpStatus.NOT_FOUND.value(),
-                            "There are no such results."), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(productService.searchProducts(numberPage, sizePage, sort, word, minRating,
+                maxRating, minPrice, maxPrice, listCategories, request), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/popular-categories", method = RequestMethod.GET)
-    ResponseEntity<?> getProductById() {
+    ResponseEntity<?> getPopularCategories() {
         return new ResponseEntity<>(categoryService.getPopularCategories(), HttpStatus.OK);
     }
 
@@ -110,11 +99,9 @@ public class ProductController {
         try {
             photoLink = productService.getPhotoLink(id);
         } catch (EntityNotFoundException exception) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
-                            "Product with id " + id + " does not exist."), httpHeaders, HttpStatus.NOT_FOUND);
+                            "Product with id " + id + " does not exist."), HttpStatus.NOT_FOUND);
         }
         if (photoLink == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -148,13 +135,11 @@ public class ProductController {
     public ResponseEntity<AppError> handleException(HttpClientErrorException e) {
         if (e instanceof HttpClientErrorException.Forbidden) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.FORBIDDEN.value(),
-                            e.getMessage()), HttpStatus.FORBIDDEN);
+                    new AppError(HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
         }
         if (e instanceof HttpClientErrorException.Unauthorized) {
             return new ResponseEntity<>(
-                    new AppError(HttpStatus.UNAUTHORIZED.value(),
-                            e.getMessage()), HttpStatus.UNAUTHORIZED);
+                    new AppError(HttpStatus.UNAUTHORIZED.value(), e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
         throw e;
     }

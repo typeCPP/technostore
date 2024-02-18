@@ -1,0 +1,32 @@
+[
+  {
+    "id": %s,
+    "linkPhoto": "/product/image?id=%s",
+    "price": 10000.0,
+    "name": "name1",
+    "rating": 0.0,
+    "userRating": 0.0,
+    "description": "desc",
+    "category": {
+      "id": %s,
+      "name": "some category"
+    },
+    "reviews": [],
+    "inCartCount": 0
+  },
+  {
+    "id": %s,
+    "linkPhoto": "/product/image?id=%s",
+    "price": 15000.0,
+    "name": "name2",
+    "rating": 0.0,
+    "userRating": 0.0,
+    "description": "desc",
+    "category": {
+      "id": %s,
+      "name": "some category"
+    },
+    "reviews": [],
+    "inCartCount": 0
+  }
+]

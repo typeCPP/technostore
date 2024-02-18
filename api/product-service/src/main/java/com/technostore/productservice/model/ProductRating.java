@@ -2,11 +2,12 @@ package com.technostore.productservice.model;
 
 import javax.persistence.*;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRating {

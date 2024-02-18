@@ -76,7 +76,7 @@ public class ReviewServiceImpl implements ReviewService {
             return reviewOptional.get();
         }
         throw new EntityNotFoundException(
-                "Review by user with id" + userId + " for product with id " + productId + " not found");
+                "Review by user with id " + userId + " for product with id " + productId + " not found");
     }
 
     @Override
