@@ -12,7 +12,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Map;
 
@@ -132,5 +134,76 @@ public class AuthUserControllerTest {
                         .headers(headers))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.message", is("Wrong old password!")));
+    }
+
+    @Test
+    void changePasswordWhenOldPasswordIsNullInRequestTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/change-password")
+                        .param("newPassword", "superpassword")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(userRepository.findById(user.getId()).get().getPassword()).isNotEqualTo(user.getPassword());
+    }
+
+    @Test
+    void editProfileTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        MockMultipartFile jsonFile = new MockMultipartFile("editUserBeanString", "", "application/json",
+                getFileContent("controller/user/edit-profile-request.json").getBytes());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart("/user/edit-profile")
+                        .file(jsonFile)
+                        .headers(headers)
+                )
+                .andExpect(status().is2xxSuccessful());
+        assertThat(userRepository.findById(user.getId()).get().getName()).isEqualTo("Nastia");
+        assertThat(userRepository.findById(user.getId()).get().getLastName()).isEqualTo("Molchanova");
+    }
+
+    @Test
+    void editProfileWhenInvalidRequestTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        MockMultipartFile jsonFile = new MockMultipartFile("editUserBeanString", "", "application/json",
+                "ejndjerndjrnknfjkrncjknrjkcnrj".getBytes());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .multipart("/user/edit-profile")
+                        .file(jsonFile)
+                        .headers(headers)
+                )
+                .andExpect(status().is5xxServerError())
+                .andExpect(jsonPath("$.message", is("Failed to convert JSON object")));
+    }
+
+    @Test
+    void checkTokenTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/check-token").headers(headers))
+                .andExpect(status().is2xxSuccessful());
     }
 }
