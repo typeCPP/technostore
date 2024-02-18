@@ -16,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 
 import java.util.List;
 
+import static com.technostore.userservice.UserTestFactory.buildUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -133,14 +134,7 @@ public class UserServiceTest {
     }
 
     User saveTestUser() {
-        return userRepository.save(User.builder()
-                .email("email")
-                .password("pass")
-                .name("some name")
-                .lastName("last name")
-                .linkPhoto("link.com")
-                .isEnabled(true)
-                .build());
+        return userRepository.save(buildUser());
     }
 
     void saveUnverifiedTestUser(String email) {
