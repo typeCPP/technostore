@@ -1,5 +1,6 @@
 package com.technostore.reviewservice;
 
+import com.technostore.reviewservice.controller.ReviewController;
 import com.technostore.reviewservice.model.Review;
 import com.technostore.reviewservice.repository.ReviewRepository;
 import com.technostore.reviewservice.service.client.UserRestTemplateClient;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,6 +21,7 @@ import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
 import static com.technostore.reviewservice.ReviewTestFactory.mockUserService;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -37,6 +40,8 @@ public class ReviewControllerTest {
     private MockMvc mockMvc;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    ReviewController reviewController;
 
     @BeforeEach
     void setup() {
@@ -174,5 +179,11 @@ public class ReviewControllerTest {
                         .param("ids", "1,105"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(getFileContent("controller/review/product-statistics.json"), true));
+    }
+
+    @Test
+    void whenThrowHttpClientErrorExceptionThenHandlerHandleItTest() {
+        assertThatThrownBy(() -> reviewController.handleException(new HttpClientErrorException(HttpStatus.BAD_REQUEST)))
+                .isExactlyInstanceOf(HttpClientErrorException.class);
     }
 }

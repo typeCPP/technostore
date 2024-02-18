@@ -1,5 +1,6 @@
 package com.technostore.productservice;
 
+import com.technostore.productservice.controller.ProductController;
 import com.technostore.productservice.model.Category;
 import com.technostore.productservice.model.Product;
 import com.technostore.productservice.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpClientErrorException;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static com.technostore.productservice.ProductTestFactory.*;
 import static com.technostore.productservice.TestUtils.getFileContent;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -45,6 +48,8 @@ public class ProductControllerTest {
     OrderRestTemplateClient orderRestTemplateClient;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    ProductController productController;
 
     @BeforeEach
     void setup() {
@@ -154,5 +159,12 @@ public class ProductControllerTest {
                 .thenThrow(HttpClientErrorException.Forbidden.class);
         mockMvc.perform(get("/product/" + product.getId()))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void whenThrowHttpClientErrorExceptionThenHandlerHandleItTest() {
+        assertThatThrownBy(() -> productController.handleException(
+                new HttpClientErrorException(HttpStatus.BAD_REQUEST)))
+                .isExactlyInstanceOf(HttpClientErrorException.class);
     }
 }

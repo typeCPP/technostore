@@ -1,5 +1,6 @@
 package com.technostore;
 
+import com.technostore.controller.OrderController;
 import com.technostore.dto.OrderStatus;
 import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpClientErrorException;
@@ -20,6 +22,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import static com.technostore.OrderTestFactory.*;
 import static com.technostore.TestUtils.getFileContent;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -42,6 +45,8 @@ public class OrderControllerTest {
     private MockMvc mockMvc;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    OrderController orderController;
 
     @BeforeEach
     void setup() {
@@ -242,5 +247,11 @@ public class OrderControllerTest {
         when(userRestTemplateClient.getUserId(any())).thenThrow(HttpClientErrorException.Forbidden.class);
         mockMvc.perform(get("/order/get-current-order"))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void whenThrowHttpClientErrorExceptionThenHandlerHandleItTest() {
+        assertThatThrownBy(() -> orderController.handleException(new HttpClientErrorException(HttpStatus.BAD_REQUEST)))
+                .isExactlyInstanceOf(HttpClientErrorException.class);
     }
 }
