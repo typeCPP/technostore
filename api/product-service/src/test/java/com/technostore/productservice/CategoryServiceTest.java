@@ -3,6 +3,7 @@ package com.technostore.productservice;
 import com.technostore.productservice.model.Category;
 import com.technostore.productservice.repository.CategoryRepository;
 import com.technostore.productservice.service.CategoryService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -24,9 +25,13 @@ public class CategoryServiceTest {
     CategoryService categoryService;
     @Autowired
     CategoryRepository categoryRepository;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.execute("DELETE FROM product.category;");
+    }
 
     @Test
     void getPopularCategoriesTest() {
