@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -73,7 +74,6 @@ public class ReviewRestTemplateClientTest {
                 ArgumentMatchers.any(),
                 ArgumentMatchers.<Class<List>>any()))
                 .thenReturn(responseEntity);
-        MockHttpServletRequest request = new MockHttpServletRequest();
         List<ReviewStatisticDto> reviewStatisticDtoList
                 = reviewRestTemplateClient.getReviewStatisticsByProductIds(List.of(1L));
         assertThat(reviewStatisticDtoList.size()).isEqualTo(2);
@@ -94,5 +94,31 @@ public class ReviewRestTemplateClientTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         Double rating = reviewRestTemplateClient.getReviewRatingByUserIdAndProductId(1L, request);
         assertThat(rating).isEqualTo(5.0);
+    }
+
+    @Test
+    void getReviewRatingByUserIdAndProductIdWhenRestTemplateThrowExceptionTest() {
+        when(restTemplate.exchange(
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(HttpMethod.class),
+                ArgumentMatchers.any(),
+                ArgumentMatchers.<Class<ReviewDto>>any()))
+                .thenThrow(RestClientException.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Double rating = reviewRestTemplateClient.getReviewRatingByUserIdAndProductId(1L, request);
+        assertThat(rating).isEqualTo(0.0);
+    }
+
+    @Test
+    void getProductRatingWhenRestTemplateThrowExceptionTest() {
+        when(restTemplate.exchange(
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(HttpMethod.class),
+                ArgumentMatchers.any(),
+                ArgumentMatchers.<Class<Double>>any()))
+                .thenThrow(RestClientException.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Double rating = reviewRestTemplateClient.getProductRating(1L, request);
+        assertThat(rating).isEqualTo(0.0);
     }
 }
