@@ -2,14 +2,10 @@ package com.technostore.productservice.model;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProductPopularity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

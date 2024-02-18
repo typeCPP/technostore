@@ -7,19 +7,21 @@ import com.technostore.userservice.dto.UserProfile;
 import com.technostore.userservice.model.User;
 import com.technostore.userservice.repository.UserRepository;
 import com.technostore.userservice.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
 
 import java.util.List;
 
-import static com.technostore.userservice.UserTestFactory.buildUser;
+import static com.technostore.userservice.UserTestFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -33,10 +35,20 @@ public class UserServiceTest {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    public void setUp() {
+        jdbcTemplate.execute("DELETE FROM user.user_jwt;");
+        jdbcTemplate.execute("DELETE FROM user.user_refresh_token;");
+        jdbcTemplate.execute("DELETE FROM user.verify_code;");
+        jdbcTemplate.execute("DELETE FROM user.users;");
+    }
 
     @Test
     void registerUserTest() {
-        RegisterBean registerBean = new RegisterBean("email", "password", "name", "lastName");
+        RegisterBean registerBean = buildRegisterBean();
         User user = userService.registerUser(registerBean);
 
         assertThat(user.getEmail()).isEqualTo(registerBean.getEmail());
@@ -119,19 +131,30 @@ public class UserServiceTest {
 
     @Test
     void saveTest() {
-        User user = User.builder()
-                .email("emaill")
-                .password("pass")
-                .name("test name")
-                .lastName("last name test")
-                .linkPhoto("photolink")
-                .isEnabled(true)
-                .build();
+        User user = buildUser();
         userService.save(user);
+        List<User> savedUsers = userRepository.findUsersByEmail(user.getEmail());
+        assertThat(savedUsers.size()).isEqualTo(1);
+        assertThat(savedUsers.get(0).getName()).isEqualTo(user.getName());
+        assertThat(savedUsers.get(0).getLastName()).isEqualTo(user.getLastName());
+        assertThat(savedUsers.get(0).getEmail()).isEqualTo(user.getEmail());
+        assertThat(savedUsers.get(0).getLinkPhoto()).isEqualTo(user.getLinkPhoto());
     }
 
     @Test
     void findUserByEmailTest() {
+        User user = saveTestUser();
+        User foundUser = userService.findUserByEmail(user.getEmail());
+
+        assertThat(user.getEmail()).isEqualTo(foundUser.getEmail());
+        assertThat(user.getPassword()).isEqualTo(foundUser.getPassword());
+        assertThat(user.getName()).isEqualTo(foundUser.getName());
+        assertThat(user.getLastName()).isEqualTo(foundUser.getLastName());
+    }
+
+    @Test
+    void findUserByEmailWhenExistDraftsTest() {
+        saveUnverifiedTestUser("email");
         User user = saveTestUser();
         User foundUser = userService.findUserByEmail(user.getEmail());
 
@@ -182,18 +205,11 @@ public class UserServiceTest {
         assertThat(foundUser.getPassword()).isNotEqualTo(oldPassword);
     }
 
-    User saveTestUser() {
+    private User saveTestUser() {
         return userRepository.save(buildUser());
     }
 
     void saveUnverifiedTestUser(String email) {
-        userRepository.save(User.builder()
-                .email(email)
-                .password("pass")
-                .name("some name")
-                .lastName("last name")
-                .linkPhoto("link.com")
-                .isEnabled(false)
-                .build());
+        userRepository.save(buildUnverifiedUser(email));
     }
 }
