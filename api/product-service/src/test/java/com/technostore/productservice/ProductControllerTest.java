@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 import static com.technostore.productservice.ProductTestFactory.*;
 import static com.technostore.productservice.TestUtils.getFileContent;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -130,5 +134,25 @@ public class ProductControllerTest {
                     }
                 }
         );
+    }
+
+    @Test
+    public void getProductByIdWhenReviewServiceThrowUnauthorizedHttpClientErrorExceptionTest() throws Exception {
+        Category category = categoryRepository.save(buildCategory());
+        Product product = productRepository.save(buildProduct(category));
+        when(reviewRestTemplateClient.getProductRating(eq(product.getId()), any()))
+                .thenThrow(HttpClientErrorException.Unauthorized.class);
+        mockMvc.perform(get("/product/" + product.getId()))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getProductByIdWhenReviewServiceThrowForbiddenHttpClientErrorExceptionTest() throws Exception {
+        Category category = categoryRepository.save(buildCategory());
+        Product product = productRepository.save(buildProduct(category));
+        when(reviewRestTemplateClient.getProductRating(eq(product.getId()), any()))
+                .thenThrow(HttpClientErrorException.Forbidden.class);
+        mockMvc.perform(get("/product/" + product.getId()))
+                .andExpect(status().is4xxClientError());
     }
 }
