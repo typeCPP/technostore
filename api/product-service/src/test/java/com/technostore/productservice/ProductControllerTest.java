@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 
 import static com.technostore.productservice.ProductTestFactory.*;
 import static com.technostore.productservice.TestUtils.getFileContent;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -64,6 +64,13 @@ public class ProductControllerTest {
     }
 
     @Test
+    public void getProductByIdWhenProductNotExistsTest() throws Exception {
+        mockMvc.perform(get("/product/" + 100))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("No product with id: 100")));
+    }
+
+    @Test
     public void searchProductsTest() throws Exception {
         Category category = categoryRepository.save(buildCategory());
         List<Product> products = productRepository.saveAll(buildProducts(category));
@@ -99,6 +106,19 @@ public class ProductControllerTest {
                                 products.get(0).getId(), products.get(0).getId(), category.getId(),
                                 products.get(1).getId(), products.get(1).getId(), category.getId()),
                         true));
+    }
+
+    @Test
+    public void getProductByIdsAndPartOfProductsNotExistsTest() throws Exception {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+        mockOrderAndReviewService(reviewRestTemplateClient, orderRestTemplateClient, products);
+        List<Long> productsIds = products.stream().map(Product::getId).collect(Collectors.toList());
+        productsIds.add(100000L);
+        mockMvc.perform(get("/product/products-by-ids")
+                        .param("ids", productsIds.stream().map(String::valueOf).collect(Collectors.joining(","))))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("No product with id: 100000")));
     }
 
     private void saveCategories() {

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -100,8 +99,6 @@ public class ProductController {
         try {
             photoLink = productService.getPhotoLink(id);
         } catch (EntityNotFoundException exception) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             return new ResponseEntity<>(
                     new AppError(HttpStatus.NOT_FOUND.value(),
                             "Product with id " + id + " does not exist."), HttpStatus.NOT_FOUND);
