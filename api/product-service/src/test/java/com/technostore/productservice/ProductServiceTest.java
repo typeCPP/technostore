@@ -60,15 +60,7 @@ public class ProductServiceTest {
         Category category = categoryRepository.save(buildCategory());
         Product product = productRepository.save(buildProduct(category));
 
-        ReviewDto reviewDto = ReviewDto.builder()
-                .id(1)
-                .date(1000)
-                .rate(5)
-                .userName("some name")
-                .productId(product.getId())
-                .photoLink("some link")
-                .text("text of review")
-                .build();
+        ReviewDto reviewDto = buildReviewDto(product.getId());
 
         Mockito.when(reviewRestTemplateClient.getAllReviews(eq(product.getId()), any()))
                 .thenReturn(List.of(reviewDto));

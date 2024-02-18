@@ -1,6 +1,7 @@
 package com.technostore.productservice;
 
 import com.technostore.productservice.dto.InCartCountProductDto;
+import com.technostore.productservice.dto.ReviewDto;
 import com.technostore.productservice.dto.ReviewStatisticDto;
 import com.technostore.productservice.model.Category;
 import com.technostore.productservice.model.Product;
@@ -69,17 +70,7 @@ public class ProductTestFactory {
             List<Product> products) {
         Mockito.when(reviewRestTemplateClient.getReviewStatisticsByProductIds(
                         eq(List.of(products.get(0).getId(), products.get(1).getId()))))
-                .thenReturn(List.of(
-                        ReviewStatisticDto.builder()
-                                .productId(products.get(0).getId())
-                                .rating(5.0)
-                                .countReviews(1L)
-                                .build(),
-                        ReviewStatisticDto.builder()
-                                .productId(products.get(1).getId())
-                                .rating(6.0)
-                                .countReviews(1L)
-                                .build()));
+                .thenReturn(buildListOfReviewStatisticDto(products.stream().map(Product::getId).toList()));
 
         Mockito.when(orderRestTemplateClient.getInCartCountByProductIds(
                         eq(List.of(products.get(0).getId(), products.get(1).getId())), any()))
@@ -96,5 +87,31 @@ public class ProductTestFactory {
                         .productId(productIds.get(1))
                         .inCartCount(4)
                         .build());
+    }
+
+    public static List<ReviewStatisticDto> buildListOfReviewStatisticDto(List<Long> productIds) {
+        return List.of(
+                ReviewStatisticDto.builder()
+                        .productId(productIds.get(0))
+                        .rating(5.0)
+                        .countReviews(1L)
+                        .build(),
+                ReviewStatisticDto.builder()
+                        .productId(productIds.get(1))
+                        .rating(6.0)
+                        .countReviews(1L)
+                        .build());
+    }
+
+    public static ReviewDto buildReviewDto(long productId) {
+        return ReviewDto.builder()
+                .id(1)
+                .date(1000)
+                .rate(5)
+                .userName("some name")
+                .productId(productId)
+                .photoLink("some link")
+                .text("text of review")
+                .build();
     }
 }

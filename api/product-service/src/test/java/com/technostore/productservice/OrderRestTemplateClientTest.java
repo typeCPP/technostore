@@ -32,7 +32,7 @@ public class OrderRestTemplateClientTest {
     RestTemplate restTemplate;
 
     @Test
-    void getProductsByIdsTest() {
+    void getInCartCountByProductIdsTest() {
         ResponseEntity<List> responseEntity =
                 new ResponseEntity<>(buildListOfInCartCountProductDto(List.of(1L, 2L)), HttpStatus.OK);
         when(restTemplate.exchange(
