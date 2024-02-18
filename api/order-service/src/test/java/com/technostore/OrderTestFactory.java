@@ -3,6 +3,7 @@ package com.technostore;
 import com.technostore.dto.CategoryDto;
 import com.technostore.dto.FullProductDto;
 import com.technostore.dto.OrderStatus;
+import com.technostore.dto.ReviewDto;
 import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
 import com.technostore.service.client.ProductRestTemplateClient;
@@ -50,6 +51,9 @@ public class OrderTestFactory {
                         .userRating(7.0)
                         .category(CategoryDto.builder().name("Ноутбуки").build())
                         .rating(5.0)
+                        .reviews(List.of(
+                                new ReviewDto(1, productId, "Nice review", 7, 1234567, "Nastia", "some url")
+                        ))
                         .inCartCount(1)
                         .build()));
     }
