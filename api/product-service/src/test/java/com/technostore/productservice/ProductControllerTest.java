@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.technostore.productservice.ProductTestFactory.*;
@@ -79,8 +80,7 @@ public class ProductControllerTest {
 
     @Test
     public void getPopularCategoriesTest() throws Exception {
-        categoryRepository.saveAll(buildPopularCategories());
-
+        saveCategories();
         mockMvc.perform(get("/product/popular-categories"))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -99,5 +99,16 @@ public class ProductControllerTest {
                                 products.get(0).getId(), products.get(0).getId(), category.getId(),
                                 products.get(1).getId(), products.get(1).getId(), category.getId()),
                         true));
+    }
+
+    private void saveCategories() {
+        List<Category> categories = buildPopularCategories();
+        categories.forEach(category -> {
+                    Optional<Category> categoryOptional = categoryRepository.findByName(category.getName());
+                    if (categoryOptional.isEmpty()) {
+                        categoryRepository.save(category);
+                    }
+                }
+        );
     }
 }
