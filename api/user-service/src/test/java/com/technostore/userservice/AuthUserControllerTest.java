@@ -206,4 +206,79 @@ public class AuthUserControllerTest {
         mockMvc.perform(get("/user/check-token").headers(headers))
                 .andExpect(status().is2xxSuccessful());
     }
+    @Test
+    void checkTokenWhenUserNotExistsTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        mockMvc.perform(get("/user/check-token").headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+        ;
+    }
+
+    @Test
+    void logoutTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+
+        mockMvc.perform(get("/user/logout")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void checkPasswordWhenUserNotExistsTest() throws Exception {
+        User user = userRepository.save(buildUser());
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        mockMvc.perform(get("/user/check-password?password=invalidpassword").headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+    }
+
+    @Test
+    void changePasswordWhenUserNotExistsTest() throws Exception {
+        User user = userService.registerUser(buildRegisterBean());
+        user.setEnabled(true);
+        userRepository.save(user);
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        mockMvc.perform(get("/user/change-password")
+                        .param("newPassword", "superpassword")
+                        .param("oldPassword", "password")
+                        .param("refreshToken", map.get("refresh-token"))
+                        .headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+    }
+
+    @Test
+    void getUserIdWhenUserNotExistsTest() throws Exception {
+        User user = userRepository.save(buildUser());
+        Map<String, String> map = userController.generateMapWithInfoAboutTokens(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + map.get("access-token"));
+        userRepository.delete(user);
+
+        mockMvc.perform(get("/user/get-user-id").headers(headers))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("User with email email does not exist.")));
+    }
 }
