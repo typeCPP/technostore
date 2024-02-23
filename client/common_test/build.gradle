@@ -4,7 +4,7 @@ plugins {
 }
 apply from: rootProject.file('gradle/versions.gradle')
 android {
-    namespace 'com.example.common_test'
+    namespace 'com.technostore.common_test'
     compileSdk 34
 
     defaultConfig {

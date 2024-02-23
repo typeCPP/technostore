@@ -25,7 +25,7 @@ jobs:
     - name: Build app
       run: |-
         cd client
-        ./gradlew assembleDebug assembleDebugAndroidTest
+        ./gradlew assembleDebug connectedDebugAndroidTest
     
     - name: Run tests
       uses: emulator-wtf/run-tests@v0
