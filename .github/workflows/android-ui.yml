@@ -30,13 +30,13 @@ jobs:
     - name: Build app
       run: |-
         cd client
-        ./gradlew assembleDebug
+        ./gradlew assembleDebug  app:assembleDebugAndroidTest
     - name: Run tests
       uses: emulator-wtf/run-tests@v0
       with:
         api-token: AgAAKcAuxmGrquNZY8YnC6fDQKEnEEnjrdOiSMDw/haUcwhPwBEjitITZNEk9b3ibFXMWtIcTvlSD5zj/2Y2Ug87UJCaRZaq4ttdi/iA0q0KkoAd3kwIVpUiv3EF/Z69uYx+C1J3Waip+a9aFXo8V7UpFt97L40tPYcS+Ud6L8iL0KIrMmu3oN7a5g9z9RI5R78N
         app: client/app/build/outputs/apk/debug/app-debug.apk
-        test: client/app/build/outputs/apk/debug/app-debug.apk
+        test: client/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
         outputs-dir: build/test-results
         devices: |
           model=Pixel2,version=29
