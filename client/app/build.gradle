@@ -6,7 +6,9 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 apply from: rootProject.file('gradle/versions.gradle')
-
+kapt {
+    correctErrorTypes = true
+}
 android {
     namespace 'com.technostore'
     compileSdk 34
@@ -18,7 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.technostore.test.utils.HiltTestRunner"
     }
 
     buildTypes {
@@ -36,6 +38,9 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
     }
 }
 
@@ -63,4 +68,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    androidTestImplementation "com.kaspersky.android-components:kaspresso:$kaspressoVersion"
+    implementation "androidx.test.ext:junit-ktx:$junitKtxVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    androidTestImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
 }
