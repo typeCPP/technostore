@@ -17,7 +17,9 @@ class SignInTest : TestCase() {
     var hiltRule = HiltAndroidRule(this)
 
     @Test
-    fun signInTest() {
+    fun signInTest() = before {
+        testLogger.i("run sign in test")
+    }.run {
         TestExt.setupClass(isActive = false, isOnBoardingShown = false)
         ActivityScenario.launch(LoginActivity::class.java)
         WelcomePageScreen {
