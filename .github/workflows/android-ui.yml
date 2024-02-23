@@ -38,7 +38,7 @@ jobs:
       with:
         api-token: AgAAKcAuxmGrquNZY8YnC6fDQKEnEEnjrdOiSMDw/haUcwhPwBEjitITZNEk9b3ibFXMWtIcTvlSD5zj/2Y2Ug87UJCaRZaq4ttdi/iA0q0KkoAd3kwIVpUiv3EF/Z69uYx+C1J3Waip+a9aFXo8V7UpFt97L40tPYcS+Ud6L8iL0KIrMmu3oN7a5g9z9RI5R78N
         app: app/build/outputs/apk/debug/app-debug.apk
-        test: app/build/outputs/apk/android/debugTest/app-debug.apk
+        test: app/build/outputs/apk/debug/app-debug.apk
         outputs-dir: build/test-results
         devices: |
           model=Pixel2,version=29
