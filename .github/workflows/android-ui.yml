@@ -17,10 +17,10 @@ jobs:
     - name: Start containers
       run: |-
         cd api/docker
-        docker-compose up
+        docker-compose down && docker-compose up
   run-tests:
     runs-on: ubuntu-latest
-  
+    needs: docker
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 17
