@@ -8,6 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Start containers
+      run: docker-compose -f "api/docker/docker-compose.yml" up -d --build
+  
   run-tests:
     runs-on: ubuntu-latest
   
