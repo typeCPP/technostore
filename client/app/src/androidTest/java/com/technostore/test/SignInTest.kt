@@ -5,6 +5,7 @@ import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import com.technostore.base.activity.LoginActivity
 import com.technostore.screen.sign_in.SignInScreen
 import com.technostore.screen.sign_in.WelcomePageScreen
+import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
@@ -16,7 +17,8 @@ class SignInTest : TestCase() {
     var hiltRule = HiltAndroidRule(this)
 
     @Test
-    fun test() {
+    fun signInTest() {
+        TestExt.setupClass(isActive = false, isOnBoardingShown = false)
         ActivityScenario.launch(LoginActivity::class.java)
         WelcomePageScreen {
             nextButton {
