@@ -27,11 +27,14 @@ jobs:
         cd client
         ./gradlew assembleDebug
     
+    - name: Find APK
+      run: echo "::set-output name=apk_path::$(find . -name '*.apk')"
+
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
         name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: ${{ steps.find_apk.outputs.apk_path }}
     
     - name: Run tests
       uses: emulator-wtf/run-tests@v0
