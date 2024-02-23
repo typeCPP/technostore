@@ -16,12 +16,13 @@ jobs:
 
      - name: Start containers
        run: |-
+        cd api/docker      
+        docker-compose down --volumes --rmi all
         sudo kill  -l $(sudo lsof -i -P -n | grep 8083)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8084)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8085)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8086)
-        cd api/docker      
-        docker-compose down --volumes --rmi all && docker-compose up  -d --build
+        docker-compose up  -d --build
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
