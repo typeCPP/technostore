@@ -17,7 +17,7 @@ jobs:
      - name: Start containers
        run: |-
          cd api/docker
-         docker-compose down && docker-compose up
+         docker-compose down && docker-compose up  -d --build
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
