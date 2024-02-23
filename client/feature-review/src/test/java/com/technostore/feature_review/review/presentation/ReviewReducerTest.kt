@@ -10,7 +10,7 @@ class ReviewReducerTest {
     private val defaultState = ReviewState()
 
     @Test
-    fun `init`() {
+    fun `event Init → set data`() {
         val event = ReviewUiEvent.Init(
             userName = TestData.NAME,
             photoLink = TestData.USER_PHOTO_LINK,
@@ -27,7 +27,7 @@ class ReviewReducerTest {
     }
 
     @Test
-    fun `init2`() {
+    fun `event OnBackClicked → return default state`() {
         val event = ReviewUiEvent.OnBackClicked
         val newState = reviewReducer.reduce(defaultState, event)
         Assert.assertTrue(newState == defaultState)

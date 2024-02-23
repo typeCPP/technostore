@@ -59,4 +59,5 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     testImplementation project(':common_test')
+    testImplementation 'pl.pragmatists:JUnitParams:1.0.5'
 }
