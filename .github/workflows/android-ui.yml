@@ -10,23 +10,16 @@ on:
 jobs:
   mysql:
     runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: test_db
-          MYSQL_USER: user
-          MYSQL_PASSWORD: password
-          MYSQL_ROOT_PASSWORD: rootpassword
-        ports:
-          - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3  
     steps:
-    - name: Set up MySQL
-      run: |
-        sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }}  
+      - name: Install MySQL
+        uses: ankane/setup-mysql@v1
+        with:
+          database: test
+      - name: Install Driver Support
+        run: |
+          choco install mysql-odbc
+          echo "ODBC_CS=Driver={MySQL ODBC 5.3 ANSI Driver};Server=127.0.0.1;Database=test;User=root;Password=" >> $env:GITHUB_ENV
+
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
