@@ -16,7 +16,7 @@ services:
         aliases:
           - "database"
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "NONE" ]
       interval: 1000s
       timeout: 1000s
       retries: 20
