@@ -2,6 +2,7 @@ version: '2.1'
 services:
   database:
     image: mysql:latest
+    command: [--ignore-db-dir=lost+found]
     ports:
       - "3307:3306"
     volumes:
