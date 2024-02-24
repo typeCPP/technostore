@@ -17,8 +17,8 @@ services:
           - "database"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      interval: 100s
-      timeout: 60s
+      interval: 1000s
+      timeout: 1000s
       retries: 20
   configserver:
     image: prlwk/tech-serverconfig:latest
