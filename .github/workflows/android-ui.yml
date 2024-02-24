@@ -16,7 +16,6 @@ jobs:
 
      - name: Start containers
        run: |-
-        sudo mysql_install_db --datadir=/var/lib/mysql --user=mysql
         cd api/docker  
         docker-compose down --volumes --rmi all
         docker-compose up 
