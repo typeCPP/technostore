@@ -10,19 +10,18 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-      steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
      
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
 
-      - name: Start containers
-        run: |-
-          sudo apt install mysql-server
-          cd api/docker  
-          docker-compose down --volumes --rmi all
-          docker-compose up 
+    - name: Start containers
+      run: |-
+        cd api/docker  
+        docker-compose down --volumes --rmi all
+        docker-compose up 
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
