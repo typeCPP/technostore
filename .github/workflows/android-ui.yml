@@ -16,6 +16,7 @@ jobs:
 
      - name: Start containers
        run: |-
+        sudo apt install mysql-server
         cd api/docker  
         docker-compose down --volumes --rmi all
         docker-compose up 
