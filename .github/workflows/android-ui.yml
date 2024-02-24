@@ -16,7 +16,6 @@ jobs:
 
      - name: Start containers
        run: |-
-        sudo rm -rf /var/lib/mysql
         sudo mysqld --initialize
         sudo chown -R mysql:mysql /var/lib/mysql
         sudo chmod -R 755 /var/lib/mysql
