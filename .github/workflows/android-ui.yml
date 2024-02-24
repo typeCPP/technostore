@@ -9,14 +9,16 @@ on:
 
 jobs:
   mysql:
-  - uses: mirromutth/mysql-action@v1.1
-  with:
-    character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-    collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-    mysql database: 'orders' # Optional, default value is "test". The specified database which will be create
-    mysql root password: somepassword # Required if "mysql user" is empty, default is empty. The root superuser password
-    mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-    mysql password: somepassword # Required if "mysql user" exists. The password for the "mysql user"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mirromutth/mysql-action@v1.1
+      with:
+        character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+        collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+        mysql database: 'orders' # Optional, default value is "test". The specified database which will be create
+        mysql root password: somepassword # Required if "mysql user" is empty, default is empty. The root superuser password
+        mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+        mysql password: somepassword # Required if "mysql user" exists. The password for the "mysql user"
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
