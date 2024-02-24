@@ -16,9 +16,8 @@ services:
         aliases:
           - "database"
     healthcheck:
-      test: [ "NONE" ]
-      interval: 1000s
-      timeout: 1000s
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 60s
       retries: 20
   configserver:
     image: prlwk/tech-serverconfig:latest
@@ -47,8 +46,6 @@ services:
     environment:
       PROFILE: "default"
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
         condition: service_started
       eurekaserver:
@@ -63,8 +60,6 @@ services:
       PROFILE: "dev"
       DATABASESERVER_PORT: "3306"
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
         condition: service_started
     ports:
@@ -77,8 +72,6 @@ services:
       PROFILE: "dev"
       DATABASESERVER_PORT: "3306"
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
         condition: service_started
     ports:
@@ -91,8 +84,6 @@ services:
       PROFILE: "dev"
       DATABASESERVER_PORT: "3306"
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
         condition: service_started
     ports:
@@ -105,8 +96,6 @@ services:
       PROFILE: "dev"
       DATABASESERVER_PORT: "3306"
     depends_on:
-      database:
-        condition: service_healthy
       configserver:
         condition: service_started
     ports:
