@@ -16,7 +16,8 @@ jobs:
 
      - name: Start containers
        run: |-
-        cd api/docker      
+        cd api/docker
+        docker ps      
         docker-compose down --volumes --rmi all
         sudo kill  -l $(sudo lsof -i -P -n | grep 8083)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8084)
