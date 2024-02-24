@@ -22,7 +22,7 @@ jobs:
         sudo kill  -l $(sudo lsof -i -P -n | grep 8084)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8085)
         sudo kill  -l $(sudo lsof -i -P -n | grep 8086)
-        docker-compose up  -d --build
+        docker-compose up 
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
