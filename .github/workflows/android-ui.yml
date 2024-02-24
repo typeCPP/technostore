@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt-get install mysql-server
           sudo apt-get install mysql-client
-       - name: Run SQL Script
+      - name: Run SQL Script
         run: |
           mysql -h localhost -u root -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" my_database < api/docker/init.sql
 
