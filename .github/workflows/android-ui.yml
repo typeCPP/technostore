@@ -17,8 +17,8 @@ jobs:
           database: test
       - name: Install Driver Support
         run: |
-          choco install mysql-odbc
-          echo "ODBC_CS=Driver={MySQL ODBC 5.3 ANSI Driver};Server=127.0.0.1;Database=test;User=root;Password=" >> $env:GITHUB_ENV
+          sudo apt-get install mysql-server
+          sudo apt-get install mysql-client
 
   # run-tests:
   #   runs-on: ubuntu-latest
