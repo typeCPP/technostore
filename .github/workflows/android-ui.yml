@@ -74,7 +74,7 @@ jobs:
           cd api/user-service
           mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
   run-user-service:
-    needs: build-user-service
+    # needs: build-user-service
     permissions: write-all
     runs-on: ubuntu-latest
     env:
@@ -90,6 +90,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+     
       # - name: Run serverconfig
       #   env:
       #     SERVER_PORT: 8088
@@ -118,10 +119,10 @@ jobs:
         uses: gradle/gradle-build-action@v3
       
      
-      - name: Build app
-        run: |-
-          cd client
-          ./gradlew assembleDebug  app:assembleDebugAndroidTest
+      # - name: Build app
+      #   run: |-
+      #     cd client
+      #     ./gradlew assembleDebug  app:assembleDebugAndroidTest
       
       - name: Enable KVM group perms  
         run: |
@@ -161,8 +162,6 @@ jobs:
 
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
-        uses: reactivecircus/android-emulator-runner@v2
-        working-directory: ./client
         with:
           arch: x86_64
           force-avd-creation: false
@@ -171,8 +170,10 @@ jobs:
           profile: Nexus 6
           api-level: 29
           target: default
-          script: |
+          script: |-
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
+        run: |-
+          cd client
 
       - name: Upload test results
         if: always()
