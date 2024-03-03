@@ -22,6 +22,14 @@ jobs:
         mysql root password: 'strongpassword' # Required if "mysql user" is empty, default is empty. The root superuser password
         mysql user: 'mysql' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
         mysql password: 'strongpassword' # Required if "mysql user" exists. The password for the "mysql user"
+    - name: Create Table
+      run: |
+        mysql -h localhost -u ${{ secrets.MYSQL_USERNAME }} -p${{ secrets.MYSQL_PASSWORD }} -e "CREATE TABLE mytable (
+          id INT PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(255) NOT NULL,
+          age INT NOT NULL
+        );"
+        
   mysql-review:
     runs-on: ubuntu-latest
     steps:
