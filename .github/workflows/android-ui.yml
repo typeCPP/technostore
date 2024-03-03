@@ -34,7 +34,7 @@ jobs:
               updated_at datetime     null,
               user_id    bigint       null
           );" -u$DB_USER -p$DB_PASSWORD
-        mysql -e  "Select * from orders.orders;" -u$DB_USER -p$DB_PASSWORD
+          mysql -e  "Select * from orders.orders;" -u$DB_USER -p$DB_PASSWORD
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
