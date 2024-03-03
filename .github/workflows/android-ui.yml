@@ -76,7 +76,7 @@ jobs:
   run-user-service:
     needs: build-user-service
     permissions: write-all
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env:
       ACTIVE_PROFILE: default
       CONFIG_URI: http://localhost:8088
@@ -124,11 +124,11 @@ jobs:
       #     ./gradlew assembleDebug  app:assembleDebugAndroidTest
       #       - name: Enable KVM group perms
       
-      # - name: Enable KVM group perms  
-      #   run: |
-      #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-      #     sudo udevadm control --reload-rules
-      #     sudo udevadm trigger --name-match=kvm
+      - name: Enable KVM group perms  
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       # - name: Determine emulator target
       #   id: determine-target
@@ -139,26 +139,26 @@ jobs:
       #     fi
       #     echo "TARGET=$TARGET" >> $GITHUB_OUTPUT
 
-      # - name: AVD cache
-      #   uses: actions/cache@v4
-      #   id: avd-cache
-      #   with:
-      #     path: |
-      #       ~/.android/avd/*
-      #       ~/.android/adb*
-      #     key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
 
-      # - name: Create AVD and generate snapshot for caching
-      #   if: steps.avd-cache.outputs.cache-hit != 'true'
-      #   uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     api-level: ${{ matrix.api-level }}
-      #     target: ${{ steps.determine-target.outputs.TARGET }}
-      #     arch: x86_64
-      #     force-avd-creation: false
-      #     emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-      #     disable-animations: true
-      #     script: echo "Generated AVD snapshot for caching."
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ steps.determine-target.outputs.TARGET }}
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
 
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
