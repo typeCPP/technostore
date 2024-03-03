@@ -24,11 +24,7 @@ jobs:
         mysql password: 'strongpassword' # Required if "mysql user" exists. The password for the "mysql user"
     - name: Create Table
       run: |
-        mysql -h localhost -u ${{ secrets.MYSQL_USERNAME }} -p${{ secrets.MYSQL_PASSWORD }} -e "CREATE TABLE mytable (
-          id INT PRIMARY KEY AUTO_INCREMENT,
-          name VARCHAR(255) NOT NULL,
-          age INT NOT NULL
-        );"
+        sudo service mysql status
         
   mysql-review:
     runs-on: ubuntu-latest
