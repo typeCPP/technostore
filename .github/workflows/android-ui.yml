@@ -171,10 +171,8 @@ jobs:
           profile: Nexus 6
           api-level: 29
           target: default
+          working-directory: client
           script: |-
-            ls
-            sudo chmod 755 client
-            cd /client
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
       - name: Upload test results
