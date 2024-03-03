@@ -91,29 +91,29 @@ jobs:
           distribution: 'temurin'
           cache: maven
      
-      # - name: Run serverconfig
-      #   env:
-      #     SERVER_PORT: 8088
-      #   run: |-
-      #     cd api/serverconfig
-      #     mvn spring-boot:run &
-      # - name: Run eurekaserver
-      #   run: |-
-      #     cd api/eurekaserver
-      #     mvn spring-boot:run &
-      # - name: Run gateway-server
-      #   run: |-
-      #     cd api/gateway-server
-      #     mvn spring-boot:run &
-      # - name: Run user-service
-      #   run: |-
-      #     cd api/user-service
-      #     mvn spring-boot:run &
-      # - name: Test
-      #   run: |-
-      #     curl -i -X POST \
-      #     -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-      #     "http://localhost:8088/user-service/user/login"
+      - name: Run serverconfig
+        env:
+          SERVER_PORT: 8088
+        run: |-
+          cd api/serverconfig
+          mvn spring-boot:run &
+      - name: Run eurekaserver
+        run: |-
+          cd api/eurekaserver
+          mvn spring-boot:run &
+      - name: Run gateway-server
+        run: |-
+          cd api/gateway-server
+          mvn spring-boot:run &
+      - name: Run user-service
+        run: |-
+          cd api/user-service
+          mvn spring-boot:run &
+      - name: Test
+        run: |-
+          curl -i -X POST \
+          -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
+          "http://localhost:8088/user-service/user/login"
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
