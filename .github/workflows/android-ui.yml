@@ -162,6 +162,7 @@ jobs:
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
         uses: reactivecircus/android-emulator-runner@v2
+        working-directory: ./client
         with:
           arch: x86_64
           force-avd-creation: false
@@ -171,7 +172,6 @@ jobs:
           api-level: 29
           target: default
           script: |
-            cd client
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
       - name: Upload test results
