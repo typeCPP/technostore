@@ -128,8 +128,6 @@ jobs:
           app: client/app/build/outputs/apk/debug/app-debug.apk
           test: client/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
           outputs-dir: build/test-results
-          proxy-host: 10.0.2.2
-          proxy-port: 8088
           devices: |
             model=Pixel2,version=29
           record-video: true
