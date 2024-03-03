@@ -112,7 +112,7 @@ jobs:
         run: |-
           curl -i -X POST \
           -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-          "http://localhost:8084/user-service/user/login"
+          "http://localhost:8080/user-service/user/login"
       # - name: set up JDK 17
       #   uses: actions/setup-java@v3
       #   with:
