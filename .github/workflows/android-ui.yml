@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_USER: mysql
+      DB_PASSWORD: strongpassword
 
     steps:
       - name: Checkout code
