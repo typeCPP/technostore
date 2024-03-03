@@ -125,7 +125,6 @@ jobs:
       #       - name: Enable KVM group perms
       
       - name: Enable KVM group perms  
-        working-directory: client
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
@@ -143,7 +142,6 @@ jobs:
       - name: AVD cache
         uses: actions/cache@v4
         id: avd-cache
-        working-directory: client
         with:
           path: |
             ~/.android/avd/*
@@ -153,10 +151,9 @@ jobs:
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
-        working-directory: client
         with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ steps.determine-target.outputs.TARGET }}
+          api-level: 29
+          target: 29
           arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
@@ -166,7 +163,6 @@ jobs:
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
         uses: reactivecircus/android-emulator-runner@v2
-        working-directory: client
         with:
           target: ${{ steps.determine-target.outputs.TARGET }}
           arch: x86_64
