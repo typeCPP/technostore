@@ -173,6 +173,7 @@ jobs:
           target: default
           script: |-
             ls
+            sudo chmod 755 client
             cd /client
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
