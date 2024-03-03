@@ -117,11 +117,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
       
-      - name: Build app
-        run: |-
-          cd client
-          ./gradlew assembleDebug  app:assembleDebugAndroidTest
-            - name: Enable KVM group perms
+      # - name: Build app
+      #   run: |-
+      #     cd client
+      #     ./gradlew assembleDebug  app:assembleDebugAndroidTest
+      #       - name: Enable KVM group perms
       
       - name: Enable KVM group perms  
         run: |
@@ -168,7 +168,6 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-
           profile: Nexus 6
           api-level: 29
           script: |
