@@ -81,7 +81,7 @@ jobs:
       ACTIVE_PROFILE: default
       CONFIG_URI: http://configserver:8080
       SPRING_PROFILES_ACTIVE: native
-      EUREKA_HOSTNAME: eurekaserver
+      EUREKA_HOSTNAME: localhost
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
