@@ -113,7 +113,7 @@ jobs:
         run: |-
           curl -i -X POST \
           -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-          "http://localhost:8088/user-service/user/login"
+          "http://localhost:8080/user-service/user/login"
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
