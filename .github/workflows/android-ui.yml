@@ -108,6 +108,7 @@ jobs:
         run: |-
           cd api/user-service
           mvn spring-boot:run &
+          echo "Use ${{ env.HOSTNAME }} instead of localhost for external access"
   run-tests:
     runs-on: ubuntu-latest
     needs: [database, run-user-service]
