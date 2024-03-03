@@ -1,7 +1,7 @@
 package com.technostore.network.utils
 
 object URL {
-    const val BASE_URL = "http://10.0.2.2:8088/"
+    const val BASE_URL = "http://176.34.140.8:8088/"
     const val USER_SERVICE_BASE_URL = "user-service"
     const val PRODUCT_SERVICE_BASE_URL = "product-service"
     const val ORDER_SERVICE_BASE_URL = "order-service"
