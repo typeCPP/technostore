@@ -162,6 +162,8 @@ jobs:
 
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
+        run: |-
+          cd client
         with:
           arch: x86_64
           force-avd-creation: false
@@ -172,8 +174,6 @@ jobs:
           target: default
           script: |-
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
-        run: |-
-          cd client
 
       - name: Upload test results
         if: always()
