@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DB_DATABASE: test_db
       DB_USER: root
       DB_PASSWORD: root
 
@@ -23,7 +22,19 @@ jobs:
       - name: Start MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
+          mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
+          CREATE DATABASE IF NOT EXISTS review;
+          CREATE DATABASE IF NOT EXISTS product;
+          CREATE DATABASE IF NOT EXISTS user;
+          create table if not exists orders.orders
+          (
+              id         bigint auto_increment primary key,
+              created_at datetime     null,
+              status     varchar(255) null,
+              updated_at datetime     null,
+              user_id    bigint       null
+          );" -u$DB_USER -p$DB_PASSWORD
+        mysql -e  "Select * from orders.orders;" -u$DB_USER -p$DB_PASSWORD
   # run-tests:
   #   runs-on: ubuntu-latest
   #   steps:
