@@ -118,11 +118,10 @@ jobs:
         uses: gradle/gradle-build-action@v3
       
      
-      # - name: Build app
-      #   run: |-
-      #     cd client
-      #     ./gradlew assembleDebug  app:assembleDebugAndroidTest
-      #       - name: Enable KVM group perms
+      - name: Build app
+        run: |-
+          cd client
+          ./gradlew assembleDebug  app:assembleDebugAndroidTest
       
       - name: Enable KVM group perms  
         run: |
