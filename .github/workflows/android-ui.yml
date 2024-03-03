@@ -121,18 +121,79 @@ jobs:
         run: |-
           cd client
           ./gradlew assembleDebug  app:assembleDebugAndroidTest
-      - name: Run tests
-        uses: emulator-wtf/run-tests@v0
+            - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Determine emulator target
+        id: determine-target
+        run: |
+          TARGET="google_apis"
+          if [[ ${{ matrix.api-level }} -ge 34 ]]; then
+            TARGET="aosp_atd"
+          fi
+          echo "TARGET=$TARGET" >> $GITHUB_OUTPUT
+
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
         with:
-          api-token: ${{ secrets.EW_API_TOKEN }}
-          app: client/app/build/outputs/apk/debug/app-debug.apk
-          test: client/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-          outputs-dir: build/test-results
-          devices: |
-            model=Pixel2,version=29
-          record-video: true
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v2
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ steps.determine-target.outputs.TARGET }}
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run device tests
+        # See https://github.com/orgs/community/discussions/27121
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ steps.determine-target.outputs.TARGET }}
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+
+          profile: Nexus 6
+          api-level: 29
+          script: |
+            SKIP_ERRORPRONE=true SKIP_JAVADOC=true ./gradlew cAT --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
+
+      - name: Upload test results
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          report_paths: 'build/test-results/**/*.xml'
+          name: test-results-${{ matrix.api-level }}-${{ steps.determine-target.outputs.TARGET }}-${{ matrix.shard }}
+          path: |
+            **/build/reports/*
+            **/build/outputs/*/connected/*
+
+      # - name: Run tests
+      #   uses: emulator-wtf/run-tests@v0
+      #   with:
+      #     api-token: ${{ secrets.EW_API_TOKEN }}
+      #     app: client/app/build/outputs/apk/debug/app-debug.apk
+      #     test: client/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+      #     outputs-dir: build/test-results
+      #     devices: |
+      #       model=Pixel2,version=29
+      #     record-video: true
+      # - name: Publish test report
+      #   uses: mikepenz/action-junit-report@v2
+      #   if: always()
+      #   with:
+      #     report_paths: 'build/test-results/**/*.xml'
