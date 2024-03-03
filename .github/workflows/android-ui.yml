@@ -173,6 +173,7 @@ jobs:
           target: default
           script: |-
             ls
+            cd /client
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
       - name: Upload test results
