@@ -172,6 +172,7 @@ jobs:
           api-level: 29
           target: default
           script: |-
+            ls
             ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
       - name: Upload test results
