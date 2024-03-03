@@ -76,7 +76,7 @@ jobs:
   run-user-service:
     needs: build-user-service
     permissions: write-all
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       ACTIVE_PROFILE: default
       CONFIG_URI: http://localhost:8088
@@ -171,7 +171,7 @@ jobs:
           profile: Nexus 6
           api-level: 29
           script: |
-            SKIP_ERRORPRONE=true SKIP_JAVADOC=true ./gradlew cAT --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
+            ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
       - name: Upload test results
         if: always()
