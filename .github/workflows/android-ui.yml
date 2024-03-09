@@ -21,6 +21,10 @@ jobs:
 
       - name: Start MySQL
         run: |
+          mysql -u root -p
+          ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
+          FLUSH PRIVILEGES;
+          exit;
           sudo /etc/init.d/mysql start
           mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
           CREATE DATABASE IF NOT EXISTS review;
