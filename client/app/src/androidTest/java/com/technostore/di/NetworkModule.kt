@@ -1,6 +1,11 @@
-package com.technostore.network.di
+package com.technostore.di
 
 import com.technostore.network.converter.EmptyBodyConverterFactory
+import com.technostore.network.di.NetworkModule
+import com.technostore.network.di.RegisteredOkHttpClient
+import com.technostore.network.di.RegisteredRetrofit
+import com.technostore.network.di.UnregisteredOkHttpClient
+import com.technostore.network.di.UnregisteredRetrofit
 import com.technostore.network.interceptor.ConnectionInterceptor
 import com.technostore.network.service.LoginService
 import com.technostore.network.service.OrderService
@@ -8,11 +13,10 @@ import com.technostore.network.service.ProductService
 import com.technostore.network.service.ReviewService
 import com.technostore.network.service.SessionService
 import com.technostore.network.service.UserService
-import com.technostore.network.utils.URL
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,10 +24,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
 @Module
-@InstallIn(SingletonComponent::class)
-class NetworkModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [NetworkModule::class]
+)
+class FakeNetworkModule {
     @UnregisteredOkHttpClient
     @Provides
     fun provideOkHttpClient(
@@ -63,7 +69,7 @@ class NetworkModule {
         emptyBodyConverterFactory: EmptyBodyConverterFactory
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(URL.BASE_URL)
+            .baseUrl(MockURL.USER_SERVICE_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(emptyBodyConverterFactory)
             .build()
@@ -75,27 +81,18 @@ class NetworkModule {
         emptyBodyConverterFactory: EmptyBodyConverterFactory
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(URL.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(emptyBodyConverterFactory)
-            .build()
-
-    @LoginRetrofit
-    @Provides
-    fun provideLoginRetrofit(
-        @UnregisteredOkHttpClient okHttpClient: OkHttpClient,
-        emptyBodyConverterFactory: EmptyBodyConverterFactory
-    ): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(URL.BASE_URL + URL.USER_SERVICE_BASE_URL)
+            .baseUrl(MockURL.USER_SERVICE_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(emptyBodyConverterFactory)
             .build()
 
     @Singleton
     @Provides
-    fun provideLoginService(@LoginRetrofit retrofit: Retrofit): LoginService {
-        return retrofit.create(LoginService::class.java)
+    fun provideLoginService(@UnregisteredRetrofit retrofit: Retrofit): LoginService {
+        return retrofit.newBuilder()
+            .baseUrl(MockURL.USER_SERVICE_BASE_URL)
+            .build()
+            .create(LoginService::class.java)
     }
 
     @Singleton
@@ -119,7 +116,8 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideOrderService(@RegisteredRetrofit retrofit: Retrofit): OrderService {
-        return retrofit.create(OrderService::class.java)
+        return retrofit
+            .create(OrderService::class.java)
     }
 
     @Singleton
