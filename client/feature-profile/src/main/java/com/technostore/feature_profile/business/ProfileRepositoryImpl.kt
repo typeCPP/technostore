@@ -108,7 +108,7 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun logout() {
-        appStore.clear()
         userService.logout(appStore.refreshToken.orEmpty())
+        appStore.clear()
     }
 }

@@ -159,6 +159,7 @@
             app:tint="@color/color_accent" />
 
         <TextView
+            android:id="@+id/tv_change_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_7x"
@@ -194,6 +195,7 @@
             app:tint="@color/color_accent" />
 
         <TextView
+            android:id="@+id/tv_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_6x"

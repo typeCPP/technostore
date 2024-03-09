@@ -8,7 +8,6 @@ import com.technostore.screen.sign_in.SignInScreen
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.github.kakaocup.kakao.screen.Screen
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,7 +28,7 @@ class SignInTest : TestCase() {
                 email {
                     isVisible()
                     click()
-                    typeText("danil@yandex.ru")
+                    typeText(TestData.DANIL_EMAIl)
                 }
                 closeSoftKeyboard()
             }
@@ -37,7 +36,7 @@ class SignInTest : TestCase() {
                 password {
                     isVisible()
                     click()
-                    typeText("123456")
+                    typeText(TestData.DEFAULT_PASSWORD)
                 }
                 closeSoftKeyboard()
             }
@@ -50,7 +49,6 @@ class SignInTest : TestCase() {
         }
         step("Открылась главная страница") {
             MainScreen {
-                Screen.idle(5000)
                 tvPopular {
                     isVisible()
                 }

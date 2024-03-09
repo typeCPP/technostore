@@ -205,15 +205,26 @@ values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', '�
        ('ivanova.a2@yandex.ru', true, 'Иванова', '/app/images/5.0.jpg', 'Алена',
         '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
 
+insert into user.user_jwt(token, user_id)
+values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiZjc0YTBiMjkyOGI0YjA0ODAwODc4YTZjNmYwYTI1YyIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDEzLCJleHAiOjE3NDE1NTIwMTJ9.PBJQbK_5Zi3EKwSCp0Zt15WxdMEVG7Z0fBTSH6KLHi-E1ir7NHjmE_GyAimNQQUBpKYG4no-mrMq4NF8lbhA1Q',
+        4),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA',
+        1);
+
+insert into user.user_refresh_token(token, user_id)
+values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxYzQzNmY0NjVmNTM0MWM5YjIzYjI4ZDI5MzQzZGRmZSIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDQwLCJleHAiOjE3NDE1NTIwNDB9.7zNV7_i7tjID_NuTCT0uMNLhVWcB56VYKunwQzggrknGKcAQinEmA2r8Y_RzTGojh9Q4gEZc-YJOGp_oA9LhDg',
+        4),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZDc0MThiNjRkMjU0NWU4YWI2ZjZhYWFjMjQ5NTEyNCIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MjYsImV4cCI6MTc0MTU1NDUyNn0.XN6IuZ9pbhJz6tCvNxUqxl1FlKQw4DK6ByBEFY6Aeh95Yj6qvwC8lDhXHnxfH6Czx3BzZRrowCER3hhDBZqyyQ',
+        1);
 
 create table if not exists review.review
 (
     id         bigint auto_increment primary key,
-    date       bigint       not null,
-    product_id bigint       not null,
-    rate       int          not null,
-    text       text         null,
-    user_id    bigint       not null
+    date       bigint not null,
+    product_id bigint not null,
+    rate       int    not null,
+    text       text   null,
+    user_id    bigint not null
 );
 
 CREATE PROCEDURE review.update_product_rating(IN product_id_in BIGINT, IN count_rate int)
@@ -336,7 +347,7 @@ BEGIN
             SET count_order = product_popularity.count_order + 1
             WHERE product_id in (SELECT product_id
                                  FROM order_product
-                                 JOIN orders.orders o on o.id = order_product.order_id
+                                          JOIN orders.orders o on o.id = order_product.order_id
                                  WHERE o.id = NEW.id);
         END;
     END IF;
