@@ -162,13 +162,6 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
-
-      - name: Test
-        run: |-
-          curl -i -X POST \
-          -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
-          "http://localhost:8080/user-service/user/login"
-
           
       - name: Run device tests
         # See https://github.com/orgs/community/discussions/27121
