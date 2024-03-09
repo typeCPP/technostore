@@ -40,6 +40,8 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    testNamespace "com.technostore.test"
 }
 
 dependencies {
@@ -72,4 +74,8 @@ dependencies {
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
     androidTestImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
+    androidTestImplementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$retrofitSerializationVersion"
+    androidTestImplementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+    androidTestImplementation "com.squareup.retrofit2:converter-gson:$convecterGsonVersion"
 }
