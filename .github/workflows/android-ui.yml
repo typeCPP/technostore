@@ -83,14 +83,20 @@ jobs:
         run: |-
           cd api/serverconfig
           mvn spring-boot:run &
+      - name: Wait for Application to Start
+        run: sleep 30
       - name: Run eurekaserver
         run: |-
           cd api/eurekaserver
           mvn spring-boot:run &
+      - name: Wait for Application to Start
+        run: sleep 30
       - name: Run gateway-server
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
+      - name: Wait for Application to Start
+        run: sleep 30
       - name: Run user-service
         env:
           SERVER_PORT: 8084
@@ -107,7 +113,7 @@ jobs:
       - name: Test2
         run: |-
           curl -i -X POST \
-          -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
+          -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
           "http://localhost:8084/user/login"
       
       - name: Setup Gradle
