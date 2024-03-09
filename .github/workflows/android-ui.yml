@@ -21,7 +21,7 @@ jobs:
 
       - name: Start MySQL
         run: |
-          mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
+          mysql-h 127.0.0.1 -P 3306 -e "CREATE DATABASE IF NOT EXISTS orders; 
           CREATE DATABASE IF NOT EXISTS review;
           CREATE DATABASE IF NOT EXISTS product;
           CREATE DATABASE IF NOT EXISTS user;
@@ -33,7 +33,7 @@ jobs:
               updated_at datetime     null,
               user_id    bigint       null
           );" -u$DB_USER -p$DB_PASSWORD
-          mysql -e  "create table if not exists user.users
+          mysql-h 127.0.0.1 -P 3306  "create table if not exists user.users
           (
               id         bigint auto_increment primary key,
               email      varchar(255) null,
