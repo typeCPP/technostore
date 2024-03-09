@@ -100,6 +100,11 @@ jobs:
           curl -i -X POST \
           -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
           "http://localhost:8084/user-service/user/login"
+      - name: Test2
+        run: |-
+          curl -i -X POST \
+          -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
+          "http://localhost:8084/user/login"
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -189,13 +194,13 @@ jobs:
       #   if: always()
       #   with:
       #     report_paths: 'build/test-results/**/*.xml'
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: user
-          MYSQL_ROOT_USER: root
-          MYSQL_ROOT_PASSWORD: somepassword
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    # services:
+    #   mysql:
+    #     image: mysql:5.7
+    #     env:
+    #       MYSQL_DATABASE: user
+    #       MYSQL_ROOT_USER: root
+    #       MYSQL_ROOT_PASSWORD: somepassword
+    #     ports:
+    #       - 3306:3306
+    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
