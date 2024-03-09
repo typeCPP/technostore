@@ -62,7 +62,7 @@ jobs:
   run-user-service:
     needs: database
     permissions: write-all
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env:
       ACTIVE_PROFILE: default
       CONFIG_URI: http://localhost:8088
