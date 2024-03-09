@@ -116,6 +116,10 @@ jobs:
           curl -i -X POST \
           -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
           "http://localhost:8080/user-service/user/login"
+
+                    curl -i -X POST \
+          -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
+          "http://localhost:8084/user-service/user/login"
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
