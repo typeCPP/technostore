@@ -76,27 +76,33 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-          
+
       - name: Run serverconfig
         env:
           SERVER_PORT: 8088
         run: |-
           cd api/serverconfig
+          mvn clean install
           mvn spring-boot:run &
       - name: Run eurekaserver
         run: |-
           cd api/eurekaserver
+          mvn clean install
           mvn spring-boot:run &
       - name: Run gateway-server
         run: |-
           cd api/gateway-server
+          mvn clean install
           mvn spring-boot:run &
       - name: Run user-service
         env:
           SERVER_PORT: 8084
         run: |-
           cd api/user-service
+          mvn clean install
           mvn spring-boot:run &
+      - name: Wait for Application to Start
+        run: sleep 30
       - name: Test
         run: |-
           curl -i -X POST \
