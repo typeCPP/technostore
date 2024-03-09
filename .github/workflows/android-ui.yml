@@ -88,6 +88,7 @@ jobs:
 
       - name: Build and run with Docker Compose
         run: |
+          cd api/docker
           docker-compose up --build -d
       # - name: Test
       #   run: |-
