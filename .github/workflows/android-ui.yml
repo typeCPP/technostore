@@ -13,7 +13,7 @@ jobs:
 
     env:
       DB_USER: root
-      DB_PASSWORD: root
+      DB_PASSWORD: somepassword
 
     steps:
       - name: Checkout code
@@ -74,7 +74,7 @@ jobs:
   #         cd api/user-service
   #         mvn -B -DargLine="-ACTIVE_PROFILE=default -CONFIG_URI=http://localhost:8088" package --file pom.xml -DskipTests
   run-user-service:
-    needs: build-user-service
+    needs: database
     permissions: write-all
     runs-on: ubuntu-latest
     env:
