@@ -118,7 +118,11 @@ jobs:
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
-      
+      - name: Test
+        run: |-
+          curl -i -X POST \
+          -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
+          "http://localhost:8084/user-service/user/login"
      
       # - name: Build app
       #   run: |-
