@@ -21,11 +21,6 @@ jobs:
 
       - name: Start MySQL
         run: |
-          mysql -u root -p
-          ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
-          FLUSH PRIVILEGES;
-          exit;
-          sudo /etc/init.d/mysql start
           mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
           CREATE DATABASE IF NOT EXISTS review;
           CREATE DATABASE IF NOT EXISTS product;
@@ -212,13 +207,13 @@ jobs:
       #   if: always()
       #   with:
       #     report_paths: 'build/test-results/**/*.xml'
-    # services:
-    #   mysql:
-    #     image: mysql:5.7
-    #     env:
-    #       MYSQL_DATABASE: user
-    #       MYSQL_ROOT_USER: root
-    #       MYSQL_ROOT_PASSWORD: somepassword
-    #     ports:
-    #       - 3306:3306
-    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: user
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: somepassword
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
