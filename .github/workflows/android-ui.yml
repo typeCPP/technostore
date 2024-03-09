@@ -185,6 +185,12 @@ jobs:
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
+      
+      - name: Test
+        run: |-
+          curl -i -X POST \
+          -H "Content-Type: application/json" -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
+          "http://localhost:8080/user-service/user/login"
 
       # - name: Run tests
       #   uses: emulator-wtf/run-tests@v0
