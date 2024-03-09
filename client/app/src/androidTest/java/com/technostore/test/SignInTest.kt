@@ -5,7 +5,6 @@ import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import com.technostore.base.activity.LoginActivity
 import com.technostore.screen.main_page.MainScreen
 import com.technostore.screen.sign_in.SignInScreen
-import com.technostore.screen.sign_in.WelcomePageScreen
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -19,37 +18,42 @@ class SignInTest : TestCase() {
     var hiltRule = HiltAndroidRule(this)
 
     @Test
-    fun signInTest() {
-        TestExt.setupClass(isActive = false, isOnBoardingShown = false)
+    fun signInTest() = run {
+        TestExt.setupClass(isActive = false)
         ActivityScenario.launch(LoginActivity::class.java)
-        WelcomePageScreen {
-            nextButton {
-                isVisible()
-                click()
-            }
-        }
         SignInScreen {
-            email {
-                isVisible()
-                click()
-                typeText("danil@yandex.ru")
+            step("Проверить, что открылся экран Логина") {
+                signInTitle.isVisible()
             }
-            closeSoftKeyboard()
-            password {
-                isVisible()
-                click()
-                typeText("123456")
+            step("Ввести правильный e-mail от учетной записи") {
+                email {
+                    isVisible()
+                    click()
+                    typeText("danil@yandex.ru")
+                }
+                closeSoftKeyboard()
             }
-            closeSoftKeyboard()
-            signInButton {
-                isVisible()
-                click()
+            step("Ввести правильный пароль от учетной записи") {
+                password {
+                    isVisible()
+                    click()
+                    typeText("123456")
+                }
+                closeSoftKeyboard()
+            }
+            step("Нажать на кнопку войти") {
+                signInButton {
+                    isVisible()
+                    click()
+                }
             }
         }
-        MainScreen {
-            Screen.idle(5000)
-            tvPopular {
-                isVisible()
+        step("Открылась главная страница") {
+            MainScreen {
+                Screen.idle(5000)
+                tvPopular {
+                    isVisible()
+                }
             }
         }
     }
