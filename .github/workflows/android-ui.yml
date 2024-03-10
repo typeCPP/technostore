@@ -97,6 +97,7 @@ jobs:
       - name: Run user-service
         run: |-
           cd api/user-service
+          kill $(lsof -t -i :8084)
           mvn spring-boot:run &
           sleep 1m
       - name: Test
