@@ -2,10 +2,10 @@ package com.technostore.screen.search
 
 import android.view.View
 import com.kaspersky.kaspresso.screens.KScreen
-import com.technostore.screen.order.OrdersScreen
 import io.github.kakaocup.kakao.text.KTextView
 import com.technostore.shared_search.R
 import com.technostore.shared_search.filter.FilterFragment
+import io.github.kakaocup.kakao.common.views.KView
 import io.github.kakaocup.kakao.recycler.KRecyclerItem
 import io.github.kakaocup.kakao.recycler.KRecyclerView
 import org.hamcrest.Matcher
@@ -25,6 +25,6 @@ object FilterScreen : KScreen<FilterScreen>() {
     val submitButton=KTextView{withId(R.id.tv_search)}
 
     class CategoryItem(parent: Matcher<View>) : KRecyclerItem<CategoryItem>(parent) {
-        val orderNumber = KTextView(parent) { withId(R.id.tv_name) }
+        val name = KTextView { withId(R.id.tv_name) }
     }
 }

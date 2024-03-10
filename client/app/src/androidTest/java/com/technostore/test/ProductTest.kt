@@ -35,11 +35,12 @@ class ProductTest : TestCase() {
         }
         step("Нажать на товар") {
             MainScreen {
-                Screen.idle(1000)
                 searchResult {
                     firstChild<MainScreen.ProductItem> {
-                        isVisible()
-                        click()
+                        flakySafely(5000) {
+                            isDisplayed()
+                            click()
+                        }
                     }
                 }
             }

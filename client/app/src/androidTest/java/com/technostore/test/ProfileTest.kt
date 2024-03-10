@@ -182,8 +182,7 @@ class ProfileTest : TestCase() {
                 Screen.idle(1000)
                 flakySafely(5000) {
                     saveButton {
-                        isVisible()
-                        scrollTo()
+                        isDisplayed()
                         click()
                     }
                 }

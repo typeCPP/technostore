@@ -77,12 +77,9 @@ class SearchTest : TestCase() {
         FilterScreen {
             step("Выбрать категорию ноутбуки") {
                 categories {
-                    isVisible()
                     childAt<FilterScreen.CategoryItem>(8) {
-                        orderNumber {
-                            isVisible()
-                            click()
-                        }
+                        isDisabled()
+                        click()
                     }
                 }
             }
