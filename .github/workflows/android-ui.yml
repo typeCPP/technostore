@@ -83,31 +83,22 @@ jobs:
         run: |-
           cd api/serverconfig
           mvn spring-boot:run &
-          sleep 30
-      - name: Wait for Application to Start
-        run: sleep 30
+          sleep 1m
       - name: Run eurekaserver
         run: |-
           cd api/eurekaserver
           mvn spring-boot:run &
-      - name: Wait for Application to Start
-        run: sleep 30
+          sleep 1m
       - name: Run gateway-server
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
-          sleep 30
-      - name: Wait for Application to Start
-        run: sleep 30
+          sleep 1m
       - name: Run user-service
-        env:
-          SERVER_PORT: 8084
         run: |-
           cd api/user-service
           mvn spring-boot:run &
-          sleep 30
-      - name: Wait for Application to Start
-        run: sleep 30
+          sleep 1m
       - name: Test
         run: |-
           curl -i -X POST \
