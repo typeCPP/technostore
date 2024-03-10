@@ -80,20 +80,15 @@ class SearchTest : TestCase() {
                 categories {
                     childAt<FilterScreen.CategoryItem>(6) {
                         flakySafely {
-                            isVisible()
-                            click()
+                            name {
+                                isVisible()
+                                click()
+                            }
                         }
                     }
                 }
             }
         }
-//            scenario(ChooseCategoryScenario("Ноутбуки"))
-//            step("Нажать искать") {
-//                submitButton {
-//                    isVisible()
-//                    click()
-//                }
-//            }
         step("Отображаются ноутбуки")
         {
             step("Проверить первый товар") {
