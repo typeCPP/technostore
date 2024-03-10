@@ -94,10 +94,14 @@ jobs:
           cd api/gateway-server
           mvn spring-boot:run &
           sleep 1m
+      - name: Run review-service
+        run: |-
+          cd api/review-service
+          mvn spring-boot:run &
+          sleep 1m
       - name: Run user-service
         run: |-
           cd api/user-service
-          fuser -n tcp 8084
           mvn spring-boot:run &
           sleep 1m
       - name: Test
