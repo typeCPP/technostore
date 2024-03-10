@@ -40,8 +40,12 @@ class ReviewTest : TestCase() {
             MainScreen {
                 searchResult {
                     firstChild<MainScreen.ProductItem> {
-                        isVisible()
-                        click()
+                        flakySafely {
+                            image {
+                                isVisible()
+                                click()
+                            }
+                        }
                     }
                 }
             }
