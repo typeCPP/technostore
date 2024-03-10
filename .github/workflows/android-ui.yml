@@ -126,12 +126,15 @@ jobs:
           cd api/serverconfig
           mvn spring-boot:run &
           sleep 1m
+          cd /
           cd api/eurekaserver
           mvn spring-boot:run &
           sleep 1m
+          cd /
           cd api/gateway-server
           mvn spring-boot:run &
           sleep 1m
+          cd /
           cd api/user-service
           mvn spring-boot:run &
           sleep 1m
