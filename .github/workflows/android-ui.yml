@@ -8,7 +8,59 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-ui-tests:
+  database:
+    runs-on: ubuntu-latest
+
+    env:
+      DB_USER: root
+      DB_PASSWORD: somepassword
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u root -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
+          mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
+          CREATE DATABASE IF NOT EXISTS review;
+          CREATE DATABASE IF NOT EXISTS product;
+          CREATE DATABASE IF NOT EXISTS user;
+          create table if not exists orders.orders
+          (
+              id         bigint auto_increment primary key,
+              created_at datetime     null,
+              status     varchar(255) null,
+              updated_at datetime     null,
+              user_id    bigint       null
+          );" -u$DB_USER -p$DB_PASSWORD
+          mysql -e  "create table if not exists user.users
+          (
+              id         bigint auto_increment primary key,
+              email      varchar(255) null,
+              is_enabled bit          not null,
+              last_name  varchar(255) null,
+              link_photo varchar(255) null,
+              name       varchar(255) null,
+              password   varchar(255) null
+          );
+
+          insert into user.users(email, is_enabled, last_name, link_photo, name, password)
+          values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', 'Анастасия',
+                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+                ('a.petrov@yandex.ru', true, 'Петров', '/app/images/2.0.jpg', 'Андрей',
+                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+                ('danil@yandex.ru', true, 'Цыганов', '/app/images/3.0.jpg', 'Данил',
+                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+                ('vlad123@yandex.ru', true, 'Мартынов', '/app/images/4.0.jpg', 'Владислав',
+                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+                ('ivanova.a2@yandex.ru', true, 'Иванова', '/app/images/5.0.jpg', 'Алена',
+                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
+
+          " -u$DB_USER -p$DB_PASSWORD
+  run-user-service:
+    # needs: database
     permissions: write-all
     runs-on: ubuntu-latest
     env:
@@ -80,58 +132,78 @@ jobs:
         run: |-
           curl -i -X POST \
           -d "Content-Type: application/json" "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-          "http://localhost:8094/user/login"
+          "http://127.0.0.1:8094/user/login"
       
-     - name: Setup Gradle
-       uses: gradle/gradle-build-action@v3
+    #  - name: Setup Gradle
+    #    uses: gradle/gradle-build-action@v3
 
-     - name: Enable KVM group perms  
-       run: |
-         echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-         sudo udevadm control --reload-rules
-         sudo udevadm trigger --name-match=kvm
+    #  - name: Enable KVM group perms  
+    #    run: |
+    #      echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+    #      sudo udevadm control --reload-rules
+    #      sudo udevadm trigger --name-match=kvm
 
-     - name: AVD cache
-       uses: actions/cache@v4
-       id: avd-cache
-       with:
-         path: |
-           ~/.android/avd/*
-           ~/.android/adb*
-         key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
+    #  - name: AVD cache
+    #    uses: actions/cache@v4
+    #    id: avd-cache
+    #    with:
+    #      path: |
+    #        ~/.android/avd/*
+    #        ~/.android/adb*
+    #      key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
 
-     - name: Create AVD and generate snapshot for caching
-       if: steps.avd-cache.outputs.cache-hit != 'true'
-       uses: reactivecircus/android-emulator-runner@v2
-       with:
-         api-level: 29
-         target: default
-         arch: x86_64
-         force-avd-creation: false
-         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-         disable-animations: true
-         script: echo "Generated AVD snapshot for caching."
+    #  - name: Create AVD and generate snapshot for caching
+    #    if: steps.avd-cache.outputs.cache-hit != 'true'
+    #    uses: reactivecircus/android-emulator-runner@v2
+    #    with:
+    #      api-level: 29
+    #      target: default
+    #      arch: x86_64
+    #      force-avd-creation: false
+    #      emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+    #      disable-animations: true
+    #      script: echo "Generated AVD snapshot for caching."
 
-     - name: Run device tests
-       # See https://github.com/orgs/community/discussions/27121
-       uses: reactivecircus/android-emulator-runner@v2
-       with:
-         arch: x86_64
-         force-avd-creation: false
-         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-         disable-animations: true
-         profile: Pixel XL
-         api-level: 29
-         target: default
-         working-directory: client
-         script: |-
-           ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
+    #  - name: Run device tests
+    #    # See https://github.com/orgs/community/discussions/27121
+    #    uses: reactivecircus/android-emulator-runner@v2
+    #    with:
+    #      arch: x86_64
+    #      force-avd-creation: false
+    #      emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+    #      disable-animations: true
+    #      profile: Nexus 6
+    #      api-level: 29
+    #      target: default
+    #      working-directory: client
+    #      script: |-
+    #        ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
-     - name: Upload test results
-       if: always()
-       uses: actions/upload-artifact@v4
-       with:
-         name: test-results
-         path: |
-           **/build/reports/*
-           **/build/outputs/*/connected/*
+    #  - name: Upload test results
+    #    if: always()
+    #    uses: actions/upload-artifact@v4
+    #    with:
+    #      name: test-results
+    #      path: |
+    #        **/build/reports/*
+    #        **/build/outputs/*/connected/*
+    
+    # services:
+    #   mysql:
+    #     image: mysql:5.7
+    #     env:
+    #       MYSQL_DATABASE: user
+    #       MYSQL_ROOT_USER: root
+    #       MYSQL_ROOT_PASSWORD: somepassword
+    #     ports:
+    #       - 3306:3306
+    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      # orders_mysql:
+      #   image: mysql:5.7
+      #   env:
+      #     MYSQL_DATABASE: orders
+      #     MYSQL_ROOT_USER: root
+      #     MYSQL_ROOT_PASSWORD: somepassword
+      #   ports:
+      #     - 3306:3306
+      #   options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
