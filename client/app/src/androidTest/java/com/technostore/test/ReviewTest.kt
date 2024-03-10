@@ -47,6 +47,7 @@ class ReviewTest : TestCase() {
         step("Нажать на кнопку “Посмотреть все” у отзыва") {
             ProductDetailScreen {
                 allReviewsButton {
+                    scrollTo()
                     isVisible()
                     click()
                 }

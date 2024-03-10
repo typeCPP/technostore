@@ -87,7 +87,7 @@
                 app:layout_constraintStart_toEndOf="@id/product_image"
                 app:layout_constraintTop_toBottomOf="@id/gl_top" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/product_name"
                 style="@style/basic_text"
                 android:layout_width="0dp"
@@ -104,7 +104,7 @@
                 app:layout_constraintTop_toBottomOf="@id/product_image"
                 tools:text="iphone" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/price"
                 style="@style/basic_text"
                 android:layout_width="0dp"
@@ -180,7 +180,7 @@
                     app:tint="@color/basic_color"
                     tools:ignore="ContentDescription" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/rating_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

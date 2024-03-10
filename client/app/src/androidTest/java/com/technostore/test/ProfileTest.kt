@@ -180,9 +180,12 @@ class ProfileTest : TestCase() {
             }
             step("Нажать сохранить") {
                 Screen.idle(1000)
-                saveButton {
-                    isVisible()
-                    click()
+                flakySafely(5000) {
+                    saveButton {
+                        isVisible()
+                        scrollTo()
+                        click()
+                    }
                 }
             }
         }

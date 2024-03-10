@@ -42,6 +42,9 @@ android {
     }
 
     testNamespace "com.technostore.test"
+    testOptions{
+        animationsDisabled true
+    }
 }
 
 dependencies {
