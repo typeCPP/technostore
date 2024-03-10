@@ -83,6 +83,7 @@ jobs:
         run: |-
           cd api/serverconfig
           mvn spring-boot:run &
+          sleep 30
       - name: Wait for Application to Start
         run: sleep 30
       - name: Run eurekaserver
@@ -95,6 +96,7 @@ jobs:
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
+          sleep 30
       - name: Wait for Application to Start
         run: sleep 30
       - name: Run user-service
@@ -103,6 +105,7 @@ jobs:
         run: |-
           cd api/user-service
           mvn spring-boot:run &
+          sleep 30
       - name: Wait for Application to Start
         run: sleep 30
       - name: Test
