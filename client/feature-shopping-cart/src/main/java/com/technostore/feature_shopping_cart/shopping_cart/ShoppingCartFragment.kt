@@ -16,9 +16,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.technostore.arch.mvi.News
-import com.technostore.feature_profile.R
+import com.technostore.feature_shopping_cart.R
 import com.technostore.core.R as CoreR
-import com.technostore.feature_profile.databinding.ShoppingCartFragmentBinding
+import com.technostore.feature_shopping_cart.databinding.ShoppingCartFragmentBinding
 import com.technostore.feature_shopping_cart.business.model.ProductOrderModel
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartNews
 import com.technostore.feature_shopping_cart.shopping_cart.presentation.ShoppingCartState

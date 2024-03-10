@@ -125,6 +125,7 @@
             app:tint="@color/color_accent" />
 
         <TextView
+            android:id="@+id/tv_order_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_5x"

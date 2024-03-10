@@ -195,27 +195,35 @@ create table if not exists user.users
 
 insert into user.users(email, is_enabled, last_name, link_photo, name, password)
 values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', 'Анастасия',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (2, 4)
        ('a.petrov@yandex.ru', true, 'Петров', '/app/images/2.0.jpg', 'Андрей',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (8)
        ('danil@yandex.ru', true, 'Цыганов', '/app/images/3.0.jpg', 'Данил',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (1)
        ('vlad123@yandex.ru', true, 'Мартынов', '/app/images/4.0.jpg', 'Владислав',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (3)
        ('ivanova.a2@yandex.ru', true, 'Иванова', '/app/images/5.0.jpg', 'Алена',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password (7)
 
 insert into user.user_jwt(token, user_id)
 values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiZjc0YTBiMjkyOGI0YjA0ODAwODc4YTZjNmYwYTI1YyIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDEzLCJleHAiOjE3NDE1NTIwMTJ9.PBJQbK_5Zi3EKwSCp0Zt15WxdMEVG7Z0fBTSH6KLHi-E1ir7NHjmE_GyAimNQQUBpKYG4no-mrMq4NF8lbhA1Q',
         4),
        ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA',
-        1);
+        1),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZGY3OTVhMjhmMzE0Y2YzYTMwOGRmMTNiNDM2ZDRhNCIsInN1YiI6Iml2YW5vdmEuYTJAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDU0MjUyLCJleHAiOjE3NDE1OTAyNTJ9.P92FElhXOJascwQJJzmzRLW7RQUKI6s6reCkcmlrgg6hhAw63MGRsxiuBZTdC4M0WA6GBQVCW0lDRyMQD-mmtQ',
+        5),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNTk4NTg3YmZlNTc0YzE2OTQ2Y2E1NDI1YjJiZDZlYiIsInN1YiI6ImEucGV0cm92QHlhbmRleC5ydSIsImlhdCI6MTcxMDA1NDkwMywiZXhwIjoxNzQxNTkwOTAzfQ.CFsSVgFYvW8fbsyoQuRl8LDcmk9OTKFjAozbDepRCMTPtf_v9KAGHmtnnwwIzOVx6QUb6cBjD7-hhbskMTD_Hw',
+        2);
 
 insert into user.user_refresh_token(token, user_id)
 values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxYzQzNmY0NjVmNTM0MWM5YjIzYjI4ZDI5MzQzZGRmZSIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDQwLCJleHAiOjE3NDE1NTIwNDB9.7zNV7_i7tjID_NuTCT0uMNLhVWcB56VYKunwQzggrknGKcAQinEmA2r8Y_RzTGojh9Q4gEZc-YJOGp_oA9LhDg',
         4),
        ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZDc0MThiNjRkMjU0NWU4YWI2ZjZhYWFjMjQ5NTEyNCIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MjYsImV4cCI6MTc0MTU1NDUyNn0.XN6IuZ9pbhJz6tCvNxUqxl1FlKQw4DK6ByBEFY6Aeh95Yj6qvwC8lDhXHnxfH6Czx3BzZRrowCER3hhDBZqyyQ',
-        1);
+        1),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1Y2FiYmIxYTVjOGM0YmEyOWFkYTY0ZTlmMTFkZjlkMSIsInN1YiI6Iml2YW5vdmEuYTJAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDU0MjY4LCJleHAiOjE3NDE1OTAyNjh9.8h8_scmwNv1tc567Gr9ntFEmH04eaI-HjhtYKIUp5pYLj_7l1N7wSD6vsF9Q1TZGSqT4cp65EmDkrJsPZCVx5Q',
+        5),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzNTE0OGFlZmVhZDQ0NWY3OTBkZjA5Mzk3MTU5NDUyNyIsInN1YiI6ImEucGV0cm92QHlhbmRleC5ydSIsImlhdCI6MTcxMDA1NDkyNCwiZXhwIjoxNzQxNTkwOTI0fQ.a6iiTEXtmG3EAZxh863bANXrnTbIBvgarQFxN9hzwmIV1lkN_K2Yp4yZnoV4vJgcFAmFDp30Ao2R7KPg8CLEjg',
+        2);
 
 create table if not exists review.review
 (
@@ -352,3 +360,13 @@ BEGIN
         END;
     END IF;
 END;
+
+insert into orders.orders (id,created_at, status, updated_at, user_id)
+values (1,'2024-03-10 19:30:35', 'IN_PROGRESS', '2024-03-10 19:30:35', 1),
+       (2,'2024-03-01 19:30:35', 'COMPLETED', '2024-03-01 19:30:35', 2),
+       (3,'2024-03-02 19:30:35', 'COMPLETED', '2024-03-02 19:30:35', 2);
+
+insert into orders.order_product (id,count, product_id, order_id)
+values (1,1, 1, 1),
+       (2,1, 1, 2),
+       (3,1, 2, 3);

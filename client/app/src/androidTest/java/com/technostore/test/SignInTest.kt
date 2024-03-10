@@ -5,6 +5,7 @@ import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import com.technostore.base.activity.LoginActivity
 import com.technostore.screen.main_page.MainScreen
 import com.technostore.screen.sign_in.SignInScreen
+import com.technostore.test.utils.TestData
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

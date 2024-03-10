@@ -9,6 +9,7 @@ import com.technostore.screen.profile.ChangePasswordScreen
 import com.technostore.screen.profile.EditProfileScreen
 import com.technostore.screen.profile.ProfileScreen
 import com.technostore.screen.sign_in.SignInScreen
+import com.technostore.test.utils.TestData
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

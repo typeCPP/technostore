@@ -11,6 +11,7 @@ object ProfileScreen : KScreen<ProfileScreen>() {
     override val viewClass: Class<*> = ProfileFragment::class.java
 
     val name = KTextView { withId(R.id.tv_name) }
+    val orderHistoryButton = KTextView { withId(R.id.tv_order_history) }
     val changePasswordButton = KTextView { withId(R.id.tv_change_password) }
     val logoutButton = KTextView { withId(R.id.tv_logout) }
     val changeProfileButton = KImageView { withId(R.id.iv_pencil) }

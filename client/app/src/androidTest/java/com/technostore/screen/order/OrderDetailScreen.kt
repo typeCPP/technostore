@@ -1,9 +1,9 @@
-package com.technostore.screen.main_page
+package com.technostore.screen.order
 
 import android.view.View
 import com.kaspersky.kaspresso.screens.KScreen
-import com.technostore.feature_main_page.R
-import com.technostore.feature_main_page.main_page.MainPageFragment
+import com.technostore.feature_order.order_detail.OrderDetailFragment
+import com.technostore.feature_order.R
 import io.github.kakaocup.kakao.image.KImageView
 import io.github.kakaocup.kakao.recycler.KRecyclerItem
 import io.github.kakaocup.kakao.recycler.KRecyclerView
@@ -11,18 +11,19 @@ import io.github.kakaocup.kakao.text.KTextView
 import org.hamcrest.Matcher
 import com.technostore.core.R as CoreR
 
-object MainScreen : KScreen<MainScreen>() {
-    override val layoutId: Int = R.layout.main_fragment
-    override val viewClass: Class<*> = MainPageFragment::class.java
+object OrderDetailScreen : KScreen<OrderDetailScreen>() {
+    override val layoutId: Int = R.layout.order_details_fragment
+    override val viewClass: Class<*> = OrderDetailFragment::class.java
 
-    val tvPopular = KTextView { withId(R.id.tv_popular) }
-    val popularRecyclerView = KRecyclerView({
-        withId(R.id.rv_popular)
+    val recyclerView = KRecyclerView({
+        withId(R.id.products_list)
     },
         itemTypeBuilder = {
-            itemType(MainScreen::ProductItem)
+            itemType(OrderDetailScreen::ProductItem)
         }
     )
+
+    val backButton = KImageView { withId(R.id.iv_back_button) }
 
     class ProductItem(parent: Matcher<View>) : KRecyclerItem<ProductItem>(parent) {
         val image = KImageView(parent) { withId(CoreR.id.iv_picture) }
