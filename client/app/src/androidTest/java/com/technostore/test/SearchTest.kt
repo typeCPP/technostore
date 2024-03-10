@@ -4,6 +4,7 @@ import androidx.test.core.app.ActivityScenario
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import com.technostore.base.activity.LoginActivity
 import com.technostore.scenario.CheckProductSearchScenario
+import com.technostore.scenario.ChooseCategoryScenario
 import com.technostore.screen.banner.ErrorScreen
 import com.technostore.screen.main_page.MainScreen
 import com.technostore.screen.search.FilterScreen
@@ -75,16 +76,7 @@ class SearchTest : TestCase() {
             }
         }
         FilterScreen {
-            step("Выбрать категорию ноутбуки") {
-                categories {
-                    childAt<FilterScreen.CategoryItem>(8) {
-                        name {
-                            isDisplayed()
-                            click()
-                        }
-                    }
-                }
-            }
+            scenario(ChooseCategoryScenario("Ноутбуки"))
             step("Нажать искать") {
                 submitButton {
                     isVisible()
