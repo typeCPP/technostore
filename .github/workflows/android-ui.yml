@@ -207,7 +207,7 @@ jobs:
     #      path: |
     #        **/build/reports/*
     #        **/build/outputs/*/connected/*
-    services:
+    # services:
     #   mysql:
     #     image: mysql:5.7
     #     env:
