@@ -34,6 +34,7 @@ class ProductTest : TestCase() {
             }
         }
         step("Нажать на товар") {
+            Screen.idle(5000)
             MainScreen {
                 searchResult {
                     firstChild<MainScreen.ProductItem> {

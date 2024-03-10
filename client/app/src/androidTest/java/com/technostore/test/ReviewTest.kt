@@ -10,6 +10,7 @@ import com.technostore.test.utils.TestData
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.github.kakaocup.kakao.screen.Screen
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,6 +36,7 @@ class ReviewTest : TestCase() {
             }
         }
         step("Нажать на товар") {
+            Screen.idle(5000)
             MainScreen {
                 searchResult {
                     firstChild<MainScreen.ProductItem> {
