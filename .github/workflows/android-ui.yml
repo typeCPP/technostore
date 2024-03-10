@@ -134,59 +134,59 @@ jobs:
           -d "Content-Type: application/json" "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
           "http://127.0.0.1:8094/user/login"
       
-    #  - name: Setup Gradle
-    #    uses: gradle/gradle-build-action@v3
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
 
-    #  - name: Enable KVM group perms  
-    #    run: |
-    #      echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-    #      sudo udevadm control --reload-rules
-    #      sudo udevadm trigger --name-match=kvm
+      - name: Enable KVM group perms  
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-    #  - name: AVD cache
-    #    uses: actions/cache@v4
-    #    id: avd-cache
-    #    with:
-    #      path: |
-    #        ~/.android/avd/*
-    #        ~/.android/adb*
-    #      key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-ubuntu-${{ matrix.api-level }}-${{ env.cache-version }}
 
-    #  - name: Create AVD and generate snapshot for caching
-    #    if: steps.avd-cache.outputs.cache-hit != 'true'
-    #    uses: reactivecircus/android-emulator-runner@v2
-    #    with:
-    #      api-level: 29
-    #      target: default
-    #      arch: x86_64
-    #      force-avd-creation: false
-    #      emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-    #      disable-animations: true
-    #      script: echo "Generated AVD snapshot for caching."
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
 
-    #  - name: Run device tests
-    #    # See https://github.com/orgs/community/discussions/27121
-    #    uses: reactivecircus/android-emulator-runner@v2
-    #    with:
-    #      arch: x86_64
-    #      force-avd-creation: false
-    #      emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-    #      disable-animations: true
-    #      profile: Nexus 6
-    #      api-level: 29
-    #      target: default
-    #      working-directory: client
-    #      script: |-
-    #        ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
+      - name: Run device tests
+        # See https://github.com/orgs/community/discussions/27121
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          profile: Pixel XL
+          api-level: 29
+          target: default
+          working-directory: client
+          script: |-
+            ./gradlew app:connectedDebugAndroidTest --info --stacktrace --no-watch-fs -Dorg.gradle.workers.max=2
 
-    #  - name: Upload test results
-    #    if: always()
-    #    uses: actions/upload-artifact@v4
-    #    with:
-    #      name: test-results
-    #      path: |
-    #        **/build/reports/*
-    #        **/build/outputs/*/connected/*
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            **/build/reports/*
+            **/build/outputs/*/connected/*
     
     # services:
     #   mysql:
