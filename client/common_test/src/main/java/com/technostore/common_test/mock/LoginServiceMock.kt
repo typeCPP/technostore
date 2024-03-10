@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
-import com.technostore.network.utils.URL.USER_SERVICE_BASE_URL
 import com.technostore.common_test.response.base.BaseResponse
 import com.technostore.common_test.response.login_service.CheckEmailExistsResponse
 import com.technostore.common_test.response.login_service.LoginResponse
@@ -31,7 +30,7 @@ object LoginServiceMock {
     class Login internal constructor() {
 
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/$USER_SERVICE_BASE_URL/user/login"))
+            get() = post(urlPathMatching("/user/login"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(LoginResponse.success)))
@@ -64,7 +63,7 @@ object LoginServiceMock {
 
     class CheckEmailExists internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/check-email-exists"))
+            get() = get(urlPathMatching("/user/check-email-exists"))
 
         fun successExists() {
             stubFor(matcher.willReturn(ok(CheckEmailExistsResponse.successExists)))
@@ -87,7 +86,7 @@ object LoginServiceMock {
 
     class Registration internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/$USER_SERVICE_BASE_URL/user/registration"))
+            get() = post(urlPathMatching("/user/registration"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(RegistrationResponse.success)))
@@ -106,7 +105,7 @@ object LoginServiceMock {
 
     class ChangePassword internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/change-password"))
+            get() = get(urlPathMatching("/user/change-password"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -121,7 +120,7 @@ object LoginServiceMock {
 
     class ConfirmAccount internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/confirm-account"))
+            get() = get(urlPathMatching("/user/confirm-account"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -142,7 +141,7 @@ object LoginServiceMock {
 
     class PasswordRecovery internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/user/password-recovery"))
+            get() = get(urlPathMatching("/user/password-recovery"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(PasswordRecoveryResponse.success)))
@@ -167,7 +166,7 @@ object LoginServiceMock {
 
     class SendCodeForRecoveryPassword internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/send-code-for-recovery-password"))
+            get() = get(urlPathMatching("/send-code-for-recovery-password"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -182,7 +181,7 @@ object LoginServiceMock {
 
     class SendCodeForConfirmationAccount internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/$USER_SERVICE_BASE_URL/send-code-for-confirmation-account"))
+            get() = get(urlPathMatching("/send-code-for-confirmation-account"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))

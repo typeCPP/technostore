@@ -9,7 +9,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.product_service.CategoryResponse
 import com.technostore.common_test.response.product_service.ProductResponse
 import com.technostore.common_test.response.product_service.ProductSearchResultResponse
-import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
 object ProductServiceMock {
@@ -22,7 +21,7 @@ object ProductServiceMock {
     class PopularCategories internal constructor() {
 
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.PRODUCT_SERVICE_BASE_URL}/product/popular-categories"))
+            get() = get(urlPathMatching("/product/popular-categories"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(CategoryResponse.success)))
@@ -41,7 +40,7 @@ object ProductServiceMock {
 
     class SearchProducts internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.PRODUCT_SERVICE_BASE_URL}/product/search"))
+            get() = get(urlPathMatching("/product/search"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(ProductSearchResultResponse.success)))
@@ -64,7 +63,7 @@ object ProductServiceMock {
 
     class Product internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.PRODUCT_SERVICE_BASE_URL}/product/.+"))
+            get() = get(urlPathMatching("/product/.+"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(ProductResponse.success)))

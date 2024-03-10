@@ -9,7 +9,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.order_service.CompletedOrdersResponse
 import com.technostore.common_test.response.order_service.GetCurrentOrderResponse
-import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
 object OrderServiceMock {
@@ -25,7 +24,7 @@ object OrderServiceMock {
     class GetCurrentOrder internal constructor() {
 
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-current-order"))
+            get() = get(urlPathMatching("/order/get-current-order"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(GetCurrentOrderResponse.success)))
@@ -44,7 +43,7 @@ object OrderServiceMock {
 
     class CompleteOrder internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/complete-order/.+"))
+            get() = post(urlPathMatching("/order/complete-order/.+"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -59,7 +58,7 @@ object OrderServiceMock {
 
     class CompletedOrderById internal constructor() {
         val urlPattern =
-            urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-order/.+")
+            urlPathMatching("/order/get-completed-order/.+")
         private val matcher: MappingBuilder get() = get(urlPattern)
 
         fun success() {
@@ -79,7 +78,7 @@ object OrderServiceMock {
 
     class CompletedOrders internal constructor() {
         private val urlPattern =
-            urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/get-completed-orders")
+            urlPathMatching("/order/get-completed-orders")
         private val matcher: MappingBuilder get() = get(urlPattern)
 
         fun success() {
@@ -99,7 +98,7 @@ object OrderServiceMock {
 
     class SetProductCount internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.ORDER_SERVICE_BASE_URL}/order/set-product-count"))
+            get() = post(urlPathMatching("/order/set-product-count"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
