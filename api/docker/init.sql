@@ -349,6 +349,7 @@ create table if not exists orders.order_product
     order_id   bigint not null references orders (id)
 );
 
+DELIMITER //
 CREATE TRIGGER orders.set_product_popularity
     AFTER UPDATE
     ON orders.orders
@@ -364,7 +365,8 @@ BEGIN
                                  WHERE o.id = NEW.id);
         END;
     END IF;
-END;
+END //
+DELIMITER ;
 
 insert into orders.orders (id,created_at, status, updated_at, user_id)
 values (1,'2024-03-10 19:30:35', 'IN_PROGRESS', '2024-03-10 19:30:35', 1),
