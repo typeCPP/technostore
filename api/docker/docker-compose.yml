@@ -110,7 +110,7 @@ services:
       configserver:
         condition: service_started
     ports:
-      - "8084:8084"
+      - "8094:8094"
     networks:
       - backend
 networks:
