@@ -13,7 +13,6 @@ import com.technostore.test.utils.TestData
 import com.technostore.test.utils.TestExt
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.github.kakaocup.kakao.screen.Screen
 import org.junit.Rule
 import org.junit.Test
 
@@ -179,9 +178,8 @@ class ProfileTest : TestCase() {
                 closeSoftKeyboard()
             }
             step("Нажать сохранить") {
-                Screen.idle(1000)
-                flakySafely(5000) {
-                    saveButton {
+                saveButton {
+                    flakySafely {
                         isDisplayed()
                         click()
                     }
