@@ -176,7 +176,7 @@ class MainEffectHandlerTest : MainPageBaseTest() {
     fun `event LoadMoreProducts → search products return success → set data`() =
         runTest {
             val event = MainUiEvent.LoadMoreProducts(word)
-            val expectedEvent = MainEvent.DataLoaded(products = defaultProducts)
+            val expectedEvent = MainEvent.MoreDataLoaded(products = defaultProducts)
 
             effectHandler.process(event, defaultState, store)
             coVerify(exactly = 1) { sharedSearchRepositoryMock.searchProducts(word) }
