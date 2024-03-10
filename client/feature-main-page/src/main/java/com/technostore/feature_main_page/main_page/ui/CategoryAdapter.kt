@@ -15,7 +15,7 @@ class CategoryAdapter(private val onClickTag: (item: CategoryWithCheck) -> Unit)
     class DataViewHolder(private val binding: ViewHolderCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(tagWithCheck: CategoryWithCheck, onClickTag: (item: CategoryWithCheck) -> Unit) {
-            binding.tvName.text = tagWithCheck.category.name
+            binding.tvCategoryName.text = tagWithCheck.category.name
             itemView.setOnClickListener {
                 onClickTag(tagWithCheck)
             }

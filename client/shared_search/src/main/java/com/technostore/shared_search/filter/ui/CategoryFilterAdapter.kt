@@ -17,27 +17,27 @@ class CategoryFilterAdapter(private val onClickTag: (item: CategoryWithCheck) ->
     class DataViewHolder(private val binding: ViewHolderCategoryFilterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(tagWithCheck: CategoryWithCheck, onClickTag: (item: CategoryWithCheck) -> Unit) {
-            binding.tvName.text = tagWithCheck.category.name
+            binding.tvCategoryName.text = tagWithCheck.category.name
             if (tagWithCheck.isSelected) {
-                binding.tvName.background =
+                binding.tvCategoryName.background =
                     ContextCompat.getDrawable(
                         context,
                         CoreR.drawable.selected_category_filter_background
                     )
             } else {
-                binding.tvName.background = ContextCompat.getDrawable(
+                binding.tvCategoryName.background = ContextCompat.getDrawable(
                     context,
                     CoreR.drawable.category_filter_background
                 )
             }
             itemView.setOnClickListener {
                 if (tagWithCheck.isSelected) {
-                    binding.tvName.background = ContextCompat.getDrawable(
+                    binding.tvCategoryName.background = ContextCompat.getDrawable(
                         context,
                         CoreR.drawable.category_filter_background
                     )
                 } else {
-                    binding.tvName.background = ContextCompat.getDrawable(
+                    binding.tvCategoryName.background = ContextCompat.getDrawable(
                         context,
                         CoreR.drawable.selected_category_filter_background
                     )

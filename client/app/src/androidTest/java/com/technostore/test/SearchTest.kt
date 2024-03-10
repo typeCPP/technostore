@@ -78,8 +78,10 @@ class SearchTest : TestCase() {
             step("Выбрать категорию ноутбуки") {
                 categories {
                     childAt<FilterScreen.CategoryItem>(8) {
-                        isDisplayed()
-                        click()
+                        name {
+                            isDisplayed()
+                            click()
+                        }
                     }
                 }
             }
