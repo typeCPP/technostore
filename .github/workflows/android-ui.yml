@@ -59,7 +59,7 @@ jobs:
                   '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
 
           " -u$DB_USER -p$DB_PASSWORD
-  run-test:
+  run-user-service:
     # needs: database
     permissions: write-all
     runs-on: ubuntu-latest
@@ -187,3 +187,4 @@ jobs:
          path: |
            **/build/reports/*
            **/build/outputs/*/connected/*
+    
