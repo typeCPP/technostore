@@ -58,7 +58,7 @@ class SearchTest : TestCase() {
     }
 
     @Test
-    fun searchByPopularityAndCategoryTest() = run {
+    fun searchByCategoryTest() = run {
         TestExt.setupActiveUserClass(
             accessToken = TestData.PETROV_ACCESS_TOKEN,
             refreshToken = TestData.PETROV_REFRESH_TOKEN,
@@ -78,7 +78,7 @@ class SearchTest : TestCase() {
             step("Выбрать категорию ноутбуки") {
                 categories {
                     childAt<FilterScreen.CategoryItem>(8) {
-                        isDisabled()
+                        isDisplayed()
                         click()
                     }
                 }

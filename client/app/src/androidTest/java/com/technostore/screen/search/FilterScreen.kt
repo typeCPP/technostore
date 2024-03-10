@@ -5,7 +5,6 @@ import com.kaspersky.kaspresso.screens.KScreen
 import io.github.kakaocup.kakao.text.KTextView
 import com.technostore.shared_search.R
 import com.technostore.shared_search.filter.FilterFragment
-import io.github.kakaocup.kakao.common.views.KView
 import io.github.kakaocup.kakao.recycler.KRecyclerItem
 import io.github.kakaocup.kakao.recycler.KRecyclerView
 import org.hamcrest.Matcher
