@@ -38,9 +38,11 @@ class ProductTest : TestCase() {
             MainScreen {
                 searchResult {
                     firstChild<MainScreen.ProductItem> {
-                        flakySafely(5000) {
-                            isDisplayed()
-                            click()
+                        flakySafely {
+                            image {
+                                isVisible()
+                                click()
+                            }
                         }
                     }
                 }
