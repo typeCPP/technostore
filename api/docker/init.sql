@@ -235,6 +235,7 @@ create table if not exists review.review
     user_id    bigint not null
 );
 
+DELIMITER //
 CREATE PROCEDURE review.update_product_rating(IN product_id_in BIGINT, IN count_rate int)
 BEGIN
     UPDATE product.product_rating
@@ -243,7 +244,8 @@ BEGIN
                         from review
                         where review.product_id = product_id_in)
     WHERE product.product_rating.product_id = product_id_in;
-END;
+END //
+DELIMITER ;
 
 CREATE TRIGGER review.set_product_rating_by_review_insert
     AFTER INSERT
