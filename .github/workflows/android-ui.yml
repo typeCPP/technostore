@@ -8,57 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  database:
-    runs-on: ubuntu-latest
-
-    env:
-      DB_USER: root
-      DB_PASSWORD: somepassword
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Start MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -u root -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
-          mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
-          CREATE DATABASE IF NOT EXISTS review;
-          CREATE DATABASE IF NOT EXISTS product;
-          CREATE DATABASE IF NOT EXISTS user;
-          create table if not exists orders.orders
-          (
-              id         bigint auto_increment primary key,
-              created_at datetime     null,
-              status     varchar(255) null,
-              updated_at datetime     null,
-              user_id    bigint       null
-          );" -u$DB_USER -p$DB_PASSWORD
-          mysql -e  "create table if not exists user.users
-          (
-              id         bigint auto_increment primary key,
-              email      varchar(255) null,
-              is_enabled bit          not null,
-              last_name  varchar(255) null,
-              link_photo varchar(255) null,
-              name       varchar(255) null,
-              password   varchar(255) null
-          );
-
-          insert into user.users(email, is_enabled, last_name, link_photo, name, password)
-          values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', 'Анастасия',
-                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
-                ('a.petrov@yandex.ru', true, 'Петров', '/app/images/2.0.jpg', 'Андрей',
-                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
-                ('danil@yandex.ru', true, 'Цыганов', '/app/images/3.0.jpg', 'Данил',
-                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
-                ('vlad123@yandex.ru', true, 'Мартынов', '/app/images/4.0.jpg', 'Владислав',
-                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
-                ('ivanova.a2@yandex.ru', true, 'Иванова', '/app/images/5.0.jpg', 'Алена',
-                  '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
-
-          " -u$DB_USER -p$DB_PASSWORD
   run-ui-tests:
     permissions: write-all
     runs-on: ubuntu-latest
@@ -131,7 +80,7 @@ jobs:
         run: |-
           curl -i -X POST \
           -d "Content-Type: application/json" "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-          "http://127.0.0.1:8094/user/login"
+          "http://localhost:8094/user/login"
       
      - name: Setup Gradle
        uses: gradle/gradle-build-action@v3
