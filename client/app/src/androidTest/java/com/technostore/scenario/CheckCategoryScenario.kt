@@ -12,15 +12,17 @@ class CheckCategoryScenario(
         FilterScreen {
             categories {
                 childAt<FilterScreen.CategoryItem>(position) {
-                    name.compose(timeoutMs = 1000, intervalMs = 199) {
+                    compose {
                         or {
-                            hasText(categoryName)
+                            name.hasText(categoryName)
                         } thenContinue {
                             step("Выбрать категорию $categoryName") {
-                                click()
+                                flakySafely {
+                                    click()
+                                }
                             }
                         }
-                        or { }
+                        or {  }
                     }
                 }
             }
