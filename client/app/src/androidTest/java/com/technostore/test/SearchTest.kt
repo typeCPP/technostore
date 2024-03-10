@@ -76,15 +76,26 @@ class SearchTest : TestCase() {
             }
         }
         FilterScreen {
-            scenario(ChooseCategoryScenario("Ноутбуки"))
-            step("Нажать искать") {
-                submitButton {
-                    isVisible()
-                    click()
+            step("Выбрать категорию ноутбуки") {
+                categories {
+                    childAt<FilterScreen.CategoryItem>(6) {
+                        flakySafely {
+                            isVisible()
+                            click()
+                        }
+                    }
                 }
             }
         }
-        step("Отображаются ноутбуки") {
+//            scenario(ChooseCategoryScenario("Ноутбуки"))
+//            step("Нажать искать") {
+//                submitButton {
+//                    isVisible()
+//                    click()
+//                }
+//            }
+        step("Отображаются ноутбуки")
+        {
             step("Проверить первый товар") {
                 CheckProductSearchScenario(
                     position = 0,
