@@ -94,9 +94,9 @@ jobs:
           cd api/gateway-server
           mvn spring-boot:run &
           sleep 1m
-      - name: Run review-service
+      - name: Run order-service
         run: |-
-          cd api/review-service
+          cd api/order-service
           mvn spring-boot:run &
           sleep 1m
       - name: Run user-service
@@ -178,10 +178,10 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      review_mysql:
+      orders_mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: review
+          MYSQL_DATABASE: orders
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: somepassword
         ports:
