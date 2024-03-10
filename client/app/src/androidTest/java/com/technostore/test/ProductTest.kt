@@ -31,7 +31,6 @@ class ProductTest : TestCase() {
                 searchField {
                     replaceText("TECNO")
                 }
-                closeSoftKeyboard()
             }
         }
         step("Нажать на товар") {
