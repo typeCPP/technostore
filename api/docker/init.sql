@@ -197,7 +197,7 @@ insert into user.users(email, is_enabled, last_name, link_photo, name, password)
 values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', 'Анастасия',
         '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (2, 4)
        ('a.petrov@yandex.ru', true, 'Петров', '/app/images/2.0.jpg', 'Андрей',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (8)
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (8,9, 10)
        ('danil@yandex.ru', true, 'Цыганов', '/app/images/3.0.jpg', 'Данил',
         '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (1)
        ('vlad123@yandex.ru', true, 'Мартынов', '/app/images/4.0.jpg', 'Владислав',
