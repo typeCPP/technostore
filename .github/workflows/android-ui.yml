@@ -126,16 +126,16 @@ jobs:
           cd api/serverconfig
           mvn spring-boot:run &
           sleep 1m
-          cd /
-          cd api/eurekaserver
+          cd -
+          cd eurekaserver
           mvn spring-boot:run &
           sleep 1m
-          cd /
-          cd api/gateway-server
+          cd -
+          cd gateway-server
           mvn spring-boot:run &
           sleep 1m
-          cd /
-          cd api/user-service
+          cd -
+          cd user-service
           mvn spring-boot:run &
           sleep 1m
       # - name: Run eurekaserver
