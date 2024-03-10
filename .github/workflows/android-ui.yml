@@ -68,6 +68,9 @@ jobs:
       CONFIG_URI: http://localhost:8088
       SPRING_PROFILES_ACTIVE: native
       EUREKA_HOSTNAME: localhost
+      DB_USER: root
+      DB_PASSWORD: somepassword
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -207,6 +210,7 @@ jobs:
     #      path: |
     #        **/build/reports/*
     #        **/build/outputs/*/connected/*
+    
     # services:
     #   mysql:
     #     image: mysql:5.7
