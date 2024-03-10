@@ -332,7 +332,7 @@ values (1701615797610, 1, 10,
         'Очень и очень слабая видеокарта, в игры ВООБЩЕ не поиграешь, даже на минимальных настройках. Видюха мобильная от интел на 512мб. с трудом играю в Поинт Бланк.',
         4);
 
-create table if not exists orders
+create table if not exists orders.orders
 (
     id         bigint auto_increment primary key,
     created_at datetime     null,
@@ -341,7 +341,7 @@ create table if not exists orders
     user_id    bigint       null
 );
 
-create table if not exists order_product
+create table if not exists orders.order_product
 (
     id         bigint auto_increment primary key,
     count      int    null,
