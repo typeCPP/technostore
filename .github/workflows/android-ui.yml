@@ -114,7 +114,7 @@ jobs:
         run: |-
           curl -i -X POST \
           -d "{\"email\":\"danilru\", \"password\":\"123456\"}" \
-          "http://localhost:8084/user/login"
+          "http://127.0.0.1:8084/user/login"
       
     #  - name: Setup Gradle
     #    uses: gradle/gradle-build-action@v3
