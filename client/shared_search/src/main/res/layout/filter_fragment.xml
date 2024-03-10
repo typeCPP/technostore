@@ -181,7 +181,7 @@
         app:trackHeight="@dimen/space_2x"
         app:values="@array/filer_rating_range_slider_values" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/tv_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

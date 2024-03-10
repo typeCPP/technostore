@@ -223,7 +223,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_nickname"
         app:layout_constraintTop_toTopOf="@id/til_nickname" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/tv_edit_profile_button_next"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

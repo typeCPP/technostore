@@ -7,6 +7,7 @@ import com.technostore.shared_search.R
 import com.technostore.shared_search.filter.FilterFragment
 import io.github.kakaocup.kakao.recycler.KRecyclerItem
 import io.github.kakaocup.kakao.recycler.KRecyclerView
+import io.github.kakaocup.kakao.text.KButton
 import org.hamcrest.Matcher
 
 object FilterScreen : KScreen<FilterScreen>() {
@@ -21,7 +22,7 @@ object FilterScreen : KScreen<FilterScreen>() {
             itemType(FilterScreen::CategoryItem)
         }
     )
-    val submitButton = KTextView { withId(R.id.tv_search) }
+    val submitButton = KButton { withId(R.id.tv_search) }
 
     class CategoryItem(parent: Matcher<View>) : KRecyclerItem<CategoryItem>(parent) {
         val name = KTextView(parent) { withId(R.id.tv_category_name) }
