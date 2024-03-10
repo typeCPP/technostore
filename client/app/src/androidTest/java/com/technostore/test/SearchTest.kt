@@ -79,8 +79,10 @@ class SearchTest : TestCase() {
                 categories {
                     isVisible()
                     childAt<FilterScreen.CategoryItem>(8) {
-                        isVisible()
-                        click()
+                        orderNumber {
+                            isVisible()
+                            click()
+                        }
                     }
                 }
             }
