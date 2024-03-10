@@ -126,38 +126,26 @@ jobs:
           cd api/serverconfig
           mvn spring-boot:run &
           sleep 1m
-          cd -
+      - name: Run eurekaserver
+        run: |-
           cd api/eurekaserver
           mvn spring-boot:run &
           sleep 1m
-          cd -
+      - name: Run gateway-server
+        run: |-
           cd api/gateway-server
           mvn spring-boot:run &
           sleep 1m
-          cd -
+      - name: Run order-service
+        run: |-
+          cd api/order-service
+          mvn spring-boot:run &
+          sleep 1m
+      - name: Run user-service
+        run: |-
           cd api/user-service
           mvn spring-boot:run &
           sleep 1m
-      # - name: Run eurekaserver
-      #   run: |-
-      #     cd api/eurekaserver
-      #     mvn spring-boot:run &
-      #     sleep 1m
-      # - name: Run gateway-server
-      #   run: |-
-      #     cd api/gateway-server
-      #     mvn spring-boot:run &
-      #     sleep 1m
-      # - name: Run order-service
-      #   run: |-
-      #     cd api/order-service
-      #     mvn spring-boot:run &
-      #     sleep 1m
-      # - name: Run user-service
-      #   run: |-
-      #     cd api/user-service
-      #     mvn spring-boot:run &
-      #     sleep 1m
       - name: Test
         run: |-
           curl -i -X POST \
