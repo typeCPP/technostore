@@ -77,11 +77,6 @@ jobs:
       - name: Set data
         run: |-
           mysql -u$DB_USER -p$DB_PASSWORD < api/docker/init.sql
-      - name: Test2
-        run: |-
-          curl -i -X POST \
-          -H "Content-Type: application/json" -d "{\"email\":\"danil@yandex.ru\", \"password\":\"123456\"}" \
-          "http://127.0.0.1:8094/user/login"
       
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -119,7 +114,7 @@ jobs:
         with:
           arch: x86_64
           force-avd-creation: false
-          #emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           profile: pixel 6
           api-level: 34
