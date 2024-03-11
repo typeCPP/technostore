@@ -4,6 +4,7 @@ import androidx.test.core.app.ActivityScenario
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import com.technostore.base.activity.LoginActivity
 import com.technostore.scenario.CheckProductSearchScenario
+import com.technostore.scenario.ChooseCategoryScenario
 import com.technostore.screen.banner.ErrorScreen
 import com.technostore.screen.main_page.MainScreen
 import com.technostore.screen.search.FilterScreen
@@ -58,7 +59,7 @@ class SearchTest : TestCase() {
     }
 
     @Test
-    fun searchByPopularityAndCategoryTest() = run {
+    fun searchByCategoryTest() = run {
         TestExt.setupActiveUserClass(
             accessToken = TestData.PETROV_ACCESS_TOKEN,
             refreshToken = TestData.PETROV_REFRESH_TOKEN,
@@ -75,23 +76,18 @@ class SearchTest : TestCase() {
             }
         }
         FilterScreen {
-            step("Выбрать категорию ноутбуки") {
-                categories {
-                    isVisible()
-                    childAt<FilterScreen.CategoryItem>(8) {
+            scenario(ChooseCategoryScenario("Ноутбуки"))
+            step("Нажать искать") {
+                submitButton {
+                    flakySafely {
                         isVisible()
                         click()
                     }
                 }
             }
-            step("Нажать искать") {
-                submitButton {
-                    isVisible()
-                    click()
-                }
-            }
         }
-        step("Отображаются ноутбуки") {
+        step("Отображаются ноутбуки")
+        {
             step("Проверить первый товар") {
                 CheckProductSearchScenario(
                     position = 0,

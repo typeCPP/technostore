@@ -179,8 +179,10 @@ class ProfileTest : TestCase() {
             }
             step("Нажать сохранить") {
                 saveButton {
-                    isVisible()
-                    click()
+                    flakySafely {
+                        isDisplayed()
+                        click()
+                    }
                 }
             }
         }

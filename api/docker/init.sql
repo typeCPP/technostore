@@ -235,6 +235,7 @@ create table if not exists review.review
     user_id    bigint not null
 );
 
+DELIMITER //
 CREATE PROCEDURE review.update_product_rating(IN product_id_in BIGINT, IN count_rate int)
 BEGIN
     UPDATE product.product_rating
@@ -243,7 +244,8 @@ BEGIN
                         from review
                         where review.product_id = product_id_in)
     WHERE product.product_rating.product_id = product_id_in;
-END;
+END //
+DELIMITER ;
 
 CREATE TRIGGER review.set_product_rating_by_review_insert
     AFTER INSERT
@@ -330,7 +332,7 @@ values (1701615797610, 1, 10,
         'Очень и очень слабая видеокарта, в игры ВООБЩЕ не поиграешь, даже на минимальных настройках. Видюха мобильная от интел на 512мб. с трудом играю в Поинт Бланк.',
         4);
 
-create table if not exists orders
+create table if not exists orders.orders
 (
     id         bigint auto_increment primary key,
     created_at datetime     null,
@@ -339,7 +341,7 @@ create table if not exists orders
     user_id    bigint       null
 );
 
-create table if not exists order_product
+create table if not exists orders.order_product
 (
     id         bigint auto_increment primary key,
     count      int    null,
@@ -347,6 +349,7 @@ create table if not exists order_product
     order_id   bigint not null references orders (id)
 );
 
+DELIMITER //
 CREATE TRIGGER orders.set_product_popularity
     AFTER UPDATE
     ON orders.orders
@@ -362,7 +365,8 @@ BEGIN
                                  WHERE o.id = NEW.id);
         END;
     END IF;
-END;
+END //
+DELIMITER ;
 
 insert into orders.orders (id,created_at, status, updated_at, user_id)
 values (1,'2024-03-10 19:30:35', 'IN_PROGRESS', '2024-03-10 19:30:35', 1),

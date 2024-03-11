@@ -97,7 +97,7 @@
         app:layout_constraintStart_toEndOf="@id/all_reviews_button"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_positive_reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
         app:layout_constraintStart_toEndOf="@id/positive_reviews_button"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_neutral_reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
         app:layout_constraintStart_toEndOf="@id/neutral_reviews_button"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_negative_reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

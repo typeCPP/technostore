@@ -1,279 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_background">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/space_7.5x" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_background">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/space_7.5x" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/space_5x" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
 
-    <ImageView
-        android:id="@+id/iv_back_button"
-        android:layout_width="20dp"
-        android:layout_height="0dp"
-        android:src="@drawable/icon_arrow"
-        app:flow_horizontalBias="0.0"
-        app:layout_constraintBottom_toBottomOf="@id/tv_title"
-        app:layout_constraintStart_toEndOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/gl_top"
-        app:tint="@color/color_accent"
-        tools:ignore="ContentDescription" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_5x" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_title"
-        style="@style/basic_text"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/filter_title"
-        android:textSize="@dimen/title_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/gl_end"
-        app:layout_constraintStart_toEndOf="@id/gl_start"
-        app:layout_constraintTop_toTopOf="@id/gl_top" />
+        <ImageView
+            android:id="@+id/iv_back_button"
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:src="@drawable/icon_arrow"
+            app:flow_horizontalBias="0.0"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/gl_top"
+            app:tint="@color/color_accent"
+            tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/tv_sort_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2x"
-        android:text="@string/filter_sort"
-        android:textColor="@color/color_accent"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            style="@style/basic_text"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/filter_title"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/gl_end"
+            app:layout_constraintStart_toEndOf="@id/gl_start"
+            app:layout_constraintTop_toTopOf="@id/gl_top" />
 
-    <TextView
-        android:id="@+id/tv_sort_popular"
-        style="@style/category_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2x"
-        android:text="@string/filter_by_popular"
-        app:layout_constraintEnd_toStartOf="@id/tv_sort_rating"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sort_title" />
+        <TextView
+            android:id="@+id/tv_sort_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2x"
+            android:text="@string/filter_sort"
+            android:textColor="@color/color_accent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-    <TextView
-        android:id="@+id/tv_sort_rating"
-        style="@style/category_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_5x"
-        android:layout_marginTop="@dimen/space_2x"
-        android:text="@string/filter_by_rating"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toEndOf="@id/tv_sort_popular"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sort_title" />
+        <TextView
+            android:id="@+id/tv_sort_popular"
+            style="@style/category_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2x"
+            android:text="@string/filter_by_popular"
+            app:layout_constraintEnd_toStartOf="@id/tv_sort_rating"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort_title" />
 
-    <TextView
-        android:id="@+id/tv_category_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4x"
-        android:text="@string/filter_category"
-        android:textColor="@color/color_accent"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_sort_rating" />
+        <TextView
+            android:id="@+id/tv_sort_rating"
+            style="@style/category_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_5x"
+            android:layout_marginTop="@dimen/space_2x"
+            android:text="@string/filter_by_rating"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toEndOf="@id/tv_sort_popular"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort_title" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2x"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_category_title"
-        app:spanCount="1"
-        tools:itemCount="1"
-        tools:listitem="@layout/view_holder_category_filter" />
+        <TextView
+            android:id="@+id/tv_category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:text="@string/filter_category"
+            android:textColor="@color/color_accent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_sort_rating" />
 
-    <TextView
-        android:id="@+id/tv_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2x"
-        android:text="@string/filter_cost"
-        android:textColor="@color/color_accent"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/rv_category" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2x"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_category_title"
+            app:spanCount="1"
+            tools:itemCount="1"
+            tools:listitem="@layout/view_holder_category_filter" />
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider_cost"
-        style="@style/slider_style"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="1000000.0"
-        app:haloColor="@android:color/transparent"
-        app:labelBehavior="withinBounds"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_cost"
-        app:thumbColor="@color/basic_color"
-        app:thumbElevation="0dp"
-        app:thumbRadius="@dimen/space_3x"
-        app:tickColorActive="@android:color/transparent"
-        app:tickColorInactive="@android:color/transparent"
-        app:trackColorActive="@color/basic_color"
-        app:trackColorInactive="@color/basic_color_30_per"
-        app:trackHeight="@dimen/space_2x"
-        app:values="@array/filer_cost_range_slider_values" />
+        <TextView
+            android:id="@+id/tv_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2x"
+            android:text="@string/filter_cost"
+            android:textColor="@color/color_accent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/rv_category" />
 
-    <TextView
-        android:id="@+id/tv_rating_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_2x"
-        android:text="@string/filter_rating"
-        android:textColor="@color/color_accent"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/slider_cost" />
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_cost"
+            style="@style/slider_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="1000000.0"
+            app:haloColor="@android:color/transparent"
+            app:labelBehavior="withinBounds"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_cost"
+            app:thumbColor="@color/basic_color"
+            app:thumbElevation="0dp"
+            app:thumbRadius="@dimen/space_3x"
+            app:tickColorActive="@android:color/transparent"
+            app:tickColorInactive="@android:color/transparent"
+            app:trackColorActive="@color/basic_color"
+            app:trackColorInactive="@color/basic_color_30_per"
+            app:trackHeight="@dimen/space_2x"
+            app:values="@array/filer_cost_range_slider_values" />
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider_rating"
-        style="@style/slider_style"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="10.0"
-        app:haloColor="@android:color/transparent"
-        app:labelBehavior="withinBounds"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_rating_title"
-        app:thumbColor="@color/basic_color"
-        app:thumbElevation="0dp"
-        app:thumbRadius="@dimen/space_3x"
-        app:tickColorActive="@android:color/transparent"
-        app:tickColorInactive="@android:color/transparent"
-        app:trackColorActive="@color/basic_color"
-        app:trackColorInactive="@color/basic_color_30_per"
-        app:trackHeight="@dimen/space_2x"
-        app:values="@array/filer_rating_range_slider_values" />
+        <TextView
+            android:id="@+id/tv_rating_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2x"
+            android:text="@string/filter_rating"
+            android:textColor="@color/color_accent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/slider_cost" />
 
-    <TextView
-        android:id="@+id/tv_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/filter_search_button_background"
-        android:elevation="0dp"
-        android:paddingHorizontal="@dimen/space_10x"
-        android:paddingVertical="6dp"
-        android:text="@string/filter_find"
-        android:textAlignment="center"
-        android:textColor="@color/light_color_text"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/slider_rating" />
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_rating"
+            style="@style/slider_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="10.0"
+            app:haloColor="@android:color/transparent"
+            app:labelBehavior="withinBounds"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_rating_title"
+            app:thumbColor="@color/basic_color"
+            app:thumbElevation="0dp"
+            app:thumbRadius="@dimen/space_3x"
+            app:tickColorActive="@android:color/transparent"
+            app:tickColorInactive="@android:color/transparent"
+            app:trackColorActive="@color/basic_color"
+            app:trackColorInactive="@color/basic_color_30_per"
+            app:trackHeight="@dimen/space_2x"
+            app:values="@array/filer_rating_range_slider_values" />
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/sl_filter"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/space_4x"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/gl_end"
-        app:layout_constraintStart_toEndOf="@id/gl_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/filter_search_button_background"
+            android:elevation="0dp"
+            android:paddingHorizontal="@dimen/space_10x"
+            android:paddingVertical="6dp"
+            android:text="@string/filter_find"
+            android:textAlignment="center"
+            android:textColor="@color/light_color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/slider_rating" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sl_filter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/space_4x"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/gl_end"
+            app:layout_constraintStart_toEndOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_2x"
-                android:layout_weight="1"
-                android:background="@drawable/shimmer_rectangle" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/space_2x"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_rectangle" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -21,4 +21,4 @@ eureka:
     instance-id: product-instance
     preferIpAddress: true
 server:
-  port: 8082
+  port: 8092
