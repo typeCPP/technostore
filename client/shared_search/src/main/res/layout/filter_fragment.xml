@@ -185,32 +185,23 @@
             app:trackHeight="@dimen/space_2x"
             app:values="@array/filer_rating_range_slider_values" />
 
-        <FrameLayout
-            android:id="@+id/button_search"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/filter_search_button_background"
+            android:elevation="0dp"
+            android:paddingHorizontal="@dimen/space_10x"
+            android:paddingVertical="6dp"
+            android:text="@string/filter_find"
+            android:textAlignment="center"
+            android:textColor="@color/light_color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintStart_toStartOf="@id/gl_start"
-            app:layout_constraintTop_toBottomOf="@id/slider_rating">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/filter_search_button_background"
-                android:elevation="0dp"
-                android:paddingHorizontal="@dimen/space_10x"
-                android:paddingVertical="6dp"
-                android:text="@string/filter_find"
-                android:textAlignment="center"
-                android:textColor="@color/light_color_text"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/gl_end"
-                app:layout_constraintStart_toStartOf="@id/gl_start"
-                app:layout_constraintTop_toBottomOf="@id/slider_rating" />
-        </FrameLayout>
+            app:layout_constraintTop_toBottomOf="@id/slider_rating" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/sl_filter"

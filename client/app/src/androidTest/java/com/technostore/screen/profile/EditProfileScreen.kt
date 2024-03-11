@@ -12,6 +12,6 @@ object EditProfileScreen : KScreen<EditProfileScreen>() {
 
     val name = KEditText { withId(R.id.et_name) }
     val lastName = KEditText { withId(R.id.et_nickname) }
-    val saveButton = KView { withId(R.id.button_next) }
+    val saveButton = KView { withId(R.id.tv_edit_profile_button_next) }
 
 }

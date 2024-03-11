@@ -22,7 +22,7 @@ object FilterScreen : KScreen<FilterScreen>() {
             itemType(FilterScreen::CategoryItem)
         }
     )
-    val submitButton = KView { withId(R.id.button_search) }
+    val submitButton = KView { withId(R.id.tv_search) }
 
     class CategoryItem(parent: Matcher<View>) : KRecyclerItem<CategoryItem>(parent) {
         val name = KTextView(parent) { withId(R.id.tv_category_name) }
