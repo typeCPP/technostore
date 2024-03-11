@@ -127,7 +127,7 @@ class ProfileTest : TestCase() {
     }
 
     @Test
-    fun changeNameTest() = run {
+    fun changeNameAndLastNameTest() = run {
         TestExt.setupActiveUserClass(
             accessToken = TestData.IVANOVA_ACCESS_TOKEN,
             refreshToken = TestData.IVANOVA_REFRESH_TOKEN,

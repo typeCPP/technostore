@@ -24,7 +24,7 @@ class SearchTest : TestCase() {
     var hiltRule = HiltAndroidRule(this)
 
     @Test
-    fun searchProductTest() = run {
+    fun searchNotExistentProductTest() = run {
         TestExt.setupActiveUserClass(
             accessToken = TestData.PETROV_ACCESS_TOKEN,
             refreshToken = TestData.PETROV_REFRESH_TOKEN,
