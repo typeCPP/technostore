@@ -13,6 +13,7 @@ sealed class MainEvent : Event {
     ) : MainEvent()
 
     data class DataLoaded(val products: List<ProductSearchModel>) : MainEvent()
+    data class MoreDataLoaded(val products: List<ProductSearchModel>) : MainEvent()
     data class UpdateCount(val productId: Long, val count: Int) : MainEvent()
     data object IsEmpty : MainEvent()
     data object ClearData : MainEvent()

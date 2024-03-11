@@ -21,4 +21,4 @@ eureka:
     instance-id: review-instance
     preferIpAddress: true
 server:
-  port: 8083
+  port: 8093

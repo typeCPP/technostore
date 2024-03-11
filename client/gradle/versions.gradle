@@ -15,11 +15,16 @@ ext {
     glideVersion = '4.14.2'
     shimmerVersion = '0.5.0'
 
-   // tests
+    // tests
     wiremockVersion = '2.35.0'
     mockkVersion = '1.13.5'
     kotlinVersion = '1.9.0'
     junitVersion = '4.13.2'
     coroutinesVersion = '1.7.3'
     truthVersion = '1.1.5'
+
+    //ui tests
+    kaspressoVersion = '1.5.3'
+    junitKtxVersion = '1.1.5'
+    hamcrestVersion ='2.2'
 }

@@ -73,7 +73,7 @@ class MainEffectHandler(
                     is Result.Success -> {
                         val data = result.data
                         if (data != null) {
-                            store.dispatch(MainEvent.DataLoaded(data))
+                            store.dispatch(MainEvent.MoreDataLoaded(data))
                         } else {
                             store.acceptNews(MainNews.ShowErrorToast)
                         }

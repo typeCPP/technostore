@@ -8,7 +8,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.user_service.ProfileResponse
-import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
 object UserServiceMock {
@@ -22,7 +21,7 @@ object UserServiceMock {
 
     class ChangePassword internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/change-password"))
+            get() = get(urlPathMatching("/user/change-password"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -43,7 +42,7 @@ object UserServiceMock {
 
     class Profile internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/profile"))
+            get() = get(urlPathMatching("/user/profile"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(ProfileResponse.success)))
@@ -62,7 +61,7 @@ object UserServiceMock {
 
     class EditProfile internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/edit-profile"))
+            get() = post(urlPathMatching("/user/edit-profile"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -76,7 +75,7 @@ object UserServiceMock {
     }
 
     class Logout internal constructor() {
-        val pattern = urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/user/logout")
+        val pattern = urlPathMatching("/user/logout")
         private val matcher: MappingBuilder
             get() = get(pattern)
 

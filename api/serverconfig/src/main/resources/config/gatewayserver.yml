@@ -18,15 +18,15 @@ spring:
         lowerCaseServiceId: true
       routes:
         - id: user-service
-          uri: http://localhost:8084/
+          uri: http://localhost:8094/
           predicates:
             - Path=/user-service/**
         - id: product-service
-          uri: http://localhost:8082/
+          uri: http://localhost:8092/
           predicates:
             - Path=/products-service/**
         - id: review-service
-          uri: http://localhost:8083/
+          uri: http://localhost:8093/
           predicates:
             - Path=/review-service/**
         - id: order-service

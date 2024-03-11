@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.session_service.RefreshTokenResponse
-import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
 object SessionServiceMock {
@@ -18,7 +17,7 @@ object SessionServiceMock {
 
     class RefreshTokens internal constructor() {
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.USER_SERVICE_BASE_URL}/refresh-tokens"))
+            get() = post(urlPathMatching("/refresh-tokens"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(RefreshTokenResponse.success)))

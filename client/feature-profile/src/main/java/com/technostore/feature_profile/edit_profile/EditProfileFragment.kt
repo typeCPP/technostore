@@ -124,7 +124,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun setOnClickListenerForChangeButton() {
-        binding.tvButtonNext.setOnClickListener {
+        binding.tvEditProfileButtonNext.setOnClickListener {
             val uriTemp = uri
             val byteArray = PhotoCompression.compress(requireContext(), uriTemp)
             viewModel.changedClicked(

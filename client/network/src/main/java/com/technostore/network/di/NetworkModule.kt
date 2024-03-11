@@ -56,63 +56,111 @@ class NetworkModule {
     fun provideEmptyBodyConverterFactory(): EmptyBodyConverterFactory =
         EmptyBodyConverterFactory(GsonConverterFactory.create())
 
-    @UnregisteredRetrofit
+    @LoginRetrofit
     @Provides
-    fun provideRetrofit(
+    fun provideLoginRetrofit(
         @UnregisteredOkHttpClient okHttpClient: OkHttpClient,
         emptyBodyConverterFactory: EmptyBodyConverterFactory
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(URL.BASE_URL)
+            .baseUrl(URL.BASE_URL + URL.USER_SERVICE_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(emptyBodyConverterFactory)
             .build()
 
-    @RegisteredRetrofit
+    @UserRetrofit
     @Provides
-    fun provideRegisteredRetrofit(
+    fun provideUserRetrofit(
         @RegisteredOkHttpClient okHttpClient: OkHttpClient,
         emptyBodyConverterFactory: EmptyBodyConverterFactory
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(URL.BASE_URL)
+            .baseUrl(URL.BASE_URL + URL.USER_SERVICE_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(emptyBodyConverterFactory)
+            .build()
+
+    @SessionRetrofit
+    @Provides
+    fun provideSessionRetrofit(
+        @UnregisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(URL.BASE_URL + URL.USER_SERVICE_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(emptyBodyConverterFactory)
+            .build()
+
+    @ProductRetrofit
+    @Provides
+    fun provideProductRetrofit(
+        @RegisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(URL.BASE_URL + URL.PRODUCT_SERVICE_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(emptyBodyConverterFactory)
+            .build()
+
+    @OrderRetrofit
+    @Provides
+    fun provideOrderRetrofit(
+        @RegisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(URL.BASE_URL + URL.ORDER_SERVICE_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(emptyBodyConverterFactory)
+            .build()
+
+    @ReviewRetrofit
+    @Provides
+    fun provideReviewRetrofit(
+        @RegisteredOkHttpClient okHttpClient: OkHttpClient,
+        emptyBodyConverterFactory: EmptyBodyConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(URL.BASE_URL + URL.REVIEW_SERVICE_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(emptyBodyConverterFactory)
             .build()
 
     @Singleton
     @Provides
-    fun provideLoginService(@UnregisteredRetrofit retrofit: Retrofit): LoginService {
+    fun provideLoginService(@LoginRetrofit retrofit: Retrofit): LoginService {
         return retrofit.create(LoginService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideUserService(@RegisteredRetrofit retrofit: Retrofit): UserService {
+    fun provideUserService(@UserRetrofit retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideSessionService(@UnregisteredRetrofit retrofit: Retrofit): SessionService {
+    fun provideSessionService(@SessionRetrofit retrofit: Retrofit): SessionService {
         return retrofit.create(SessionService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideProductService(@RegisteredRetrofit retrofit: Retrofit): ProductService {
+    fun provideProductService(@ProductRetrofit retrofit: Retrofit): ProductService {
         return retrofit.create(ProductService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideOrderService(@RegisteredRetrofit retrofit: Retrofit): OrderService {
+    fun provideOrderService(@OrderRetrofit retrofit: Retrofit): OrderService {
         return retrofit.create(OrderService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideReviewService(@RegisteredRetrofit retrofit: Retrofit): ReviewService {
+    fun provideReviewService(@ReviewRetrofit retrofit: Retrofit): ReviewService {
         return retrofit.create(ReviewService::class.java)
     }
 }

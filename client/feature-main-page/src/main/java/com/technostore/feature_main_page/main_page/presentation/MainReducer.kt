@@ -20,6 +20,13 @@ class MainReducer : Reducer<MainState, MainEvent> {
                 )
             }
 
+            is MainEvent.MoreDataLoaded -> {
+                currentState.copy(
+                    productsResult = currentState.productsResult + event.products,
+                    isEmpty = false
+                )
+            }
+
             is MainEvent.MainDataLoaded -> {
                 currentState.copy(
                     popularProducts = event.popularProducts,

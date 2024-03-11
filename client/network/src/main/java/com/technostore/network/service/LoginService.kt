@@ -17,38 +17,38 @@ import retrofit2.http.Query
 
 interface LoginService {
     @Headers("Accept: application/json")
-    @POST("${URL.USER_SERVICE_BASE_URL}/user/login")
+    @POST("user/login")
     suspend fun signIn(@Body data: LoginRequest): Response<LoginResponse>
 
-    @GET("${URL.USER_SERVICE_BASE_URL}/user/check-email-exists")
+    @GET("user/check-email-exists")
     suspend fun checkEmailExists(
         @Query("email", encoded = true) email: String
     ): Response<EmailExistsResponse>
 
     @Multipart
-    @POST("${URL.USER_SERVICE_BASE_URL}/user/registration")
+    @POST("user/registration")
     suspend fun signUp(
         @Part("registerBeanString") data: RequestBody,
         @Part file: MultipartBody.Part?
     ): Response<LoginResponse>
 
-    @GET("${URL.USER_SERVICE_BASE_URL}/user/confirm-account")
+    @GET("user/confirm-account")
     suspend fun checkRecoveryCodeForAccountConfirmations(
         @Query("confirmationCode") code: String,
         @Query("email", encoded = true) email: String
     ): Response<Unit>
 
-    @GET("${URL.USER_SERVICE_BASE_URL}/user/password-recovery")
+    @GET("user/password-recovery")
     suspend fun checkRecoveryCode(
         @Query("code") code: String,
         @Query("email", encoded = true) email: String
     ): Response<LoginResponse>
 
-    @GET("${URL.USER_SERVICE_BASE_URL}/send-code-for-recovery-password")
+    @GET("send-code-for-recovery-password")
     suspend fun sendCodeForRecoveryPassword(
         @Query("email", encoded = true) email: String
     ): Response<Unit>
 
-    @GET("${URL.USER_SERVICE_BASE_URL}/send-code-for-confirmation-account")
+    @GET("send-code-for-confirmation-account")
     suspend fun sendCodeForAccountConfirmations(@Query("userId") userId: Long): Response<Unit>
 }

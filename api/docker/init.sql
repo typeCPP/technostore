@@ -195,27 +195,47 @@ create table if not exists user.users
 
 insert into user.users(email, is_enabled, last_name, link_photo, name, password)
 values ('ivanova.a@yandex.ru', true, 'Иванова', '/app/images/1.0.jpg', 'Анастасия',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (2, 4)
        ('a.petrov@yandex.ru', true, 'Петров', '/app/images/2.0.jpg', 'Андрей',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (5,6,8,9,10)
        ('danil@yandex.ru', true, 'Цыганов', '/app/images/3.0.jpg', 'Данил',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (1)
        ('vlad123@yandex.ru', true, 'Мартынов', '/app/images/4.0.jpg', 'Владислав',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'), #123456 password (3)
        ('ivanova.a2@yandex.ru', true, 'Иванова', '/app/images/5.0.jpg', 'Алена',
-        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password
+        '$2a$10$t0q6oW9/t0/8rEvpeeUiq.W/8JdrOSsjbXNZNEGV.yy4jsOx81ToG'); #123456 password (7)
 
+insert into user.user_jwt(token, user_id)
+values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiZjc0YTBiMjkyOGI0YjA0ODAwODc4YTZjNmYwYTI1YyIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDEzLCJleHAiOjE3NDE1NTIwMTJ9.PBJQbK_5Zi3EKwSCp0Zt15WxdMEVG7Z0fBTSH6KLHi-E1ir7NHjmE_GyAimNQQUBpKYG4no-mrMq4NF8lbhA1Q',
+        4),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA',
+        1),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZGY3OTVhMjhmMzE0Y2YzYTMwOGRmMTNiNDM2ZDRhNCIsInN1YiI6Iml2YW5vdmEuYTJAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDU0MjUyLCJleHAiOjE3NDE1OTAyNTJ9.P92FElhXOJascwQJJzmzRLW7RQUKI6s6reCkcmlrgg6hhAw63MGRsxiuBZTdC4M0WA6GBQVCW0lDRyMQD-mmtQ',
+        5),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNTk4NTg3YmZlNTc0YzE2OTQ2Y2E1NDI1YjJiZDZlYiIsInN1YiI6ImEucGV0cm92QHlhbmRleC5ydSIsImlhdCI6MTcxMDA1NDkwMywiZXhwIjoxNzQxNTkwOTAzfQ.CFsSVgFYvW8fbsyoQuRl8LDcmk9OTKFjAozbDepRCMTPtf_v9KAGHmtnnwwIzOVx6QUb6cBjD7-hhbskMTD_Hw',
+        2);
+
+insert into user.user_refresh_token(token, user_id)
+values ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxYzQzNmY0NjVmNTM0MWM5YjIzYjI4ZDI5MzQzZGRmZSIsInN1YiI6InZsYWQxMjNAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDE2MDQwLCJleHAiOjE3NDE1NTIwNDB9.7zNV7_i7tjID_NuTCT0uMNLhVWcB56VYKunwQzggrknGKcAQinEmA2r8Y_RzTGojh9Q4gEZc-YJOGp_oA9LhDg',
+        4),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjZDc0MThiNjRkMjU0NWU4YWI2ZjZhYWFjMjQ5NTEyNCIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MjYsImV4cCI6MTc0MTU1NDUyNn0.XN6IuZ9pbhJz6tCvNxUqxl1FlKQw4DK6ByBEFY6Aeh95Yj6qvwC8lDhXHnxfH6Czx3BzZRrowCER3hhDBZqyyQ',
+        1),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1Y2FiYmIxYTVjOGM0YmEyOWFkYTY0ZTlmMTFkZjlkMSIsInN1YiI6Iml2YW5vdmEuYTJAeWFuZGV4LnJ1IiwiaWF0IjoxNzEwMDU0MjY4LCJleHAiOjE3NDE1OTAyNjh9.8h8_scmwNv1tc567Gr9ntFEmH04eaI-HjhtYKIUp5pYLj_7l1N7wSD6vsF9Q1TZGSqT4cp65EmDkrJsPZCVx5Q',
+        5),
+       ('eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzNTE0OGFlZmVhZDQ0NWY3OTBkZjA5Mzk3MTU5NDUyNyIsInN1YiI6ImEucGV0cm92QHlhbmRleC5ydSIsImlhdCI6MTcxMDA1NDkyNCwiZXhwIjoxNzQxNTkwOTI0fQ.a6iiTEXtmG3EAZxh863bANXrnTbIBvgarQFxN9hzwmIV1lkN_K2Yp4yZnoV4vJgcFAmFDp30Ao2R7KPg8CLEjg',
+        2);
 
 create table if not exists review.review
 (
     id         bigint auto_increment primary key,
-    date       bigint       not null,
-    product_id bigint       not null,
-    rate       int          not null,
-    text       text         null,
-    user_id    bigint       not null
+    date       bigint not null,
+    product_id bigint not null,
+    rate       int    not null,
+    text       text   null,
+    user_id    bigint not null
 );
 
+DELIMITER //
 CREATE PROCEDURE review.update_product_rating(IN product_id_in BIGINT, IN count_rate int)
 BEGIN
     UPDATE product.product_rating
@@ -224,7 +244,8 @@ BEGIN
                         from review
                         where review.product_id = product_id_in)
     WHERE product.product_rating.product_id = product_id_in;
-END;
+END //
+DELIMITER ;
 
 CREATE TRIGGER review.set_product_rating_by_review_insert
     AFTER INSERT
@@ -256,7 +277,7 @@ values (1701615797610, 1, 10,
        (1701615797610, 5, 10,
         'Отличное соотношение цена-качество. Ноутбук справляется со всеми моими требованиями без излишеств, и это радует.',
         5),
-       (1701615797610, 1, 9,
+       (1701615797610, 1, 6,
         'Клавиатура с подсветкой и четкий дисплей делают работу в темное время суток удобной. Дизайн ноутбука также приятно выделяется.',
         3),
        (1701615797610, 2, 9,
@@ -306,9 +327,12 @@ values (1701615797610, 1, 10,
         4),
        (1701615797610, 16, 8,
         'Этот товар стал незаменимым помощником в повседневной жизни. Я не могу представить, как я раньше обходился без него.',
-        5);
+        5),
+       (1701615797610, 1, 2,
+        'Очень и очень слабая видеокарта, в игры ВООБЩЕ не поиграешь, даже на минимальных настройках. Видюха мобильная от интел на 512мб. с трудом играю в Поинт Бланк.',
+        4);
 
-create table if not exists orders
+create table if not exists orders.orders
 (
     id         bigint auto_increment primary key,
     created_at datetime     null,
@@ -317,7 +341,7 @@ create table if not exists orders
     user_id    bigint       null
 );
 
-create table if not exists order_product
+create table if not exists orders.order_product
 (
     id         bigint auto_increment primary key,
     count      int    null,
@@ -325,6 +349,7 @@ create table if not exists order_product
     order_id   bigint not null references orders (id)
 );
 
+DELIMITER //
 CREATE TRIGGER orders.set_product_popularity
     AFTER UPDATE
     ON orders.orders
@@ -336,8 +361,19 @@ BEGIN
             SET count_order = product_popularity.count_order + 1
             WHERE product_id in (SELECT product_id
                                  FROM order_product
-                                 JOIN orders.orders o on o.id = order_product.order_id
+                                          JOIN orders.orders o on o.id = order_product.order_id
                                  WHERE o.id = NEW.id);
         END;
     END IF;
-END;
+END //
+DELIMITER ;
+
+insert into orders.orders (id,created_at, status, updated_at, user_id)
+values (1,'2024-03-10 19:30:35', 'IN_PROGRESS', '2024-03-10 19:30:35', 1),
+       (2,'2024-03-01 19:30:35', 'COMPLETED', '2024-03-01 19:30:35', 2),
+       (3,'2024-03-02 19:30:35', 'COMPLETED', '2024-03-02 19:30:35', 2);
+
+insert into orders.order_product (id,count, product_id, order_id)
+values (1,1, 1, 1),
+       (2,1, 1, 2),
+       (3,1, 2, 3);

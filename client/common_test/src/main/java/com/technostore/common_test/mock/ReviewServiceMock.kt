@@ -9,7 +9,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.technostore.common_test.response.review_service.ReviewsByProductIdResponse
 import com.technostore.common_test.response.review_service.UserReviewByProductIdResponse
-import com.technostore.network.utils.URL
 import java.net.HttpURLConnection
 
 object ReviewServiceMock {
@@ -22,7 +21,7 @@ object ReviewServiceMock {
     class SetReview internal constructor() {
 
         private val matcher: MappingBuilder
-            get() = post(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/newReview"))
+            get() = post(urlPathMatching("/review/newReview"))
 
         fun success() {
             stubFor(matcher.willReturn(ok()))
@@ -41,7 +40,7 @@ object ReviewServiceMock {
 
     class UserReviewByProductId internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/by-product-id/.+"))
+            get() = get(urlPathMatching("/review/by-product-id/.+"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(UserReviewByProductIdResponse.success)))
@@ -66,7 +65,7 @@ object ReviewServiceMock {
 
     class ReviewsByProductId internal constructor() {
         private val matcher: MappingBuilder
-            get() = get(urlPathMatching("/${URL.REVIEW_SERVICE_BASE_URL}/review/all-by-product-id/.+"))
+            get() = get(urlPathMatching("/review/all-by-product-id/.+"))
 
         fun success() {
             stubFor(matcher.willReturn(ok(ReviewsByProductIdResponse.success)))

@@ -10,13 +10,13 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ProductService {
-    @GET("${URL.PRODUCT_SERVICE_BASE_URL}/product/popular-categories")
+    @GET("product/popular-categories")
     suspend fun getPopularCategories(): Response<List<CategoryResponse>>
 
-    @GET("${URL.PRODUCT_SERVICE_BASE_URL}/product/{id}")
+    @GET("product/{id}")
     suspend fun getProductById(@Path("id") id: Long): Response<ProductDetailResponse>
 
-    @GET("${URL.PRODUCT_SERVICE_BASE_URL}/product/search")
+    @GET("product/search")
     suspend fun searchProducts(
         @Query("numberPage") numberPage: Int,
         @Query("sizePage") sizePage: Int,
