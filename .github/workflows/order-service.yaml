@@ -29,7 +29,6 @@ jobs:
     env:
       ACTIVE_PROFILE: default
       CONFIG_URI: http://localhost:8088
-      SPRING_PROFILES_ACTIVE: native
       EUREKA_HOSTNAME: localhost
       DB_USER: root
       DB_PASSWORD: somepassword
