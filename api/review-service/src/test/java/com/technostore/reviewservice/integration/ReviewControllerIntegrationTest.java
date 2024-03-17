@@ -12,10 +12,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
 import static com.technostore.reviewservice.ReviewTestFactory.mockUserService;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +42,33 @@ public class ReviewControllerIntegrationTest {
         jdbcTemplate.execute("DELETE FROM review.review;");
     }
 
+    @DisplayName("Внесение в базу данных нового отзыва о товаре")
+    @Test
+    void setReviewTest() throws Exception {
+        Review review1 = reviewRepository.save(buildReview(3L, 1));
+        Review review2 = reviewRepository.save(buildReview(2L, 10));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
+
+        mockMvc.perform(post("/review/newReview")
+                        .param("text", "Nice review")
+                        .param("rate", "7")
+                        .param("productId", "1")
+                        .headers(headers))
+                .andExpect(status().is2xxSuccessful());
+
+        Optional<Review> review = reviewRepository.findByProductIdAndUserId(1L, 1L);
+        assertThat(review).isPresent();
+        assertThat(review.get().getUserId()).isEqualTo(1L);
+        assertThat(review.get().getProductId()).isEqualTo(1L);
+        assertThat(review.get().getText()).isEqualTo("Nice review");
+        assertThat(review.get().getRate()).isEqualTo(7);
+
+        assertThat(reviewRepository.findAllByProductId(1L).size()).isEqualTo(3);
+    }
+
+    @DisplayName("Получение всех отзывов по товару")
     @Test
     void getAllReviewsByProductIdTest() throws Exception {
         Review review = reviewRepository.save(buildReview(1L, 7));
@@ -50,7 +81,7 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
                         String.format(getFileContent("integration/all-reviews-by-product-id.json"),
-                                review.getId(), review2.getId()), true));
+                                review2.getId(), review.getId()), true));
     }
 
     @DisplayName("Получение отзыва текущего пользователя по товару")
@@ -66,5 +97,4 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(content().json(String.format(getFileContent("integration/review-by-product-id.json"),
                         review.getId()), true));
     }
-
 }
