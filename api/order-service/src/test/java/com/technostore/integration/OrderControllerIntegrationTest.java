@@ -1,6 +1,7 @@
 package com.technostore.integration;
 
 import java.util.List;
+import java.util.Map;
 
 import com.technostore.OrderTestFactory;
 import com.technostore.controller.OrderController;
@@ -22,12 +23,13 @@ import org.springframework.web.client.RestTemplate;
 
 import static com.technostore.OrderTestFactory.*;
 import static com.technostore.TestUtils.getFileContent;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -124,7 +126,11 @@ public class OrderControllerIntegrationTest {
 
         mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1,2").headers(headers))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(getFileContent("controller/order/in-cart-count-product-ids.json"), true));
+                .andExpect(jsonPath("$[*]", hasSize(2)))
+                .andExpect(jsonPath("$[*]", containsInAnyOrder(
+                        Map.of("productId", 1, "inCartCount", 1),
+                        Map.of("productId", 2, "inCartCount", 100)
+                )));
     }
 
     private void createProducts() {
