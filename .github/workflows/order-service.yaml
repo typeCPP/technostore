@@ -31,6 +31,8 @@ jobs:
       CONFIG_URI: http://localhost:8088
       SPRING_PROFILES_ACTIVE: native
       EUREKA_HOSTNAME: localhost
+      DB_USER: root
+      DB_PASSWORD: somepassword
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -39,36 +41,55 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u root -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
+          mysql -e "CREATE DATABASE IF NOT EXISTS orders; 
+          CREATE DATABASE IF NOT EXISTS review;
+          CREATE DATABASE IF NOT EXISTS product;
+          CREATE DATABASE IF NOT EXISTS user;
+          " -u$DB_USER -p$DB_PASSWORD
       - name: Run serverconfig
         env:
           SERVER_PORT: 8088
         run: |-
           cd api/serverconfig
           mvn spring-boot:run &
+          sleep 1m
       - name: Run eurekaserver
         run: |-
           cd api/eurekaserver
           mvn spring-boot:run &
+          sleep 1m
       - name: Run gateway-server
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
-      - name: Run user service
-        run: |-
-          cd api/user-service
-          mvn spring-boot:run &
-      - name: Run product service
-        run: |-
-          cd api/product-service
-          mvn spring-boot:run &
-      - name: Run review service
-        run: |-
-          cd api/review-service
-          mvn spring-boot:run &
-      - name: Run order service
+          sleep 1m
+      - name: Run order-service
         run: |-
           cd api/order-service
           mvn spring-boot:run &
+          sleep 1m
+      - name: Run user-service
+        run: |-
+          cd api/user-service
+          mvn spring-boot:run &
+          sleep 1m
+      - name: Run review-service
+        run: |-
+          cd api/review-service
+          mvn spring-boot:run &
+          sleep 1m
+      - name: Run product-service
+        run: |-
+          cd api/product-service
+          mvn spring-boot:run &
+          sleep 1m
+      - name: Set data
+        run: |-
+          mysql -u$DB_USER -p$DB_PASSWORD < api/docker/init.sql
       - name: Run tests for order-service
         run: |-
           cd api/order-service
