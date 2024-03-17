@@ -54,7 +54,7 @@ jobs:
           SERVER_PORT: 8088
         run: |-
           cd api/serverconfig
-          mvn spring-boot:run &
+          mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=native" &
           sleep 1m
       - name: Run eurekaserver
         run: |-
