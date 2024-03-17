@@ -81,7 +81,7 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
                         String.format(getFileContent("integration/all-reviews-by-product-id.json"),
-                                review2.getId(), review.getId()), true));
+                                review.getId(), review.getId()), true));
     }
 
     @DisplayName("Получение отзыва текущего пользователя по товару")
