@@ -27,12 +27,34 @@ public class OrderTestFactory {
                 .build();
     }
 
+    public static Order buildOrder(long userId) {
+        return Order.builder()
+                .status(OrderStatus.IN_PROGRESS)
+                .userId(userId)
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
+                .build();
+    }
+
     public static OrderProduct buildOrderProduct(Order order) {
         return OrderProduct.builder()
                 .productId(1L)
                 .order(order)
                 .count(1)
                 .build();
+    }
+
+    public static List<OrderProduct> buildOrderProducts(Order order) {
+        return List.of(OrderProduct.builder()
+                        .productId(1L)
+                        .order(order)
+                        .count(1)
+                        .build(),
+                OrderProduct.builder()
+                        .productId(2L)
+                        .order(order)
+                        .count(1)
+                        .build());
     }
 
     public static void mockUserService(UserRestTemplateClient userRestTemplateClient) {
