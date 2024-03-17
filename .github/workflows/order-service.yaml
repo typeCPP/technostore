@@ -53,6 +53,22 @@ jobs:
         run: |-
           cd api/gateway-server
           mvn spring-boot:run &
+      - name: Run user service
+        run: |-
+          cd api/user-service
+          mvn spring-boot:run &
+      - name: Run product service
+        run: |-
+          cd api/product-service
+          mvn spring-boot:run &
+      - name: Run review service
+        run: |-
+          cd api/review-service
+          mvn spring-boot:run &
+      - name: Run order service
+        run: |-
+          cd api/order-service
+          mvn spring-boot:run &
       - name: Run tests for order-service
         run: |-
           cd api/order-service
