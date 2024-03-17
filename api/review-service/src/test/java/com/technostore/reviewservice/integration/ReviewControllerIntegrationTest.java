@@ -1,7 +1,11 @@
 package com.technostore.reviewservice.integration;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.technostore.reviewservice.model.Review;
 import com.technostore.reviewservice.repository.ReviewRepository;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
@@ -19,8 +27,7 @@ import static com.technostore.reviewservice.TestUtils.getFileContent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,6 +42,8 @@ public class ReviewControllerIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @BeforeEach
     void setup() {
@@ -76,12 +85,28 @@ public class ReviewControllerIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
 
+        List<Review> expectedReviews = List.of(review, review2);
+
         mockMvc.perform(get("/review/all-by-product-id/" + 1).headers(headers))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
                         String.format(getFileContent("integration/all-reviews-by-product-id.json"),
-                                review2.getId(), review.getId()), true));
+                                review2.getId(), review.getId()), true))
+                .andExpect(jsonPath("$.[?(@.id == '" + review.getId() + "')].userName").value("Анастасия Иванова"))
+                .andExpect(jsonPath("$.[?(@.id == '" + review2.getId() + "')].userName").value("Андрей Петров"))
+                .andExpect(jsonPath("$.[?(@.id == '" + review.getId() + "')].photoLink").value("/user/image?id=1"))
+                .andExpect(jsonPath("$.[?(@.id == '" + review2.getId() + "')].photoLink").value("/user/image?id=2"))
+                .andExpect(jsonPath("$.[?(@.id == '" + review.getId() + "')].text").value(review.getText()))
+                .andExpect(jsonPath("$.[?(@.id == '" + review2.getId() + "')].text").value(review2.getText()))
+                .andExpect(jsonPath("$.[?(@.id == '" + review.getId() + "')].rate").value(review.getRate()))
+                .andExpect(jsonPath("$.[?(@.id == '" + review2.getId() + "')].rate").value(review2.getRate()));
     }
+
+    @SneakyThrows
+    public List<Review> parseReviewsFromJson(String json) {
+        return objectMapper.readValue(json, new TypeReference<List<Review>>() {});
+    }
+
 
     @DisplayName("Получение отзыва текущего пользователя по товару")
     @Test
@@ -95,5 +120,17 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.format(getFileContent("integration/review-by-product-id.json"),
                         review.getId()), true));
+    }
+
+    private LinkedHashMap buildExpectedReview(String id, long productId, String text, int rate, int date, String username, String photoLink) {
+        LinkedHashMap linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put("id", id);
+        linkedHashMap.put("productId", productId);
+        linkedHashMap.put("text", text);
+        linkedHashMap.put("rate", rate);
+        linkedHashMap.put("date", date);
+        linkedHashMap.put("userName", username);
+        linkedHashMap.put("photoLink", photoLink);
+        return linkedHashMap;
     }
 }
