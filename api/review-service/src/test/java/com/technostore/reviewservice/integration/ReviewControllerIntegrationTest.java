@@ -1,11 +1,11 @@
 package com.technostore.reviewservice.integration;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.List;
+import java.util.Optional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import com.technostore.reviewservice.model.Review;
 import com.technostore.reviewservice.repository.ReviewRepository;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
 
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
@@ -102,12 +96,6 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(jsonPath("$.[?(@.id == '" + review2.getId() + "')].rate").value(review2.getRate()));
     }
 
-    @SneakyThrows
-    public List<Review> parseReviewsFromJson(String json) {
-        return objectMapper.readValue(json, new TypeReference<List<Review>>() {});
-    }
-
-
     @DisplayName("Получение отзыва текущего пользователя по товару")
     @Test
     void getReviewByProductIdTest() throws Exception {
@@ -120,17 +108,5 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.format(getFileContent("integration/review-by-product-id.json"),
                         review.getId()), true));
-    }
-
-    private LinkedHashMap buildExpectedReview(String id, long productId, String text, int rate, int date, String username, String photoLink) {
-        LinkedHashMap linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put("id", id);
-        linkedHashMap.put("productId", productId);
-        linkedHashMap.put("text", text);
-        linkedHashMap.put("rate", rate);
-        linkedHashMap.put("date", date);
-        linkedHashMap.put("userName", username);
-        linkedHashMap.put("photoLink", photoLink);
-        return linkedHashMap;
     }
 }
