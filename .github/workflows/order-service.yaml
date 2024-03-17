@@ -116,10 +116,37 @@ jobs:
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
     services:
-      mysql:
+      mysql_orders:
         image: mysql:5.7
         env:
           MYSQL_DATABASE: orders
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: somepassword
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql_user:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: user
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: somepassword
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql_product:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: product
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: somepassword
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql_review:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: review
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: somepassword
         ports:
