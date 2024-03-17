@@ -2,6 +2,7 @@ package com.technostore.integration;
 
 import com.technostore.OrderTestFactory;
 import com.technostore.controller.OrderController;
+import com.technostore.dto.OrderStatus;
 import com.technostore.model.Order;
 import com.technostore.model.OrderProduct;
 import com.technostore.repository.OrderProductRepository;
@@ -27,8 +28,11 @@ import java.util.Map;
 
 import static com.technostore.TestUtils.getFileContent;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -71,6 +75,24 @@ public class OrderControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.format(getFileContent("integration/order.json"),
                         order.getId()), true));
+    }
+
+    @DisplayName("Оформление заказа пользователя")
+    @Test
+    void completeOrder() throws Exception {
+        long userId = 1;
+        String jwt = "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA";
+
+        Order order = orderRepository.save(OrderTestFactory.buildOrder(userId));
+        List<OrderProduct> orderProducts = orderProductRepository.saveAll(OrderTestFactory.buildOrderProducts(order));
+        createProducts();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        mockMvc.perform(post("/order/complete-order/" + order.getId()).headers(headers))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(orderRepository.findById(order.getId()).get().getStatus()).isEqualTo(OrderStatus.COMPLETED);
     }
 
     private void createProducts() {
