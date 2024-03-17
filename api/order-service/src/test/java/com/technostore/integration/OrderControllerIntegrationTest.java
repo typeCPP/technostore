@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
+import static com.technostore.OrderTestFactory.*;
 import static com.technostore.TestUtils.getFileContent;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OrderControllerIntegrationTest {
     private final static String JWT
             = "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA";
+    private final static long userId = 1L;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -57,7 +59,6 @@ public class OrderControllerIntegrationTest {
     @DisplayName("Получение текущей корзины с товарами")
     @Test
     void getCurrentOrderTest() throws Exception {
-        long userId = 1;
 
         Order order = orderRepository.save(OrderTestFactory.buildOrder(userId));
         List<OrderProduct> orderProducts = orderProductRepository.saveAll(OrderTestFactory.buildOrderProducts(order));
@@ -74,9 +75,7 @@ public class OrderControllerIntegrationTest {
 
     @DisplayName("Оформление заказа пользователя")
     @Test
-    void completeOrder() throws Exception {
-        long userId = 1;
-
+    void completeOrderTest() throws Exception {
         Order order = orderRepository.save(OrderTestFactory.buildOrder(userId));
         List<OrderProduct> orderProducts = orderProductRepository.saveAll(OrderTestFactory.buildOrderProducts(order));
         createProducts();
@@ -92,8 +91,6 @@ public class OrderControllerIntegrationTest {
     @DisplayName("Получение всех завершенных заказов пользователя")
     @Test
     void getCompletedOrderTest() throws Exception {
-        long userId = 1;
-
         Order completedOrder1 = OrderTestFactory.buildOrder(userId);
         completedOrder1.setStatus(OrderStatus.COMPLETED);
         Order completedOrder2 = OrderTestFactory.buildOrder(userId);
@@ -109,6 +106,25 @@ public class OrderControllerIntegrationTest {
         mockMvc.perform(get("/order/get-completed-orders").headers(headers))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.format("{\"ids\":[%s,%s]}", completedOrder1.getId(), completedOrder2.getId())));
+    }
+
+    @DisplayName("Получение количества товаров в корзине по id товаров")
+    @Test
+    void getInCartCountByProductsIdsTest() throws Exception {
+        Order order = orderRepository.save(buildOrder(userId));
+        OrderProduct orderProduct = orderProductRepository.save(buildOrderProduct(order));
+        orderProductRepository.save(OrderProduct.builder()
+                .productId(2L)
+                .order(order)
+                .count(100)
+                .build());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
+
+        mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1,2").headers(headers))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(getFileContent("controller/order/in-cart-count-product-ids.json"), true));
     }
 
     private void createProducts() {
