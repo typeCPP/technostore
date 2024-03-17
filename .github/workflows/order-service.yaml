@@ -135,16 +135,3 @@ jobs:
         run: |
           echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_USER: root
-          MYSQL_ROOT_PASSWORD: somepassword
-        volumes:
-            - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
