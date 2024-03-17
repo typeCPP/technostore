@@ -50,8 +50,6 @@ public class OrderControllerIntegrationTest {
     void setup() {
         jdbcTemplate.execute("DELETE FROM orders.order_product;");
         jdbcTemplate.execute("DELETE FROM orders.orders;");
-        jdbcTemplate.execute("DELETE FROM user.users;");
-        jdbcTemplate.execute("DELETE FROM user.user_jwt;");
         jdbcTemplate.execute("DELETE FROM product.category;");
         jdbcTemplate.execute("DELETE FROM product.product;");
     }
@@ -59,9 +57,8 @@ public class OrderControllerIntegrationTest {
     @DisplayName("Получение текущей корзины с товарами")
     @Test
     void getCurrentOrderTest() throws Exception {
-        Pair<Long, String> userInfo = registerUser();
-        long userId = userInfo.getFirst();
-        String jwt = userInfo.getSecond();
+        long userId = 1;
+        String jwt = "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0NWQwN2E2YzYzZmU0Y2EwYjgxZmU1NzhkNTQ1ZWJkYiIsInN1YiI6Iml2YW5vdmEuYUB5YW5kZXgucnUiLCJpYXQiOjE3MTAwMTg1MDgsImV4cCI6MTc0MTU1NDUwOH0.jevXRK5k0sFz1Dcalj_tigqsusLvMkmII4JpG9_zLEPdZZZYPECBtdTHBoXWdIqcIk_ASWGEynl_I9chuDA5WA";
 
         Order order = orderRepository.save(OrderTestFactory.buildOrder(userId));
         List<OrderProduct> orderProducts = orderProductRepository.saveAll(OrderTestFactory.buildOrderProducts(order));
@@ -74,32 +71,6 @@ public class OrderControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(String.format(getFileContent("integration/order.json"),
                         order.getId()), true));
-    }
-
-    private Pair<Long, String> registerUser() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        LinkedMultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("registerBeanString", """
-                {
-                "name":"Наталья Луцкая",
-                "lastName": "Усанова",
-                "email":"i1na4stia3nic2e@yandex.ru",
-                "password":"123456"
-                }
-                """);
-        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity =
-                new HttpEntity<>(params, headers);
-
-        ResponseEntity<Map> responseEntity;
-        responseEntity = restTemplate.postForEntity("http://user-service/user/registration", requestEntity, Map.class);
-        long id = Long.parseLong(responseEntity.getBody().get("id").toString());
-
-        jdbcTemplate.execute(String.format("""
-                update user.users set is_enabled = true where id = %s
-                """, id));
-
-        return Pair.of(id, responseEntity.getBody().get("access-token").toString());
     }
 
     private void createProducts() {
