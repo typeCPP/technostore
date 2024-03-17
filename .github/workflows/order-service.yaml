@@ -119,12 +119,12 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE_1: orders
-          MYSQL_DATABASE_2: user
-          MYSQL_DATABASE_3: product
-          MYSQL_DATABASE_4: review
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: somepassword
+        volumes:
+            - ./data-db:/var/lib/mysql:rw
+            - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+            - ./database:/var/lib/mysql
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
