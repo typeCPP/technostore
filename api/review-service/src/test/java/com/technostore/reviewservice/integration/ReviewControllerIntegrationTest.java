@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static com.technostore.reviewservice.ReviewTestFactory.buildReview;
-import static com.technostore.reviewservice.ReviewTestFactory.mockUserService;
 import static com.technostore.reviewservice.TestUtils.getFileContent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -81,7 +80,7 @@ public class ReviewControllerIntegrationTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
                         String.format(getFileContent("integration/all-reviews-by-product-id.json"),
-                                review.getId(), review.getId()), true));
+                                review2.getId(), review.getId()), true));
     }
 
     @DisplayName("Получение отзыва текущего пользователя по товару")

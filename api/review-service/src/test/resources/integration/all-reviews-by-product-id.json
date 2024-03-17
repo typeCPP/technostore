@@ -3,18 +3,18 @@
     "id": %s,
     "productId": 1,
     "text": "Cool review",
-    "rate": 7,
+    "rate": 1,
     "date": 1789030338,
-    "userName": "Анастасия Иванова",
-    "photoLink": "/user/image?id=1"
+    "userName": "Андрей Петров",
+    "photoLink": "/user/image?id=2"
   },
   {
     "id": %s,
     "productId": 1,
     "text": "Cool review",
-    "rate": 1,
+    "rate": 7,
     "date": 1789030338,
-    "userName": "Андрей Петров",
-    "photoLink": "/user/image?id=2"
+    "userName": "Анастасия Иванова",
+    "photoLink": "/user/image?id=1"
   }
 ]
