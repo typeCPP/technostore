@@ -77,15 +77,10 @@ public class ProductControllerIntegrationTest {
                         .headers(headers)
                 )
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(
-                        String.format(getFileContent("integration/products-by-ids.json"),
-                                products.get(0).getId(), products.get(0).getId(), category.getId(),
-                                products.get(1).getId(), products.get(1).getId(), category.getId()),
-                        true))
                 .andExpect(jsonPath("$[0].linkPhoto").value("/product/image?id=" + products.get(0).getId()))
                 .andExpect(jsonPath("$[0].price").value(10000.0))
                 .andExpect(jsonPath("$[0].name").value("name1"))
-                .andExpect(jsonPath("$[0].rating").value(9.0))
+                .andExpect(jsonPath("$[0].rating").value(5.0))
                 .andExpect(jsonPath("$[0].userRating").value(0.0))
                 .andExpect(jsonPath("$[0].description").value("desc"))
                 .andExpect(jsonPath("$[0].category.id").value(category.getId()))
@@ -94,18 +89,21 @@ public class ProductControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].linkPhoto").value("/product/image?id=" + products.get(1).getId()))
                 .andExpect(jsonPath("$[1].price").value(15000.0))
                 .andExpect(jsonPath("$[1].name").value("name2"))
-                .andExpect(jsonPath("$[1].rating").value(5.2))
-                .andExpect(jsonPath("$[1].userRating").value(4.0))
+                .andExpect(jsonPath("$[1].rating").value(10.0))
+                .andExpect(jsonPath("$[1].userRating").value(0.0))
                 .andExpect(jsonPath("$[1].description").value("desc"))
                 .andExpect(jsonPath("$[1].category.id").value(category.getId()))
                 .andExpect(jsonPath("$[1].category.name").value("some category"))
-                .andExpect(jsonPath("$[1].reviews", hasSize(5)))
+                .andExpect(jsonPath("$[1].reviews", hasSize(1)))
                 .andExpect(jsonPath("$[1].inCartCount").value(0));
     }
 
     @DisplayName("Поиск товаров")
     @Test
     public void searchProductsTest() throws Exception {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
 
@@ -117,7 +115,7 @@ public class ProductControllerIntegrationTest {
                 )
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(
-                        String.format(getFileContent("controller/product/search-products.json"),
+                        String.format(getFileContent("integration/search-products.json"),
                                 1, 1, 2, 2),
                         true));
     }

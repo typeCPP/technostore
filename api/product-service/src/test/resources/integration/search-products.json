@@ -1,0 +1,47 @@
+{
+  "content": [
+    {
+      "id": %s,
+      "linkPhoto": "/product/image?id=%s",
+      "price": 10000.0,
+      "name": "name1",
+      "rating": 6.0,
+      "reviewCount": 3,
+      "inCartCount": 1
+    },
+    {
+      "id": %s,
+      "linkPhoto": "/product/image?id=%s",
+      "price": 15000.0,
+      "name": "name2",
+      "rating": 9.0,
+      "reviewCount": 2,
+      "inCartCount": 0
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 2,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "first": true,
+  "size": 2,
+  "number": 0,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "empty": false
+}
