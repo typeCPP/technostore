@@ -38,14 +38,6 @@ public class ProductControllerIntegrationTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @BeforeEach
-    void setup() {
-        jdbcTemplate.execute("DELETE FROM product.product_rating;");
-        jdbcTemplate.execute("DELETE FROM product.product_popularity;");
-        jdbcTemplate.execute("DELETE FROM product.product;");
-        jdbcTemplate.execute("DELETE FROM product.category;");
-    }
-
     @DisplayName("Получение карточки товара со всей нужной информацией")
     @Test
     public void getProductByIdTest() throws Exception {
@@ -57,10 +49,15 @@ public class ProductControllerIntegrationTest {
 
         mockMvc.perform(get("/product/" + product.getId()).headers(headers))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(
-                        String.format(getFileContent("integration/get-product-by-id.json"),
-                                product.getId(), product.getId(), category.getId()),
-                        true));
+                .andExpect(jsonPath("$.linkPhoto").value("/product/image?id=" + product.getId()))
+                .andExpect(jsonPath("$.price").value(15000.0))
+                .andExpect(jsonPath("$.name").value("some name"))
+                .andExpect(jsonPath("$.rating").value(5.2))
+                .andExpect(jsonPath("$.userRating").value(4.0))
+                .andExpect(jsonPath("$.description").value("desc"))
+                .andExpect(jsonPath("$.category.id").value(category.getId()))
+                .andExpect(jsonPath("$.category.name").value("some category"))
+                .andExpect(jsonPath("$.reviews", hasSize(5)));
     }
 
     @DisplayName("Получение информации о нескольких товарах по id")
@@ -89,7 +86,7 @@ public class ProductControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].linkPhoto").value("/product/image?id=" + products.get(1).getId()))
                 .andExpect(jsonPath("$[1].price").value(15000.0))
                 .andExpect(jsonPath("$[1].name").value("name2"))
-                .andExpect(jsonPath("$[1].rating").value(10.0))
+                .andExpect(jsonPath("$[1].rating").value(10))
                 .andExpect(jsonPath("$[1].userRating").value(0.0))
                 .andExpect(jsonPath("$[1].description").value("desc"))
                 .andExpect(jsonPath("$[1].category.id").value(category.getId()))

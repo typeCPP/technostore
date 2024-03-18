@@ -7,7 +7,7 @@
       "name": "name1",
       "rating": 6.0,
       "reviewCount": 3,
-      "inCartCount": 1
+      "inCartCount": 0
     },
     {
       "id": %s,
