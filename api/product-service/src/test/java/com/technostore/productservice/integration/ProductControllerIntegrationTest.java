@@ -14,8 +14,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.technostore.productservice.ProductTestFactory.buildCategory;
-import static com.technostore.productservice.ProductTestFactory.buildProduct;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.technostore.productservice.ProductTestFactory.*;
+import static com.technostore.productservice.ProductTestFactory.mockOrderAndReviewService;
 import static com.technostore.productservice.TestUtils.getFileContent;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -58,6 +61,27 @@ public class ProductControllerIntegrationTest {
                 .andExpect(content().json(
                         String.format(getFileContent("integration/get-product-by-id.json"),
                                 product.getId(), product.getId(), category.getId()),
+                        true));
+    }
+
+    @DisplayName("Получение информации о нескольких товарах по id")
+    @Test
+    public void getProductByIdsTest() throws Exception {
+        Category category = categoryRepository.save(buildCategory());
+        List<Product> products = productRepository.saveAll(buildProducts(category));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
+
+        mockMvc.perform(get("/product/products-by-ids")
+                        .param("ids", products.stream().map(p -> String.valueOf(p.getId())).collect(Collectors.joining(",")))
+                        .headers(headers)
+                )
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(
+                        String.format(getFileContent("integration/products-by-ids.json"),
+                                products.get(0).getId(), products.get(0).getId(), category.getId(),
+                                products.get(1).getId(), products.get(1).getId(), category.getId()),
                         true));
     }
 }
