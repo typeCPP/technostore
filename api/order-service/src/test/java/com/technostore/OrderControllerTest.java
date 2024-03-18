@@ -19,10 +19,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Map;
+
 import static com.technostore.OrderTestFactory.*;
 import static com.technostore.TestUtils.getFileContent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -215,7 +218,10 @@ public class OrderControllerTest {
 
         mockMvc.perform(get("/order/get-in-cart-count-by-product-ids?ids=1,2"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(getFileContent("controller/order/in-cart-count-product-ids.json"), true));
+                .andExpect(jsonPath("$[*]", containsInAnyOrder(
+                        Map.of("productId", 1, "inCartCount", 1),
+                        Map.of("productId", 2, "inCartCount", 100)
+                )));
     }
 
     @Test

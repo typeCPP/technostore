@@ -2,13 +2,13 @@ package com.technostore.productservice.model;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,13 +28,13 @@ public class Product {
 
     private String linkPhoto;
 
-    @OneToOne(targetEntity = Category.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Category.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
 
-    @OneToOne(mappedBy = "product")
-    private ProductRating productRating;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<ProductRating> productRating;
 
-    @OneToOne(mappedBy = "product")
-    private ProductPopularity productPopularity;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<ProductPopularity> productPopularity;
 }
