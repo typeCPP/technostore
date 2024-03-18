@@ -102,4 +102,23 @@ public class ProductControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].reviews", hasSize(5)))
                 .andExpect(jsonPath("$[1].inCartCount").value(0));
     }
+
+    @DisplayName("Поиск товаров")
+    @Test
+    public void searchProductsTest() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWT);
+
+        mockMvc.perform(get("/product/search")
+                        .param("numberPage", "0")
+                        .param("sizePage", "2")
+                        .param("word", "n")
+                        .headers(headers)
+                )
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(
+                        String.format(getFileContent("controller/product/search-products.json"),
+                                1, 1, 2, 2),
+                        true));
+    }
 }
