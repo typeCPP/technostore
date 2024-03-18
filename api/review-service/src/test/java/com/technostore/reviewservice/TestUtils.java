@@ -1,9 +1,9 @@
 package com.technostore.reviewservice;
 
+import java.util.Objects;
+
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
-
-import java.util.Objects;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
 
