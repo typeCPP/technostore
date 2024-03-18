@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -30,9 +32,9 @@ public class Product {
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
-    private ProductRating productRating;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<ProductRating> productRating;
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
-    private ProductPopularity productPopularity;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<ProductPopularity> productPopularity;
 }
