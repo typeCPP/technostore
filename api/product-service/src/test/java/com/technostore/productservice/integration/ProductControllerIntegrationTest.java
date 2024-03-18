@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.technostore.productservice.ProductTestFactory.*;
-import static com.technostore.productservice.ProductTestFactory.mockOrderAndReviewService;
 import static com.technostore.productservice.TestUtils.getFileContent;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -82,6 +81,25 @@ public class ProductControllerIntegrationTest {
                         String.format(getFileContent("integration/products-by-ids.json"),
                                 products.get(0).getId(), products.get(0).getId(), category.getId(),
                                 products.get(1).getId(), products.get(1).getId(), category.getId()),
-                        true));
+                        true))
+                .andExpect(jsonPath("$[0].linkPhoto").value("/product/image?id=" + products.get(0).getId()))
+                .andExpect(jsonPath("$[0].price").value(10000.0))
+                .andExpect(jsonPath("$[0].name").value("name1"))
+                .andExpect(jsonPath("$[0].rating").value(9.0))
+                .andExpect(jsonPath("$[0].userRating").value(0.0))
+                .andExpect(jsonPath("$[0].description").value("desc"))
+                .andExpect(jsonPath("$[0].category.id").value(category.getId()))
+                .andExpect(jsonPath("$[0].category.name").value("some category"))
+                .andExpect(jsonPath("$[0].reviews", hasSize(2)))
+                .andExpect(jsonPath("$[1].linkPhoto").value("/product/image?id=" + products.get(1).getId()))
+                .andExpect(jsonPath("$[1].price").value(15000.0))
+                .andExpect(jsonPath("$[1].name").value("name2"))
+                .andExpect(jsonPath("$[1].rating").value(5.2))
+                .andExpect(jsonPath("$[1].userRating").value(4.0))
+                .andExpect(jsonPath("$[1].description").value("desc"))
+                .andExpect(jsonPath("$[1].category.id").value(category.getId()))
+                .andExpect(jsonPath("$[1].category.name").value("some category"))
+                .andExpect(jsonPath("$[1].reviews", hasSize(5)))
+                .andExpect(jsonPath("$[1].inCartCount").value(0));
     }
 }
